@@ -1,0 +1,46 @@
+*{margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif;}
+body{background:#f8fafc; color:#0a1f44;}
+.container{max-width:1200px; margin:auto; padding:0 20px;}
+
+/* TOP BAR - QIZILI */
+.top-bar{background:#facc15; color:#0a1f44; padding:10px 0; font-size:14px; font-weight:600;}
+.top-bar .container{display:flex; justify-content:space-between;}
+.top-bar a{color:#0a1f44; margin-left:10px; text-decoration:none;}
+
+/* HEADER - AĞ + TÜND-GÖY */
+.header{background:#fff; padding:15px 0; box-shadow:0 2px 10px rgba(10,31,68,0.08); border-bottom:3px solid #facc15;}
+.header .container{display:flex; justify-content:space-between; align-items:center;}
+.logo{display:flex; align-items:center; gap:10px; font-size:22px; color:#0a1f44;}
+.logo img{width:45px; height:45px; border-radius:8px; border:2px solid #facc15;}
+.logo b{color:#facc15;}
+nav a{margin-left:20px; text-decoration:none; color:#0a1f44; font-weight:600; transition:0.3s;}
+nav a:hover{color:#facc15;}
+.btn-daxil{background:#facc15; color:#0a1f44 !important; padding:8px 18px; border-radius:20px;}
+.btn-daxil:hover{background:#eab308;}
+
+/* TESTS */
+.tests{padding:50px 0;}
+.section-title{text-align:center; background:#0a1f44; color:#fff; padding:30px; border-radius:8px; margin-bottom:30px; border-bottom:4px solid #facc15;}
+.section-title h2{font-size:32px; color:#facc15;}
+.test-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:20px;}
+.test-card{background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(10,31,68,0.1); position:relative; border:1px solid #e2e8f0;}
+.test-card:hover{border-color:#facc15;}
+.test-card img{width:100%; height:200px; object-fit:cover;}
+.test-card h3{padding:15px; font-size:16px; color:#0a1f44;}
+.badge{position:absolute; top:15px; right:15px; background:#facc15; color:#0a1f44; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:800;}
+
+/* BANNER */
+.banner{background:#fff; margin:40px 20px; padding:40px; border-radius:15px; display:flex; align-items:center; justify-content:space-between; border-left:5px solid #facc15; box-shadow:0 4px 15px rgba(10,31,68,0.1);}
+.banner h2{font-size:36px; color:#0a1f44; margin-bottom:15px;}
+.banner p{color:#475569; margin-bottom:20px;}
+.btn-gold{background:#facc15; color:#0a1f44; padding:12px 25px; border-radius:25px; text-decoration:none; margin-right:10px; font-weight:700;}
+.btn-gold:hover{background:#eab308;}
+.btn-blue{background:#0a1f44; color:#fff; padding:12px 25px; border-radius:25px; text-decoration:none; font-weight:700;}
+.btn-blue:hover{background:#1e3a6b;}
+.banner-icon{font-size:80px; color:#facc15;}
+
+@media(max-width:768px){
+  nav{display:none;}
+  .banner{flex-direction:column; text-align:center;}
+  .banner-icon{display:none;}
+}

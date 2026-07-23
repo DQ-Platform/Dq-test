@@ -18,43 +18,108 @@ nav a:hover{color:#facc15;}
 .btn-yellow{background:#facc15; color:#0a1f44 !important; padding:10px 20px; border-radius:25px; font-weight:700; text-decoration:none;}
 .btn-yellow:hover{background:#0a1f44; color:#fff !important;}
 
-/* KÖHNƏ HERO-NU SİLDİM ÇÜNKİ İSTİFADƏ ETMİRİK */
-
-/* YENİ HERO BANNER - TAM ŞƏKİL */
+/* YENİ HERO BANNER - PROFESSIONAL */
 .hero-banner{
   position: relative;
   width: 100%;
-  line-height: 0;
+  color: #fff;
+  text-align: center;
 }
 .hero-banner img{
   width: 100%;
-  height: auto;
+  height: 500px;
+  object-fit: cover;
   display: block;
+  filter: brightness(0.5);
+}
+.hero-content{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+}
+.hero-logo{
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid #facc15;
+  margin-bottom: 20px;
+}
+.hero-content h1{
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.hero-content p{
+  font-size: 20px;
+  color: #ddd;
+  margin-bottom: 30px;
 }
 .hero-btns{
-  position: absolute;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
   display:flex; 
   gap:15px; 
   justify-content:center; 
   flex-wrap:wrap;
+  margin-bottom: 40px;
 }
-.btn-white{background:#fff; color:#0a1f44; padding:14px 28px; border-radius:25px; text-decoration:none; font-weight:700; transition:0.3s;}
-.btn-white:hover{background:#0a1f44; color:#fff;}
-
-/* SERVICES */
-.services{padding:40px 0; background:#fff;}
-.services .container{display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px;}
-.service{text-align:center; width:150px;}
-.service div{font-size:40px; margin-bottom:10px;}
-.service p{font-weight:600; font-size:14px; color:#0a1f44;}
+.btn-hero{
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border: 2px solid #facc15;
+  color:#fff; 
+  padding:14px 28px; 
+  border-radius:25px; 
+  text-decoration:none; 
+  font-weight:700;
+  transition:0.3s;
+}
+.btn-hero:hover{
+  background:#facc15;
+  color:#0a1f44;
+}
+.hero-services{
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1000px;
+  display:flex; 
+  justify-content:space-around; 
+  flex-wrap:wrap; 
+  gap: 20px;
+}
+.service-item{
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.service-item:hover{transform: translateY(-5px);}
+.service-item div{
+  font-size: 35px;
+  margin-bottom: 8px;
+}
 
 /* TESTS */
 .tests{padding:60px 0;}
 .section-title{text-align:center; background:#0a1f44; color:#fff; padding:30px; border-radius:12px; margin-bottom:40px; border-bottom:4px solid #facc15;}
 .section-title h2{font-size:32px; color:#facc15;}
 .test-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:25px;}
-.test-card{background:#fff; border-radius:15px; overflow:hidden; box-shadow:0 5px 20px rgba(0,0,0,0.08); position:relative; transition:0.3s
+.test-card{background:#fff; border-radius:15px; overflow:hidden; box-shadow:0 5px 20px rgba(0,0,0,0.08); position:relative; transition:0.3s;}
+.test-card:hover{transform:translateY(-8px);}
+.test-card img{width:100%; height:220px; object-fit:cover;}
+.test-card h3{padding:20px; font-size:16px; color:#0a1f44;}
+.badge{position:absolute; top:15px; right:15px; background:#facc15; color:#0a1f44; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:800;}
 
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero-banner img{height: 600px;}
+  .hero-content h1{font-size: 32px;}
+  .hero-content p{font-size: 16px;}
+  .hero-services{bottom: 10px;}
+  .service-item{width: 30%;}

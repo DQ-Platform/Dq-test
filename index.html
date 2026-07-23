@@ -6,16 +6,18 @@
     <title>DQ Platform</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- İkonlar üçün FontAwesome əlavə olundu -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
 <!-- YAŞİL ZOLAQ -->
 <div class="top-bar">
     <div class="container">
-        <div class="left">📞 +994 70 883 81 00 | ✉️ info@dovletqullugu.info</div>
-        <div class="right">Bizi izləyin:
-            <a href="https://t.me/dovlettqullugu" target="_blank">📢</a>
-            <a href="https://chat.whatsapp.com/GIb2EwwiXXg3PpEJWZVKss" target="_blank">💬</a>
+        <div class="left"><i class="fa-solid fa-phone"></i> +994 70 883 81 00 &nbsp;|&nbsp; <i class="fa-solid fa-envelope"></i> info@dovletqullugu.info</div>
+        <div class="right"><span>Bizi izləyin:</span>
+            <a href="https://t.me/dovlettqullugu" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://chat.whatsapp.com/GIb2EwwiXXg3PpEJWZVKss" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
     </div>
 </div>
@@ -23,10 +25,17 @@
 <!-- AĞ HEADER -->
 <header class="header">
     <div class="container">
-        <div class="logo"><img src="logo.png"><div>DQ<br><span>DOVLET QULLUQ.INFO</span></div></div>
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+            <div>DQ<br><span>DOVLET QULLUQ.INFO</span></div>
+        </div>
         <nav>
-            <a href="#">Ana Səhifə</a><a href="#">Xəbərlər</a><a href="#">İmtahan Modelləri</a>
-            <a href="#">Sınaqlar</a><a href="#">Haqqımızda</a><a href="#">Əlaqə</a>
+            <a href="#">Ana Səhifə</a>
+            <a href="#">Xəbərlər</a>
+            <a href="#">İmtahan Modelləri</a>
+            <a href="#">Sınaqlar</a>
+            <a href="#">Haqqımızda</a>
+            <a href="#">Əlaqə</a>
         </nav>
         <div class="btns">
             <a href="#" class="btn-green">Daxil ol</a>
@@ -45,17 +54,17 @@
         <div class="grid">
             <div class="card">
                 <span class="badge">PULSUZ</span>
-                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070">
+                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070" alt="Sınaq">
                 <h3>Dövlət Qulluqçularının etik davranış qaydaları</h3>
             </div>
             <div class="card">
                 <span class="badge">PULSUZ</span>
-                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1911">
+                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1911" alt="Sınaq">
                 <h3>Korrupsiyaya Qarşı Mübarizə haqqında</h3>
             </div>
             <div class="card">
                 <span class="badge">PULSUZ</span>
-                <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070">
+                <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070" alt="Sınaq">
                 <h3>Vətəndaşların Müraciətləri</h3>
             </div>
         </div>
@@ -68,8 +77,10 @@
         <div class="cta-text">
             <h2>Dövlət Qulluğu üçün<br>Sınaq İmtahanları!</h2>
             <p>Real imtahan təcrübəsi əsasında hazırlanmış sınaq imtahanları.</p>
-            <a href="#" class="btn-green">🎓 Sınaqlara Bax</a>
-            <a href="#" class="btn-dark">👥 Qeydiyyatdan Keç və İndi Başla</a>
+            <div class="cta-btns">
+                <a href="#" class="btn-green">🎓 Sınaqlara Bax</a>
+                <a href="#" class="btn-dark">👥 Qeydiyyatdan Keç və İndi Başla</a>
+            </div>
         </div>
         <div class="cta-icon">🎓</div>
     </div>

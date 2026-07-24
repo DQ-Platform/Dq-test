@@ -12,6 +12,7 @@
             --bg-light: #f8fafc;
             --text-color: #334155;
             --warning-orange: #f59e0b;
+            --success-green: #10b981;
         }
 
         body {
@@ -23,8 +24,8 @@
         }
 
         .container {
-            max-width: 900px;
-            margin: 40px auto;
+            max-width: 950px;
+            margin: 30px auto;
             background: #ffffff;
             padding: 30px;
             border-radius: 12px;
@@ -32,7 +33,7 @@
             border-top: 4px solid var(--accent-gold);
         }
 
-        h2, h3 {
+        h2, h3, h4 {
             color: var(--primary-dark);
             text-align: center;
         }
@@ -47,6 +48,7 @@
             padding: 12px;
             font-size: 16px;
             width: 80%;
+            max-width: 400px;
             border: 2px solid #cbd5e1;
             border-radius: 6px;
             margin-bottom: 15px;
@@ -81,6 +83,15 @@
             background-color: #1e293b;
         }
 
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+
         /* Sınaq Ekranı */
         #exam-screen {
             display: none;
@@ -92,7 +103,7 @@
             align-items: center;
             background: var(--primary-dark);
             color: #ffffff;
-            padding: 10px 20px;
+            padding: 12px 20px;
             border-radius: 6px;
             margin-bottom: 20px;
         }
@@ -112,7 +123,7 @@
             flex: 3;
         }
 
-        /* Cavab Kartı / Naviqasiya Paneli (Solda) */
+        /* Cavab Kartı / Naviqasiya Paneli */
         .answer-card-sidebar {
             flex: 1;
             background: #f1f5f9;
@@ -120,13 +131,6 @@
             border-radius: 8px;
             height: fit-content;
             border: 1px solid #cbd5e1;
-        }
-
-        .answer-card-sidebar h4 {
-            margin-top: 0;
-            text-align: center;
-            color: var(--primary-dark);
-            font-size: 15px;
         }
 
         .grid-nav {
@@ -148,7 +152,7 @@
 
         .nav-box.answered {
             background-color: #d1fae5;
-            border-color: #10b981;
+            border-color: var(--success-green);
             color: #065f46;
         }
 
@@ -158,8 +162,7 @@
             color: #92400e !important;
             position: relative;
         }
-        
-        /* Tərəddüdlü sualın üzərindəki fərqləndirici işarə */
+
         .nav-box.flagged::after {
             content: "⚑";
             position: absolute;
@@ -171,7 +174,7 @@
 
         .question-card {
             margin-bottom: 25px;
-            padding: 15px;
+            padding: 18px;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             background: #ffffff;
@@ -186,7 +189,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .question-title {
@@ -206,10 +209,10 @@
 
         .options label {
             display: block;
-            padding: 8px 12px;
-            margin: 5px 0;
+            padding: 10px 14px;
+            margin: 6px 0;
             background: #f1f5f9;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
         }
 
@@ -224,9 +227,8 @@
             font-size: 12px;
             cursor: pointer;
             padding: 4px 0;
-            margin-top: 5px;
+            margin-top: 6px;
             text-decoration: underline;
-            display: inline-block;
         }
 
         /* Nəticə Ekranı */
@@ -242,12 +244,41 @@
             margin: 20px 0;
         }
 
-        /* Gizli Admin Paneli (#admin) */
+        /* 🔑 ADMİN PANELİ HİSSƏSİ */
         #admin-panel {
             display: none;
-            margin-top: 30px;
+            margin-top: 20px;
             border-top: 2px solid var(--accent-gold);
             padding-top: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-left: 4px solid var(--accent-gold);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card h5 {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .stat-card .value {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-top: 5px;
         }
 
         table {
@@ -261,9 +292,9 @@
         }
 
         th, td {
-            padding: 8px;
+            padding: 10px;
             text-align: center;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         th {
@@ -271,11 +302,31 @@
             color: white;
         }
 
-        .footer-text {
+        .footer {
             text-align: center;
             margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+
+        .footer-text {
             color: var(--primary-dark);
             font-weight: bold;
+            font-size: 14px;
+        }
+
+        .admin-link {
+            color: #64748b;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .admin-link:hover {
+            color: var(--primary-dark);
         }
     </style>
 </head>
@@ -300,18 +351,14 @@
             </div>
 
             <div class="exam-layout">
-                <!-- Solda Cavab Kartı / Sual Naviqasiyası -->
+                <!-- Solda Cavab Kartı -->
                 <div class="answer-card-sidebar">
                     <h4>Cavab Kartı</h4>
-                    <div class="grid-nav" id="grid-nav-container">
-                        <!-- Naviqasiya xanaları bura dolacaq -->
-                    </div>
+                    <div class="grid-nav" id="grid-nav-container"></div>
                 </div>
 
                 <!-- Sağda Suallar Sahəsi -->
-                <div class="questions-area" id="questions-container">
-                    <!-- Suallar bura yüklənəcək -->
-                </div>
+                <div class="questions-area" id="questions-container"></div>
             </div>
 
             <button class="btn" style="margin-top: 20px;" onclick="finishExam()">Testi Bitir</button>
@@ -328,29 +375,57 @@
             </div>
         </div>
 
-        <!-- 4. GİZLİ ADMİN PANELİ (#admin) -->
+        <!-- 4. GİZLİ ADMİN PANELİ -->
         <div id="admin-panel">
-            <h3>🔑 Admin İdarəetmə Paneli</h3>
-            <button class="btn" style="padding: 6px 12px; font-size: 14px; margin-bottom: 10px; background-color: #dc2626; color: white;" onclick="clearResults()">Siyahını Təmizlə</button>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>🔑 Admin Nəzarət Paneli</h3>
+                <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="closeAdminPanel()">Paneli Bağla</button>
+            </div>
+
+            <!-- Statistika Kartları -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h5>Ümumi İştirakçı</h5>
+                    <div class="value" id="stat-total-students">0</div>
+                </div>
+                <div class="stat-card">
+                    <h5>Ən Yüksək Bal</h5>
+                    <div class="value" id="stat-max-score">0</div>
+                </div>
+                <div class="stat-card">
+                    <h5>Orta Bal</h5>
+                    <div class="value" id="stat-avg-score">0</div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h4 style="margin: 0;">İştirakçılar və Nəticələr</h4>
+                <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="clearResults()">Bütün Nəticələri Təmizlə</button>
+            </div>
+
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
                         <tr>
                             <th>Ad Soyad</th>
-                            <th>Kod</th>
+                            <th>Unikal Kod</th>
                             <th>Doğru</th>
                             <th>Yanlış</th>
-                            <th>Bal</th>
+                            <th>Yekun Bal</th>
                         </tr>
                     </thead>
                     <tbody id="results-table-body">
-                        <!-- Nəticələr bura düşəcək -->
+                        <!-- Nəticələr bura dolacaq -->
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <div class="footer-text">© 2026 DQ Platform – Developed by Yunis İmanov</div>
+        <!-- FOOTER VƏ ADMİN GİRİŞİ -->
+        <div class="footer">
+            <div class="footer-text">© 2026 DQ Platform – Developed by Yunis İmanov</div>
+            <span class="admin-link" onclick="openAdminLogin()">🔑 Admin Girişi</span>
+        </div>
     </div>
 
     <script>
@@ -367,7 +442,8 @@
             "F5T3R8", "K9N2L4", "B4W1V7", "H6X8Z3", "T2Q5M9", "D8J7P1", "M1C6N2", "L7R3H4", "R3W9K6", "S5V2X8"
         ];
 
-        const ADMIN_PASS = "2026";
+        const ADMIN_PASS = "DQ2026ADMIN";
+
         let currentStudentName = "";
         let currentActiveToken = "";
         let userAnswers = {};
@@ -376,14 +452,7 @@
 
         window.addEventListener('load', function() {
             if (window.location.hash === "#admin") {
-                let password = prompt("Admin şifrəsini daxil edin:");
-                if (password === ADMIN_PASS) {
-                    document.getElementById("admin-panel").style.display = "block";
-                    loadAdminResults();
-                } else if (password !== null) {
-                    alert("Yanlış şifrə!");
-                    window.location.hash = "";
-                }
+                openAdminLogin();
             }
         });
 
@@ -403,6 +472,25 @@
             }
         ];
 
+        function openAdminLogin() {
+            let pass = prompt("Admin Nəzarət Paneli üçün şifrəni daxil edin:");
+            if (pass === ADMIN_PASS) {
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("exam-screen").style.display = "none";
+                document.getElementById("result-screen").style.display = "none";
+                document.getElementById("admin-panel").style.display = "block";
+                loadAdminResults();
+            } else if (pass !== null) {
+                alert("XƏTA: Yanlış admin şifrəsi!");
+            }
+        }
+
+        function closeAdminPanel() {
+            document.getElementById("admin-panel").style.display = "none";
+            document.getElementById("login-screen").style.display = "block";
+            window.location.hash = "";
+        }
+
         function startExam() {
             const nameInput = document.getElementById("user-name").value.trim();
             const tokenInput = document.getElementById("user-token").value.trim().toUpperCase();
@@ -418,14 +506,19 @@
                 return;
             }
 
-            if (localStorage.getItem("used_" + tokenInput) === "true") {
+            // P7GS57 kodu istisna olaraq limitsizdir (hər dəfə istifadə oluna bilər)
+            if (tokenInput !== "P7GS57" && localStorage.getItem("used_" + tokenInput) === "true") {
                 errorMsg.innerText = "Bu kod artıq istifadə olunub!";
                 return;
             }
 
             currentStudentName = nameInput;
             currentActiveToken = tokenInput;
-            localStorage.setItem("used_" + tokenInput, "true");
+            
+            // Yalnız P7GS57 olmayan kodlar üçün istifadə statusunu yadda saxlayırıq
+            if (tokenInput !== "P7GS57") {
+                localStorage.setItem("used_" + tokenInput, "true");
+            }
 
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("exam-screen").style.display = "block";
@@ -448,7 +541,7 @@
                                 <input type="checkbox" id="flag_chk_${q.id}" onchange="toggleFlag(${q.id})"> Tərəddüdlü
                             </label>
                         </div>
-                        <div class="options" id="options_${q.id}">
+                        <div class="options">
                 `;
                 q.options.forEach((opt, optIndex) => {
                     html += `
@@ -581,33 +674,48 @@
             let tbody = document.getElementById("results-table-body");
             tbody.innerHTML = "";
 
-            if (results.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5">Hələ imtahan verən yoxdur.</td></tr>`;
+            let totalStudents = results.length;
+            let maxScore = 0;
+            let sumScore = 0;
+
+            if (totalStudents === 0) {
+                tbody.innerHTML = `<tr><td colspan="5">Hələ imtahan verən iştirakçı yoxdur.</td></tr>`;
+                document.getElementById("stat-total-students").innerText = "0";
+                document.getElementById("stat-max-score").innerText = "0";
+                document.getElementById("stat-avg-score").innerText = "0";
                 return;
             }
 
             results.forEach(res => {
+                sumScore += res.score;
+                if (res.score > maxScore) maxScore = res.score;
+
                 tbody.innerHTML += `
                     <tr>
                         <td><b>${res.name}</b></td>
-                        <td>${res.token}</td>
-                        <td>${res.correct}</td>
-                        <td>${res.wrong}</td>
+                        <td><code>${res.token}</code></td>
+                        <td style="color: green;"><b>${res.correct}</b></td>
+                        <td style="color: red;"><b>${res.wrong}</b></td>
                         <td><b>${res.score}</b></td>
                     </tr>
                 `;
             });
+
+            let avgScore = (sumScore / totalStudents).toFixed(1);
+
+            document.getElementById("stat-total-students").innerText = totalStudents;
+            document.getElementById("stat-max-score").innerText = maxScore;
+            document.getElementById("stat-avg-score").innerText = avgScore;
         }
 
         function clearResults() {
-            if (confirm("Bütün nəticələri və işlənmiş kodları sıfırlamaq istədiyinizə əminsinizmi?")) {
+            if (confirm("Diqqət! Bütün nəticələri və işlənmiş kodları sıfırlamaq istədiyinizə əminsinizmi?")) {
                 localStorage.removeItem("exam_results");
                 validTokens.forEach(t => localStorage.removeItem("used_" + t));
                 loadAdminResults();
-                alert("Siyahı təmizləndi!");
+                alert("Bütün statistikalar təmizləndi!");
             }
         }
     </script>
 </body>
 </html>
-

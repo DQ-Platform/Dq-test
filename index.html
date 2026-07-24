@@ -178,14 +178,10 @@
     </div>
 
     <script>
-        // Etibarlı unikal kodlar bazası (Bunu sonradan server tərəfli edə bilərsiz)
-        const validTokens = {
-            "DQ-1024": false, // false - hələ istifadə olunmayıb
-            "DQ-2026": false,
-            "AZ-5555": false
-        };
+        // Etibarlı unikal kodlar siyahısı
+        const validTokens = ["DQ-1024", "DQ-2026", "AZ-5555"];
 
-        // Nümunə suallar (Düzgün cavab indeksləri: 0 = A, 1 = B, və s.)
+        // Nümunə suallar
         const questions = [
             {
                 id: 1,
@@ -205,35 +201,36 @@
         let timerInterval;
 
         function startExam() {
-            const tokenInput = document.getElementById("user-token").value.trim();
+            const tokenInput = document.getElementById("user-token").value.trim().toUpperCase();
             const errorMsg = document.getElementById("error-msg");
 
-            if (!validTokens.hasOwnProperty(tokenInput)) {
+            if (!validTokens.includes(tokenInput)) {
                 errorMsg.innerText = "Yanlış kod! Zəhmət olmasa düzgün kod daxil edin.";
                 return;
             }
 
-            if (validTokens[tokenInput] === true) {
+            // Kodu yoxlayırıq ki, əvvəllər istifadə olunubmu?
+            if (localStorage.getItem("used_" + tokenInput) === "true") {
                 errorMsg.innerText = "Bu kod artıq istifadə olunub!";
                 return;
             }
 
-            // Kodu istifadə olunmuş kimi işarələyirik
-            validTokens[tokenInput] = true;
+            // Kodu istifadə olunmuş kimi yadda saxlayırıq
+            localStorage.setItem("used_" + tokenInput, "true");
 
             // Ekranları dəyişirik
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("exam-screen").style.display = "block";
 
             loadQuestions();
-            startTimer(3 * 3600); // Məsələn: 3 saatlıq taymer
+            startTimer(3 * 3600); // 3 saatlıq taymer
         }
 
         function loadQuestions() {
             const container = document.getElementById("questions-container");
             let html = "";
 
-            questions.forEach((q, index) => {
+            questions.forEach((q) => {
                 html += `
                     <div class="question-card">
                         <div class="question-title">${q.question}</div>
@@ -274,7 +271,7 @@
 
                 if (--timer < 0) {
                     clearInterval(timerInterval);
-                    finishExam(); // Vaxt bitdikdə avtomatik bitir
+                    finishExam();
                 }
             }, 1000);
         }
@@ -295,7 +292,7 @@
                 }
             });
 
-            let score = correct * 5; // Hər düzgün cavab 5 bal
+            let score = correct * 5;
 
             document.getElementById("correct-count").innerText = correct;
             document.getElementById("wrong-count").innerText = wrong;
@@ -307,3 +304,4 @@
     </script>
 </body>
 </html>
+

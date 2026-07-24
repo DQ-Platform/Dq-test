@@ -3,88 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DQ Platform</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- İkonlar üçün FontAwesome əlavə olundu -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>DQ Platform - Onlayn Sınaq</title>
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --accent-gold: #d4af37;
+            --accent-gold-hover: #c5a028;
+            --bg-light: #f8fafc;
+            --text-color: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+            border-top: 4px solid var(--accent-gold);
+        }
+
+        h2, h3 {
+            color: var(--primary-dark);
+            text-align: center;
+        }
+
+        /* Giriş Ekranı */
+        #login-screen {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .code-input {
+            padding: 12px;
+            font-size: 16px;
+            width: 60%;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            outline: none;
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .code-input:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .btn {
+            background-color: var(--primary-dark);
+            color: var(--accent-gold);
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .btn:hover {
+            background-color: #1e293b;
+        }
+
+        /* Sınaq Ekranı */
+        #exam-screen {
+            display: none;
+        }
+
+        .exam-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary-dark);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .timer {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--accent-gold);
+        }
+
+        .question-card {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        .options label {
+            display: block;
+            padding: 8px 12px;
+            margin: 5px 0;
+            background: #f1f5f9;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .options label:hover {
+            background: #e2e8f0;
+        }
+
+        /* Nəticə Ekranı */
+        #result-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .result-box {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
 </head>
 <body>
 
-<!-- YAŞİL ZOLAQ -->
-<div class="top-bar">
     <div class="container">
-        <div class="left"><i class="fa-solid fa-phone"></i> +994 70 883 81 00 &nbsp;|&nbsp; <i class="fa-solid fa-envelope"></i> info@dovletqullugu.info</div>
-        <div class="right"><span>Bizi izləyin:</span>
-            <a href="https://t.me/dovlettqullugu" target="_blank"><i class="fa-brands fa-telegram"></i></a>
-            <a href="https://chat.whatsapp.com/GIb2EwwiXXg3PpEJWZVKss" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        <!-- 1. GİRİŞ HİSSƏSİ -->
+        <div id="login-screen">
+            <h2>DQ Platform - Sınaq Girişi</h2>
+            <p>Zəhmət olmasa sizə verilən unikal giriş kodunu daxil edin:</p>
+            <input type="text" id="user-token" class="code-input" placeholder="Məsələn: DQ-1024">
+            <button class="btn" onclick="startExam()">İmtahana Başla</button>
+            <p id="error-msg" style="color: red; margin-top: 10px;"></p>
+        </div>
+
+        <!-- 2. SINAQ HİSSƏSİ -->
+        <div id="exam-screen">
+            <div class="exam-header">
+                <span>Azərbaycan Dili Sınağı</span>
+                <span class="timer" id="timer">01:00:00</span>
+            </div>
+
+            <div id="questions-container">
+                <!-- Suallar JavaScript vasitəsilə bura yüklənəcək -->
+            </div>
+
+            <button class="btn" onclick="finishExam()">Testi Bitir</button>
+        </div>
+
+        <!-- 3. NƏTİCƏ HİSSƏSİ -->
+        <div id="result-screen">
+            <h2>İmtahan Bitdi</h2>
+            <div class="result-box">
+                <p><strong>Doğru cavablar:</strong> <span id="correct-count">0</span></p>
+                <p><strong>Yanlış cavablar:</strong> <span id="wrong-count">0</span></p>
+                <p><strong>Ümumi Bal:</strong> <span id="total-score">0</span></p>
+            </div>
+            <p style="color: var(--primary-dark); font-weight: bold;">© 2026 DQ Platform – Developed by Yunis İmanov</p>
         </div>
     </div>
-</div>
 
-<!-- AĞ HEADER -->
-<header class="header">
-    <div class="container">
-        <div class="logo">
-            <img src="logo.png" alt="Logo">
-            <div>DQ<br><span>DOVLET QULLUQ.INFO</span></div>
-        </div>
-        <nav>
-            <a href="#">Ana Səhifə</a>
-            <a href="#">Xəbərlər</a>
-            <a href="#">İmtahan Modelləri</a>
-            <a href="#">Sınaqlar</a>
-            <a href="#">Haqqımızda</a>
-            <a href="#">Əlaqə</a>
-        </nav>
-        <div class="btns">
-            <a href="#" class="btn-green">Daxil ol</a>
-            <a href="#" class="btn-white">Qeydiyyatdan keç</a>
-        </div>
-    </div>
-</header>
+    <script>
+        // Etibarlı unikal kodlar bazası (Bunu sonradan server tərəfli edə bilərsiz)
+        const validTokens = {
+            "DQ-1024": false, // false - hələ istifadə olunmayıb
+            "DQ-2026": false,
+            "AZ-5555": false
+        };
 
-<!-- YENİ SINAQLAR -->
-<section class="tests">
-    <div class="container">
-        <div class="section-title">
-            <h2>Yeni Sınaqlar</h2>
-            <p>Dövlət qulluğu üçün hazırlanmış Sınaq imtahanları, indi qoşulun!</p>
-        </div>
-        <div class="grid">
-            <div class="card">
-                <span class="badge">PULSUZ</span>
-                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070" alt="Sınaq">
-                <h3>Dövlət Qulluqçularının etik davranış qaydaları</h3>
-            </div>
-            <div class="card">
-                <span class="badge">PULSUZ</span>
-                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1911" alt="Sınaq">
-                <h3>Korrupsiyaya Qarşı Mübarizə haqqında</h3>
-            </div>
-            <div class="card">
-                <span class="badge">PULSUZ</span>
-                <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070" alt="Sınaq">
-                <h3>Vətəndaşların Müraciətləri</h3>
-            </div>
-        </div>
-    </div>
-</section>
+        // Nümunə suallar (Düzgün cavab indeksləri: 0 = A, 1 = B, və s.)
+        const questions = [
+            {
+                id: 1,
+                question: "1. Hansı cümlədə əvəzlikdən sonra vergül qoyulmalıdır?",
+                options: ["O, mənimlə danışmaq istəmirdi.", "O bu kitabı bizə hədiyyə etdi.", "O sabah bura gələcək.", "O harada yaşayır?"],
+                correct: 0
+            },
+            {
+                id: 2,
+                question: "2. Verilmiş sözlərdən hansının kökündə leksik, ki qrammatik şəkilçi var?",
+                options: ["gözlərim", "yargıdakılar", "dağdırdı", "dinləmə"],
+                correct: 1
+            }
+        ];
 
-<!-- CTA BOX -->
-<section class="cta">
-    <div class="container">
-        <div class="cta-text">
-            <h2>Dövlət Qulluğu üçün<br>Sınaq İmtahanları!</h2>
-            <p>Real imtahan təcrübəsi əsasında hazırlanmış sınaq imtahanları.</p>
-            <div class="cta-btns">
-                <a href="#" class="btn-green">🎓 Sınaqlara Bax</a>
-                <a href="#" class="btn-dark">👥 Qeydiyyatdan Keç və İndi Başla</a>
-            </div>
-        </div>
-        <div class="cta-icon">🎓</div>
-    </div>
-</section>
+        let userAnswers = {};
+        let timerInterval;
 
+        function startExam() {
+            const tokenInput = document.getElementById("user-token").value.trim();
+            const errorMsg = document.getElementById("error-msg");
+
+            if (!validTokens.hasOwnProperty(tokenInput)) {
+                errorMsg.innerText = "Yanlış kod! Zəhmət olmasa düzgün kod daxil edin.";
+                return;
+            }
+
+            if (validTokens[tokenInput] === true) {
+                errorMsg.innerText = "Bu kod artıq istifadə olunub!";
+                return;
+            }
+
+            // Kodu istifadə olunmuş kimi işarələyirik
+            validTokens[tokenInput] = true;
+
+            // Ekranları dəyişirik
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("exam-screen").style.display = "block";
+
+            loadQuestions();
+            startTimer(3 * 3600); // Məsələn: 3 saatlıq taymer
+        }
+
+        function loadQuestions() {
+            const container = document.getElementById("questions-container");
+            let html = "";
+
+            questions.forEach((q, index) => {
+                html += `
+                    <div class="question-card">
+                        <div class="question-title">${q.question}</div>
+                        <div class="options">
+                `;
+                q.options.forEach((opt, optIndex) => {
+                    html += `
+                        <label>
+                            <input type="radio" name="q_${q.id}" value="${optIndex}" onchange="saveAnswer(${q.id}, ${optIndex})">
+                            ${String.fromCharCode(65 + optIndex)}) ${opt}
+                        </label>
+                    `;
+                });
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function saveAnswer(questionId, optionIndex) {
+            userAnswers[questionId] = optionIndex;
+        }
+
+        function startTimer(duration) {
+            let timer = duration, hours, minutes, seconds;
+            const display = document.getElementById("timer");
+
+            timerInterval = setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt((timer % 3600) / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = hours + ":" + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    finishExam(); // Vaxt bitdikdə avtomatik bitir
+                }
+            }, 1000);
+        }
+
+        function finishExam() {
+            clearInterval(timerInterval);
+
+            let correct = 0;
+            let wrong = 0;
+
+            questions.forEach(q => {
+                if (userAnswers.hasOwnProperty(q.id)) {
+                    if (userAnswers[q.id] === q.correct) {
+                        correct++;
+                    } else {
+                        wrong++;
+                    }
+                }
+            });
+
+            let score = correct * 5; // Hər düzgün cavab 5 bal
+
+            document.getElementById("correct-count").innerText = correct;
+            document.getElementById("wrong-count").innerText = wrong;
+            document.getElementById("total-score").innerText = score;
+
+            document.getElementById("exam-screen").style.display = "none";
+            document.getElementById("result-screen").style.display = "block";
+        }
+    </script>
 </body>
 </html>

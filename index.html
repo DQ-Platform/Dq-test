@@ -45,18 +45,21 @@
         .code-input {
             padding: 12px;
             font-size: 16px;
-            width: 60%;
+            width: 80%;
             border: 2px solid #cbd5e1;
             border-radius: 6px;
             margin-bottom: 15px;
             outline: none;
             text-align: center;
-            letter-spacing: 2px;
-            text-transform: uppercase;
         }
 
         .code-input:focus {
             border-color: var(--accent-gold);
+        }
+
+        .token-field {
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         .btn {
@@ -138,7 +141,7 @@
             margin: 20px 0;
         }
 
-        /* Gizli Admin Paneli Üslubu */
+        /* Gizli Admin Paneli */
         #admin-panel {
             display: none;
             margin-top: 30px;
@@ -157,9 +160,9 @@
         }
 
         th, td {
-            padding: 10px;
+            padding: 8px;
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         th {
@@ -181,8 +184,9 @@
         <!-- 1. GİRİŞ HİSSƏSİ -->
         <div id="login-screen">
             <h2>DQ Platform - Sınaq Girişi</h2>
-            <p>Zəhmət olmasa sizə verilən unikal giriş kodunu daxil edin:</p>
-            <input type="text" id="user-token" class="code-input" placeholder="Məsələn: P7GS57">
+            <p>Zəhmət olmasa məlumatlarınızı daxil edin:</p>
+            <input type="text" id="user-name" class="code-input" placeholder="Ad və Soyadınız"><br>
+            <input type="text" id="user-token" class="code-input token-field" placeholder="Unikal Kod (Məs: P7GS57)"><br>
             <button class="btn" onclick="startExam()">İmtahana Başla</button>
             <p id="error-msg" style="color: red; margin-top: 10px;"></p>
         </div>
@@ -191,7 +195,7 @@
         <div id="exam-screen">
             <div class="exam-header">
                 <span>Azərbaycan Dili Sınağı</span>
-                <span class="timer" id="timer">01:00:00</span>
+                <span class="timer" id="timer">03:00:00</span>
             </div>
 
             <div id="questions-container">
@@ -205,13 +209,14 @@
         <div id="result-screen">
             <h2>İmtahan Bitdi</h2>
             <div class="result-box">
+                <p><strong>Ad Soyad:</strong> <span id="res-name"></span></p>
                 <p><strong>Doğru cavablar:</strong> <span id="correct-count">0</span></p>
                 <p><strong>Yanlış cavablar:</strong> <span id="wrong-count">0</span></p>
-                <p><strong>Ümumi Bal:</strong> <span id="total-score">0</span></p>
+                <p><strong>Ümumi Bal (Hər sual 1 bal):</strong> <span id="total-score">0</span></p>
             </div>
         </div>
 
-        <!-- 4. GİZLİ ADMİN PANELİ -->
+        <!-- 4. GİZLİ ADMİN PANELİ (#admin) -->
         <div id="admin-panel">
             <h3>🔑 Admin İdarəetmə Paneli</h3>
             <button class="btn" style="padding: 6px 12px; font-size: 14px; margin-bottom: 10px; background-color: #dc2626; color: white;" onclick="clearResults()">Siyahını Təmizlə</button>
@@ -219,6 +224,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>Ad Soyad</th>
                             <th>Kod</th>
                             <th>Doğru</th>
                             <th>Yanlış</th>
@@ -236,7 +242,6 @@
     </div>
 
     <script>
-        // 100 ədəd unikal kod siyahısı
         const validTokens = [
             "P7GS57", "K9X2M4", "B3R8L9", "H2V5N1", "T6Z4Q8", "D5F1W7", "M8J9C3", "L4X6K2", "R7N3H5", "S2W9P6",
             "G1Q8Z4", "V3M5F7", "C6L2J9", "X9K4B1", "N8H7T3", "W5P3D2", "J2R6S8", "Q4Z1V9", "F7M8C5", "K3X9L2",
@@ -250,9 +255,12 @@
             "F5T3R8", "K9N2L4", "B4W1V7", "H6X8Z3", "T2Q5M9", "D8J7P1", "M1C6N2", "L7R3H4", "R3W9K6", "S5V2X8"
         ];
 
-        const ADMIN_PASS = "2026"; // Admin şifrəsi
+        const ADMIN_PASS = "2026";
+        let currentStudentName = "";
+        let currentActiveToken = "";
+        let userAnswers = {};
+        let timerInterval;
 
-        // Səhifə açıldıqda linkin sonunda #admin olub- olmadığını yoxlayırıq
         window.addEventListener('load', function() {
             if (window.location.hash === "#admin") {
                 let password = prompt("Admin şifrəsini daxil edin:");
@@ -261,12 +269,11 @@
                     loadAdminResults();
                 } else if (password !== null) {
                     alert("Yanlış şifrə!");
-                    window.location.hash = ""; // Şifrə səhvdirsə hash-i təmizlə
+                    window.location.hash = "";
                 }
             }
         });
 
-        // Nümunə suallar
         const questions = [
             {
                 id: 1,
@@ -282,13 +289,15 @@
             }
         ];
 
-        let currentActiveToken = "";
-        let userAnswers = {};
-        let timerInterval;
-
         function startExam() {
+            const nameInput = document.getElementById("user-name").value.trim();
             const tokenInput = document.getElementById("user-token").value.trim().toUpperCase();
             const errorMsg = document.getElementById("error-msg");
+
+            if (nameInput === "") {
+                errorMsg.innerText = "Zəhmət olmasa ad və soyadınızı daxil edin!";
+                return;
+            }
 
             if (!validTokens.includes(tokenInput)) {
                 errorMsg.innerText = "Yanlış kod! Zəhmət olmasa düzgün kod daxil edin.";
@@ -300,6 +309,7 @@
                 return;
             }
 
+            currentStudentName = nameInput;
             currentActiveToken = tokenInput;
             localStorage.setItem("used_" + tokenInput, "true");
 
@@ -376,10 +386,11 @@
                 }
             });
 
-            let score = correct * 5;
+            let score = correct; // Hər sual 1 bal olduğu üçün doğru sayı birbaşa bal olur
 
-            saveResultToAdmin(currentActiveToken, correct, wrong, score);
+            saveResultToAdmin(currentStudentName, currentActiveToken, correct, wrong, score);
 
+            document.getElementById("res-name").innerText = currentStudentName;
             document.getElementById("correct-count").innerText = correct;
             document.getElementById("wrong-count").innerText = wrong;
             document.getElementById("total-score").innerText = score;
@@ -388,9 +399,9 @@
             document.getElementById("result-screen").style.display = "block";
         }
 
-        function saveResultToAdmin(token, correct, wrong, score) {
+        function saveResultToAdmin(name, token, correct, wrong, score) {
             let results = JSON.parse(localStorage.getItem("exam_results") || "[]");
-            results.push({ token, correct, wrong, score });
+            results.push({ name, token, correct, wrong, score });
             localStorage.setItem("exam_results", JSON.stringify(results));
         }
 
@@ -400,14 +411,15 @@
             tbody.innerHTML = "";
 
             if (results.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4">Hələ imtahan verən yoxdur.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5">Hələ imtahan verən yoxdur.</td></tr>`;
                 return;
             }
 
             results.forEach(res => {
                 tbody.innerHTML += `
                     <tr>
-                        <td><b>${res.token}</b></td>
+                        <td><b>${res.name}</b></td>
+                        <td>${res.token}</td>
                         <td>${res.correct}</td>
                         <td>${res.wrong}</td>
                         <td><b>${res.score}</b></td>
@@ -427,3 +439,4 @@
     </script>
 </body>
 </html>
+

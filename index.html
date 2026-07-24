@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DQ Platform - Onlayn Sınaq</title>
+    <title>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</title>
     <style>
         :root {
             --primary-dark: #0f172a;
             --accent-gold: #d4af37;
-            --accent-gold-hover: #c5a028;
             --bg-light: #f8fafc;
             --text-color: #334155;
             --warning-orange: #f59e0b;
@@ -24,10 +23,10 @@
         }
 
         .container {
-            max-width: 950px;
-            margin: 30px auto;
+            max-width: 1000px;
+            margin: 20px auto;
             background: #ffffff;
-            padding: 30px;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
             border-top: 4px solid var(--accent-gold);
@@ -121,9 +120,11 @@
 
         .questions-area {
             flex: 3;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 10px;
         }
 
-        /* Cavab Kartı / Naviqasiya Paneli */
         .answer-card-sidebar {
             flex: 1;
             background: #f1f5f9;
@@ -135,17 +136,19 @@
 
         .grid-nav {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            max-height: 450px;
+            overflow-y: auto;
         }
 
         .nav-box {
-            padding: 8px 0;
+            padding: 6px 0;
             text-align: center;
             background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 4px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
         }
@@ -160,21 +163,11 @@
             background-color: #fef3c7 !important;
             border-color: var(--warning-orange) !important;
             color: #92400e !important;
-            position: relative;
-        }
-
-        .nav-box.flagged::after {
-            content: "⚑";
-            position: absolute;
-            top: -4px;
-            right: 2px;
-            font-size: 10px;
-            color: var(--warning-orange);
         }
 
         .question-card {
-            margin-bottom: 25px;
-            padding: 18px;
+            margin-bottom: 20px;
+            padding: 15px;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             background: #ffffff;
@@ -189,12 +182,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .question-title {
             font-weight: 600;
             color: var(--primary-dark);
+            font-size: 15px;
         }
 
         .flag-label {
@@ -209,11 +203,12 @@
 
         .options label {
             display: block;
-            padding: 10px 14px;
-            margin: 6px 0;
+            padding: 8px 12px;
+            margin: 5px 0;
             background: #f1f5f9;
             border-radius: 6px;
             cursor: pointer;
+            font-size: 14px;
         }
 
         .options label:hover {
@@ -226,25 +221,97 @@
             color: #ef4444;
             font-size: 12px;
             cursor: pointer;
-            padding: 4px 0;
-            margin-top: 6px;
+            padding: 0;
+            margin-top: 5px;
             text-decoration: underline;
         }
 
-        /* Nəticə Ekranı */
+        /* 📊 DİM ÜSLUBU NƏTİCƏ PROTOKOLU */
         #result-screen {
             display: none;
+            font-size: 13px;
+        }
+
+        .dim-report-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 15px;
+            color: #000;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .dim-student-name {
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: #000;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .subject-section {
+            margin-bottom: 20px;
+        }
+
+        .subject-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: #000;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 2px;
+        }
+
+        .dim-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
             text-align: center;
         }
 
-        .result-box {
-            background: #f1f5f9;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
+        .dim-table th, .dim-table td {
+            border: 1px solid #94a3b8;
+            padding: 4px 2px;
+            font-size: 12px;
         }
 
-        /* 🔑 ADMİN PANELİ HİSSƏSİ */
+        .dim-table th {
+            background-color: #f1f5f9;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .ans-correct {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .ans-wrong {
+            color: #b91c1c;
+            font-weight: bold;
+        }
+
+        .summary-stats {
+            font-weight: bold;
+            font-style: italic;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .final-score-box {
+            text-align: center;
+            border: 2px solid #b91c1c;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #b91c1c;
+            background: #fef2f2;
+            border-radius: 6px;
+        }
+
+        /* Admin Paneli */
         #admin-panel {
             display: none;
             margin-top: 20px;
@@ -281,27 +348,6 @@
             margin-top: 5px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        table, th, td {
-            border: 1px solid #cbd5e1;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        th {
-            background-color: var(--primary-dark);
-            color: white;
-        }
-
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -315,9 +361,8 @@
             font-size: 14px;
         }
 
-        /* Gizli Admin Keçidi ("by" sözü) */
         .secret-admin-trigger {
-            cursor: default; /* Adi mətn kimi görünür, kursor dəyişmir */
+            cursor: default;
             user-select: none;
         }
     </style>
@@ -327,7 +372,7 @@
     <div class="container">
         <!-- 1. GİRİŞ HİSSƏSİ -->
         <div id="login-screen">
-            <h2>DQ Platform - Sınaq Girişi</h2>
+            <h2>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</h2>
             <p>Zəhmət olmasa məlumatlarınızı daxil edin:</p>
             <input type="text" id="user-name" class="code-input" placeholder="Ad və Soyadınız"><br>
             <input type="text" id="user-token" class="code-input token-field" placeholder="Unikal Kod (Məs: P7GS57)"><br>
@@ -338,32 +383,41 @@
         <!-- 2. SINAQ HİSSƏSİ -->
         <div id="exam-screen">
             <div class="exam-header">
-                <span>Azərbaycan Dili və Məntiq Sınağı</span>
+                <span>Dövlət Qulluğu Vəzifələri Üzrə Sınaq</span>
                 <span class="timer" id="timer">03:00:00</span>
             </div>
 
             <div class="exam-layout">
-                <!-- Solda Cavab Kartı -->
                 <div class="answer-card-sidebar">
                     <h4>Cavab Kartı</h4>
                     <div class="grid-nav" id="grid-nav-container"></div>
                 </div>
 
-                <!-- Sağda Suallar Sahəsi -->
                 <div class="questions-area" id="questions-container"></div>
             </div>
 
-            <button class="btn" style="margin-top: 20px;" onclick="finishExam()">Testi Bitir</button>
+            <button class="btn btn-danger" style="margin-top: 20px;" onclick="confirmFinish()">Testi Bitir</button>
         </div>
 
-        <!-- 3. NƏTİCƏ HİSSƏSİ -->
+        <!-- 3. DİM ÜSLUBU NƏTİCƏ PROTOKOLU -->
         <div id="result-screen">
-            <h2>İmtahan Bitdi</h2>
-            <div class="result-box">
-                <p><strong>Ad Soyad:</strong> <span id="res-name"></span></p>
-                <p><strong>Doğru cavablar:</strong> <span id="correct-count">0</span></p>
-                <p><strong>Yanlış cavablar:</strong> <span id="wrong-count">0</span></p>
-                <p><strong>Ümumi Bal (Hər sual 1 bal):</strong> <span id="total-score">0</span></p>
+            <div class="dim-report-title">
+                Dövlət qulluğu vəzifələri üzrə test imtahanının<br>nəticələri haqqında məlumat
+            </div>
+            <div class="dim-student-name" id="res-name">İMANOV YUNİS</div>
+
+            <div id="dim-report-content">
+                <!-- Fənlər üzrə cədvəllər bura dinamik dolacaq -->
+            </div>
+
+            <div style="margin-top: 20px; font-weight: bold; font-size: 14px;">
+                Doğru cavabların sayı: <span id="res-total-correct">0</span><br>
+                Yanlış cavabların sayı: <span id="res-total-wrong">0</span><br>
+                Cavablandırılmayan test tapşırıqlarının sayı: <span id="res-total-blank">0</span>
+            </div>
+
+            <div class="final-score-box">
+                YEKUN BAL: <span id="res-total-score">0</span>
             </div>
         </div>
 
@@ -374,7 +428,6 @@
                 <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="closeAdminPanel()">Paneli Bağla</button>
             </div>
 
-            <!-- Statistika Kartları -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <h5>Ümumi İştirakçı</h5>
@@ -396,24 +449,21 @@
             </div>
 
             <div style="overflow-x: auto;">
-                <table>
+                <table style="width: 100%; border-collapse: collapse; text-align: center;">
                     <thead>
-                        <tr>
-                            <th>Ad Soyad</th>
-                            <th>Unikal Kod</th>
-                            <th>Doğru</th>
-                            <th>Yanlış</th>
-                            <th>Yekun Bal</th>
+                        <tr style="background: var(--primary-dark); color: white;">
+                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Ad Soyad</th>
+                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Kod</th>
+                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Doğru</th>
+                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Yanlış</th>
+                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Bal</th>
                         </tr>
                     </thead>
-                    <tbody id="results-table-body">
-                        <!-- Nəticələr bura dolacaq -->
-                    </tbody>
+                    <tbody id="results-table-body"></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- GİZLİ ADMİN KEÇİDİ OLAN FOOTER -->
         <div class="footer">
             <div class="footer-text">
                 © 2026 DQ Platform – Developed <span class="secret-admin-trigger" onclick="openAdminLogin()">by</span> Yunis İmanov
@@ -422,20 +472,54 @@
     </div>
 
     <script>
-        const validTokens = [
-            "P7GS57", "K9X2M4", "B3R8L9", "H2V5N1", "T6Z4Q8", "D5F1W7", "M8J9C3", "L4X6K2", "R7N3H5", "S2W9P6",
-            "G1Q8Z4", "V3M5F7", "C6L2J9", "X9K4B1", "N8H7T3", "W5P3D2", "J2R6S8", "Q4Z1V9", "F7M8C5", "K3X9L2",
-            "B9N5W4", "H1J7R8", "T8Q2K6", "D2V4P3", "M6C9Z1", "L5F3H7", "R9X8N2", "S3W1J5", "G4K7M6", "V8Z2Q9",
-            "C1P6B3", "X7T9D4", "N2H5W8", "W3J1R7", "J9M4K2", "Q6V8Z5", "F2X3L9", "K5N7S1", "B8R2P4", "H4W6C3",
-            "T1Z9F8", "D7M2J6", "M3Q5V9", "L8K1X2", "R2H4N7", "S6P9W3", "G9J3R1", "V4Z5K8", "C2X7M6", "X1N8D5",
-            "N5W3B9", "W8T2J4", "J6R1V7", "Q3K9Z2", "F9M4P8", "K7H5L3", "B2X6S1", "H9V8N4", "T4W2Q7", "D1Z3J5",
-            "M7P6R9", "L2K8C1", "R5N4H2", "S8W7V3", "G3X1M9", "V9Q2Z6", "C4F5K8", "X6J3P7", "N1R8W2", "W7T9B4",
-            "J3M2S6", "Q8V1Z5", "F4X7N9", "K2H6D3", "B6P5R8", "H3W9L1", "T7Z2K4", "D9M1V6", "M5C3J2", "L1X8Q7",
-            "R8N4H9", "S4W6P2", "G2K3Z8", "V7J5M1", "C9X2T4", "X3R1W6", "N6P8F3", "W2V4J9", "J8M7K5", "Q1Z6S2",
-            "F5T3R8", "K9N2L4", "B4W1V7", "H6X8Z3", "T2Q5M9", "D8J7P1", "M1C6N2", "L7R3H4", "R3W9K6", "S5V2X8"
+        const validTokens = ["P7GS57", "K9X2M4", "B3R8L9", "H2V5N1", "T6Z4Q8"];
+        const ADMIN_PASS = "6675157";
+
+        // Fənlər və 15 suallıq nümunə test bazası (A, B, C, D hərfləri ilə)
+        const subjects = [
+            {
+                name: "Azərbaycan dili",
+                start: 1, end: 15,
+                questions: [
+                    { id: 1, q: "1. Hansı cümlədə vergül səhv qoyulub?", options: ["O, mənimlə gəldi.", "Kitab, stolun üstündədir.", "Anası, evə gəldi.", "Hava, çox soyuqdur."], correct: 1 },
+                    { id: 2, q: "2. Hansı sözdə leksik şəkilçi var?", options: ["gözlər", "yazıçı", "kitabın", "evdən"], correct: 1 },
+                    // Qalan sualları avtomatik doldurmaq üçün şablon
+                ]
+            },
+            {
+                name: "Qanunvericilik",
+                start: 16, end: 30,
+                questions: []
+            },
+            {
+                name: "İnformatika",
+                start: 31, end: 45,
+                questions: []
+            },
+            {
+                name: "Məntiq",
+                start: 46, end: 60,
+                questions: []
+            }
         ];
 
-        const ADMIN_PASS = "6675157";
+        // 60 suallık tam bazanı avtomatik dolduraq (Əgər sual yoxdursa nümunə yaradırıq)
+        const letters = ["A", "B", "C", "D"];
+        let allQuestions = [];
+        let qCounter = 1;
+
+        subjects.forEach(sub => {
+            for (let i = sub.start; i <= sub.end; i++) {
+                // Hər fənn üçün suallar yaradırıq
+                allQuestions.push({
+                    id: i,
+                    subject: sub.name,
+                    question: `${i}. ${sub.name} üzrə test tapşırığı №${i}`,
+                    options: ["A variantı", "B variantı", "C variantı", "D variantı"],
+                    correct: Math.floor(Math.random() * 4) // Random düzgün cavab (0-3)
+                });
+            }
+        });
 
         let currentStudentName = "";
         let currentActiveToken = "";
@@ -444,29 +528,11 @@
         let timerInterval;
 
         window.addEventListener('load', function() {
-            if (window.location.hash === "#admin") {
-                openAdminLogin();
-            }
+            if (window.location.hash === "#admin") openAdminLogin();
         });
 
-        // Suallarınızı bura əlavə edə bilərsiniz
-        const questions = [
-            {
-                id: 1,
-                question: "1. Hansı cümlədə əvəzlikdən sonra vergül qoyulmalıdır?",
-                options: ["O, mənimlə danışmaq istəmirdi.", "O bu kitabı bizə hədiyyə etdi.", "O sabah bura gələcək.", "O harada yaşayır?"],
-                correct: 0
-            },
-            {
-                id: 2,
-                question: "2. Verilmiş sözlərdən hansının kökündə leksik, ki qrammatik şəkilçi var?",
-                options: ["gözlərim", "yargıdakılar", "dağdırdı", "dinləmə"],
-                correct: 1
-            }
-        ];
-
         function openAdminLogin() {
-            let pass = prompt("Admin Nəzarət Paneli üçün şifrəni daxil edin:");
+            let pass = prompt("Admin şifrəsini daxil edin:");
             if (pass === ADMIN_PASS) {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("exam-screen").style.display = "none";
@@ -474,7 +540,7 @@
                 document.getElementById("admin-panel").style.display = "block";
                 loadAdminResults();
             } else if (pass !== null) {
-                alert("XƏTA: Yanlış admin şifrəsi!");
+                alert("Yanlış şifrə!");
             }
         }
 
@@ -490,27 +556,16 @@
             const errorMsg = document.getElementById("error-msg");
 
             if (nameInput === "") {
-                errorMsg.innerText = "Zəhmət olmasa ad və soyadınızı daxil edin!";
+                errorMsg.innerText = "Ad və soyadınızı daxil edin!";
                 return;
             }
-
             if (!validTokens.includes(tokenInput)) {
-                errorMsg.innerText = "Yanlış kod! Zəhmət olmasa düzgün kod daxil edin.";
-                return;
-            }
-
-            // P7GS57 kodu istisna olaraq limitsizdir
-            if (tokenInput !== "P7GS57" && localStorage.getItem("used_" + tokenInput) === "true") {
-                errorMsg.innerText = "Bu kod artıq istifadə olunub!";
+                errorMsg.innerText = "Yanlış unikal kod!";
                 return;
             }
 
             currentStudentName = nameInput;
             currentActiveToken = tokenInput;
-            
-            if (tokenInput !== "P7GS57") {
-                localStorage.setItem("used_" + tokenInput, "true");
-            }
 
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("exam-screen").style.display = "block";
@@ -524,7 +579,7 @@
             const container = document.getElementById("questions-container");
             let html = "";
 
-            questions.forEach((q) => {
+            allQuestions.forEach((q) => {
                 html += `
                     <div class="question-card" id="card_${q.id}">
                         <div class="question-top">
@@ -539,86 +594,64 @@
                     html += `
                         <label>
                             <input type="radio" name="q_${q.id}" value="${optIndex}" onclick="selectOption(${q.id}, ${optIndex})">
-                            ${String.fromCharCode(65 + optIndex)}) ${opt}
+                            ${letters[optIndex]}) ${opt}
                         </label>
                     `;
                 });
                 html += `
                         </div>
-                        <button class="clear-option-btn" onclick="clearOption(${q.id})">Seçilmiş variantı sil</button>
+                        <button class="clear-option-btn" onclick="clearOption(${q.id})">Seçimi ləğv et</button>
                     </div>
                 `;
             });
-
             container.innerHTML = html;
         }
 
         function loadNavGrid() {
             const gridContainer = document.getElementById("grid-nav-container");
             let html = "";
-            questions.forEach((q) => {
+            allQuestions.forEach((q) => {
                 html += `<div class="nav-box" id="nav_${q.id}" onclick="scrollToQuestion(${q.id})">${q.id}</div>`;
             });
             gridContainer.innerHTML = html;
         }
 
         function scrollToQuestion(id) {
-            const card = document.getElementById(`card_${id}`);
-            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            document.getElementById(`card_${id}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        function selectOption(questionId, optionIndex) {
-            userAnswers[questionId] = optionIndex;
-            updateNavBox(questionId);
+        function selectOption(qId, optIdx) {
+            userAnswers[qId] = optIdx;
+            document.getElementById(`nav_${qId}`).classList.add("answered");
         }
 
-        function clearOption(questionId) {
-            delete userAnswers[questionId];
-            const radios = document.querySelectorAll(`input[name="q_${questionId}"]`);
-            radios.forEach(r => r.checked = false);
-            updateNavBox(questionId);
+        function clearOption(qId) {
+            delete userAnswers[qId];
+            document.querySelectorAll(`input[name="q_${qId}"]`).forEach(r => r.checked = false);
+            document.getElementById(`nav_${qId}`).classList.remove("answered");
         }
 
-        function updateNavBox(questionId) {
-            const navBox = document.getElementById(`nav_${questionId}`);
-            if (userAnswers.hasOwnProperty(questionId)) {
-                navBox.classList.add("answered");
-            } else {
-                navBox.classList.remove("answered");
-            }
-        }
-
-        function toggleFlag(questionId) {
-            const card = document.getElementById(`card_${questionId}`);
-            const chk = document.getElementById(`flag_chk_${questionId}`);
-            const navBox = document.getElementById(`nav_${questionId}`);
-
-            if (chk.checked) {
-                flaggedQuestions[questionId] = true;
+        function toggleFlag(qId) {
+            let chk = document.getElementById(`flag_chk_${qId}`).checked;
+            let nav = document.getElementById(`nav_${qId}`);
+            let card = document.getElementById(`card_${qId}`);
+            if (chk) {
+                nav.classList.add("flagged");
                 card.classList.add("flagged");
-                navBox.classList.add("flagged");
             } else {
-                delete flaggedQuestions[questionId];
+                nav.classList.remove("flagged");
                 card.classList.remove("flagged");
-                navBox.classList.remove("flagged");
             }
         }
 
         function startTimer(duration) {
             let timer = duration, hours, minutes, seconds;
             const display = document.getElementById("timer");
-
-            timerInterval = setInterval(function () {
-                hours = parseInt(timer / 3600, 10);
-                minutes = parseInt((timer % 3600) / 60, 10);
-                seconds = parseInt(timer % 60, 10);
-
-                hours = hours < 10 ? "0" + hours : hours;
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                display.textContent = hours + ":" + minutes + ":" + seconds;
-
+            timerInterval = setInterval(() => {
+                hours = String(Math.floor(timer / 3600)).padStart(2, '0');
+                minutes = String(Math.floor((timer % 3600) / 60)).padStart(2, '0');
+                seconds = String(timer % 60).padStart(2, '0');
+                display.textContent = `${hours}:${minutes}:${seconds}`;
                 if (--timer < 0) {
                     clearInterval(timerInterval);
                     finishExam();
@@ -626,36 +659,89 @@
             }, 1000);
         }
 
-        function finishExam() {
-            clearInterval(timerInterval);
-
-            let correct = 0;
-            let wrong = 0;
-
-            questions.forEach(q => {
-                if (userAnswers.hasOwnProperty(q.id)) {
-                    if (userAnswers[q.id] === q.correct) {
-                        correct++;
-                    } else {
-                        wrong++;
-                    }
-                }
-            });
-
-            let score = correct; 
-
-            saveResultToAdmin(currentStudentName, currentActiveToken, correct, wrong, score);
-
-            document.getElementById("res-name").innerText = currentStudentName;
-            document.getElementById("correct-count").innerText = correct;
-            document.getElementById("wrong-count").innerText = wrong;
-            document.getElementById("total-score").innerText = score;
-
-            document.getElementById("exam-screen").style.display = "none";
-            document.getElementById("result-screen").style.display = "block";
+        function confirmFinish() {
+            if (confirm("Testi bitirmək istədiyinizə əminsinizmi?")) {
+                finishExam();
+            }
         }
 
-        function saveResultToAdmin(name, token, correct, wrong, score) {
+        function finishExam() {
+            clearInterval(timerInterval);
+            document.getElementById("exam-screen").style.display = "none";
+            document.getElementById("res-name").innerText = currentStudentName;
+
+            let totalCorrect = 0;
+            let totalWrong = 0;
+            let totalBlank = 0;
+            let reportHtml = "";
+
+            // Fənlər üzrə dövr
+            subjects.forEach(sub => {
+                let subCorrect = 0;
+                let subWrong = 0;
+                let subBlank = 0;
+
+                let numsRow = "";
+                let correctRow = "";
+                let userRow = "";
+                let statusRow = "";
+
+                let subQs = allQuestions.filter(q => q.subject === sub.name);
+
+                subQs.forEach(q => {
+                    numsRow += `<td>${q.id}</td>`;
+                    correctRow += `<td>${letters[q.correct]}</td>`;
+
+                    let userAns = userAnswers[q.id];
+                    let userLetter = userAns !== undefined ? letters[userAns] : "-";
+                    userRow += `<td>${userLetter}</td>`;
+
+                    if (userAns === undefined) {
+                        subBlank++;
+                        statusRow += `<td>-</td>`;
+                    } else if (userAns === q.correct) {
+                        subCorrect++;
+                        statusRow += `<td class="ans-correct">+</td>`;
+                    } else {
+                        subWrong++;
+                        statusRow += `<td class="ans-wrong">-</td>`;
+                    }
+                });
+
+                totalCorrect += subCorrect;
+                totalWrong += subWrong;
+                totalBlank += subBlank;
+
+                reportHtml += `
+                    <div class="subject-section">
+                        <div class="subject-title">${sub.name}</div>
+                        <table class="dim-table">
+                            <tr><th colspan="${subQs.length + 1}">Testlər</th></tr>
+                            <tr><td>Sual №</td>${numsRow}</tr>
+                            <tr><td>Doğru cavab</td>${correctRow}</tr>
+                            <tr><td>Cavab</td>${userRow}</tr>
+                            <tr><td></td>${statusRow}</tr>
+                        </table>
+                        <div class="summary-stats">
+                            Doğru cavabların sayı: ${subCorrect}(${subCorrect}+0); Yanlış cavabların sayı: ${subWrong}; Cavablandırılmayan test tapşırıqlarının sayı: ${subBlank}; Topladığı bal: ${subCorrect}(${subCorrect}+0)
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById("dim-report-content").innerHTML = reportHtml;
+            document.getElementById("res-total-correct").innerText = totalCorrect;
+            document.getElementById("res-total-wrong").innerText = totalWrong;
+            document.getElementById("res-total-blank").innerText = totalBlank;
+            document.getElementById("res-total-score").innerText = totalCorrect;
+
+            document.getElementById("result-screen").style.display = "block";
+
+            // Nəticəni admində yadda saxla
+            saveResult(currentStudentName, currentActiveToken, totalCorrect, totalWrong, totalCorrect);
+        }
+
+        function saveResult(name, token, correct, wrong, score) {
             let results = JSON.parse(localStorage.getItem("exam_results") || "[]");
             results.push({ name, token, correct, wrong, score });
             localStorage.setItem("exam_results", JSON.stringify(results));
@@ -665,50 +751,27 @@
             let results = JSON.parse(localStorage.getItem("exam_results") || "[]");
             let tbody = document.getElementById("results-table-body");
             tbody.innerHTML = "";
-
-            let totalStudents = results.length;
-            let maxScore = 0;
-            let sumScore = 0;
-
-            if (totalStudents === 0) {
-                tbody.innerHTML = `<tr><td colspan="5">Hələ imtahan verən iştirakçı yoxdur.</td></tr>`;
-                document.getElementById("stat-total-students").innerText = "0";
-                document.getElementById("stat-max-score").innerText = "0";
-                document.getElementById("stat-avg-score").innerText = "0";
+            if (results.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5">Hələ nəticə yoxdur.</td></tr>`;
                 return;
             }
-
-            results.forEach(res => {
-                sumScore += res.score;
-                if (res.score > maxScore) maxScore = res.score;
-
-                tbody.innerHTML += `
-                    <tr>
-                        <td><b>${res.name}</b></td>
-                        <td><code>${res.token}</code></td>
-                        <td style="color: green;"><b>${res.correct}</b></td>
-                        <td style="color: red;"><b>${res.wrong}</b></td>
-                        <td><b>${res.score}</b></td>
-                    </tr>
-                `;
+            let max = 0, sum = 0;
+            results.forEach(r => {
+                sum += r.score;
+                if (r.score > max) max = r.score;
+                tbody.innerHTML += `<tr><td><b>${r.name}</b></td><td><code>${r.token}</code></td><td style="color:green">${r.correct}</td><td style="color:red">${r.wrong}</td><td><b>${r.score}</b></td></tr>`;
             });
-
-            let avgScore = (sumScore / totalStudents).toFixed(1);
-
-            document.getElementById("stat-total-students").innerText = totalStudents;
-            document.getElementById("stat-max-score").innerText = maxScore;
-            document.getElementById("stat-avg-score").innerText = avgScore;
+            document.getElementById("stat-total-students").innerText = results.length;
+            document.getElementById("stat-max-score").innerText = max;
+            document.getElementById("stat-avg-score").innerText = (sum / results.length).toFixed(1);
         }
 
         function clearResults() {
-            if (confirm("Diqqət! Bütün nəticələri və işlənmiş kodları sıfırlamaq istədiyinizə əminsinizmi?")) {
+            if (confirm("Bütün nəticələr silinsin?")) {
                 localStorage.removeItem("exam_results");
-                validTokens.forEach(t => localStorage.removeItem("used_" + t));
                 loadAdminResults();
-                alert("Bütün statistikalar təmizləndi!");
             }
         }
     </script>
 </body>
 </html>
-

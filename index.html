@@ -305,9 +305,6 @@
         .footer {
             text-align: center;
             margin-top: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             border-top: 1px solid #e2e8f0;
             padding-top: 15px;
         }
@@ -318,15 +315,10 @@
             font-size: 14px;
         }
 
-        .admin-link {
-            color: #64748b;
-            font-size: 13px;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        .admin-link:hover {
-            color: var(--primary-dark);
+        /* Gizli Admin Keçidi ("by" sözü) */
+        .secret-admin-trigger {
+            cursor: default; /* Adi mətn kimi görünür, kursor dəyişmir */
+            user-select: none;
         }
     </style>
 </head>
@@ -421,10 +413,11 @@
             </div>
         </div>
 
-        <!-- FOOTER VƏ ADMİN GİRİŞİ -->
+        <!-- GİZLİ ADMİN KEÇİDİ OLAN FOOTER -->
         <div class="footer">
-            <div class="footer-text">© 2026 DQ Platform – Developed by Yunis İmanov</div>
-            <span class="admin-link" onclick="openAdminLogin()">🔑 Admin Girişi</span>
+            <div class="footer-text">
+                © 2026 DQ Platform – Developed <span class="secret-admin-trigger" onclick="openAdminLogin()">by</span> Yunis İmanov
+            </div>
         </div>
     </div>
 
@@ -442,7 +435,7 @@
             "F5T3R8", "K9N2L4", "B4W1V7", "H6X8Z3", "T2Q5M9", "D8J7P1", "M1C6N2", "L7R3H4", "R3W9K6", "S5V2X8"
         ];
 
-        const ADMIN_PASS = "DQ2026ADMIN";
+        const ADMIN_PASS = "6675157";
 
         let currentStudentName = "";
         let currentActiveToken = "";
@@ -506,7 +499,7 @@
                 return;
             }
 
-            // P7GS57 kodu istisna olaraq limitsizdir (hər dəfə istifadə oluna bilər)
+            // P7GS57 kodu istisna olaraq limitsizdir
             if (tokenInput !== "P7GS57" && localStorage.getItem("used_" + tokenInput) === "true") {
                 errorMsg.innerText = "Bu kod artıq istifadə olunub!";
                 return;
@@ -515,7 +508,6 @@
             currentStudentName = nameInput;
             currentActiveToken = tokenInput;
             
-            // Yalnız P7GS57 olmayan kodlar üçün istifadə statusunu yadda saxlayırıq
             if (tokenInput !== "P7GS57") {
                 localStorage.setItem("used_" + tokenInput, "true");
             }
@@ -719,3 +711,4 @@
     </script>
 </body>
 </html>
+

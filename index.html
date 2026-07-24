@@ -11,6 +11,7 @@
             --accent-gold-hover: #c5a028;
             --bg-light: #f8fafc;
             --text-color: #334155;
+            --warning-orange: #f59e0b;
         }
 
         body {
@@ -22,7 +23,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 40px auto;
             background: #ffffff;
             padding: 30px;
@@ -102,16 +103,105 @@
             color: var(--accent-gold);
         }
 
+        .exam-layout {
+            display: flex;
+            gap: 20px;
+        }
+
+        .questions-area {
+            flex: 3;
+        }
+
+        /* Cavab Kartı / Naviqasiya Paneli (Solda) */
+        .answer-card-sidebar {
+            flex: 1;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            height: fit-content;
+            border: 1px solid #cbd5e1;
+        }
+
+        .answer-card-sidebar h4 {
+            margin-top: 0;
+            text-align: center;
+            color: var(--primary-dark);
+            font-size: 15px;
+        }
+
+        .grid-nav {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .nav-box {
+            padding: 8px 0;
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .nav-box.answered {
+            background-color: #d1fae5;
+            border-color: #10b981;
+            color: #065f46;
+        }
+
+        .nav-box.flagged {
+            background-color: #fef3c7 !important;
+            border-color: var(--warning-orange) !important;
+            color: #92400e !important;
+            position: relative;
+        }
+        
+        /* Tərəddüdlü sualın üzərindəki fərqləndirici işarə */
+        .nav-box.flagged::after {
+            content: "⚑";
+            position: absolute;
+            top: -4px;
+            right: 2px;
+            font-size: 10px;
+            color: var(--warning-orange);
+        }
+
         .question-card {
             margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #e2e8f0;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .question-card.flagged {
+            border-color: var(--warning-orange);
+            background-color: #fffbeb;
+        }
+
+        .question-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         .question-title {
             font-weight: 600;
-            margin-bottom: 10px;
             color: var(--primary-dark);
+        }
+
+        .flag-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            cursor: pointer;
+            color: #d97706;
+            font-weight: 600;
         }
 
         .options label {
@@ -121,11 +211,22 @@
             background: #f1f5f9;
             border-radius: 4px;
             cursor: pointer;
-            transition: background 0.2s;
         }
 
         .options label:hover {
             background: #e2e8f0;
+        }
+
+        .clear-option-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px 0;
+            margin-top: 5px;
+            text-decoration: underline;
+            display: inline-block;
         }
 
         /* Nəticə Ekranı */
@@ -141,7 +242,7 @@
             margin: 20px 0;
         }
 
-        /* Gizli Admin Paneli */
+        /* Gizli Admin Paneli (#admin) */
         #admin-panel {
             display: none;
             margin-top: 30px;
@@ -194,15 +295,26 @@
         <!-- 2. SINAQ HİSSƏSİ -->
         <div id="exam-screen">
             <div class="exam-header">
-                <span>Azərbaycan Dili Sınağı</span>
+                <span>Azərbaycan Dili və Məntiq Sınağı</span>
                 <span class="timer" id="timer">03:00:00</span>
             </div>
 
-            <div id="questions-container">
-                <!-- Suallar bura yüklənəcək -->
+            <div class="exam-layout">
+                <!-- Solda Cavab Kartı / Sual Naviqasiyası -->
+                <div class="answer-card-sidebar">
+                    <h4>Cavab Kartı</h4>
+                    <div class="grid-nav" id="grid-nav-container">
+                        <!-- Naviqasiya xanaları bura dolacaq -->
+                    </div>
+                </div>
+
+                <!-- Sağda Suallar Sahəsi -->
+                <div class="questions-area" id="questions-container">
+                    <!-- Suallar bura yüklənəcək -->
+                </div>
             </div>
 
-            <button class="btn" onclick="finishExam()">Testi Bitir</button>
+            <button class="btn" style="margin-top: 20px;" onclick="finishExam()">Testi Bitir</button>
         </div>
 
         <!-- 3. NƏTİCƏ HİSSƏSİ -->
@@ -259,6 +371,7 @@
         let currentStudentName = "";
         let currentActiveToken = "";
         let userAnswers = {};
+        let flaggedQuestions = {};
         let timerInterval;
 
         window.addEventListener('load', function() {
@@ -274,6 +387,7 @@
             }
         });
 
+        // Suallarınızı bura əlavə edə bilərsiniz
         const questions = [
             {
                 id: 1,
@@ -317,6 +431,7 @@
             document.getElementById("exam-screen").style.display = "block";
 
             loadQuestions();
+            loadNavGrid();
             startTimer(3 * 3600);
         }
 
@@ -326,26 +441,82 @@
 
             questions.forEach((q) => {
                 html += `
-                    <div class="question-card">
-                        <div class="question-title">${q.question}</div>
-                        <div class="options">
+                    <div class="question-card" id="card_${q.id}">
+                        <div class="question-top">
+                            <div class="question-title">${q.question}</div>
+                            <label class="flag-label">
+                                <input type="checkbox" id="flag_chk_${q.id}" onchange="toggleFlag(${q.id})"> Tərəddüdlü
+                            </label>
+                        </div>
+                        <div class="options" id="options_${q.id}">
                 `;
                 q.options.forEach((opt, optIndex) => {
                     html += `
                         <label>
-                            <input type="radio" name="q_${q.id}" value="${optIndex}" onchange="saveAnswer(${q.id}, ${optIndex})">
+                            <input type="radio" name="q_${q.id}" value="${optIndex}" onclick="selectOption(${q.id}, ${optIndex})">
                             ${String.fromCharCode(65 + optIndex)}) ${opt}
                         </label>
                     `;
                 });
-                html += `</div></div>`;
+                html += `
+                        </div>
+                        <button class="clear-option-btn" onclick="clearOption(${q.id})">Seçilmiş variantı sil</button>
+                    </div>
+                `;
             });
 
             container.innerHTML = html;
         }
 
-        function saveAnswer(questionId, optionIndex) {
+        function loadNavGrid() {
+            const gridContainer = document.getElementById("grid-nav-container");
+            let html = "";
+            questions.forEach((q) => {
+                html += `<div class="nav-box" id="nav_${q.id}" onclick="scrollToQuestion(${q.id})">${q.id}</div>`;
+            });
+            gridContainer.innerHTML = html;
+        }
+
+        function scrollToQuestion(id) {
+            const card = document.getElementById(`card_${id}`);
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function selectOption(questionId, optionIndex) {
             userAnswers[questionId] = optionIndex;
+            updateNavBox(questionId);
+        }
+
+        function clearOption(questionId) {
+            delete userAnswers[questionId];
+            const radios = document.querySelectorAll(`input[name="q_${questionId}"]`);
+            radios.forEach(r => r.checked = false);
+            updateNavBox(questionId);
+        }
+
+        function updateNavBox(questionId) {
+            const navBox = document.getElementById(`nav_${questionId}`);
+            if (userAnswers.hasOwnProperty(questionId)) {
+                navBox.classList.add("answered");
+            } else {
+                navBox.classList.remove("answered");
+            }
+        }
+
+        function toggleFlag(questionId) {
+            const card = document.getElementById(`card_${questionId}`);
+            const chk = document.getElementById(`flag_chk_${questionId}`);
+            const navBox = document.getElementById(`nav_${questionId}`);
+
+            if (chk.checked) {
+                flaggedQuestions[questionId] = true;
+                card.classList.add("flagged");
+                navBox.classList.add("flagged");
+            } else {
+                delete flaggedQuestions[questionId];
+                card.classList.remove("flagged");
+                navBox.classList.remove("flagged");
+            }
         }
 
         function startTimer(duration) {
@@ -386,7 +557,7 @@
                 }
             });
 
-            let score = correct; // Hər sual 1 bal olduğu üçün doğru sayı birbaşa bal olur
+            let score = correct; 
 
             saveResultToAdmin(currentStudentName, currentActiveToken, correct, wrong, score);
 

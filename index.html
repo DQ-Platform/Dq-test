@@ -23,7 +23,7 @@
 
         .container {
             max-width: 800px;
-            margin: 50px auto;
+            margin: 40px auto;
             background: #ffffff;
             padding: 30px;
             border-radius: 12px;
@@ -137,6 +137,42 @@
             border-radius: 8px;
             margin: 20px 0;
         }
+
+        /* Gizli Admin Paneli Üslubu */
+        #admin-panel {
+            display: none;
+            margin-top: 30px;
+            border-top: 2px solid var(--accent-gold);
+            padding-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table, th, td {
+            border: 1px solid #cbd5e1;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--primary-dark);
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -146,7 +182,7 @@
         <div id="login-screen">
             <h2>DQ Platform - Sınaq Girişi</h2>
             <p>Zəhmət olmasa sizə verilən unikal giriş kodunu daxil edin:</p>
-            <input type="text" id="user-token" class="code-input" placeholder="Məsələn: DQ-1024">
+            <input type="text" id="user-token" class="code-input" placeholder="Məsələn: P7GS57">
             <button class="btn" onclick="startExam()">İmtahana Başla</button>
             <p id="error-msg" style="color: red; margin-top: 10px;"></p>
         </div>
@@ -159,7 +195,7 @@
             </div>
 
             <div id="questions-container">
-                <!-- Suallar JavaScript vasitəsilə bura yüklənəcək -->
+                <!-- Suallar bura yüklənəcək -->
             </div>
 
             <button class="btn" onclick="finishExam()">Testi Bitir</button>
@@ -173,13 +209,62 @@
                 <p><strong>Yanlış cavablar:</strong> <span id="wrong-count">0</span></p>
                 <p><strong>Ümumi Bal:</strong> <span id="total-score">0</span></p>
             </div>
-            <p style="color: var(--primary-dark); font-weight: bold;">© 2026 DQ Platform – Developed by Yunis İmanov</p>
         </div>
+
+        <!-- 4. GİZLİ ADMİN PANELİ -->
+        <div id="admin-panel">
+            <h3>🔑 Admin İdarəetmə Paneli</h3>
+            <button class="btn" style="padding: 6px 12px; font-size: 14px; margin-bottom: 10px; background-color: #dc2626; color: white;" onclick="clearResults()">Siyahını Təmizlə</button>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kod</th>
+                            <th>Doğru</th>
+                            <th>Yanlış</th>
+                            <th>Bal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-table-body">
+                        <!-- Nəticələr bura düşəcək -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer-text">© 2026 DQ Platform – Developed by Yunis İmanov</div>
     </div>
 
     <script>
-        // Etibarlı unikal kodlar siyahısı
-        const validTokens = ["DQ-1024", "DQ-2026", "AZ-5555"];
+        // 100 ədəd unikal kod siyahısı
+        const validTokens = [
+            "P7GS57", "K9X2M4", "B3R8L9", "H2V5N1", "T6Z4Q8", "D5F1W7", "M8J9C3", "L4X6K2", "R7N3H5", "S2W9P6",
+            "G1Q8Z4", "V3M5F7", "C6L2J9", "X9K4B1", "N8H7T3", "W5P3D2", "J2R6S8", "Q4Z1V9", "F7M8C5", "K3X9L2",
+            "B9N5W4", "H1J7R8", "T8Q2K6", "D2V4P3", "M6C9Z1", "L5F3H7", "R9X8N2", "S3W1J5", "G4K7M6", "V8Z2Q9",
+            "C1P6B3", "X7T9D4", "N2H5W8", "W3J1R7", "J9M4K2", "Q6V8Z5", "F2X3L9", "K5N7S1", "B8R2P4", "H4W6C3",
+            "T1Z9F8", "D7M2J6", "M3Q5V9", "L8K1X2", "R2H4N7", "S6P9W3", "G9J3R1", "V4Z5K8", "C2X7M6", "X1N8D5",
+            "N5W3B9", "W8T2J4", "J6R1V7", "Q3K9Z2", "F9M4P8", "K7H5L3", "B2X6S1", "H9V8N4", "T4W2Q7", "D1Z3J5",
+            "M7P6R9", "L2K8C1", "R5N4H2", "S8W7V3", "G3X1M9", "V9Q2Z6", "C4F5K8", "X6J3P7", "N1R8W2", "W7T9B4",
+            "J3M2S6", "Q8V1Z5", "F4X7N9", "K2H6D3", "B6P5R8", "H3W9L1", "T7Z2K4", "D9M1V6", "M5C3J2", "L1X8Q7",
+            "R8N4H9", "S4W6P2", "G2K3Z8", "V7J5M1", "C9X2T4", "X3R1W6", "N6P8F3", "W2V4J9", "J8M7K5", "Q1Z6S2",
+            "F5T3R8", "K9N2L4", "B4W1V7", "H6X8Z3", "T2Q5M9", "D8J7P1", "M1C6N2", "L7R3H4", "R3W9K6", "S5V2X8"
+        ];
+
+        const ADMIN_PASS = "2026"; // Admin şifrəsi
+
+        // Səhifə açıldıqda linkin sonunda #admin olub- olmadığını yoxlayırıq
+        window.addEventListener('load', function() {
+            if (window.location.hash === "#admin") {
+                let password = prompt("Admin şifrəsini daxil edin:");
+                if (password === ADMIN_PASS) {
+                    document.getElementById("admin-panel").style.display = "block";
+                    loadAdminResults();
+                } else if (password !== null) {
+                    alert("Yanlış şifrə!");
+                    window.location.hash = ""; // Şifrə səhvdirsə hash-i təmizlə
+                }
+            }
+        });
 
         // Nümunə suallar
         const questions = [
@@ -197,6 +282,7 @@
             }
         ];
 
+        let currentActiveToken = "";
         let userAnswers = {};
         let timerInterval;
 
@@ -209,21 +295,19 @@
                 return;
             }
 
-            // Kodu yoxlayırıq ki, əvvəllər istifadə olunubmu?
             if (localStorage.getItem("used_" + tokenInput) === "true") {
                 errorMsg.innerText = "Bu kod artıq istifadə olunub!";
                 return;
             }
 
-            // Kodu istifadə olunmuş kimi yadda saxlayırıq
+            currentActiveToken = tokenInput;
             localStorage.setItem("used_" + tokenInput, "true");
 
-            // Ekranları dəyişirik
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("exam-screen").style.display = "block";
 
             loadQuestions();
-            startTimer(3 * 3600); // 3 saatlıq taymer
+            startTimer(3 * 3600);
         }
 
         function loadQuestions() {
@@ -294,6 +378,8 @@
 
             let score = correct * 5;
 
+            saveResultToAdmin(currentActiveToken, correct, wrong, score);
+
             document.getElementById("correct-count").innerText = correct;
             document.getElementById("wrong-count").innerText = wrong;
             document.getElementById("total-score").innerText = score;
@@ -301,7 +387,43 @@
             document.getElementById("exam-screen").style.display = "none";
             document.getElementById("result-screen").style.display = "block";
         }
+
+        function saveResultToAdmin(token, correct, wrong, score) {
+            let results = JSON.parse(localStorage.getItem("exam_results") || "[]");
+            results.push({ token, correct, wrong, score });
+            localStorage.setItem("exam_results", JSON.stringify(results));
+        }
+
+        function loadAdminResults() {
+            let results = JSON.parse(localStorage.getItem("exam_results") || "[]");
+            let tbody = document.getElementById("results-table-body");
+            tbody.innerHTML = "";
+
+            if (results.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4">Hələ imtahan verən yoxdur.</td></tr>`;
+                return;
+            }
+
+            results.forEach(res => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${res.token}</b></td>
+                        <td>${res.correct}</td>
+                        <td>${res.wrong}</td>
+                        <td><b>${res.score}</b></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function clearResults() {
+            if (confirm("Bütün nəticələri və işlənmiş kodları sıfırlamaq istədiyinizə əminsinizmi?")) {
+                localStorage.removeItem("exam_results");
+                validTokens.forEach(t => localStorage.removeItem("used_" + t));
+                loadAdminResults();
+                alert("Siyahı təmizləndi!");
+            }
+        }
     </script>
 </body>
 </html>
-

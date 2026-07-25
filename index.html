@@ -23,7 +23,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1050px;
             margin: 20px auto;
             background: #ffffff;
             padding: 25px;
@@ -74,8 +74,7 @@
             border-radius: 6px;
             cursor: pointer;
             transition: background 0.3s;
-            display: block;
-            margin: 0 auto;
+            display: inline-block;
         }
 
         .btn:hover {
@@ -89,6 +88,15 @@
 
         .btn-danger:hover {
             background-color: #b91c1c;
+        }
+
+        .btn-secondary {
+            background-color: #64748b;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #475569;
         }
 
         /* Sınaq Ekranı */
@@ -113,6 +121,7 @@
             color: var(--accent-gold);
         }
 
+        /* Layout: Solda Sual, Sağda Cavab Kartı */
         .exam-layout {
             display: flex;
             gap: 20px;
@@ -120,9 +129,14 @@
 
         .questions-area {
             flex: 3;
-            max-height: 600px;
-            overflow-y: auto;
-            padding-right: 10px;
+            background: #ffffff;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .answer-card-sidebar {
@@ -138,7 +152,7 @@
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 5px;
-            max-height: 450px;
+            max-height: 400px;
             overflow-y: auto;
         }
 
@@ -159,36 +173,30 @@
             color: #065f46;
         }
 
+        .nav-box.current {
+            border: 2px solid var(--primary-dark);
+            background-color: #e2e8f0;
+        }
+
         .nav-box.flagged {
             background-color: #fef3c7 !important;
             border-color: var(--warning-orange) !important;
             color: #92400e !important;
         }
 
-        .question-card {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            background: #ffffff;
-        }
-
-        .question-card.flagged {
-            border-color: var(--warning-orange);
-            background-color: #fffbeb;
-        }
-
         .question-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .question-title {
             font-weight: 600;
             color: var(--primary-dark);
             font-size: 15px;
+            line-height: 1.5;
+            white-space: pre-line;
         }
 
         .flag-label {
@@ -203,8 +211,8 @@
 
         .options label {
             display: block;
-            padding: 8px 12px;
-            margin: 5px 0;
+            padding: 10px 14px;
+            margin: 8px 0;
             background: #f1f5f9;
             border-radius: 6px;
             cursor: pointer;
@@ -219,11 +227,19 @@
             background: none;
             border: none;
             color: #ef4444;
-            font-size: 12px;
+            font-size: 13px;
             cursor: pointer;
             padding: 0;
-            margin-top: 5px;
+            margin-top: 10px;
             text-decoration: underline;
+        }
+
+        .exam-navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
         }
 
         /* 📊 DİM ÜSLUBU NƏTİCƏ PROTOKOLU */
@@ -380,7 +396,7 @@
             <p id="error-msg" style="color: red; margin-top: 10px;"></p>
         </div>
 
-        <!-- 2. SINAQ HİSSƏSİ -->
+        <!-- 2. SINAQ HİSSƏSİ (Hər dəfə 1 sual görünür, sağda cavab kartı) -->
         <div id="exam-screen">
             <div class="exam-header">
                 <span>Dövlət Qulluğu Vəzifələri Üzrə Sınaq</span>
@@ -388,15 +404,25 @@
             </div>
 
             <div class="exam-layout">
+                <!-- Solda Cari Sual Paneli -->
+                <div class="questions-area">
+                    <div id="single-question-container">
+                        <!-- Sual bura yüklənəcək -->
+                    </div>
+
+                    <div class="exam-navigation-buttons">
+                        <button class="btn btn-secondary" onclick="prevQuestion()">Əvvəlki</button>
+                        <button class="btn btn-danger" onclick="confirmFinish()">Testi Bitir</button>
+                        <button class="btn" onclick="nextQuestion()">Növbəti</button>
+                    </div>
+                </div>
+
+                <!-- Sağda Cavab Kartı -->
                 <div class="answer-card-sidebar">
                     <h4>Cavab Kartı</h4>
                     <div class="grid-nav" id="grid-nav-container"></div>
                 </div>
-
-                <div class="questions-area" id="questions-container"></div>
             </div>
-
-            <button class="btn btn-danger" style="margin-top: 20px;" onclick="confirmFinish()">Testi Bitir</button>
         </div>
 
         <!-- 3. DİM ÜSLUBU NƏTİCƏ PROTOKOLU -->
@@ -406,9 +432,7 @@
             </div>
             <div class="dim-student-name" id="res-name">İMANOV YUNİS</div>
 
-            <div id="dim-report-content">
-                <!-- Fənlər üzrə cədvəllər bura dinamik dolacaq -->
-            </div>
+            <div id="dim-report-content"></div>
 
             <div style="margin-top: 20px; font-weight: bold; font-size: 14px;">
                 Doğru cavabların sayı: <span id="res-total-correct">0</span><br>
@@ -475,56 +499,99 @@
         const validTokens = ["P7GS57", "K9X2M4", "B3R8L9", "H2V5N1", "T6Z4Q8"];
         const ADMIN_PASS = "6675157";
 
-        // Fənlər və 15 suallıq nümunə test bazası (A, B, C, D hərfləri ilə)
-        const subjects = [
+        // Təqdim etdiyiniz real suallar əsasında baza
+        const allQuestions = [
             {
-                name: "Azərbaycan dili",
-                start: 1, end: 15,
-                questions: [
-                    { id: 1, q: "1. Hansı cümlədə vergül səhv qoyulub?", options: ["O, mənimlə gəldi.", "Kitab, stolun üstündədir.", "Anası, evə gəldi.", "Hava, çox soyuqdur."], correct: 1 },
-                    { id: 2, q: "2. Hansı sözdə leksik şəkilçi var?", options: ["gözlər", "yazıçı", "kitabın", "evdən"], correct: 1 },
-                    // Qalan sualları avtomatik doldurmaq üçün şablon
-                ]
+                id: 1, subject: "Azərbaycan dili",
+                question: "1. Verilmiş sözlərdən hansında vurğu birinci hecadadır?",
+                options: ["Məhzun", "Kədərli", "Yumru", "Yamyaşıl", "Böyük"],
+                correct: 2 // C) Yumru
             },
             {
-                name: "Qanunvericilik",
-                start: 16, end: 30,
-                questions: []
+                id: 2, subject: "Azərbaycan dili",
+                question: "2. “O” əvəzliyindən sonra hansı cümlələrdə vergülün işlənmə məqamı səhvdir?\n1. O, məni heç anlamaq istəmir.\n2. O, da bizim dostumuzdur.\n3. O, qapıda qardaşı ilə qarşılaşdı.\n4. O, universitetdə təhsil alır.\n5. O, ki sənin əleyhinə danışmaqla məşğuldur.",
+                options: ["1, 4, 5", "2, 3, 5", "1, 3, 4", "1, 2, 5", "2, 4, 5"],
+                correct: 1 // B) 2,3,5
             },
             {
-                name: "İnformatika",
-                start: 31, end: 45,
-                questions: []
+                id: 3, subject: "Azərbaycan dili",
+                question: "3. Verilən variantlardan çoxmənalı söz işlənmişdir:",
+                options: ["məktəb", "kitab", "qələm", "insan", "dəftər"],
+                correct: 2 // C) qələm
             },
             {
-                name: "Məntiq",
-                start: 46, end: 60,
-                questions: []
+                id: 4, subject: "Azərbaycan dili",
+                question: "4. Feilin təsriflənməyən formalarına aid nümunələr verilmiş cərgəni göstərin.",
+                options: ["sevər, bax, gördükdə", "yazırsan, fərəhlənir, görmək", "barmaq, toxmaq, dinləyir", "yazanda, qaça-qaça, görüləsi", "görmək, görüşəndə"],
+                correct: 3 // D) yazanda, qaça-qaça, görüləsi
+            },
+            {
+                id: 5, subject: "Azərbaycan dili",
+                question: "5. Həmcins xəbərləri düzəltmə sifətlərlə ifadə olunmuş cümləni müəyyən edin.",
+                options: ["Qış getdi, yenə bahar gəldi.", "Uşaqların çoxu hazırcavab və üzüyola idi.", "Mənim nənəm çox müdrik və dünyagörmüş idi.", "Əcəl aldı, yer gizlədi, fani dünya kimə qaldı?", "Firudin çox tərbiyəli və ağıllı idi"],
+                correct: 1 // B) Uşaqların çoxu hazırcavab və üzüyola idi.
+            },
+            {
+                id: 6, subject: "Azərbaycan dili",
+                question: "6. Mürəkkəb yer zərfliyi işlənmiş cümlələri müəyyən edin.\n1. Dayımgil Cəlilabadda yaşayır.\n2. Gündəliyim Əli müəllimdə qalmışdı.\n3. Bağımız dəniz kənarında yerləşir.\n4. Kənd yerində yaşayan bunu bilməz.\n5. Təzə evlər Babək prospektində tikiləcək.",
+                options: ["3, 5", "2, 4, 5", "1, 3, 5", "2, 3, 5", "2, 5"],
+                correct: 4 // E) 2, 5
+            },
+            {
+                id: 7, subject: "Azərbaycan dili",
+                question: "7. \"Bu gün hava tez qaraldı\" cümləsində altından xətt çəkilmiş sözün (qaraldı) təhlili ilə bağlı fikirlərdən biri səhvdir.",
+                options: ["Qayıdış növdədir.", "Quruluşuna görə düzəltmədir.", "Sifətdən düzəlmişdir.", "Xəbər şəklindədir.", "Kök+leksik+qrammatik sxeminə uyğundur."],
+                correct: 0 // A) Qayıdış növdədir.
+            },
+            {
+                id: 8, subject: "Azərbaycan dili",
+                question: "8. Sözlərdən birinin yazılışı səhvdir:",
+                options: ["kəhrəba", "haqqsevən", "boş-bikar", "kobud", "felyeton"],
+                correct: 2 // C) boş-bikar (boşbikar / boşbekar)
+            },
+            {
+                id: 9, subject: "Azərbaycan dili",
+                question: "9. Mənsubiyyət və hal şəkilçili qeyri-müəyyən əvəzliyin işləndiyi nümunələri müəyyənləşdirin.\n1. Dedilər ki, heç nəyə toxunmaq olmaz.\n2. Bu sual uşaqların hamısına verilə bilər.\n3. Dövlətimizin daha da qüdrətlənməsi üçün hər birimiz çalışmalıyıq.\n4. Mən sizin hərənizə bir tapşırıq verəcəyəm.\n5. Eləsinin cavabını vaxtında verərlər.",
+                options: ["1, 2, 4", "2, 4", "2, 3, 4", "2, 3", "2, 4, 5"],
+                correct: 1 // B) 2, 4
+            },
+            {
+                id: 10, subject: "Azərbaycan dili",
+                question: "10. Cümlənin şəxsə görə növləri baxımından məntiqi ardıcıllığı tamamlayın:\nCücəni payızda sayarlar.\nQonağı belə qarşılayarlar.\nİndi şəhərimizdə göydələnlərə tez-tez rast gəlirsən.",
+                options: ["Ağır otur, batman gəl.", "Hamı gərək öz işinə hörmətlə yanaşsın.", "Tövlə içərisində ona bir künc vermişdilər.", "Səkiyə qalxan kimi onu yuxu apardı.", "Onun sözlərinə yenə də məhəl qoyulmadı."],
+                correct: 2 // C) Tövlə içərisində ona bir künc vermişdilər. (Ümumişəxsli -> təyinsiz-şəxsli keçid)
+            },
+            {
+                id: 11, subject: "Azərbaycan dili",
+                question: "11. Hansı cümlədə “o” əvəzliyindən sonra vergül qoyulmamalıdır?",
+                options: ["O, birinci sıranın başından gələnlərə əl eləyirdi.", "O, əsasən, bizim əleyhimizə danışmaqla məşğul olur.", "O, bizim çoxdanki dostlarımızdandır.", "O, dünən xəstələndiyi üçün gəlməmişdi.", "O, dəmiryolu vağzalından çıxanda dostlarının hamısı qabağına gəldi."],
+                correct: 4 // E) O, dəmiryolu vağzalından çıxanda...
+            },
+            {
+                id: 12, subject: "Azərbaycan dili",
+                question: "12. Hansı cümlədə zərf feili sifətə aiddir?",
+                options: ["Dərsə gecikən şagirdləri içəri buraxmadılar.", "Nikbin insanlar həyatı daha çox sevərlər.", "İrəli gedəni yarı yolda saxlamaq olmaz.", "Qapını möhkəmcə bağlayıb içəri keçдим.", "Ucadan danışmaq onun adətidir."],
+                correct: 2 // C) İrəli gedəni... (İrəli - zərf, gedəni - feili sifət)
+            },
+            {
+                id: 13, subject: "Azərbaycan dili",
+                question: "13. Saitlə başlayan hər cür şəkilçi qoşulduqda aşağıda göstərilən hansı sözün kökündəki son sait düşür?",
+                options: ["ömür", "alın", "çiyin", "burun", "oğul"],
+                correct: 1 // B) alın (alnı)
+            },
+            {
+                id: 14, subject: "Azərbaycan dili",
+                question: "14. Hansı mürəkkəb adın yazılışı düzgündür?",
+                options: ["Orta paleolit dövrü", "Azərbaycan Respublikası Nazirlər Kabineti", "Nəsimi adına Dilçilik institutu", "31 Dekabr – Dünya Azərbaycanlılarının həmrəylik günü", "Şəmkir rayon Təhsil Şöbəsi"],
+                correct: 1 // B) Azərbaycan Respublikası Nazirlər Kabineti
             }
         ];
-
-        // 60 suallık tam bazanı avtomatik dolduraq (Əgər sual yoxdursa nümunə yaradırıq)
-        const letters = ["A", "B", "C", "D"];
-        let allQuestions = [];
-        let qCounter = 1;
-
-        subjects.forEach(sub => {
-            for (let i = sub.start; i <= sub.end; i++) {
-                // Hər fənn üçün suallar yaradırıq
-                allQuestions.push({
-                    id: i,
-                    subject: sub.name,
-                    question: `${i}. ${sub.name} üzrə test tapşırığı №${i}`,
-                    options: ["A variantı", "B variantı", "C variantı", "D variantı"],
-                    correct: Math.floor(Math.random() * 4) // Random düzgün cavab (0-3)
-                });
-            }
-        });
 
         let currentStudentName = "";
         let currentActiveToken = "";
         let userAnswers = {};
         let flaggedQuestions = {};
+        let currentQuestionIndex = 0;
         let timerInterval;
 
         window.addEventListener('load', function() {
@@ -570,54 +637,75 @@
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("exam-screen").style.display = "block";
 
-            loadQuestions();
             loadNavGrid();
+            renderCurrentQuestion();
             startTimer(3 * 3600);
         }
 
-        function loadQuestions() {
-            const container = document.getElementById("questions-container");
-            let html = "";
+        function renderCurrentQuestion() {
+            const q = allQuestions[currentQuestionIndex];
+            const container = document.getElementById("single-question-container");
+            const isFlagged = flaggedQuestions[q.id] ? "checked" : "";
+            const userAns = userAnswers[q.id];
 
-            allQuestions.forEach((q) => {
-                html += `
-                    <div class="question-card" id="card_${q.id}">
-                        <div class="question-top">
-                            <div class="question-title">${q.question}</div>
-                            <label class="flag-label">
-                                <input type="checkbox" id="flag_chk_${q.id}" onchange="toggleFlag(${q.id})"> Tərəddüdlü
-                            </label>
-                        </div>
-                        <div class="options">
-                `;
-                q.options.forEach((opt, optIndex) => {
-                    html += `
-                        <label>
-                            <input type="radio" name="q_${q.id}" value="${optIndex}" onclick="selectOption(${q.id}, ${optIndex})">
-                            ${letters[optIndex]}) ${opt}
+            let letters = ["A", "B", "C", "D", "E"];
+            let html = `
+                <div>
+                    <div class="question-top">
+                        <div class="question-title">${q.question}</div>
+                        <label class="flag-label">
+                            <input type="checkbox" id="flag_chk" ${isFlagged} onchange="toggleFlag(${q.id})"> Tərəddüdlü
                         </label>
-                    `;
-                });
-                html += `
-                        </div>
-                        <button class="clear-option-btn" onclick="clearOption(${q.id})">Seçimi ləğv et</button>
                     </div>
+                    <div class="options">
+            `;
+
+            q.options.forEach((opt, idx) => {
+                let checked = (userAns === idx) ? "checked" : "";
+                html += `
+                    <label>
+                        <input type="radio" name="current_opt" value="${idx}" ${checked} onclick="selectOption(${q.id}, ${idx})">
+                        ${letters[idx]}) ${opt}
+                    </label>
                 `;
             });
+
+            html += `
+                    </div>
+                    <button class="clear-option-btn" onclick="clearOption(${q.id})">Seçimi ləğv et</button>
+                </div>
+            `;
+
             container.innerHTML = html;
+            updateNavActiveState();
         }
 
         function loadNavGrid() {
             const gridContainer = document.getElementById("grid-nav-container");
             let html = "";
-            allQuestions.forEach((q) => {
-                html += `<div class="nav-box" id="nav_${q.id}" onclick="scrollToQuestion(${q.id})">${q.id}</div>`;
+            allQuestions.forEach((q, index) => {
+                html += `<div class="nav-box" id="nav_${q.id}" onclick="jumpToQuestion(${index})">${q.id}</div>`;
             });
             gridContainer.innerHTML = html;
         }
 
-        function scrollToQuestion(id) {
-            document.getElementById(`card_${id}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        function jumpToQuestion(index) {
+            currentQuestionIndex = index;
+            renderCurrentQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < allQuestions.length - 1) {
+                currentQuestionIndex++;
+                renderCurrentQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderCurrentQuestion();
+            }
         }
 
         function selectOption(qId, optIdx) {
@@ -627,21 +715,31 @@
 
         function clearOption(qId) {
             delete userAnswers[qId];
-            document.querySelectorAll(`input[name="q_${qId}"]`).forEach(r => r.checked = false);
+            document.querySelectorAll(`input[name="current_opt"]`).forEach(r => r.checked = false);
             document.getElementById(`nav_${qId}`).classList.remove("answered");
         }
 
         function toggleFlag(qId) {
-            let chk = document.getElementById(`flag_chk_${qId}`).checked;
+            let chk = document.getElementById("flag_chk").checked;
             let nav = document.getElementById(`nav_${qId}`);
-            let card = document.getElementById(`card_${qId}`);
             if (chk) {
+                flaggedQuestions[qId] = true;
                 nav.classList.add("flagged");
-                card.classList.add("flagged");
             } else {
+                delete flaggedQuestions[qId];
                 nav.classList.remove("flagged");
-                card.classList.remove("flagged");
             }
+        }
+
+        function updateNavActiveState() {
+            allQuestions.forEach((q, idx) => {
+                let box = document.getElementById(`nav_${q.id}`);
+                if (idx === currentQuestionIndex) {
+                    box.classList.add("current");
+                } else {
+                    box.classList.remove("current");
+                }
+            });
         }
 
         function startTimer(duration) {
@@ -673,61 +771,56 @@
             let totalCorrect = 0;
             let totalWrong = 0;
             let totalBlank = 0;
-            let reportHtml = "";
+            let letters = ["A", "B", "C", "D", "E"];
 
-            // Fənlər üzrə dövr
-            subjects.forEach(sub => {
-                let subCorrect = 0;
-                let subWrong = 0;
-                let subBlank = 0;
+            let subCorrect = 0;
+            let subWrong = 0;
+            let subBlank = 0;
 
-                let numsRow = "";
-                let correctRow = "";
-                let userRow = "";
-                let statusRow = "";
+            let numsRow = "";
+            let correctRow = "";
+            let userRow = "";
+            let statusRow = "";
 
-                let subQs = allQuestions.filter(q => q.subject === sub.name);
+            allQuestions.forEach(q => {
+                numsRow += `<td>${q.id}</td>`;
+                correctRow += `<td>${letters[q.correct]}</td>`;
 
-                subQs.forEach(q => {
-                    numsRow += `<td>${q.id}</td>`;
-                    correctRow += `<td>${letters[q.correct]}</td>`;
+                let userAns = userAnswers[q.id];
+                let userLetter = userAns !== undefined ? letters[userAns] : "-";
+                userRow += `<td>${userLetter}</td>`;
 
-                    let userAns = userAnswers[q.id];
-                    let userLetter = userAns !== undefined ? letters[userAns] : "-";
-                    userRow += `<td>${userLetter}</td>`;
-
-                    if (userAns === undefined) {
-                        subBlank++;
-                        statusRow += `<td>-</td>`;
-                    } else if (userAns === q.correct) {
-                        subCorrect++;
-                        statusRow += `<td class="ans-correct">+</td>`;
-                    } else {
-                        subWrong++;
-                        statusRow += `<td class="ans-wrong">-</td>`;
-                    }
-                });
-
-                totalCorrect += subCorrect;
-                totalWrong += subWrong;
-                totalBlank += subBlank;
-
-                reportHtml += `
-                    <div class="subject-section">
-                        <div class="subject-title">${sub.name}</div>
-                        <table class="dim-table">
-                            <tr><th colspan="${subQs.length + 1}">Testlər</th></tr>
-                            <tr><td>Sual №</td>${numsRow}</tr>
-                            <tr><td>Doğru cavab</td>${correctRow}</tr>
-                            <tr><td>Cavab</td>${userRow}</tr>
-                            <tr><td></td>${statusRow}</tr>
-                        </table>
-                        <div class="summary-stats">
-                            Doğru cavabların sayı: ${subCorrect}(${subCorrect}+0); Yanlış cavabların sayı: ${subWrong}; Cavablandırılmayan test tapşırıqlarının sayı: ${subBlank}; Topladığı bal: ${subCorrect}(${subCorrect}+0)
-                        </div>
-                    </div>
-                `;
+                if (userAns === undefined) {
+                    subBlank++;
+                    statusRow += `<td>-</td>`;
+                } else if (userAns === q.correct) {
+                    subCorrect++;
+                    statusRow += `<td class="ans-correct">+</td>`;
+                } else {
+                    subWrong++;
+                    statusRow += `<td class="ans-wrong">-</td>`;
+                }
             });
+
+            totalCorrect = subCorrect;
+            totalWrong = subWrong;
+            totalBlank = subBlank;
+
+            let reportHtml = `
+                <div class="subject-section">
+                    <div class="subject-title">Azərbaycan dili</div>
+                    <table class="dim-table">
+                        <tr><th colspan="${allQuestions.length + 1}">Testlər</th></tr>
+                        <tr><td>Sual №</td>${numsRow}</tr>
+                        <tr><td>Doğru cavab</td>${correctRow}</tr>
+                        <tr><td>Cavab</td>${userRow}</tr>
+                        <tr><td></td>${statusRow}</tr>
+                    </table>
+                    <div class="summary-stats">
+                        Doğru cavabların sayı: ${subCorrect}(${subCorrect}+0); Yanlış cavabların sayı: ${subWrong}; Cavablandırılmayan test tapşırıqlarının sayı: ${subBlank}; Topladığı bal: ${subCorrect}(${subCorrect}+0)
+                    </div>
+                </div>
+            `;
 
             document.getElementById("dim-report-content").innerHTML = reportHtml;
             document.getElementById("res-total-correct").innerText = totalCorrect;
@@ -736,8 +829,6 @@
             document.getElementById("res-total-score").innerText = totalCorrect;
 
             document.getElementById("result-screen").style.display = "block";
-
-            // Nəticəni admində yadda saxla
             saveResult(currentStudentName, currentActiveToken, totalCorrect, totalWrong, totalCorrect);
         }
 
@@ -775,3 +866,4 @@
     </script>
 </body>
 </html>
+

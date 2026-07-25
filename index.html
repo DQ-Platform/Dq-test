@@ -348,13 +348,6 @@
             font-weight: bold;
         }
 
-        .summary-stats {
-            font-weight: bold;
-            font-style: italic;
-            color: #1e293b;
-            margin-bottom: 10px;
-        }
-
         .final-score-box {
             text-align: center;
             border: 2px solid #b91c1c;
@@ -479,15 +472,10 @@
 
             <div id="dim-report-content"></div>
 
-            <!-- Qısa müddətli səhvlərə baxış paneli (imtahandan dərhal sonra aktiv olur) -->
+            <!-- Qısa müddətli səhvlərə baxış paneli -->
             <div id="review-section" style="margin-top: 20px; padding: 15px; background: #f1f5f9; border-radius: 6px;">
-                <h3 style="margin-top: 0; color: var(--primary-dark);">Səhvlərin Təhlili (Qısa müddətli baxış)</h3>
+                <h3 style="margin-top: 0; color: var(--primary-dark);">Səhvlərin Təhlili</h3>
                 <div id="review-content"></div>
-            </div>
-
-            <!-- 45 dəqiqədən sonra görünəcək yalnız nəticə mesajı -->
-            <div id="post-exam-message" class="hidden" style="margin-top: 20px; padding: 15px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; text-align: center;">
-                <p style="color: #92400e; margin: 0; line-height: 1.5;">İmtahan başa çatmışdır və səhvlərə baxış müddəti bitmişdir. Bu kod artıq yalnız nəticənizi və cavab kartınızı göstərmək üçün aktivdir.</p>
             </div>
 
             <div style="margin-top: 20px; font-weight: bold; font-size: 14px;">
@@ -552,7 +540,7 @@
     </div>
 
     <script>
-        // --- Təhlükəsizlik və Məxfilik Qorumaları ---
+        // --- Təhlükəsizlıq və Məxfilik Qorumaları ---
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
                 e.preventDefault();
@@ -567,7 +555,6 @@
         const validTokens = ["P7GS57", "K9X2M4", "B3R8L9", "H2V5N1", "T6Z4Q8"];
         const ADMIN_PASS = "6675157";
         const testDuration = 3 * 3600; // 3 saat (saniyə ilə)
-        const reviewDuration = 60;     // Test bitdikdən sonra səhvlərə baxış üçün qısa müddət (məs: 60 saniyə)
 
         const allQuestions = [
             {
@@ -705,7 +692,7 @@
             {
                 id: 23, subject: "Qanunvericilik",
                 question: "23. Dövlət qulluğu haqqında Azərbaycan Respublikasının Qanuna əsasən intizam tənbeh tədbirinin tətbiqinə dair hansılar doğrudur.",
-                options: ["Dövlət qulluğu haqqında Azərbaycan Respublikasının Qanununun müvafiq maddəsinə uyğun olaraq intizam tənbehinin tətbiqinə əsaslar olduqda müvafiq dövlət orqanının rəhbərinin əmri ilə araşdırma aparılır dövlət qulluqçusundan yazılı izahat alınır.", "Dövlət qulluqçusu \" Dövlət qulluğu haqqında Azərbaycan Respublikasının Qanunun\" müvafiq maddələrində nəzərdə tutulmuş tələbələri pozduqda onun barəsində ixtisas dərcəsinin iki pillə aşağı salınması intizam tənbeh tətbiq edilə bilər.", "Dövlət qulluqçusu dövlət qulluğu haqqında Azərbaycan Respublikası qanununun müvafiq maddələrində nəzərdə tutulmuş tələbələri pozduqda onun barəsində bir il müddətinədək vəzifə maşının yarısınadək azaldılması intizam tənbeh tətbiq edilə bilər", "Dövlət qulluğu haqqında Azərbaycan Respublikasının Qanunun müvafiq maddəsinə uyğun olaraq intizam tənbehinin tətbiqinə əsaslar olduqda hər bir halda müvafiq dövlət orqanının rəhbəri xidməti yoxlama təyin edir, xidməti yoxlamanın aparılması qaydası dövlət orqanının rəhbəri tərəfindən müəyyən edilir."],
+                options: ["Dövlət qulluğu haqqında Azərbaycan Respublikasının Qanununun müvafiq maddəsinə uyğun olaraq intizam tənbehinin tətbiqinə əsaslar olduqda müvafiq dövlət orqanın rəhbərinin əmri ilə araşdırma aparılır dövlət qulluqçusundan yazılı izahat alınır.", "Dövlət qulluqçusu \" Dövlət qulluğu haqqında Azərbaycan Respublikasının Qanunun\" müvafiq maddələrində nəzərdə tutulmuş tələbələri pozduqda onun barəsində ixtisas dərcəsinin iki pillə aşağı salınması intizam tənbeh tətbiq edilə bilər.", "Dövlət qulluqçusu dövlət qulluğu haqqında Azərbaycan Respublikası qanununun müvafiq maddələrində nəzərdə tutulmuş tələbələri pozduqda onun barəsində bir il müddətinədək vəzifə maşının yarısınadək azaldılması intizam tənbeh tətbiq edilə bilər", "Dövlət qulluğu haqqında Azərbaycan Respublikasının Qanunun müvafiq maddəsinə uyğun olaraq intizam tənbehinin tətbiqinə əsaslar olduqda hər bir halda müvafiq dövlət orqanının rəhbəri xidməti yoxlama təyin edir, xidməti yoxlamanın aparılması qaydası dövlət orqanının rəhbəri tərəfindən müəyyən edilir."],
                 correct: 0
             },
             {
@@ -946,42 +933,7 @@
                 return;
             }
 
-            // 1 Cihaz məhdudiyyəti və 45 dəqiqə yoxlamaları
-            const deviceKey = "dq_exam_" + tokenInput;
-            const examState = JSON.parse(localStorage.getItem(deviceKey));
-            const now = new Date().getTime();
-
-            if (examState) {
-                const elapsedSecondsAfterEnd = (now - examState.endTime) / 1000;
-
-                // 45 dəqiqədən (2700 saniyə) çox keçibsə -> Yalnız nəticə/cavab kartı qalır
-                if (examState.isFinished && elapsedSecondsAfterEnd > 2700) {
-                    showResultScreen(examState, false, true);
-                    return;
-                }
-
-                // İmtahan artıq bitibsə (45 dəqiqə daxilindədirsə) -> Nəticə və qısa müddətli səhvlər
-                if (examState.isFinished) {
-                    let allowReview = elapsedSecondsAfterEnd <= reviewDuration;
-                    showResultScreen(examState, allowReview, false);
-                    return;
-                }
-
-                // Əgər başqa cihazda və ya pəncərədə hələ də aktivdirsə
-                if (examState.isStarted && !examState.isFinished) {
-                    alert("Bu kod artıq başqa bir cihazda və ya seansda aktivdir! Eyni koda 2 fərqli cihazdan qoşulmaq qadağandır.");
-                    return;
-                }
-            }
-
-            // Yeni sessiyanın qeydiyyatı (1 cihaz kilidi üçün)
-            localStorage.setItem(deviceKey, JSON.stringify({
-                isStarted: true,
-                isFinished: false,
-                startTime: now,
-                endTime: null,
-                answers: {}
-            }));
+            // Cihaz məhdudiyyəti yoxlaması tamamilə silindi. Kod limitsiz şəkildə istənilən cihazda açılır.
 
             currentStudentName = nameInput;
             currentActiveToken = tokenInput;
@@ -1130,9 +1082,6 @@
 
         function finishExam() {
             clearInterval(timerInterval);
-            const now = new Date().getTime();
-            const deviceKey = "dq_exam_" + currentActiveToken;
-
             let totalCorrect = 0;
             let totalWrong = 0;
             let totalBlank = 0;
@@ -1157,10 +1106,6 @@
             totalBlank = subBlank;
 
             let examState = {
-                isStarted: true,
-                isFinished: true,
-                startTime: now - (testDuration * 1000),
-                endTime: now,
                 studentName: currentStudentName,
                 correct: totalCorrect,
                 wrong: totalWrong,
@@ -1169,22 +1114,11 @@
                 userAnswers: userAnswers
             };
 
-            localStorage.setItem(deviceKey, JSON.stringify(examState));
             saveResult(currentStudentName, currentActiveToken, totalCorrect, totalWrong, totalCorrect);
-
-            showResultScreen(examState, true, false);
-
-            // Səhvlərə baxış müddəti bitdikdə avtomatik olaraq səhvlər bölməsini gizlət
-            setTimeout(() => {
-                const reviewSec = document.getElementById('review-section');
-                if(reviewSec && !reviewSec.classList.contains('hidden')) {
-                    reviewSec.classList.add('hidden');
-                    document.getElementById('post-exam-message').classList.remove('hidden');
-                }
-            }, reviewDuration * 1000);
+            showResultScreen(examState);
         }
 
-        function showResultScreen(examState, showReview, isExpiredMode) {
+        function showResultScreen(examState) {
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("exam-screen").style.display = "none";
             document.getElementById("result-screen").style.display = "block";
@@ -1234,42 +1168,26 @@
             document.getElementById("res-total-blank").innerText = examState.blank;
             document.getElementById("res-total-score").innerText = examState.score;
 
-            if (isExpiredMode) {
-                document.getElementById('post-exam-message').classList.remove('hidden');
-                document.getElementById('review-section').classList.add('hidden');
-                return;
-            }
+            let reviewHtml = "";
+            allQuestions.forEach((q, index) => {
+                let userAnsIdx = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
+                let userAnsText = userAnsIdx !== undefined ? `${letters[userAnsIdx]}) ${q.options[userAnsIdx]}` : "Cavabsız";
+                let correctAnsText = `${letters[q.correct]}) ${q.options[q.correct]}`;
+                let isCorrect = userAnsIdx === q.correct;
 
-            if (showReview) {
-                let reviewHtml = "";
-                allQuestions.forEach((q, index) => {
-                    let userAnsIdx = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
-                    let userAnsText = userAnsIdx !== undefined ? `${letters[userAnsIdx]}) ${q.options[userAnsIdx]}` : "Cavabsız";
-                    let correctAnsText = `${letters[q.correct]}) ${q.options[q.correct]}`;
-                    let isCorrect = userAnsIdx === q.correct;
-
-                    reviewHtml += `<div style="margin-bottom:10px; padding:8px; background:#fff; border-radius:4px; border:1px solid #cbd5e1;">
-                        <p style="margin:0 0 5px 0;"><b>Sual ${index + 1}:</b> ${q.question}</p>
-                        <p style="margin:0 0 3px 0;">Sizin cavab: <span class="${isCorrect ? 'ans-correct' : 'ans-wrong'}">${userAnsText}</span></p>
-                        <p style="margin:0;">Doğru cavab: <span class="ans-correct">${correctAnsText}</span></p>
-                    </div>`;
-                });
-                document.getElementById('review-section').classList.remove('hidden');
-                document.getElementById('review-content').innerHTML = reviewHtml;
-            } else {
-                document.getElementById('review-section').classList.add('hidden');
-                document.getElementById('post-exam-message').classList.remove('hidden');
-            }
+                reviewHtml += `<div style="margin-bottom:10px; padding:8px; background:#fff; border-radius:4px; border:1px solid #cbd5e1;">
+                    <p style="margin:0 0 5px 0;"><b>Sual ${index + 1}:</b> ${q.question}</p>
+                    <p style="margin:0 0 3px 0;">Sizin cavab: <span class="${isCorrect ? 'ans-correct' : 'ans-wrong'}">${userAnsText}</span></p>
+                    <p style="margin:0;">Doğru cavab: <span class="ans-correct">${correctAnsText}</span></p>
+                </div>`;
+            });
+            document.getElementById('review-content').innerHTML = reviewHtml;
         }
 
         function saveResult(name, token, correct, wrong, score) {
             let results = JSON.parse(localStorage.getItem("exam_results") || "[]");
-            // Eyni kodla təkrar nəticə yazılmasın deyə yoxlaya bilərik və ya əlavə edə bilərik
-            let existingIndex = results.findIndex(r => r.token === token);
-            if(existingIndex === -1) {
-                results.push({ name, token, correct, wrong, score });
-                localStorage.setItem("exam_results", JSON.stringify(results));
-            }
+            results.push({ name, token, correct, wrong, score });
+            localStorage.setItem("exam_results", JSON.stringify(results));
         }
 
         function loadAdminResults() {

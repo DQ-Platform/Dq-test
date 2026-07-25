@@ -477,9 +477,13 @@
 
             <div id="dim-report-content"></div>
 
-            <div id="review-section" style="margin-top: 20px; padding: 15px; background: #f1f5f9; border-radius: 6px;">
-                <h3 style="margin-top: 0; color: var(--primary-dark);">Səhvlərin Təhlili</h3>
-                <div id="review-content"></div>
+            <!-- Səhvlərin Təhlili Düyməli Bölməsi -->
+            <div style="margin-top: 20px;">
+                <button class="btn" style="width: 100%; text-align: center;" onclick="toggleReviewSection()">📖 Səhvlərin Təhlilini Göstər / Gizlət</button>
+                <div id="review-section" style="display: none; margin-top: 10px; padding: 15px; background: #f1f5f9; border-radius: 6px; border: 1px solid #cbd5e1;">
+                    <h3 style="margin-top: 0; color: var(--primary-dark);">Səhvlərin Təhlili</h3>
+                    <div id="review-content"></div>
+                </div>
             </div>
 
             <div style="margin-top: 20px; font-weight: bold; font-size: 14px;">
@@ -616,13 +620,13 @@
             { id: 54, subject: "Qanunvericilik", question: "54. Azərbaycan Respublikasının Konstitusiyasına əsasən uyğunluğu müəyyən edin.", options: ["1-a; 2-c; 3-b", "1-b; 2-c; 3-a", "1-c; 2-b; 3-a", "1-c; 2-a; 3-b"], correct: 2 },
             { id: 55, subject: "Qanunvericilik", question: "55. Bələdiyyələrin qəbul etdikləri aktlar nəyə əsaslanmalıdır?", options: ["Qanunlara və sübutlara", "Hüquqa və ədalətə", "Qanunlara və konstitusiyaya", "Hüquqa və haqq-ədalətə"], correct: 2 },
             
-            // İnformatika testləri (Şəkillər ilə inteqrasiya olundu)
+            // İnformatika testləri
             { id: 56, subject: "İnformatika", question: "56. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "56.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             { id: 57, subject: "İnformatika", question: "57. Verilənlərin şəbəkə modelinin əsas anlayışlarındandır:", options: ["sətir və sütun", "cədvəl və əlaqə", "domen və sütun", "kortej və səviyyə", "qovşaq və əlaqə"], correct: 4 },
             { id: 58, subject: "İnformatika", question: "58. İnternetdə axtarış sistemlərini müəyyən edin.\n1. Google+\n2. Badoo\n3. Bing\n4. Safari\n5. Yandex\n6. Baidu", options: ["2, 5, 6", "2, 4, 6", "1, 3, 5", "1, 4, 6", "2, 3, 4"], correct: 2 },
             { id: 59, subject: "İnformatika", question: "59. Aşağıdakılardan hansı ardıcıllıq əməliyyat sistemlərini əks etdirir?", options: ["OS/2, MS DOS, Windows, Word", "MS DOS, Excel, Windows, Unix", "OS/2, Windows, Access, Woes", "Unix, OS/2, MS DOS, OSI", "Unix, MacOS, OS/2, Windows"], correct: 4 },
             { id: 60, subject: "İnformatika", question: "60. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "60.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            { id: 61, subject: "İnformatika", question: "61. C2 xanasında ABCD, D4 xanasında isə EFDG məlumatı yazılıb. B2 xanasına =D4&C2 düsturu yazılarsa, düstur yazılmış xananın qiyməti nəyə bərabərdir (MS Excel 2019)?", options: ["ABCDEFDG", "#VALUE?", "EFDGABCD", "ABCD", "EFDG"], correct: 2 },
+            { id: 61, subject: "İnformatika", question: "61. C2 xanasında ABCD, D4 xanasında ise EFDG məlumatı yazılıb. B2 xanasına =D4&C2 düsturu yazılarsa, düstur yazılmış xananın qiyməti nəyə bərabərdir (MS Excel 2019)?", options: ["ABCDEFDG", "#VALUE?", "EFDGABCD", "ABCD", "EFDG"], correct: 2 },
             { id: 62, subject: "İnformatika", question: "62. PowerPoint 2019 proqramında Normal görünüş rejimində işçi sahənin sol hissəsi necə adlanır?", options: ["titul slaydı", "slaydlar paneli", "sərlövhə", "cari slayd", "add notes"], correct: 1 },
             { id: 63, subject: "İnformatika", question: "63. Aktiv sənədin bağlanması üçün klaviaturada hansı düymələr kombinasiyasından istifadə edilir (MS Word 2019)?", options: ["Alt + Ctrl + F4", "Ctrl + Shift + F4", "Alt + Tab", "Shift + F4", "Ctrl + F4"], correct: 4 },
             { id: 64, subject: "İnformatika", question: "64. Token Ring lokal şəbəkəsində hansı topologiyadan istifadə olunur?", options: ["halqa", "şin", "passiv ağac", "ulduzvari", "aktiv ağac"], correct: 0 },
@@ -747,6 +751,15 @@
             } else {
                 grid.classList.add("collapsed");
                 btn.innerText = "Aç [+]";
+            }
+        }
+
+        function toggleReviewSection() {
+            const revSec = document.getElementById("review-section");
+            if (revSec.style.display === "none") {
+                revSec.style.display = "block";
+            } else {
+                revSec.style.display = "none";
             }
         }
 
@@ -1035,4 +1048,3 @@
     </script>
 </body>
 </html>
-

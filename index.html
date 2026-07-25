@@ -12,6 +12,7 @@
             --text-color: #334155;
             --warning-orange: #f59e0b;
             --success-green: #10b981;
+            --danger-red: #ef4444;
         }
 
         body {
@@ -37,7 +38,6 @@
             text-align: center;
         }
 
-        /* Giriş Ekranı */
         #login-screen {
             text-align: center;
             padding: 20px;
@@ -99,7 +99,6 @@
             background-color: #475569;
         }
 
-        /* Sınaq Ekranı */
         #exam-screen {
             display: none;
         }
@@ -121,10 +120,10 @@
             color: var(--accent-gold);
         }
 
-        /* Layout: Solda Sual, Sağda Cavab Kartı */
         .exam-layout {
             display: flex;
             gap: 20px;
+            position: relative;
         }
 
         .questions-area {
@@ -139,6 +138,7 @@
             justify-content: space-between;
         }
 
+        /* Sağda Cavab Kartı və Yığma Paneli */
         .answer-card-sidebar {
             flex: 1;
             background: #f1f5f9;
@@ -146,6 +146,30 @@
             border-radius: 8px;
             height: fit-content;
             border: 1px solid #cbd5e1;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-header h4 {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .toggle-sidebar-btn {
+            background: var(--primary-dark);
+            color: var(--accent-gold);
+            border: none;
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
         }
 
         .grid-nav {
@@ -154,6 +178,15 @@
             gap: 5px;
             max-height: 400px;
             overflow-y: auto;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .grid-nav.collapsed {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
         }
 
         .nav-box {
@@ -165,6 +198,7 @@
             font-size: 12px;
             font-weight: bold;
             cursor: pointer;
+            position: relative;
         }
 
         .nav-box.answered {
@@ -178,10 +212,16 @@
             background-color: #e2e8f0;
         }
 
-        .nav-box.flagged {
-            background-color: #fef3c7 !important;
-            border-color: var(--warning-orange) !important;
-            color: #92400e !important;
+        /* Tərəddüdlü olduqda nömrənin başında qırmızı nöqtə nişanı */
+        .nav-box.flagged::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 3px;
+            width: 5px;
+            height: 5px;
+            background-color: var(--danger-red);
+            border-radius: 50%;
         }
 
         .question-top {
@@ -202,11 +242,12 @@
         .flag-label {
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 13px;
+            gap: 6px;
+            font-size: 14px;
             cursor: pointer;
             color: #d97706;
             font-weight: 600;
+            user-select: none;
         }
 
         .options label {
@@ -242,7 +283,6 @@
             padding-top: 15px;
         }
 
-        /* 📊 DİM ÜSLUBU NƏTİCƏ PROTOKOLU */
         #result-screen {
             display: none;
             font-size: 13px;
@@ -268,15 +308,6 @@
 
         .subject-section {
             margin-bottom: 20px;
-        }
-
-        .subject-title {
-            font-weight: bold;
-            font-size: 14px;
-            color: #000;
-            margin-bottom: 5px;
-            border-bottom: 1px solid #000;
-            padding-bottom: 2px;
         }
 
         .dim-table {
@@ -327,7 +358,6 @@
             border-radius: 6px;
         }
 
-        /* Admin Paneli */
         #admin-panel {
             display: none;
             margin-top: 20px;
@@ -396,7 +426,7 @@
             <p id="error-msg" style="color: red; margin-top: 10px;"></p>
         </div>
 
-        <!-- 2. SINAQ HİSSƏSİ (Hər dəfə 1 sual görünür, sağda cavab kartı) -->
+        <!-- 2. SINAQ HİSSƏSİ -->
         <div id="exam-screen">
             <div class="exam-header">
                 <span>Dövlət Qulluğu Vəzifələri Üzrə Sınaq</span>
@@ -406,9 +436,7 @@
             <div class="exam-layout">
                 <!-- Solda Cari Sual Paneli -->
                 <div class="questions-area">
-                    <div id="single-question-container">
-                        <!-- Sual bura yüklənəcək -->
-                    </div>
+                    <div id="single-question-container"></div>
 
                     <div class="exam-navigation-buttons">
                         <button class="btn btn-secondary" onclick="prevQuestion()">Əvvəlki</button>
@@ -417,9 +445,12 @@
                     </div>
                 </div>
 
-                <!-- Sağda Cavab Kartı -->
-                <div class="answer-card-sidebar">
-                    <h4>Cavab Kartı</h4>
+                <!-- Sağda Cavab Kartı (Yığılan / Açılan) -->
+                <div class="answer-card-sidebar" id="sidebar-container">
+                    <div class="sidebar-header">
+                        <h4>Cavab Kartı</h4>
+                        <button class="toggle-sidebar-btn" id="toggle-btn" onclick="toggleSidebar()">Yığ [-]</button>
+                    </div>
                     <div class="grid-nav" id="grid-nav-container"></div>
                 </div>
             </div>
@@ -430,7 +461,7 @@
             <div class="dim-report-title">
                 Dövlət qulluğu vəzifələri üzrə test imtahanının<br>nəticələri haqqında məlumat
             </div>
-            <div class="dim-student-name" id="res-name">İMANOV YUNİS</div>
+            <div class="dim-student-name" id="res-name"></div>
 
             <div id="dim-report-content"></div>
 
@@ -499,7 +530,6 @@
         const validTokens = ["P7GS57", "K9X2M4", "B3R8L9", "H2V5N1", "T6Z4Q8"];
         const ADMIN_PASS = "6675157";
 
-        // Yenilənmiş 55 suallıq baza
         const allQuestions = [
             {
                 id: 1, subject: "Azərbaycan dili",
@@ -595,7 +625,7 @@
                 id: 16, subject: "Qanunvericilik",
                 question: "16. Azərbaycan Respublikasının Azərbaycan Respublikasında dövlət dili haqqında Azərbaycan Respublikasının qanununa əsasən doğru olanları müəyyən edin.\n1. Azərbaycan Respublikasında dövlət dilinin tarixən müəyyənləşmiş hüquqlarını məhdudlaşdırmağa cəhd etmək qadağandır\n2. Azərbaycan respublikasının ərazisindəki bütün radiolar Azərbaycan dilinin normalarına riayət olunmasını təmin etməlidirlər.\n3. Azərbaycan Respublikasının hüquqi şəxslərinin nümayəndəliklərinin adını əks etdirən lövhələr, möhürlər və kargüzarlıqla bağlı rəsmi xarakterli bütün digər ləvazimatlar\n4. Azərbaycan Respublikasında dövlət dilinə qarşı yalnız gizli təbliğat aparmaq və bu dilin işlənməsinə müqavimət göstərmək qadağandır\n5. Azərbaycan Respublikasının ərazisində qanunla nəzərdə tutulmuş hallar istisna edilməklə Azərbaycan Respublikasının ərazisindəki nəşriyyat işi ilə məşğul olan qurumlar şəxslər Azərbaycan dilinin normalarına riayət olunmasını təmin etməlidirlər",
                 options: ["1,4,5", "2,4", "1,2,3", "3,5", "1,2,5"],
-                correct: 4 // Dəqiq uyğunlaşdırma üçün variantlar səhifədəki kimi
+                correct: 4
             },
             {
                 id: 17, subject: "Qanunvericilik",
@@ -612,7 +642,7 @@
             {
                 id: 19, subject: "Qanunvericilik",
                 question: "19. Azərbaycan Respublikasının Dövlət Gerbindən istifadə qaydaları haqqında Azərbaycan Respublikasının qanununa əsasən Azərbaycan Respublikasının Dövlət Gerbinin təsvirindən isdifadə ilə bağlı yanlışdır.",
-                options: ["Azərbaycan Respublikasının Dövlət Gerbinin təsvirindən Azərbaycan Respublikasının kağız və metal pul nişanlarında, qiymətli kağızlarında, dövlət orqanının binalarının lövhələrində, dövlət təltiflərinin təsvirində də istifadə olunur", "Azərbaycan Respublikasının Dövlət Gerbinin təsvirindən hüquqi aktların və dövlət adından verilən sənədlərin banklarında, Azərbaycan Respublikasının vətəndaşının şəxsiyyət vəsiqəsində və pasportunda, Azərbaycan respublikasının sərhəd nişanlarında da istifadə olunur.", "Azərbaycan Respublikasının bütün təhsil müəssisələrində yeni dərs ilinin birinci həftəsi Azərbaycan Respublikasının digər dövlət rəmizləri ilə yanaşı Azərbaycan Respublikasının dövlət Gerbinin öyrənilməsinə həsr edilir.", "Azərbaycan respublikasının Dövlət Gerbinə hörmət və ehtiram bəsləyən hər bir şəxs Azərbaycan Respublikasının dövlət Gerbinin təsvirindən Azərbaycan Respublikasının Dövlət Gerbindən istifadə qaydaları haqqında Azərbaycan Respublikasının qanunu tələblərinə uyğun istifadə edə bilər."],
+                options: ["Azərbaycan Respublikasının Dövlət Gerbinin təsvirindən Azərbaycan Respublikasının kağız və metal pul nişanlarında, qiymətli kağızlarında, dövlət orqanının binalarının lövhələrində, dövlət təltiflərinin təsvirində də istifadə olunur", "Azərbaycan Respublikasının Dövlət Gerbinin təsvirindən hüquqi aktların və dövlət adından verilən sənədlərin banklarında, Azərbaycan Respublikasının vətəndaşının şəxsiyyət vəsiqəsində və pasportunda, Azərbaycan respublikasının sərhəd nişanlarında da istifadə olunur.", "Azərbaycan Respublikasının bütün təhsil müəssisələrində yeni dərs ilinin birinci həftəsi Azərbaycan Respublikasının digər dövlət rəmizləri ilə yanaşı Azərbaycan Respublikasının dövlət Gerbinin öyrənilməsinə həsr edilir.", "Azərbaycan respublikasının Dövlət Gerbinə hörmət və ehtiram bəsləyən hər bir şəxs Azərbaycan Respublikasının dövlət Gerbinin təsvirindən Azərbaycan Respublikasının Dövlət Gerbindən istifadə qaydaları haqqında Azərbaycan Respublikası qanunu tələblərinə uyğun istifadə edə bilər."],
                 correct: 3
             },
             {
@@ -689,7 +719,7 @@
             },
             {
                 id: 32, subject: "Qanunvericilik",
-                question: "32. Elektron imza və elektron sənəd haqqında Azərbaycan Respublikasının Qanununa əsasən elektron sənədə dair tələblərlə bağlı hansılar doğru deyil.\n1. Məzmunu və ünvanlandığı şəxs barədə məlumatların qeyd olunduğu xüsusi hissəyə malik olması.\n2. Elektron imza və vaxt göstərici əks etdirilən ümumi hissəyə malik olması.\n3. İdentikləşdirməyə imkan verən və siyahısı Azərbaycan Respublikasının Qanunvericiliyinə uyğun müəyyən edilən rekvizitlərə malik olması.\n4. Texniki və proqram vasitələrinin köməyi ilə əyani qavranılan şəkildə təqdim olunması",
+                question: "32. Elektron imza və elektron sənəd haqqında Azərbaycan Respublikasının Qanuna əsasən elektron sənədə dair tələblərlə bağlı hansılar doğru deyil.\n1. Məzmunu və ünvanlandığı şəxs barədə məlumatların qeyd olunduğu xüsusi hissəyə malik olması.\n2. Elektron imza və vaxt göstərici əks etdirilən ümumi hissəyə malik olması.\n3. İdentikləşdirməyə imkan verən və siyahısı Azərbaycan Respublikasının Qanunvericiliyinə uyğun müəyyən edilən rekvizitlərə malik olması.\n4. Texniki və proqram vasitələrinin köməyi ilə əyani qavranılan şəkildə təqdim olunması",
                 options: ["3,4", "2,4", "1,3", "1,2", "1,4"],
                 correct: 3
             },
@@ -888,6 +918,19 @@
             startTimer(3 * 3600);
         }
 
+        // Cavab kartını yığıb-açmaq üçün funksiya
+        function toggleSidebar() {
+            const grid = document.getElementById("grid-nav-container");
+            const btn = document.getElementById("toggle-btn");
+            if (grid.classList.contains("collapsed")) {
+                grid.classList.remove("collapsed");
+                btn.innerText = "Yığ [-]";
+            } else {
+                grid.classList.add("collapsed");
+                btn.innerText = "Aç [+]";
+            }
+        }
+
         function renderCurrentQuestion() {
             const q = allQuestions[currentQuestionIndex];
             const container = document.getElementById("single-question-container");
@@ -1054,7 +1097,6 @@
 
             let reportHtml = `
                 <div class="subject-section">
-                    <div class="subject-title">Azərbaycan dili və Qanunvericilik</div>
                     <table class="dim-table">
                         <tr><th colspan="${allQuestions.length + 1}">Testlər</th></tr>
                         <tr><td>Sual №</td>${numsRow}</tr>
@@ -1063,7 +1105,7 @@
                         <tr><td></td>${statusRow}</tr>
                     </table>
                     <div class="summary-stats">
-                        Doğru cavabların sayı: ${subCorrect}(${subCorrect}+0); Yanlış cavabların sayı: ${subWrong}; Cavablandırılmayan test tapşırıqlarının sayı: ${subBlank}; Topladığı bal: ${subCorrect}(${subCorrect}+0)
+                        Doğru cavabların sayı: ${subCorrect}; Yanlış cavabların sayı: ${subWrong}; Cavablandırılmayan test tapşırıqlarının sayı: ${subBlank}; Topladığı bal: ${subCorrect}
                     </div>
                 </div>
             `;
@@ -1112,4 +1154,3 @@
     </script>
 </body>
 </html>
-

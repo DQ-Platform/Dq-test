@@ -15,6 +15,7 @@
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+            scroll-behavior: smooth;
         }
 
         @media print {
@@ -360,7 +361,7 @@
             border: 2px solid #b91c1c;
             padding: 15px;
             margin-top: 25px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: #b91c1c;
             background: #fef2f2;
@@ -452,7 +453,7 @@
                 <div class="questions-area">
                     <div id="single-question-container"></div>
 
-                    <div class="exam-navigation-buttons">
+                    <div class="exam-navigation-buttons" id="exam-nav-btns">
                         <button class="btn btn-secondary" onclick="prevQuestion()">Əvvəlki</button>
                         <button class="btn btn-danger" onclick="confirmFinish()">Testi Bitir</button>
                         <button class="btn" onclick="nextQuestion()">Növbəti</button>
@@ -462,7 +463,7 @@
                 <!-- Sağda Cavab Kartı -->
                 <div class="answer-card-sidebar" id="sidebar-container">
                     <div class="sidebar-header">
-                        <h4>Cavab Kartı</h4>
+                        <h4 id="sidebar-title-text">Cavab Kartı</h4>
                         <button class="toggle-sidebar-btn" id="toggle-btn" onclick="toggleSidebar()">Yığ [-]</button>
                     </div>
                     <div class="grid-nav" id="grid-nav-container"></div>
@@ -488,10 +489,11 @@
 
             <!-- Yekun Bal Qutusu -->
             <div class="final-score-box">
-                YEKUN BAL: <span id="res-total-score">0</span>
+                YEKUN BAL: <span id="res-total-score">0</span><br>
+                <span id="res-bb-group" style="font-size: 15px; color: #0f172a; margin-top: 5px; display: inline-block;"></span>
             </div>
 
-            <!-- Səhvlərin Təhlili Bölməsi (Bal və statistikadan aşağıda) -->
+            <!-- Səhvlərin Təhlili Bölməsi -->
             <div style="margin-top: 20px;">
                 <button class="btn" style="width: 100%; text-align: center;" onclick="toggleReviewSection()">📖 Səhvlərin Təhlilini Göstər / Gizlət</button>
                 <div id="review-section" style="display: none; margin-top: 10px; padding: 15px; background: #f1f5f9; border-radius: 6px; border: 1px solid #cbd5e1;">
@@ -502,7 +504,7 @@
 
             <!-- Suallara qayıt düyməsi -->
             <div style="margin-top: 20px;">
-                <a href="#top" class="btn" style="width: 100%; box-sizing: border-box;">⤴ Suallara qayıt</a>
+                <a href="#top" class="btn" style="width: 100%; box-sizing: border-box; text-align: center;" onclick="backToReviewQuestions()">⤴ Suallara qayıt (Baxış)</a>
             </div>
         </div>
 
@@ -542,6 +544,7 @@
                             <th style="padding: 8px; border: 1px solid #cbd5e1;">Doğru</th>
                             <th style="padding: 8px; border: 1px solid #cbd5e1;">Yanlış</th>
                             <th style="padding: 8px; border: 1px solid #cbd5e1;">Bal</th>
+                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Uyğun Qrup</th>
                         </tr>
                     </thead>
                     <tbody id="results-table-body"></tbody>
@@ -579,7 +582,7 @@
             { id: 4, subject: "Azərbaycan dili", question: "4. Feilin təsriflənməyən formalarına aid nümunələr verilmiş cərgəni göstərin.", options: ["sevər,bax,gördükdə", "yazırsan,fərəhlənir,görmək", "barmaq,toxmaq,dinləyir", "yazanda,qaça-qaça,görüləsi", "görmək, görüşəndə"], correct: 3 },
             { id: 5, subject: "Azərbaycan dili", question: "5. Həmcins xəbərləri düzəltmə sifətlərlə ifadə olunmuş cümləni müəyyən edin.\nA) Qış getdi, yenə bahar gəldi.\nB) Uşaqların çoxu hazırcavab və üzüyola idi.\nC) Mənim nənəm çox müdrik və dünyagörmüş idi.\nD) Əcəl aldı, yer gizlədi...\nE) Firudin çox tərbiyəli və ağıllı idi", options: ["A) Qış getdi...", "B) Uşaqların çoxu hazırcavab və üzüyola idi.", "C) Mənim nənəm...", "D) Əcəl aldı...", "E) Firudin çox..."], correct: 1 },
             { id: 6, subject: "Azərbaycan dili", question: "6. Mürəkkəb yer zərfliyi işlənmiş cümlələri müəyyən edin.\n1. Dayımgil Cəlilabadda yaşayır.\n2. Gündəliyim Əli müəllimdə qalmışdı.\n3. Bağımız dəniz kənarında yerləşir.\n4. Kənd yerində yaşayan bunu bilməz.\n5. Təzə evlər Babək prospektində tikiləcək.", options: ["3,5", "2,4,5", "1,3,5", "2,3,5", "2,5"], correct: 4 },
-            { id: 7, subject: "Azərbaycan dili", question: "7. Bu gün hava tez 'qaraldı' cümləsində fərqləndirilmiş sözün təhlili ilə bağlı fikirlərdən biri səhvdir.", options: ["Qayıdış növdədir.", "Quruluşuna görə düzəltmədir.", "Sifətdən düzəlmişdir.", "Xəbər şəklindədir.", "Kök+leksik+qrammatik sxeminə uyğundur."], correct: 0 },
+            { id: 7, subject: "Azərbaycan dili", question: "7. Bu gün hava tez 'qaraldı' cümləsində fərqləndirilmiş sözün təhlili ilə bağlı fikirlərdən biri səhvdir.", options: ["Qayıdış növdədir.", "Quruluşuna görə düzəltmədır.", "Sifətdən düzəlmişdir.", "Xəbər şəklindədir.", "Kök+leksik+qrammatik sxeminə uyğundur."], correct: 0 },
             { id: 8, subject: "Azərbaycan dili", question: "8. Sözlərdən birinin yazılışı səhvdir:", options: ["kəhrəba", "haqqsevən", "boş-bikar", "kobud", "felyeton"], correct: 2 },
             { id: 9, subject: "Azərbaycan dili", question: "9. Məsubiyyət və hal şəkilçili qeyri-müəyyən əvəzliyin işləndiyi nümunələri müəyyənləşdirin.\n1. Dedilər ki, heç nəyə toxunmaq olmaz.\n2. Bu sual uşaqların hamısına verilə bilər.\n3. Dövlətimizin daha da qüdrətlənməsi üçün hər birimiz çalışmalıyıq.\n4. Mən sizin hərənizə bir tapşırıq verəcəyəm.\n5. Eləsinin cavabını vaxtında verərlər.", options: ["1,2,4", "2,4", "2,3,4", "2,3", "2,4,5"], correct: 1 },
             { id: 10, subject: "Azərbaycan dili", question: "10. Cümlənin şəxsə görə növləri baxımından məntiqi ardıcıllığı tamamlayın.\nCücəni payızda sayarlar.\nQonağı belə qarşılayarlar.\nİndi şəhərimizdə göydələnlərə tez-tez rast gəlirsən.", options: ["Ağır otur, batman gəl.", "Hamı gərək öz işinə hörmətlə yanaşsın.", "Tövlə içərisində ona bir künc vermişdilər.", "Səkiyə qalxan kimi onu yuxu apardı.", "Onun sözlərinə yenə də məhəl qoyulmadı."], correct: 2 },
@@ -622,7 +625,7 @@
             { id: 47, subject: "Qanunvericilik", question: "47. Aşağıdakılardan hansı doğru deyil?", options: ["Hüquqlardan sui-istifadəyə yol verilmir.", "Hər kəsin qanunla qadağan olunmayan üsullarla...", "Dövlət hər kəsin hüquqlarına... təminat verir.", "Sağlamlıq imkanları məhdud olanlar... vəzifələri daşıyırlar"], correct: 3 },
             { id: 48, subject: "Qanunvericilik", question: "48. Qanunvericilik təşəbbüsü qaydasında müzakirəyə təqdim olunmuş qanun layihələrində dəyişiklikləri hansı subyekt edə bilər?", options: ["Prezident", "Milli Məclisin azı 83 deputatının tələbi ilə", "qanunvericilik təşəbbüsü hüququndan istifadə edən subyektin razılığı ilə", "heç bir subyekt"], correct: 2 },
             { id: 49, subject: "Qanunvericilik", question: "49. Qanun layihəsini hansı subyekt təcili elan edə bilər və bu halda hansı müddətdə səsə qoyulur?", options: ["Prezident...", "Prezident...", "Prezident, Ali Məhkəmə, Prokurorluq və ya Naxçıvan MR Ali Məclisi təcili elan edibsə, bu müddət 20 gün təşkil edir.", "Prezident, Ali Məhkəmə..."], correct: 2 },
-            { id: 50, subject: "Qanunvericilik", question: "50. Konstitusiyaya əsasən Din və dövlət maddəsinə aid olan doğru bəndi müəyyən edin:", options: ["Dövlət təhsil sistemi...", "Dini mərasimlərin yerinə yetirilməsi... sərbəstdir.", "Dini etiqad...", "Bütün dini etiqadlar qanun qarşısında bərabərdir."], correct: 3 },
+            { id: 50, subject: "Qanunvericilik", question: "50. Konstitusiyasına əsasən Din və dövlət maddəsinə aid olan doğru bəndi müəyyən edin:", options: ["Dövlət təhsil sistemi...", "Dini mərasimlərin yerinə yetirilməsi... sərbəstdir.", "Dini etiqad...", "Bütün dini etiqadlar qanun qarşısında bərabərdir."], correct: 3 },
             { id: 51, subject: "Qanunvericilik", question: "51. Məlumat azadlığı haqqında qanuna əsasən düzgün bəndi müəyyən edin:", options: ["Dövlət, peşə, qulluq, bank, kommersiya sirri...", "Şəxsiyyətin dini mənsubiyyəti...", "Şəxsiyyətin siyasi partiyaya üzvlüyü...", "Şəxslər haqqında məlumatın saxlanılması qanuni məqsədlər üçün qanunvericiliklə müəyyən edilmiş zəruri olan müddətdən çox ola bilməz"], correct: 3 },
             { id: 52, subject: "Qanunvericilik", question: "52. Mərkəzi Bankın İdarə Heyətinin üzvlərini vəzifədən azad edilməsi ilə bağlı Milli Məclis nə qəbul edir?", options: ["63 səslə qanun", "83 səslə qanun", "63 səslə qərar", "83 səslə qərar"], correct: 3 },
             { id: 53, subject: "Qanunvericilik", question: "53. Naxçıvan Muxtar Respublikası Ali Məclisinin müəyyən etdiyi ümumi qaydalara aid deyil:", options: ["Naxçıvan MR Ali Məclisinə seçkilər", "Naxçıvan MR iqtisadiyyatının inkişafı", "Sosial təminat", "Naxçıvan Muxtar Respublikasının Nazirlər Kabineti tərkibinin təsdiqi"], correct: 3 },
@@ -654,6 +657,7 @@
         let currentQuestionIndex = 0;
         let timerInterval;
         let timeLeft = testDuration;
+        let examFinished = false;
 
         window.addEventListener('load', function() {
             if (window.location.hash === "#admin") {
@@ -728,6 +732,7 @@
             flaggedQuestions = {};
             currentQuestionIndex = 0;
             timeLeft = testDuration;
+            examFinished = false;
 
             saveSessionState();
 
@@ -740,6 +745,7 @@
         }
 
         function saveSessionState() {
+            if (examFinished) return;
             let sessionData = {
                 name: currentStudentName,
                 token: currentActiveToken,
@@ -772,6 +778,13 @@
             }
         }
 
+        function backToReviewQuestions() {
+            document.getElementById("result-screen").style.display = "none";
+            document.getElementById("exam-screen").style.display = "block";
+            currentQuestionIndex = 0;
+            renderCurrentQuestion();
+        }
+
         function renderCurrentQuestion() {
             const q = allQuestions[currentQuestionIndex];
             const container = document.getElementById("single-question-container");
@@ -781,13 +794,17 @@
             let letters = ["A", "B", "C", "D", "E"];
             let imgHtml = q.image ? `<img src="${q.image}" alt="Sual ${q.id} şəkli" class="question-img">` : "";
 
+            let flagElementHtml = examFinished ? 
+                `<span style="font-size: 14px; color: #64748b; font-weight: 600;">Sual ${q.id} / ${allQuestions.length}</span>` :
+                `<label class="flag-label">
+                    <input type="checkbox" id="flag_chk" ${isFlagged} onchange="toggleFlag(${q.id})"> Tərəddüdlü
+                </label>`;
+
             let html = `
                 <div>
                     <div class="question-top">
                         <div class="question-title">${q.question}</div>
-                        <label class="flag-label">
-                            <input type="checkbox" id="flag_chk" ${isFlagged} onchange="toggleFlag(${q.id})"> Tərəddüdlü
-                        </label>
+                        ${flagElementHtml}
                     </div>
                     ${imgHtml}
                     <div class="options">
@@ -795,9 +812,20 @@
 
             q.options.forEach((opt, idx) => {
                 let checked = (userAns === idx) ? "checked" : "";
+                let disabledAttr = examFinished ? "disabled" : "";
+                let correctHighlight = "";
+                
+                if (examFinished) {
+                    if (idx === q.correct) {
+                        correctHighlight = "background-color: #d1fae5; border: 1px solid #10b981; font-weight: bold;";
+                    } else if (userAns === idx && userAns !== q.correct) {
+                        correctHighlight = "background-color: #fef2f2; border: 1px solid #ef4444;";
+                    }
+                }
+
                 html += `
-                    <label>
-                        <input type="radio" name="current_opt" value="${idx}" ${checked} onclick="selectOption(${q.id}, ${idx})">
+                    <label style="${correctHighlight}">
+                        <input type="radio" name="current_opt" value="${idx}" ${checked} ${disabledAttr} onclick="selectOption(${q.id}, ${idx})">
                         ${letters[idx]}) ${opt}
                     </label>
                 `;
@@ -805,13 +833,37 @@
 
             html += `
                     </div>
-                    <button class="clear-option-btn" onclick="clearOption(${q.id})">Seçimi ləğv et</button>
-                </div>
             `;
 
+            if (!examFinished) {
+                html += `<button class="clear-option-btn" onclick="clearOption(${q.id})">Seçimi ləğv et</button>`;
+            } else {
+                let statusText = userAns === undefined ? "Cavabsız qoyulub" : (userAns === q.correct ? "✅ Doğru cavablandırıbsınız" : "❌ Səhv cavablandırıbsınız");
+                let statusColor = userAns === q.correct ? "#15803d" : "#b91c1c";
+                html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 14px;">Status: ${statusText} (Doğru cavab: ${letters[q.correct]})</div>`;
+            }
+
+            html += `</div>`;
+
             container.innerHTML = html;
+            
+            if (examFinished) {
+                document.getElementById("exam-nav-btns").innerHTML = `
+                    <button class="btn btn-secondary" onclick="prevQuestion()">Əvvəlki</button>
+                    <button class="btn" onclick="returnToResultScreen()">Nəticəyə qayıt</button>
+                    <button class="btn" onclick="nextQuestion()">Növbəti</button>
+                `;
+                document.getElementById("sidebar-title-text").innerText = "Sual İcmalı";
+            }
+
             updateNavActiveState();
             saveSessionState();
+        }
+
+        function returnToResultScreen() {
+            document.getElementById("exam-screen").style.display = "none";
+            document.getElementById("result-screen").style.display = "block";
+            window.location.hash = "";
         }
 
         function loadNavGrid() {
@@ -843,12 +895,14 @@
         }
 
         function selectOption(qId, optIdx) {
+            if (examFinished) return;
             userAnswers[qId] = optIdx;
             document.getElementById(`nav_${qId}`).classList.add("answered");
             saveSessionState();
         }
 
         function clearOption(qId) {
+            if (examFinished) return;
             delete userAnswers[qId];
             document.querySelectorAll(`input[name="current_opt"]`).forEach(r => r.checked = false);
             document.getElementById(`nav_${qId}`).classList.remove("answered");
@@ -856,6 +910,7 @@
         }
 
         function toggleFlag(qId) {
+            if (examFinished) return;
             let chk = document.getElementById("flag_chk").checked;
             let nav = document.getElementById(`nav_${qId}`);
             if (chk) {
@@ -887,6 +942,7 @@
             if (timerInterval) clearInterval(timerInterval);
 
             timerInterval = setInterval(() => {
+                if (examFinished) return;
                 timeLeft = timer;
                 hours = String(Math.floor(timer / 3600)).padStart(2, '0');
                 minutes = String(Math.floor((timer % 3600) / 60)).padStart(2, '0');
@@ -911,8 +967,17 @@
             }
         }
 
+        function getBBGroup(score) {
+            if (score >= 80) return "BB1 (İnzibati vəzifələrin 6-cı təsnifatı)";
+            if (score >= 75) return "BB2 (İnzibati vəzifələrin 6-cı təsnifatı)";
+            if (score >= 70) return "BB3 (İnzibati vəzifələrin 7-ci təsnifatı)";
+            if (score >= 65) return "BB4 (İnzibati vəzifələrin 7-ci təsnifatı)";
+            return "Keçid balını toplamadı (< 65)";
+        }
+
         function finishExam() {
             clearInterval(timerInterval);
+            examFinished = true;
             sessionStorage.removeItem("active_exam_session");
 
             let totalCorrect = 0;
@@ -936,10 +1001,11 @@
                 wrong: totalWrong,
                 blank: totalBlank,
                 score: totalCorrect,
+                bbGroup: getBBGroup(totalCorrect),
                 userAnswers: userAnswers
             };
 
-            saveResult(currentStudentName, currentActiveToken, totalCorrect, totalWrong, totalCorrect);
+            saveResult(currentStudentName, currentActiveToken, totalCorrect, totalWrong, totalCorrect, examState.bbGroup);
             showResultScreen(examState);
         }
 
@@ -1006,6 +1072,7 @@
             document.getElementById("res-total-wrong").innerText = examState.wrong;
             document.getElementById("res-total-blank").innerText = examState.blank;
             document.getElementById("res-total-score").innerText = examState.score;
+            document.getElementById("res-bb-group").innerText = `Uyğun Altqrup: ${examState.bbGroup}`;
 
             let reviewHtml = "";
             allQuestions.forEach((q, index) => {
@@ -1023,9 +1090,9 @@
             document.getElementById('review-content').innerHTML = reviewHtml;
         }
 
-        function saveResult(name, token, correct, wrong, score) {
+        function saveResult(name, token, correct, wrong, score, bbGroup) {
             let results = JSON.parse(localStorage.getItem("exam_results") || "[]");
-            results.push({ name, token, correct, wrong, score });
+            results.push({ name, token, correct, wrong, score, bbGroup });
             localStorage.setItem("exam_results", JSON.stringify(results));
         }
 
@@ -1034,14 +1101,14 @@
             let tbody = document.getElementById("results-table-body");
             tbody.innerHTML = "";
             if (results.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5">Hələ nəticə yoxdur.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6">Hələ nəticə yoxdur.</td></tr>`;
                 return;
             }
             let max = 0, sum = 0;
             results.forEach(r => {
                 sum += r.score;
                 if (r.score > max) max = r.score;
-                tbody.innerHTML += `<tr><td><b>${r.name}</b></td><td><code>${r.token}</code></td><td style="color:green">${r.correct}</td><td style="color:red">${r.wrong}</td><td><b>${r.score}</b></td></tr>`;
+                tbody.innerHTML += `<tr><td><b>${r.name}</b></td><td><code>${r.token}</code></td><td style="color:green">${r.correct}</td><td style="color:red">${r.wrong}</td><td><b>${r.score}</b></td><td><small>${r.bbGroup || '-'}</small></td></tr>`;
             });
             document.getElementById("stat-total-students").innerText = results.length;
             document.getElementById("stat-max-score").innerText = max;
@@ -1057,3 +1124,4 @@
     </script>
 </body>
 </html>
+

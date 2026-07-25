@@ -493,15 +493,6 @@
                 <span id="res-bb-group" style="font-size: 15px; color: #0f172a; margin-top: 5px; display: inline-block;"></span>
             </div>
 
-            <!-- Səhvlərin Təhlili Bölməsi -->
-            <div style="margin-top: 20px;">
-                <button class="btn" style="width: 100%; text-align: center;" onclick="toggleReviewSection()">📖 Səhvlərin Təhlilini Göstər / Gizlət</button>
-                <div id="review-section" style="display: none; margin-top: 10px; padding: 15px; background: #f1f5f9; border-radius: 6px; border: 1px solid #cbd5e1;">
-                    <h3 style="margin-top: 0; color: var(--primary-dark);">Səhvlərin Təhlili</h3>
-                    <div id="review-content"></div>
-                </div>
-            </div>
-
             <!-- Suallara qayıt düyməsi -->
             <div style="margin-top: 20px;">
                 <a href="#top" class="btn" style="width: 100%; box-sizing: border-box; text-align: center;" onclick="backToReviewQuestions()">⤴ Suallara qayıt (Baxış)</a>
@@ -766,15 +757,6 @@
             } else {
                 grid.classList.add("collapsed");
                 btn.innerText = "Aç [+]";
-            }
-        }
-
-        function toggleReviewSection() {
-            const revSec = document.getElementById("review-section");
-            if (revSec.style.display === "none") {
-                revSec.style.display = "block";
-            } else {
-                revSec.style.display = "none";
             }
         }
 
@@ -1073,21 +1055,6 @@
             document.getElementById("res-total-blank").innerText = examState.blank;
             document.getElementById("res-total-score").innerText = examState.score;
             document.getElementById("res-bb-group").innerText = `Uyğun Altqrup: ${examState.bbGroup}`;
-
-            let reviewHtml = "";
-            allQuestions.forEach((q, index) => {
-                let userAnsIdx = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
-                let userAnsText = userAnsIdx !== undefined ? `${letters[userAnsIdx]}) ${q.options[userAnsIdx]}` : "Cavabsız";
-                let correctAnsText = `${letters[q.correct]}) ${q.options[q.correct]}`;
-                let isCorrect = userAnsIdx === q.correct;
-
-                reviewHtml += `<div style="margin-bottom:10px; padding:8px; background:#fff; border-radius:4px; border:1px solid #cbd5e1;">
-                    <p style="margin:0 0 5px 0;"><b>Sual ${index + 1} (${q.subject}):</b> ${q.question}</p>
-                    <p style="margin:0 0 3px 0;">Sizin cavab: <span class="${isCorrect ? 'ans-correct' : 'ans-wrong'}">${userAnsText}</span></p>
-                    <p style="margin:0;">Doğru cavab: <span class="ans-correct">${correctAnsText}</span></p>
-                </div>`;
-            });
-            document.getElementById('review-content').innerHTML = reviewHtml;
         }
 
         function saveResult(name, token, correct, wrong, score, bbGroup) {

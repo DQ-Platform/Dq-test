@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</title>
     <style>
+        /* Məxfiliyi qorumaq və kopyalama/skrinşotun qarşısını almaq üçün */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        @media print {
+            body { display: none; }
+        }
+
         :root {
             --primary-dark: #0f172a;
             --accent-gold: #d4af37;
@@ -13,14 +30,6 @@
             --warning-orange: #f59e0b;
             --success-green: #10b981;
             --danger-red: #ef4444;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
         }
 
         .container {
@@ -411,9 +420,14 @@
             cursor: default;
             user-select: none;
         }
+        
+        .error-msg {
+            color: #ef4444;
+            font-weight: bold;
+        }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <div class="container">
         <!-- 1. GİRİŞ HİSSƏSİ -->
@@ -423,7 +437,7 @@
             <input type="text" id="user-name" class="code-input" placeholder="Ad və Soyadınız"><br>
             <input type="text" id="user-token" class="code-input token-field" placeholder="Unikal Kod (Məs: P7GS57)"><br>
             <button class="btn" onclick="startExam()">İmtahana Başla</button>
-            <p id="error-msg" style="color: red; margin-top: 10px;"></p>
+            <p id="error-msg" class="error-msg" style="margin-top: 10px;"></p>
         </div>
 
         <!-- 2. SINAQ HİSSƏSİ -->
@@ -464,6 +478,17 @@
             <div class="dim-student-name" id="res-name"></div>
 
             <div id="dim-report-content"></div>
+
+            <!-- Qısa müddətli səhvlərə baxış paneli (imtahandan dərhal sonra aktiv olur) -->
+            <div id="review-section" style="margin-top: 20px; padding: 15px; background: #f1f5f9; border-radius: 6px;">
+                <h3 style="margin-top: 0; color: var(--primary-dark);">Səhvlərin Təhlili (Qısa müddətli baxış)</h3>
+                <div id="review-content"></div>
+            </div>
+
+            <!-- 45 dəqiqədən sonra görünəcək yalnız nəticə mesajı -->
+            <div id="post-exam-message" class="hidden" style="margin-top: 20px; padding: 15px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; text-align: center;">
+                <p style="color: #92400e; margin: 0; line-height: 1.5;">İmtahan başa çatmışdır və səhvlərə baxış müddəti bitmişdir. Bu kod artıq yalnız nəticənizi və cavab kartınızı göstərmək üçün aktivdir.</p>
+            </div>
 
             <div style="margin-top: 20px; font-weight: bold; font-size: 14px;">
                 Doğru cavabların sayı: <span id="res-total-correct">0</span><br>
@@ -527,8 +552,22 @@
     </div>
 
     <script>
+        // --- Təhlükəsizlik və Məxfilik Qorumaları ---
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+                e.preventDefault();
+                alert("Bu əməliyyat məxfilik məqsədilə qadağandır!");
+            }
+            if (e.key === 'PrintScreen') {
+                navigator.clipboard.writeText('');
+                alert("Ekran görüntüsü çəkmək qadağandır!");
+            }
+        });
+
         const validTokens = ["P7GS57", "K9X2M4", "B3R8L9", "H2V5N1", "T6Z4Q8"];
         const ADMIN_PASS = "6675157";
+        const testDuration = 3 * 3600; // 3 saat (saniyə ilə)
+        const reviewDuration = 60;     // Test bitdikdən sonra səhvlərə baxış üçün qısa müddət (məs: 60 saniyə)
 
         const allQuestions = [
             {
@@ -907,6 +946,43 @@
                 return;
             }
 
+            // 1 Cihaz məhdudiyyəti və 45 dəqiqə yoxlamaları
+            const deviceKey = "dq_exam_" + tokenInput;
+            const examState = JSON.parse(localStorage.getItem(deviceKey));
+            const now = new Date().getTime();
+
+            if (examState) {
+                const elapsedSecondsAfterEnd = (now - examState.endTime) / 1000;
+
+                // 45 dəqiqədən (2700 saniyə) çox keçibsə -> Yalnız nəticə/cavab kartı qalır
+                if (examState.isFinished && elapsedSecondsAfterEnd > 2700) {
+                    showResultScreen(examState, false, true);
+                    return;
+                }
+
+                // İmtahan artıq bitibsə (45 dəqiqə daxilindədirsə) -> Nəticə və qısa müddətli səhvlər
+                if (examState.isFinished) {
+                    let allowReview = elapsedSecondsAfterEnd <= reviewDuration;
+                    showResultScreen(examState, allowReview, false);
+                    return;
+                }
+
+                // Əgər başqa cihazda və ya pəncərədə hələ də aktivdirsə
+                if (examState.isStarted && !examState.isFinished) {
+                    alert("Bu kod artıq başqa bir cihazda və ya seansda aktivdir! Eyni koda 2 fərqli cihazdan qoşulmaq qadağandır.");
+                    return;
+                }
+            }
+
+            // Yeni sessiyanın qeydiyyatı (1 cihaz kilidi üçün)
+            localStorage.setItem(deviceKey, JSON.stringify({
+                isStarted: true,
+                isFinished: false,
+                startTime: now,
+                endTime: null,
+                answers: {}
+            }));
+
             currentStudentName = nameInput;
             currentActiveToken = tokenInput;
 
@@ -915,10 +991,9 @@
 
             loadNavGrid();
             renderCurrentQuestion();
-            startTimer(3 * 3600);
+            startTimer(testDuration);
         }
 
-        // Cavab kartını yığıb-açmaq üçün funksiya
         function toggleSidebar() {
             const grid = document.getElementById("grid-nav-container");
             const btn = document.getElementById("toggle-btn");
@@ -1048,24 +1123,77 @@
 
         function confirmFinish() {
             if (confirm("Testi bitirmək istədiyinizə əminsinizmi?")) {
+                clearInterval(timerInterval);
                 finishExam();
             }
         }
 
         function finishExam() {
             clearInterval(timerInterval);
-            document.getElementById("exam-screen").style.display = "none";
-            document.getElementById("res-name").innerText = currentStudentName;
+            const now = new Date().getTime();
+            const deviceKey = "dq_exam_" + currentActiveToken;
 
             let totalCorrect = 0;
             let totalWrong = 0;
             let totalBlank = 0;
-            let letters = ["A", "B", "C", "D", "E"];
 
             let subCorrect = 0;
             let subWrong = 0;
             let subBlank = 0;
 
+            allQuestions.forEach(q => {
+                let userAns = userAnswers[q.id];
+                if (userAns === undefined) {
+                    subBlank++;
+                } else if (userAns === q.correct) {
+                    subCorrect++;
+                } else {
+                    subWrong++;
+                }
+            });
+
+            totalCorrect = subCorrect;
+            totalWrong = subWrong;
+            totalBlank = subBlank;
+
+            let examState = {
+                isStarted: true,
+                isFinished: true,
+                startTime: now - (testDuration * 1000),
+                endTime: now,
+                studentName: currentStudentName,
+                correct: totalCorrect,
+                wrong: totalWrong,
+                blank: totalBlank,
+                score: totalCorrect,
+                userAnswers: userAnswers
+            };
+
+            localStorage.setItem(deviceKey, JSON.stringify(examState));
+            saveResult(currentStudentName, currentActiveToken, totalCorrect, totalWrong, totalCorrect);
+
+            showResultScreen(examState, true, false);
+
+            // Səhvlərə baxış müddəti bitdikdə avtomatik olaraq səhvlər bölməsini gizlət
+            setTimeout(() => {
+                const reviewSec = document.getElementById('review-section');
+                if(reviewSec && !reviewSec.classList.contains('hidden')) {
+                    reviewSec.classList.add('hidden');
+                    document.getElementById('post-exam-message').classList.remove('hidden');
+                }
+            }, reviewDuration * 1000);
+        }
+
+        function showResultScreen(examState, showReview, isExpiredMode) {
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("exam-screen").style.display = "none";
+            document.getElementById("result-screen").style.display = "block";
+            
+            if (examState.studentName) {
+                document.getElementById("res-name").innerText = examState.studentName;
+            }
+
+            let letters = ["A", "B", "C", "D", "E"];
             let numsRow = "";
             let correctRow = "";
             let userRow = "";
@@ -1075,25 +1203,18 @@
                 numsRow += `<td>${q.id}</td>`;
                 correctRow += `<td>${letters[q.correct]}</td>`;
 
-                let userAns = userAnswers[q.id];
+                let userAns = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
                 let userLetter = userAns !== undefined ? letters[userAns] : "-";
                 userRow += `<td>${userLetter}</td>`;
 
                 if (userAns === undefined) {
-                    subBlank++;
                     statusRow += `<td>-</td>`;
                 } else if (userAns === q.correct) {
-                    subCorrect++;
                     statusRow += `<td class="ans-correct">+</td>`;
                 } else {
-                    subWrong++;
                     statusRow += `<td class="ans-wrong">-</td>`;
                 }
             });
-
-            totalCorrect = subCorrect;
-            totalWrong = subWrong;
-            totalBlank = subBlank;
 
             let reportHtml = `
                 <div class="subject-section">
@@ -1104,26 +1225,51 @@
                         <tr><td>Cavab</td>${userRow}</tr>
                         <tr><td></td>${statusRow}</tr>
                     </table>
-                    <div class="summary-stats">
-                        Doğru cavabların sayı: ${subCorrect}; Yanlış cavabların sayı: ${subWrong}; Cavablandırılmayan test tapşırıqlarının sayı: ${subBlank}; Topladığı bal: ${subCorrect}
-                    </div>
                 </div>
             `;
 
             document.getElementById("dim-report-content").innerHTML = reportHtml;
-            document.getElementById("res-total-correct").innerText = totalCorrect;
-            document.getElementById("res-total-wrong").innerText = totalWrong;
-            document.getElementById("res-total-blank").innerText = totalBlank;
-            document.getElementById("res-total-score").innerText = totalCorrect;
+            document.getElementById("res-total-correct").innerText = examState.correct;
+            document.getElementById("res-total-wrong").innerText = examState.wrong;
+            document.getElementById("res-total-blank").innerText = examState.blank;
+            document.getElementById("res-total-score").innerText = examState.score;
 
-            document.getElementById("result-screen").style.display = "block";
-            saveResult(currentStudentName, currentActiveToken, totalCorrect, totalWrong, totalCorrect);
+            if (isExpiredMode) {
+                document.getElementById('post-exam-message').classList.remove('hidden');
+                document.getElementById('review-section').classList.add('hidden');
+                return;
+            }
+
+            if (showReview) {
+                let reviewHtml = "";
+                allQuestions.forEach((q, index) => {
+                    let userAnsIdx = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
+                    let userAnsText = userAnsIdx !== undefined ? `${letters[userAnsIdx]}) ${q.options[userAnsIdx]}` : "Cavabsız";
+                    let correctAnsText = `${letters[q.correct]}) ${q.options[q.correct]}`;
+                    let isCorrect = userAnsIdx === q.correct;
+
+                    reviewHtml += `<div style="margin-bottom:10px; padding:8px; background:#fff; border-radius:4px; border:1px solid #cbd5e1;">
+                        <p style="margin:0 0 5px 0;"><b>Sual ${index + 1}:</b> ${q.question}</p>
+                        <p style="margin:0 0 3px 0;">Sizin cavab: <span class="${isCorrect ? 'ans-correct' : 'ans-wrong'}">${userAnsText}</span></p>
+                        <p style="margin:0;">Doğru cavab: <span class="ans-correct">${correctAnsText}</span></p>
+                    </div>`;
+                });
+                document.getElementById('review-section').classList.remove('hidden');
+                document.getElementById('review-content').innerHTML = reviewHtml;
+            } else {
+                document.getElementById('review-section').classList.add('hidden');
+                document.getElementById('post-exam-message').classList.remove('hidden');
+            }
         }
 
         function saveResult(name, token, correct, wrong, score) {
             let results = JSON.parse(localStorage.getItem("exam_results") || "[]");
-            results.push({ name, token, correct, wrong, score });
-            localStorage.setItem("exam_results", JSON.stringify(results));
+            // Eyni kodla təkrar nəticə yazılmasın deyə yoxlaya bilərik və ya əlavə edə bilərik
+            let existingIndex = results.findIndex(r => r.token === token);
+            if(existingIndex === -1) {
+                results.push({ name, token, correct, wrong, score });
+                localStorage.setItem("exam_results", JSON.stringify(results));
+            }
         }
 
         function loadAdminResults() {

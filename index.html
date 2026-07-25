@@ -83,6 +83,8 @@
             cursor: pointer;
             transition: background 0.3s;
             display: inline-block;
+            text-decoration: none;
+            text-align: center;
         }
 
         .btn:hover {
@@ -427,7 +429,7 @@
 </head>
 <body oncontextmenu="return false;">
 
-    <div class="container">
+    <div class="container" id="top">
         <!-- 1. GİRİŞ HİSSƏSİ -->
         <div id="login-screen">
             <h2>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</h2>
@@ -477,7 +479,19 @@
 
             <div id="dim-report-content"></div>
 
-            <!-- Səhvlərin Təhlili Düyməli Bölməsi -->
+            <!-- Doğru, Yanlış, Cavabsız statistikaları -->
+            <div style="margin-top: 20px; font-weight: bold; font-size: 14px; line-height: 1.6;">
+                Doğru cavabların sayı: <span id="res-total-correct">0</span><br>
+                Yanlış cavabların sayı: <span id="res-total-wrong">0</span><br>
+                Cavablandırılmayan test tapşırıqlarının sayı: <span id="res-total-blank">0</span>
+            </div>
+
+            <!-- Yekun Bal Qutusu -->
+            <div class="final-score-box">
+                YEKUN BAL: <span id="res-total-score">0</span>
+            </div>
+
+            <!-- Səhvlərin Təhlili Bölməsi (Bal və statistikadan aşağıda) -->
             <div style="margin-top: 20px;">
                 <button class="btn" style="width: 100%; text-align: center;" onclick="toggleReviewSection()">📖 Səhvlərin Təhlilini Göstər / Gizlət</button>
                 <div id="review-section" style="display: none; margin-top: 10px; padding: 15px; background: #f1f5f9; border-radius: 6px; border: 1px solid #cbd5e1;">
@@ -486,14 +500,9 @@
                 </div>
             </div>
 
-            <div style="margin-top: 20px; font-weight: bold; font-size: 14px;">
-                Doğru cavabların sayı: <span id="res-total-correct">0</span><br>
-                Yanlış cavabların sayı: <span id="res-total-wrong">0</span><br>
-                Cavablandırılmayan test tapşırıqlarının sayı: <span id="res-total-blank">0</span>
-            </div>
-
-            <div class="final-score-box">
-                YEKUN BAL: <span id="res-total-score">0</span>
+            <!-- Suallara qayıt düyməsi -->
+            <div style="margin-top: 20px;">
+                <a href="#top" class="btn" style="width: 100%; box-sizing: border-box;">⤴ Suallara qayıt</a>
             </div>
         </div>
 

@@ -138,6 +138,7 @@
             justify-content: space-between;
         }
 
+        /* Sağda Cavab Kartı və Yığma Paneli */
         .answer-card-sidebar {
             flex: 1;
             background: #f1f5f9;
@@ -211,6 +212,7 @@
             background-color: #e2e8f0;
         }
 
+        /* Tərəddüdlü olduqda nömrənin başında qırmızı nöqtə nişanı */
         .nav-box.flagged::before {
             content: '';
             position: absolute;
@@ -235,14 +237,6 @@
             font-size: 15px;
             line-height: 1.5;
             white-space: pre-line;
-        }
-
-        .question-image {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            margin-bottom: 15px;
         }
 
         .flag-label {
@@ -424,7 +418,7 @@
     <div class="container">
         <!-- 1. GİRİŞ HİSSƏSİ -->
         <div id="login-screen">
-            <h2>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</h2>
+            <h2>DQ Platform - İnformatika Sınaq İmtahanı</h2>
             <p>Zəhmət olmasa məlumatlarınızı daxil edin:</p>
             <input type="text" id="user-name" class="code-input" placeholder="Ad və Soyadınız"><br>
             <input type="text" id="user-token" class="code-input token-field" placeholder="Unikal Kod (Məs: P7GS57)"><br>
@@ -435,8 +429,8 @@
         <!-- 2. SINAQ HİSSƏSİ -->
         <div id="exam-screen">
             <div class="exam-header">
-                <span>İnformatika və Kompüter Texnologiyaları Sınaq İmtahanı</span>
-                <span class="timer" id="timer">01:30:00</span>
+                <span>İnformatika Üzrə Sınaq Testləri</span>
+                <span class="timer" id="timer">03:00:00</span>
             </div>
 
             <div class="exam-layout">
@@ -465,7 +459,7 @@
         <!-- 3. DİM ÜSLUBU NƏTİCƏ PROTOKOLU -->
         <div id="result-screen">
             <div class="dim-report-title">
-                İnformatika test imtahanının<br>nəticələri haqqında məlumat
+                İnformatika üzrə test imtahanının<br>nəticələri haqqında məlumat
             </div>
             <div class="dim-student-name" id="res-name"></div>
 
@@ -538,110 +532,70 @@
 
         const allQuestions = [
             {
-                id: 56, subject: "İnformatika",
-                question: "56. Şəkildə verilmiş sual:",
-                image: "56.jpg",
-                options: ["Variant A", "Variant B", "Variant C", "Variant D", "Variant E"],
-                correct: 0
-            },
-            {
                 id: 57, subject: "İnformatika",
-                question: "57. Verilənlərin şəbəkə modelinin əsas anlayışlarındandır:",
+                question: "Verilənlərin şəbəkə modelinin əsas anlayışlarındandır:",
                 options: ["sətir və sütun", "cədvəl və əlaqə", "domen və sütun", "kortej və səviyyə", "qovşaq və əlaqə"],
                 correct: 4
             },
             {
                 id: 58, subject: "İnformatika",
-                question: "58. İnternetdə axtarış sistemlərini müəyyən edin:\nBaidu\n1. Google+\n2. Badoo\n3. Bing\n4. Safari\n5. Yandex",
+                question: "İnternetdə axtarış sistemlərini müəyyən edin:\nBaidu\n1. Google+\n2. Badoo\n3. Bing\n4. Safari\n5. Yandex",
                 options: ["2, 5, 6", "2, 4, 6", "1, 3, 5", "1, 4, 6", "2, 3, 4"],
                 correct: 2
             },
             {
                 id: 59, subject: "İnformatika",
-                question: "59. Aşağıdakılardan hansı ardıcıllıq əməliyyat sistemlərini əks etdirir?",
+                question: "Aşağıdakılardan hansı ardıcıllıq əməliyyat sistemlərini əks etdirir?",
                 options: ["OS/2, MS DOS, Windows, Word", "MS DOS, Excel, Windows, Unix", "OS/2, Windows, Access, Woes", "Unix, OS/2, MS DOS, OSI", "Unix, MacOS, OS/2, Windows"],
                 correct: 4
             },
             {
-                id: 60, subject: "İnformatika",
-                question: "60. Şəkildə verilmiş sual:",
-                image: "60.jpg",
-                options: ["Variant A", "Variant B", "Variant C", "Variant D", "Variant E"],
-                correct: 0
-            },
-            {
                 id: 61, subject: "İnformatika",
-                question: "61. C2 xanasında ABCD D4 xanasında isə EFDG məlumatı yazılıb. B2 xanasına =D4&C2 düsturu yazılarsa, düstur yazılmış xananın qiyməti nəyə bərabərdir (MS Excel 2019)?",
+                question: "C2 xanasında ABCD D4 xanasında isə EFDG məlumatı yazılıb. B2 xanasına =D4&C2 düsturu yazılarsa, düstur yazılmış xananın qiyməti nəyə bərabərdir (MS Excel 2019)?",
                 options: ["ABCDEFDG", "#VALUE?", "EFDGABCD", "ABCD", "EFDG"],
                 correct: 2
             },
             {
                 id: 62, subject: "İnformatika",
-                question: "62. PowerPoint 2019 proqramında Normal görünüş rejimində işçi sahənin sol hissəsi necə adlanır?",
+                question: "PowerPoint 2019 proqramında Normal görünüş rejimində işçi sahənin sol hissəsi necə adlanır?",
                 options: ["titul slaydı", "slaydlar paneli", "sərlövhə", "cari slayd", "add notes"],
                 correct: 1
             },
             {
                 id: 63, subject: "İnformatika",
-                question: "63. Aktiv sənədin bağlanması üçün klaviaturada hansı düymələr kombinasiyasından istifadə edilir (MS Word 2019)?",
+                question: "Aktiv sənədin bağlanması üçün klaviaturada hansı düymələr kombinasiyasından istifadə edilir (MS Word 2019)?",
                 options: ["Alt + Ctrl + F4", "Ctrl + Shift + F4", "Alt + Tab", "Shift + F4", "Ctrl + F4"],
                 correct: 4
             },
             {
                 id: 64, subject: "İnformatika",
-                question: "64. Token Ring lokal şəbəkəsində hansı topologiyadan istifadə olunur?",
+                question: "Token Ring lokal şəbəkəsində hansı topologiyadan istifadə olunur?",
                 options: ["halqa", "şin", "passiv ağac", "ulduzvari", "aktiv ağac"],
                 correct: 0
             },
             {
-                id: 65, subject: "İnformatika",
-                question: "65. Şəkildə verilmiş sual:",
-                image: "65.jpg",
-                options: ["Variant A", "Variant B", "Variant C", "Variant D", "Variant E"],
-                correct: 0
-            },
-            {
                 id: 66, subject: "İnformatika",
-                question: "66. Təqdimat proqramı barədə hansı fikir doğru deyil (Powerpoint 2019)?",
-                options: [
-                    "Müxtəlif slaydlara müxtəlif sərlövhələr vermək olar.",
-                    "Slaydda seçilmiş obyektləri ayrıca çap etmək olar.",
-                    "Slaydda şəkillərə animasiya effektlərinin verilməsi Animations tabından təmin olunur.",
-                    "Slaydların nümayiş zamanı gizlədilməsi Set Up lent qrupundan həyata keçirilir.",
-                    "Bir səhifədə ən çoxu 9 slayd çap etmək olar."
-                ],
+                question: "Təqdimat proqramı barədə hansı fikir doğru deyil (Powerpoint 2019)?",
+                options: ["Müxtəlif slaydlara müxtəlif sərlövhələr vermək olar.", "Slaydda seçilmiş obyektləri ayrıca çap etmək olar.", "Slaydda şəkillərə animasiya effektlərinin verilməsi Animations tabından təmin olunur.", "Slaydların nümayiş zamanı gizlədilməsi Set Up lent qrupundan həyata keçirilir.", "Bir səhifədə ən çoxu 9 slayd çap etmək olar."],
                 correct: 3
             },
             {
                 id: 67, subject: "İnformatika",
-                question: "67. Foto7.jpg faylı C: diskindəki Foto qovluğunda yerləşir. Bu qovluqda Şəhər qovluğu və onun içərisində Bakı altqovluğu yaradılır. Foto7.jpg faylı həmin altqovluğa daşındıqdan sonra faylın tam adı aşağıdakılardan hansıdır?",
-                options: [
-                    "C:\\Foto\\Foto7.jpg",
-                    "C:\\Foto\\Bakı\\Foto7.jpg",
-                    "C:\\Foto\\Bakı\\Şəhər\\Foto7.jpg",
-                    "C:\\Şəhər\\Bakı\\Foto7.jpg",
-                    "C:\\Foto\\Şəhər\\Bakı\\Foto7.jpg"
-                ],
-                correct: 1
+                question: "Foto7.jpg faylı C: diskindəki Foto qovluğunda yerləşir. Bu qovluqda Şəhər qovluğu və onun içərisində Bakı altqovluğu yaradılır. Foto7.jpg faylı həmin altqovluğa daşındıqdan sonra faylın tam adı aşağıdakılardan hansıdır?",
+                options: ["C:\\Foto\\Foto7.jpg", "C:\\Foto\\Bakı\\Foto7.jpg", "C:\\Foto\\Bakı\\Şəhər\\Foto7.jpg", "C:\\Şəhər\\Bakı\\Foto7.jpg", "C:\\Foto\\Şəhər\\Bakı\\Foto7.jpg"],
+                correct: 4
             },
             {
                 id: 68, subject: "İnformatika",
-                question: "68. Aşağıdakı əməliyyatlardan hansılar ilə sətri cədvəldən silmək olar (MS Word 2019)?\n1. sətri seçmək və klaviaturanın Delete düyməsini basmaqla\n2. sətri seçmək və klaviaturanın Alt+Delete düymələrini basmaqla\n3. sətri seçmək və kəsib mübadilə buferinə yerləşdirməklə\n4. sətri seçmək və klaviaturanın BackSpace düyməsini basmaqla",
-                options: ["1, 3", "1, 2", "3, 4", "1, 4", "2, 3"],
-                correct: 0
+                question: "Aşağıdakı əməliyyatlardan hansılar ilə sətri cədvəldən silmək olar (MS Word 2019)?\n1. sətri seçmək və klaviaturanın Delete düyməsini basmaqla\n2. sətri seçmək və klaviaturanın Alt+Delete düymələrini basmaqla\n3. sətri seçmək və kəsib mübadilə buferinə yerləşdirməklə\n4. sətri seçmək və klaviaturanın BackSpace düyməsini basmaqla",
+                options: ["1,3", "1,2", "3,4", "1,4", "2,3"],
+                correct: 4
             },
             {
                 id: 69, subject: "İnformatika",
-                question: "69. Yerləşdirilmiş faylla birgə elektron məktubun təşkili və göndərilməsi necə ola bilər?\n1. yerləşdirilmiş faylı əlavə etmək\n2. alanın elektron poçt ünvanını daxil etmək\n3. “Göndərmək” düyməsini sıxmaq\n4. mətni daxil etmək\n5. “yeni məktub” düyməsini sıxmaq",
-                options: ["2, 4, 1, 5, 3", "5, 1, 3, 4, 2", "5, 2, 4, 1, 3", "2, 1, 5, 4, 3", "2, 1, 4, 3, 5"],
+                question: "Yerləşdirilmiş faylla birgə elektron məktubun təşkili və göndərilməsi necə ola bilər?\n1. yerləşdirilmiş faylı əlavə etmək\n2. alanın elektron poçt ünvanını daxil etmək\n3. “Göndərmək” düyməsini sıxmaq\n4. mətni daxil etmək\n5. “yeni məktub” düyməsini sıxmaq",
+                options: ["24153", "51342", "52413", "21543", "21435"],
                 correct: 2
-            },
-            {
-                id: 70, subject: "İnformatika",
-                question: "70. Şəkildə verilmiş sual:",
-                image: "70.jpg",
-                options: ["Variant A", "Variant B", "Variant C", "Variant D", "Variant E"],
-                correct: 0
             }
         ];
 
@@ -697,7 +651,7 @@
 
             loadNavGrid();
             renderCurrentQuestion();
-            startTimer(90 * 60);
+            startTimer(3 * 3600);
         }
 
         function toggleSidebar() {
@@ -722,18 +676,13 @@
             let html = `
                 <div>
                     <div class="question-top">
-                        <div class="question-title">${q.question}</div>
+                        <div class="question-title">${q.id}. ${q.question}</div>
                         <label class="flag-label">
                             <input type="checkbox" id="flag_chk" ${isFlagged} onchange="toggleFlag(${q.id})"> Tərəddüdlü
                         </label>
                     </div>
+                    <div class="options">
             `;
-
-            if (q.image) {
-                html += `<img src="${q.image}" alt="Sual ${q.id} şəkli" class="question-image">`;
-            }
-
-            html += `<div class="options">`;
 
             q.options.forEach((opt, idx) => {
                 let checked = (userAns === idx) ? "checked" : "";
@@ -940,4 +889,3 @@
     </script>
 </body>
 </html>
-

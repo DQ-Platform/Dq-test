@@ -324,20 +324,24 @@
         }
 
         .subject-section {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .dim-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             text-align: center;
+            table-layout: fixed;
         }
 
         .dim-table th, .dim-table td {
             border: 1px solid #94a3b8;
-            padding: 4px 2px;
-            font-size: 12px;
+            padding: 3px 1px;
+            font-size: 11px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .dim-table th {
@@ -623,7 +627,7 @@
             { id: 54, subject: "Qanunvericilik", question: "54. Azərbaycan Respublikasının Konstitusiyasına əsasən uyğunluğu müəyyən edin.", options: ["1-a; 2-c; 3-b", "1-b; 2-c; 3-a", "1-c; 2-b; 3-a", "1-c; 2-a; 3-b"], correct: 2 },
             { id: 55, subject: "Qanunvericilik", question: "55. Bələdiyyələrin qəbul etdikləri aktlar nəyə əsaslanmalıdır?", options: ["Qanunlara və sübutlara", "Hüquqa və ədalətə", "Qanunlara və konstitusiyaya", "Hüquqa və haqq-ədalətə"], correct: 2 },
             
-            // İnformatika və Məntiq testləri
+            // İnformatika (56-70)
             { id: 56, subject: "İnformatika", question: "56. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "56.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             { id: 57, subject: "İnformatika", question: "57. Verilənlərin şəbəkə modelinin əsas anlayışlarındandır:", options: ["sətir və sütun", "cədvəl və əlaqə", "domen və sütun", "kortej və səviyyə", "qovşaq və əlaqə"], correct: 4 },
             { id: 58, subject: "İnformatika", question: "58. İnternetdə axtarış sistemlərini müəyyən edin.\n1. Google+\n2. Badoo\n3. Bing\n4. Safari\n5. Yandex\n6. Baidu", options: ["2, 5, 6", "2, 4, 6", "1, 3, 5", "1, 4, 6", "2, 3, 4"], correct: 2 },
@@ -639,35 +643,37 @@
             { id: 68, subject: "İnformatika", question: "68. Aşağıdakı əməliyyatlardan hansılar ilə sətri cədvəldən silmək olar (MS Word 2019)?\n1. sətri seçmək və klaviaturanın Delete düyməsini basmaqla\n2. sətri seçmək və klaviaturanın Alt+Delete düymələrini basmaqla\n3. sətri seçmək və kəsib mübadilə buferinə yerləşdirməklə\n4. sətri seçmək və klaviaturanın BackSpace düyməsini basmaqla", options: ["A) 1, 3", "B) 1, 2", "C) 3, 4", "D) 1, 4", "E) 2, 3"], correct: 4 },
             { id: 69, subject: "İnformatika", question: "69. Yerləşdirilmiş faylla birgə elektron məktubun təşkili və göndərilməsi necə ola bilər?\n1. yerləşdirilmiş faylı əlavə etmək\n2. alanın elektron poçt ünvanını daxil etmək\n3. “Göndərmək” düyməsini sıxmaq\n4. mətni daxil etmək\n5. “yeni məktub” düyməsini sıxmaq", options: ["A) 2, 4, 1, 5, 3", "B) 5, 1, 3, 4, 2", "C) 5, 2, 4, 1, 3", "D) 2, 1, 5, 4, 3", "E) 2, 1, 4, 3, 5"], correct: 2 },
             { id: 70, subject: "İnformatika", question: "70. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "70.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            
+            // Məntiq (71-100)
             { id: 71, subject: "Məntiq", question: "71. Aşağıda verilmiş anaqramlardan hansı birinci sözün sonu , ikinci sözün əvvəlidir ?\nBar(...)qın", options: ["dan", "şad", "nem", "rel", "yer"], correct: 1 },
             { id: 72, subject: "Məntiq", question: "72. 17:00-dan 4,5 dəqiqə keçdikdən sonra dəqiqə əqrəbi 8 dəqiqə ərzində dayanır və sonra yenidən öz sürəti ilə hərəkətə davam edir . Bundan sonra saat və dəqiqə əqrəbi ilk dəfə düzgün saat neçəni göstərdikdə üst-üstə düşər ?", options: ["17 : 24", "17 : 36", "17 : 48", "17 : 28", "17 : 20"], correct: 3 },
-            { id: 73, subject: "İnformatika", question: "73. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "73.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            { id: 74, subject: "İnformatika", question: "74. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "74.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            { id: 75, subject: "İnformatika", question: "75. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "75.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 73, subject: "Məntiq", question: "73. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "73.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 74, subject: "Məntiq", question: "74. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "74.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 75, subject: "Məntiq", question: "75. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "75.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             { id: 76, subject: "Məntiq", question: "76. 1-dən 240-a qədər yazarkən neçə dəfə 5 rəqəmindən istifadə edilir?", options: ["42", "43", "44", "45", "46"], correct: 1 },
             { id: 77, subject: "Məntiq", question: "77. Verilmiş hansı iki sözün hər birindən yalnız bir dəfə istifadə etməklə yeni söz yaratmaq olar (yaradılan sözdəki hərflərin sayı istifadə olunan sözlərdəki hərflərin sayına bərabərdir).\nnaqra -1\nqala -2\nutra -3\ninfl -4\nşuq -5", options: ["A. 2,3", "B. 1,5", "C. 3,5", "D. 1,3", "E. 4,5"], correct: 3 },
             { id: 78, subject: "Məntiq", question: "78. (X+Y+Z)²=?\nX+Y=2√3\nX+Z=7√3\nY+Z=3√3", options: ["3√3", "6√3", "108", "12", "108√3"], correct: 2 },
             { id: 79, subject: "Məntiq", question: "79. 9 nəfərdən ibarət komanda bir-birilə 1 dəfə oynamaq şərtilə neçə oyun keçirəcək?", options: ["75", "77", "27", "72", "53"], correct: 3 },
-            { id: 80, subject: "İnformatika", question: "80. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "80.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            { id: 81, subject: "İnformatika", question: "81. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "81.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            { id: 82, subject: "İnformatika", question: "82. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "82.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 80, subject: "Məntiq", question: "80. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "80.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 81, subject: "Məntiq", question: "81. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "81.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 82, subject: "Məntiq", question: "82. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "82.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             { id: 83, subject: "Məntiq", question: "83. Üç yoldaş – Sərxan, Mikayıl, Şamil – hər biri öz bacısıyla meşəyə göbələk yığmağa getdilər. Qızların adları Ülviyyə, Xəyalə və Mehribandır. Oğlanlar öz səbətlərini göbələklə tez doldurdular və qızlara kömək etməyə başladılar. Əgər oğlanların heç birinin öz bacısına kömək etmədiyi və həmçinin Mikayılın Ülviyyəyə, Sərxanın isə Ülviyyə və Mehribana kömək etdiyi məlumdursa, oğlanların hər birinin bacısını müəyyən edin və uyğunluq qurun:\n1. Şamil\n2. Mikayıl\n3. Sərxan\na. Mehriban\nb. Xəyalə\nc. Ülviyyə", options: ["1-c; 2-a; 3-b", "1-a; 2-c; 3-b", "1-a; 2-b; 3-c", "1-c; 2-b; 3-a", "1-b; 2-a; 3-c"], correct: 4 },
             { id: 84, subject: "Məntiq", question: "84. Atanın yaşını göstərən iki rəqəmli ədədin rəqəmlərinin cəmi 5 – dir. Həmin ədəd oğulun yaşını göstərən ədəddən 4 dəfə böyükdür. Neçə il əvvəl ata oğlundan yaşca 7 dəfə böyük olacaq?", options: ["2", "6", "5", "4", "3"], correct: 2 },
-            { id: 85, subject: "İnformatika", question: "85. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "85.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            { id: 86, subject: "İnformatika", question: "86. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "86.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 85, subject: "Məntiq", question: "85. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "85.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 86, subject: "Məntiq", question: "86. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "86.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             { id: 87, subject: "Azərbaycan dili", question: "87. Cümlələrə uyğun rəqəmləri mətndə cümlələrin məntiqi ardıcıllığına görə düzün.\n1. 1497 - ci ildə Kopernik təhsilini davam etdirmək üçün İtaliyaya gedərək Bolonya universitetinə daxil olur.\n2. Milliyətcə polyak olan Nikolay Kopernik astronom, riyaziyyatçı, mexanik, iqtisadçı və ilahiyyatçı olmaqla yanaşı, daha çox ilk elmi inqilabın əsası hesab edilən Günəş sisteminin heliosentrik modelinin müəllifi kimi tanınır.\n3. Burada o, ilahiyyatçı, hüquq və digər qədim elmlərlə yanaşı astronomiyanı da öyrənmək imkanı əldə edir.\n4. O, 1473 - cü il fevralın 19 - da Polşanın Torusi şəhərində anadan olmuş, 9 yaşında atasını itirmiş və 1491 - ci ildə Krakov universitetinə daxil olmuş, burada riyaziyyat, tibb və ilahiyyat elmlərinə dərindən yiyələnmişdir.\n5. Amma onu, daha çox astronomiya elmi maraqlandırırdı.", options: ["2, 4, 3, 5, 1", "2, 4, 5, 1, 3", "4, 2, 5, 1, 3", "3, 2, 4, 5, 1", "1, 3, 4, 5, 2"], correct: 1 },
-            { id: 88, subject: "İnformatika", question: "88. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "88.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            { id: 89, subject: "İnformatika", question: "89. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "89.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            { id: 90, subject: "İnformatika", question: "90. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "90.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            { id: 91, subject: "İnformatika", question: "91. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "91.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            { id: 92, subject: "İnformatika", question: "92. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "92.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            { id: 93, subject: "İnformatika", question: "93. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "93.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 88, subject: "Məntiq", question: "88. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "88.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 89, subject: "Məntiq", question: "89. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "89.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 90, subject: "Məntiq", question: "90. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "90.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 91, subject: "Məntiq", question: "91. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "91.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 92, subject: "Məntiq", question: "92. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "92.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 93, subject: "Məntiq", question: "93. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "93.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             { id: 94, subject: "Məntiq", question: "94. Heykəltaraş birinci həftə daşın 35% – ni, ikinci həftə qalan daşın 25% – ni, üçüncü həftə isə qalan daşın 20% – ni yondu. Nəticədə alınan heykəl 48,75 kq idi. Heykəltaraş yonmağa başlamamış daşın kütləsi nə qədər idi?", options: ["100", "125", "115", "200", "250"], correct: 1 },
-            { id: 95, subject: "İnformatika", question: "95. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "95.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 95, subject: "Məntiq", question: "95. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "95.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             { id: 96, subject: "Məntiq", question: "96. “?” işarəsinin yerinə uyğun gələn variantı müəyyən edin.\n354=62\n363=22\n456=15\n777=?", options: ["23", "75", "89", "64", "39"], correct: 0 },
             { id: 97, subject: "Məntiq", question: "97. Verilmiş sözlərdən dördü bir – birilə mənaca əlaqəlidir. Digərlərindən fərqli olan sözü seçin.", options: ["qovun", "balqabaq", "qarpız", "kələm", "göbələk"], correct: 3 },
             { id: 98, subject: "Məntiq", question: "98. “?” işarəsinin yerinə uyğun gələn ədədi müəyyən edin.\n6 4 5 15 13 14 42 ? 41", options: ["48", "36", "37", "40", "44"], correct: 2 },
-            { id: 99, subject: "İnformatika", question: "99. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "99.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 99, subject: "Məntiq", question: "99. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "99.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             { id: 100, subject: "Məntiq", question: "100. Hərf sırası pozulmuş beş sözdən dördü müəyyən əlamətə görə oxşardır. Hərflərin sırasını düzəldərək fərqli sözü müəyyən edin.\nA) a q q o ç\nB) ə r s u c\nC) ə r h ə q m a n\nD) i d g i\nE) k ə z i r", options: ["A", "B", "C", "D", "E"], correct: 3 }
         ];
 
@@ -1035,7 +1041,8 @@
             let subjects = [
                 { name: "Azərbaycan dili", start: 1, end: 15 },
                 { name: "Qanunvericilik", start: 16, end: 55 },
-                { name: "İnformatika və Məntiq", start: 56, end: 100 }
+                { name: "İnformatika", start: 56, end: 70 },
+                { name: "Məntiq", start: 71, end: 100 }
             ];
 
             let reportHtml = "";
@@ -1121,3 +1128,4 @@
     </script>
 </body>
 </html>
+

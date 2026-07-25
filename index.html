@@ -245,6 +245,14 @@
             white-space: pre-line;
         }
 
+        .question-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #cbd5e1;
+        }
+
         .flag-label {
             display: flex;
             align-items: center;
@@ -564,7 +572,7 @@
             { id: 10, subject: "Azərbaycan dili", question: "10. Cümlənin şəxsə görə növləri baxımından məntiqi ardıcıllığı tamamlayın.\nCücəni payızda sayarlar.\nQonağı belə qarşılayarlar.\nİndi şəhərimizdə göydələnlərə tez-tez rast gəlirsən.", options: ["Ağır otur, batman gəl.", "Hamı gərək öz işinə hörmətlə yanaşsın.", "Tövlə içərisində ona bir künc vermişdilər.", "Səkiyə qalxan kimi onu yuxu apardı.", "Onun sözlərinə yenə də məhəl qoyulmadı."], correct: 2 },
             { id: 11, subject: "Azərbaycan dili", question: "11. Mürəkkəb xitab işlənən cümləni müəyyən edin.", options: ["Ay dost, hara gedirsən?", "Məhəmmədhəsən, məni eşidirsən?", "Əziz oğlum, xeyir işin mübarək!", "Aynur, Aysel, məni eşidirsiniz?", "Dərya kimi dalğalan, ey bayrağım!"], correct: 3 },
             { id: 12, subject: "Azərbaycan dili", question: "12. Qəflətən külək başladı, ağacdakı meyvələr yerə dağıldılar.\nCümlədə ədəbi dilin hansı norması (normaları) pozulmuşdur?", options: ["yalnız leksik", "leksik,qrammatik", "yalnız qrammatik", "fonetik,leksik", "fonetik,leksik,qrammatik"], correct: 2 },
-            { id: 13, subject: "Azərbaycan dili", question: "13. Hansı cümlədə zərf feili sifətə aiddir?", options: ["Dərsə gecikən şagirdləri içəri buraxmadılar.", "Nikbin insanlar həyatı daha çox sevərlər.", "İrəli gedəni yarı yolda saxlamaq olmaz.", "Qapını möhkəmcə bağlayıb içəri keçdim.", "Ucadan danışmaq onun adətidir."], correct: 2 },
+            { id: 13, subject: "Azərbaycan dili", question: "13. Hansı cümlədə zərf feili sifətə aiddir?", options: ["Dərsə gecikən şagirdləri içəri buraxmadılar.", "Nikbin insanlar həyatı daha çox sevərlər.", "İrəli gedəni yarı yolda saxlamaq olmaz.", "Qapını möhkəmcə bağlayıب içəri keçдим.", "Ucadan danışmaq onun adətidir."], correct: 2 },
             { id: 14, subject: "Azərbaycan dili", question: "14. Saitlə başlayan hər cür şəkilçi qoşulduqda aşağıdakı hansı sözün kökündəki son sait düşür?", options: ["ömür", "alın", "çiyin", "burun", "oğul"], correct: 1 },
             { id: 15, subject: "Azərbaycan dili", question: "15. Hansı mürəkkəb adın yazılışı düzgündür?", options: ["Orta paleolit dövrü", "Azərbaycan Respublikası Nazirlər Kabineti", "Nəsimi adına Dilçilik institutu", "31 Dekabr – Dünya Azərbaycanlılarının həmrəylik günü", "Şəmkir rayon Təhsil Şöbəsi"], correct: 1 },
             { id: 16, subject: "Qanunvericilik", question: "16. Azərbaycan Respublikasında dövlət dili haqqında Qanuna əsasən doğru olanları müəyyən edin.", options: ["1,4,5", "2,4", "1,2,3", "3,5", "1,2,5"], correct: 4 },
@@ -608,123 +616,22 @@
             { id: 54, subject: "Qanunvericilik", question: "54. Azərbaycan Respublikasının Konstitusiyasına əsasən uyğunluğu müəyyən edin.", options: ["1-a; 2-c; 3-b", "1-b; 2-c; 3-a", "1-c; 2-b; 3-a", "1-c; 2-a; 3-b"], correct: 2 },
             { id: 55, subject: "Qanunvericilik", question: "55. Bələdiyyələrin qəbul etdikləri aktlar nəyə əsaslanmalıdır?", options: ["Qanunlara və sübutlara", "Hüquqa və ədalətə", "Qanunlara və konstitusiyaya", "Hüquqa və haqq-ədalətə"], correct: 2 },
             
-            // 56 - 70 Aralığı (İnformatika və Kompüter texnologiyaları)
-            const informatikaTestleri = [
-    { 
-        id: 56, 
-        subject: "İnformatika", 
-        question: "56. İnformatika üzrə test tapşırığı:", 
-        image: "56.jpg",
-        options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], 
-        correct: 0 
-    },
-    { 
-        id: 57, 
-        subject: "İnformatika", 
-        question: "57. Verilənlərin şəbəkə modelinin əsas anlayışlarındandır:", 
-        options: ["sətir və sütun", "cədvəl və əlaqə", "domen və sütun", "kortej və səviyyə", "qovşaq və əlaqə"], 
-        correct: 4 
-    },
-    { 
-        id: 58, 
-        subject: "İnformatika", 
-        question: "58. İnternetdə axtarış sistemlərini müəyyən edin.\n1. Google+\n2. Badoo\n3. Bing\n4. Safari\n5. Yandex\n6. Baidu", 
-        options: ["2, 5, 6", "2, 4, 6", "1, 3, 5", "1, 4, 6", "2, 3, 4"], 
-        correct: 2 
-    },
-    { 
-        id: 59, 
-        subject: "İnformatika", 
-        question: "59. Aşağıdakılardan hansı ardıcıllıq əməliyyat sistemlərini əks etdirir?", 
-        options: ["OS/2, MS DOS, Windows, Word", "MS DOS, Excel, Windows, Unix", "OS/2, Windows, Access, Woes", "Unix, OS/2, MS DOS, OSI", "Unix, MacOS, OS/2, Windows"], 
-        correct: 4 
-    },
-    { 
-        id: 60, 
-        subject: "İnformatika", 
-        question: "60. İnformatika üzrə test tapşırığı:", 
-        image: "60.jpg",
-        options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], 
-        correct: 0 
-    },
-    { 
-        id: 61, 
-        subject: "İnformatika", 
-        question: "61. C2 xanasında ABCD, D4 xanasında isə EFDG məlumatı yazılıb. B2 xanasına =D4&C2 düsturu yazılarsa, düstur yazılmış xananın qiyməti nəyə bərabərdir (MS Excel 2019)?", 
-        options: ["ABCDEFDG", "#VALUE?", "EFDGABCD", "ABCD", "EFDG"], 
-        correct: 2 
-    },
-    { 
-        id: 62, 
-        subject: "İnformatika", 
-        question: "62. PowerPoint 2019 proqramında Normal görünüş rejimində işçi sahənin sol hissəsi necə adlanır?", 
-        options: ["titul slaydı", "slaydlar paneli", "sərlövhə", "cari slayd", "add notes"], 
-        correct: 1 
-    },
-    { 
-        id: 63, 
-        subject: "İnformatika", 
-        question: "63. Aktiv sənədin bağlanması üçün klaviaturada hansı düymələr kombinasiyasından istifadə edilir (MS Word 2019)?", 
-        options: ["Alt + Ctrl + F4", "Ctrl + Shift + F4", "Alt + Tab", "Shift + F4", "Ctrl + F4"], 
-        correct: 4 
-    },
-    { 
-        id: 64, 
-        subject: "İnformatika", 
-        question: "64. Token Ring lokal şəbəkəsində hansı topologiyadan istifadə olunur?", 
-        options: ["halqa", "şin", "passiv ağac", "ulduzvari", "aktiv ağac"], 
-        correct: 0 
-    },
-    { 
-        id: 65, 
-        subject: "İnformatika", 
-        question: "65. İnformatika üzrə test tapşırığı:", 
-        image: "65.jpg",
-        options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], 
-        correct: 0 
-    },
-    { 
-        id: 66, 
-        subject: "İnformatika", 
-        question: "66. Təqdimat proqramı barədə hansı fikir doğru deyil (Powerpoint 2019)?", 
-        options: [
-            "Müxtəlif slaydlara müxtəlif sərlövhələr vermək olar.", 
-            "Slaydda seçilmiş obyektləri ayrıca çap etmək olar.", 
-            "Slaydda şəkillərə animasiya effektlərinin verilməsi Animations tabından təmin olunur.", 
-            "Slaydların nümayiş zamanı gizlədilməsi Set Up lent qrupundan həyata keçirilir.", 
-            "Bir səhifədə ən çoxu 9 slayd çap etmək olar."
-        ], 
-        correct: 3 
-    },
-    { 
-        id: 67, 
-        subject: "İnformatika", 
-        question: "67. Foto7.jpg faylı C: diskindəki Foto qovluğunda yerləşir. Bu qovluqda Şəhər qovluğu və onun içərisində Bakı altqovluğu yaradılır. Foto7.jpg faylı həmin altqovluğa daşındıqdan sonra faylın tam adı aşağıdakılardan hansıdır?", 
-        options: ["C:\\Foto\\Foto7.jpg", "C:\\Foto\\Bakı\\Foto7.jpg", "C:\\Foto\\Bakı\\Şəhər\\Foto7.jpg", "C:\\Şəhər\\Bakı\\Foto7.jpg", "C:\\Foto\\Şəhər\\Bakı\\Foto7.jpg"], 
-        correct: 4 
-    },
-    { 
-        id: 68, 
-        subject: "İnformatika", 
-        question: "68. Aşağıdakı əməliyyatlardan hansılar ilə sətri cədvəldən silmək olar (MS Word 2019)?\n1. sətri seçmək və klaviaturanın Delete düyməsini basmaqla\n2. sətri seçmək və klaviaturanın Alt+Delete düymələrini basmaqla\n3. sətri seçmək və kəsib mübadilə buferinə yerləşdirməklə\n4. sətri seçmək və klaviaturanın BackSpace düyməsini basmaqla", 
-        options: ["A) 1, 3", "B) 1, 2", "C) 3, 4", "D) 1, 4", "E) 2, 3"], 
-        correct: 4 
-    },
-    { 
-        id: 69, 
-        subject: "İnformatika", 
-        question: "69. Yerləşdirilmiş faylla birgə elektron məktubun təşkili və göndərilməsi necə ola bilər?\n1. yerləşdirilmiş faylı əlavə etmək\n2. alanın elektron poçt ünvanını daxil etmək\n3. “Göndərmək” düyməsini sıxmaq\n4. mətni daxil etmək\n5. “yeni məktub” düyməsini sıxmaq", 
-        options: ["A) 2, 4, 1, 5, 3", "B) 5, 1, 3, 4, 2", "C) 5, 2, 4, 1, 3", "D) 2, 1, 5, 4, 3", "E) 2, 1, 4, 3, 5"], 
-        correct: 2 
-    },
-    { 
-        id: 70, 
-        subject: "İnformatika", 
-        question: "70. İnformatika üzrə test tapşırığı:", 
-        image: "70.jpg",
-        options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], 
-        correct: 0 
-    }
+            // İnformatika testləri (Şəkillər ilə inteqrasiya olundu)
+            { id: 56, subject: "İnformatika", question: "56. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "56.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 57, subject: "İnformatika", question: "57. Verilənlərin şəbəkə modelinin əsas anlayışlarındandır:", options: ["sətir və sütun", "cədvəl və əlaqə", "domen və sütun", "kortej və səviyyə", "qovşaq və əlaqə"], correct: 4 },
+            { id: 58, subject: "İnformatika", question: "58. İnternetdə axtarış sistemlərini müəyyən edin.\n1. Google+\n2. Badoo\n3. Bing\n4. Safari\n5. Yandex\n6. Baidu", options: ["2, 5, 6", "2, 4, 6", "1, 3, 5", "1, 4, 6", "2, 3, 4"], correct: 2 },
+            { id: 59, subject: "İnformatika", question: "59. Aşağıdakılardan hansı ardıcıllıq əməliyyat sistemlərini əks etdirir?", options: ["OS/2, MS DOS, Windows, Word", "MS DOS, Excel, Windows, Unix", "OS/2, Windows, Access, Woes", "Unix, OS/2, MS DOS, OSI", "Unix, MacOS, OS/2, Windows"], correct: 4 },
+            { id: 60, subject: "İnformatika", question: "60. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "60.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 61, subject: "İnformatika", question: "61. C2 xanasında ABCD, D4 xanasında isə EFDG məlumatı yazılıb. B2 xanasına =D4&C2 düsturu yazılarsa, düstur yazılmış xananın qiyməti nəyə bərabərdir (MS Excel 2019)?", options: ["ABCDEFDG", "#VALUE?", "EFDGABCD", "ABCD", "EFDG"], correct: 2 },
+            { id: 62, subject: "İnformatika", question: "62. PowerPoint 2019 proqramında Normal görünüş rejimində işçi sahənin sol hissəsi necə adlanır?", options: ["titul slaydı", "slaydlar paneli", "sərlövhə", "cari slayd", "add notes"], correct: 1 },
+            { id: 63, subject: "İnformatika", question: "63. Aktiv sənədin bağlanması üçün klaviaturada hansı düymələr kombinasiyasından istifadə edilir (MS Word 2019)?", options: ["Alt + Ctrl + F4", "Ctrl + Shift + F4", "Alt + Tab", "Shift + F4", "Ctrl + F4"], correct: 4 },
+            { id: 64, subject: "İnformatika", question: "64. Token Ring lokal şəbəkəsində hansı topologiyadan istifadə olunur?", options: ["halqa", "şin", "passiv ağac", "ulduzvari", "aktiv ağac"], correct: 0 },
+            { id: 65, subject: "İnformatika", question: "65. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "65.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 66, subject: "İnformatika", question: "66. Təqdimat proqramı barədə hansı fikir doğru deyil (Powerpoint 2019)?", options: ["Müxtəlif slaydlara müxtəlif sərlövhələr vermək olar.", "Slaydda seçilmiş obyektləri ayrıca çap etmək olar.", "Slaydda şəkillərə animasiya effektlərinin verilməsi Animations tabından təmin olunur.", "Slaydların nümayiş zamanı gizlədilməsi Set Up lent qrupundan həyata keçirilir.", "Bir səhifədə ən çoxu 9 slayd çap etmək olar."], correct: 3 },
+            { id: 67, subject: "İnformatika", question: "67. Foto7.jpg faylı C: diskindəki Foto qovluğunda yerləşir. Bu qovluqda Şəhər qovluğu və onun içərisində Bakı altqovluğu yaradılır. Foto7.jpg faylı həmin altqovluğa daşındıqdan sonra faylın tam adı aşağıdakılardan hansıdır?", options: ["C:\\Foto\\Foto7.jpg", "C:\\Foto\\Bakı\\Foto7.jpg", "C:\\Foto\\Bakı\\Şəhər\\Foto7.jpg", "C:\\Şəhər\\Bakı\\Foto7.jpg", "C:\\Foto\\Şəhər\\Bakı\\Foto7.jpg"], correct: 4 },
+            { id: 68, subject: "İnformatika", question: "68. Aşağıdakı əməliyyatlardan hansılar ilə sətri cədvəldən silmək olar (MS Word 2019)?\n1. sətri seçmək və klaviaturanın Delete düyməsini basmaqla\n2. sətri seçmək və klaviaturanın Alt+Delete düymələrini basmaqla\n3. sətri seçmək və kəsib mübadilə buferinə yerləşdirməklə\n4. sətri seçmək və klaviaturanın BackSpace düyməsini basmaqla", options: ["A) 1, 3", "B) 1, 2", "C) 3, 4", "D) 1, 4", "E) 2, 3"], correct: 4 },
+            { id: 69, subject: "İnformatika", question: "69. Yerləşdirilmiş faylla birgə elektron məktubun təşkili və göndərilməsi necə ola bilər?\n1. yerləşdirilmiş faylı əlavə etmək\n2. alanın elektron poçt ünvanını daxil etmək\n3. “Göndərmək” düyməsini sıxmaq\n4. mətni daxil etmək\n5. “yeni məktub” düyməsini sıxmaq", options: ["A) 2, 4, 1, 5, 3", "B) 5, 1, 3, 4, 2", "C) 5, 2, 4, 1, 3", "D) 2, 1, 5, 4, 3", "E) 2, 1, 4, 3, 5"], correct: 2 },
+            { id: 70, subject: "İnformatika", question: "70. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "70.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 }
         ];
 
         let currentStudentName = "";
@@ -850,6 +757,8 @@
             const userAns = userAnswers[q.id];
 
             let letters = ["A", "B", "C", "D", "E"];
+            let imgHtml = q.image ? `<img src="${q.image}" alt="Sual ${q.id} şəkli" class="question-img">` : "";
+
             let html = `
                 <div>
                     <div class="question-top">
@@ -858,6 +767,7 @@
                             <input type="checkbox" id="flag_chk" ${isFlagged} onchange="toggleFlag(${q.id})"> Tərəddüdlü
                         </label>
                     </div>
+                    ${imgHtml}
                     <div class="options">
             `;
 
@@ -1021,39 +931,53 @@
             }
 
             let letters = ["A", "B", "C", "D", "E"];
-            let numsRow = "";
-            let correctRow = "";
-            let userRow = "";
-            let statusRow = "";
+            
+            let subjects = [
+                { name: "Azərbaycan dili", start: 1, end: 15 },
+                { name: "Qanunvericilik", start: 16, end: 55 },
+                { name: "İnformatika", start: 56, end: 70 }
+            ];
 
-            allQuestions.forEach(q => {
-                numsRow += `<td>${q.id}</td>`;
-                correctRow += `<td>${letters[q.correct]}</td>`;
+            let reportHtml = "";
 
-                let userAns = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
-                let userLetter = userAns !== undefined ? letters[userAns] : "-";
-                userRow += `<td>${userLetter}</td>`;
+            subjects.forEach(sub => {
+                let subQuestions = allQuestions.filter(q => q.id >= sub.start && q.id <= sub.end);
+                if (subQuestions.length === 0) return;
 
-                if (userAns === undefined) {
-                    statusRow += `<td>-</td>`;
-                } else if (userAns === q.correct) {
-                    statusRow += `<td class="ans-correct">+</td>`;
-                } else {
-                    statusRow += `<td class="ans-wrong">-</td>`;
-                }
+                let numsRow = "";
+                let correctRow = "";
+                let userRow = "";
+                let statusRow = "";
+
+                subQuestions.forEach(q => {
+                    numsRow += `<td>${q.id}</td>`;
+                    correctRow += `<td>${letters[q.correct]}</td>`;
+
+                    let userAns = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
+                    let userLetter = userAns !== undefined ? letters[userAns] : "-";
+                    userRow += `<td>${userLetter}</td>`;
+
+                    if (userAns === undefined) {
+                        statusRow += `<td>-</td>`;
+                    } else if (userAns === q.correct) {
+                        statusRow += `<td class="ans-correct">+</td>`;
+                    } else {
+                        statusRow += `<td class="ans-wrong">-</td>`;
+                    }
+                });
+
+                reportHtml += `
+                    <div class="subject-section">
+                        <div style="font-weight: bold; margin-bottom: 4px; color: var(--primary-dark);">${sub.name}</div>
+                        <table class="dim-table">
+                            <tr><td>Sual №</td>${numsRow}</tr>
+                            <tr><td>Doğru cavab</td>${correctRow}</tr>
+                            <tr><td>Cavab</td>${userRow}</tr>
+                            <tr><td>Nəticə</td>${statusRow}</tr>
+                        </table>
+                    </div>
+                `;
             });
-
-            let reportHtml = `
-                <div class="subject-section">
-                    <table class="dim-table">
-                        <tr><th colspan="${allQuestions.length + 1}">Testlər</th></tr>
-                        <tr><td>Sual №</td>${numsRow}</tr>
-                        <tr><td>Doğru cavab</td>${correctRow}</tr>
-                        <tr><td>Cavab</td>${userRow}</tr>
-                        <tr><td></td>${statusRow}</tr>
-                    </table>
-                </div>
-            `;
 
             document.getElementById("dim-report-content").innerHTML = reportHtml;
             document.getElementById("res-total-correct").innerText = examState.correct;
@@ -1069,7 +993,7 @@
                 let isCorrect = userAnsIdx === q.correct;
 
                 reviewHtml += `<div style="margin-bottom:10px; padding:8px; background:#fff; border-radius:4px; border:1px solid #cbd5e1;">
-                    <p style="margin:0 0 5px 0;"><b>Sual ${index + 1}:</b> ${q.question}</p>
+                    <p style="margin:0 0 5px 0;"><b>Sual ${index + 1} (${q.subject}):</b> ${q.question}</p>
                     <p style="margin:0 0 3px 0;">Sizin cavab: <span class="${isCorrect ? 'ans-correct' : 'ans-wrong'}">${userAnsText}</span></p>
                     <p style="margin:0;">Doğru cavab: <span class="ans-correct">${correctAnsText}</span></p>
                 </div>`;

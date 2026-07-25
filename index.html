@@ -3,6 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İmtahan Nəticələri və Səhvlərin Təhlili</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h2.title {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .name {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 12px;
+            text-align: center;
+            background: #fff;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 4px 6px;
+            min-width: 22px;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        .correct-ans {
+            color: red;
+        }
+        .user-ans {
+            color: blue;
+        }
+        .sign-plus {
+            color: blue;
+            font-weight: bold;
+        }
+        .sign-minus {
+            color: red;
+            font-weight: bold;
+        }
+        .summary-text {
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        .total-box {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background: #fafafa;
+            color: #a94442;
+        }
+        /* Səhvlərin Təhlili Bölməsi */
+        .analysis-section {
+            margin-top: 30px;
+            border-top: 2px solid #ddd;
+            padding-top: 20px;
+        }
+        .analysis-btn-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .btn-analysis {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-analysis:hover {
+            background-color: #34495e;
+        }
+        .analysis-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #fff;
+        }
+        .analysis-card .q-num {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .analysis-card .user-wrong {
+            color: red;
+            font-weight: bold;
+        }
+        .analysis-card .correct-right {
+            color: green;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="title">Dövlət qulluğu vəzifələri üzrə test imtahanının<br>nəticələri haqqında məlumat</h2>
+    <div class="name">İMANOV YUNİS</div>
+
+    <!-- Azərbaycan dili -->
+    <div class="section-title">Azərbaycan dili</div>
+    <div class="table-responsive">
+        <table>
+            <tr>
+                <th>Sual №</th>
+                <!-- 1-dən 15-ə qədər -->
+                <script>
+                    for(let i=1; i<=15; i++) document.write(`<td>${i}</td>`);
+                </script>
+            </tr>
+            <tr>
+                <td>Doğru cavab</td>
+                <td class="correct-ans">E</td><td class="correct-ans">D</td><td class="correct-ans">C</td><td class="correct-ans">E</td><td class="correct-ans">A</td><td class="correct-ans">E</td><td class="correct-ans">D</td><td class="correct-ans">B</td><td class="correct-ans">C</td><td class="correct-ans">C</td><td class="correct-ans">A</td><td class="correct-ans">C</td><td class="correct-ans">E</td><td class="correct-ans">E</td><td class="correct-ans">E</td>
+            </tr>
+            <tr>
+                <td>Cavab</td>
+                <td class="user-ans">C</td><td class="user-ans">D</td><td class="user-ans">C</td><td class="user-ans">B</td><td class="user-ans">D</td><td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">B</td><td class="user-ans">C</td><td class="user-ans">B</td><td class="user-ans">C</td><td class="user-ans">C</td><td class="user-ans">E</td><td class="user-ans">E</td><td class="user-ans">E</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-minus">-</td><td class="sign-minus">-</td><td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-minus">-</td><td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td>
+            </tr>
+        </table>
+    </div>
+    <div class="summary-text">Doğru cavabların sayı: <b>9(9+0)</b>; Yanlış cavabların sayı: <b>6</b>;<br>Cavablandırılmayan test tapşırıqlarının sayı: <b>0</b>; Topladığı bal: <b>9(9+0)</b></div>
+
+    <!-- Qanunvericilik -->
+    <div class="section-title">Qanunvericilik</div>
+    <div class="table-responsive">
+        <table>
+            <tr>
+                <th>Sual №</th>
+                <script>
+                    for(let i=16; i<=55; i++) document.write(`<td>${i}</td>`);
+                </script>
+            </tr>
+            <tr>
+                <td>Doğru cavab</td>
+                <!-- 16-55 nümunəvi düzülüş -->
+                <td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">B</td><td class="correct-ans">C</td><td class="correct-ans">B</td><td class="correct-ans">C</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">B</td><td class="correct-ans">C</td><td class="correct-ans">B</td><td class="correct-ans">C</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">D</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">A</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">D</td><td class="correct-ans">B</td><td class="correct-ans">A</td><td class="correct-ans">B</td><td class="correct-ans">B</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">B</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">C</td><td class="correct-ans">C</td><td class="correct-ans">D</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">D</td>
+            </tr>
+            <tr>
+                <td>Cavab</td>
+                <td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">B</td><td class="user-ans">C</td><td class="user-ans">D</td><td class="user-ans">A</td><td class="user-ans">A</td><td class="user-ans">B</td><td class="user-ans">B</td><td class="user-ans">D</td><td class="user-ans">B</td><td class="user-ans">D</td><td class="user-ans">B</td><td class="user-ans">C</td><td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">D</td><td class="user-ans">B</td><td class="user-ans">A</td><td class="user-ans">B</td><td class="user-ans">B</td><td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">B</td><td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">C</td><td class="user-ans">C</td><td class="user-ans">D</td><td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">D</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-minus">-</td><td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-minus">-</td><td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td>
+            </tr>
+        </table>
+    </div>
+    <div class="summary-text">Doğru cavabların sayı: <b>32(32+0)</b>; Yanlış cavabların sayı: <b>8</b>;<br>Cavablandırılmayan test tapşırıqlarının sayı: <b>0</b>; Topladığı bal: <b>32(32+0)</b></div>
+
+    <!-- İnformatika -->
+    <div class="section-title">İnformatika</div>
+    <div class="table-responsive">
+        <table>
+            <tr>
+                <th>Sual №</th>
+                <script>
+                    for(let i=56; i<=70; i++) document.write(`<td>${i}</td>`);
+                </script>
+            </tr>
+            <tr>
+                <td>Doğru cavab</td>
+                <td class="correct-ans">E</td><td class="correct-ans">D</td><td class="correct-ans">B</td><td class="correct-ans">D</td><td class="correct-ans">E</td><td class="correct-ans">D</td><td class="correct-ans">B</td><td class="correct-ans">B</td><td class="correct-ans">E</td><td class="correct-ans">E</td><td class="correct-ans">D</td><td class="correct-ans">B</td><td class="correct-ans">A</td><td class="correct-ans">B</td><td class="correct-ans">A</td>
+            </tr>
+            <tr>
+                <td>Cavab</td>
+                <td class="user-ans">B</td><td class="user-ans">B</td><td class="user-ans">A</td><td class="user-ans">C</td><td class="user-ans">E</td><td class="user-ans">D</td><td class="user-ans">D</td><td class="user-ans">B</td><td class="user-ans">B</td><td class="user-ans">E</td><td class="user-ans">D</td><td class="user-ans">B</td><td class="user-ans">A</td><td class="user-ans">C</td><td class="user-ans">B</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="sign-minus">-</td><td class="sign-minus">-</td><td class="sign-minus">-</td><td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-minus">-</td><td class="sign-minus">-</td>
+            </tr>
+        </table>
+    </div>
+    <div class="summary-text">Doğru cavabların sayı: <b>7(7+0)</b>; Yanlış cavabların sayı: <b>8</b>;<br>Cavablandırılmayan test tapşırıqlarının sayı: <b>0</b>; Topladığı bal: <b>7(7+0)</b></div>
+
+    <!-- Məntiq -->
+    <div class="section-title">Məntiq</div>
+    <div class="table-responsive">
+        <table>
+            <tr>
+                <th>Sual №</th>
+                <script>
+                    for(let i=71; i<=100; i++) document.write(`<td>${i}</td>`);
+                </script>
+            </tr>
+            <tr>
+                <td>Doğru cavab</td>
+                <td class="correct-ans">C</td><td class="correct-ans">A</td><td class="correct-ans">B</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">D</td><td class="correct-ans">D</td><td class="correct-ans">E</td><td class="correct-ans">C</td><td class="correct-ans">A</td><td class="correct-ans">B</td><td class="correct-ans">D</td><td class="correct-ans">D</td><td class="correct-ans">B</td><td class="correct-ans">D</td><td class="correct-ans">E</td><td class="correct-ans">C</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">C</td><td class="correct-ans">D</td><td class="correct-ans">C</td><td class="correct-ans">C</td><td class="correct-ans">D</td><td class="correct-ans">C</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">A</td><td class="correct-ans">D</td><td class="correct-ans">D</td>
+            </tr>
+            <tr>
+                <td>Cavab</td>
+                <td class="user-ans">C</td><td class="user-ans">A</td><td class="user-ans">B</td><td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">A</td><td class="user-ans">B</td><td class="user-ans">E</td><td class="user-ans">A</td><td class="user-ans">A</td><td class="user-ans">B</td><td class="user-ans">D</td><td class="user-ans">D</td><td class="user-ans">B</td><td class="user-ans">D</td><td class="user-ans">E</td><td class="user-ans">C</td><td class="user-ans">D</td><td class="user-ans">D</td><td class="user-ans">C</td><td class="user-ans">D</td><td class="user-ans">C</td><td class="user-ans">C</td><td class="user-ans">D</td><td class="user-ans">C</td><td class="user-ans">B</td><td class="user-ans">A</td><td class="user-ans">A</td><td class="user-ans">D</td><td class="user-ans">D</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-minus">-</td><td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-minus">-</td><td class="sign-minus">-</td><td class="sign-plus">+</td><td class="sign-plus">+</td><td class="sign-plus">+</td>
+            </tr>
+        </table>
+    </div>
+    <div class="summary-text">Doğru cavabların sayı: <b>24(24+0)</b>; Yanlış cavabların sayı: <b>6</b>;<br>Cavablandırılmayan test tapşırıqlarının sayı: <b>0</b>; Topladığı bal: <b>24(24+0)</b></div>
+
+    <div class="summary-text" style="margin-top: 15px;">
+        Doğru cavabların sayı: <b>72</b><br>
+        Yanlış cavabların sayı: <b>28</b><br>
+        Cavablandırılmayan test tapşırıqlarının sayı: <b>0</b>
+    </div>
+
+    <div class="total-box">YEKUN BAL: 72</div>
+
+    <!-- Səhvlərin Təhlili Düyməsi və Bölməsi -->
+    <div class="analysis-btn-container">
+        <button class="btn-analysis" onclick="toggleAnalysis()">Səhvlərin Təhlili</button>
+    </div>
+
+    <div id="analysisSection" class="analysis-section hidden">
+        <h3 style="text-align: center; margin-bottom: 20px;">Səhvlərin Təhlili</h3>
+        
+        <!-- Nümunəvi səhv suallar (istəyə görə artırıla bilər) -->
+        <div class="analysis-card">
+            <div class="q-num">Sual 1: Verilmiş sözlərdən hansında vurğu birinci hecadadır?</div>
+            <div>Sizin cavab: <span class="user-wrong">C</span></div>
+            <div>Doğru cavab: <span class="correct-right">E) Yumru</span></div>
+        </div>
+
+        <div class="analysis-card">
+            <div class="q-num">Sual 4: Feilin təsriflənməyən formalarına aid nümunələr verilmiş cərgəni göstərin.</div>
+            <div>Sizin cavab: <span class="user-wrong">B</span></div>
+            <div>Doğru cavab: <span class="correct-right">D) yazanda,qaça-qaça,görüləsi</span></div>
+        </div>
+
+        <div class="analysis-card">
+            <div class="q-num">Sual 56: İnformatika üzrə test sualı...</div>
+            <div>Sizin cavab: <span class="user-wrong">B</span></div>
+            <div>Doğru cavab: <span class="correct-right">E) Doğru variant</span></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function toggleAnalysis() {
+        const section = document.getElementById('analysisSection');
+        if (section.classList.contains('hidden')) {
+            section.classList.remove('hidden');
+            window.scrollTo({ top: section.offsetTop, behavior: 'smooth' });
+        } else {
+            section.classList.add('hidden');
+        }
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</title>
     <style>
         body {

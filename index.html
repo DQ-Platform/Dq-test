@@ -571,61 +571,339 @@
         const testDuration = 3 * 3600;
 
         const allQuestions = [
-            { id: 1, subject: "Azərbaycan dili", question: "1. Verilmiş sözlərdən hansında vurğu birinci hecadadır?", options: ["Məhzun", "Kədərli", "Yumru", "Yamyaşıl", "Böyük"], correct: 3 },
-            { id: 2, subject: "Azərbaycan dili", question: "2. “O” əvəzliyindən sonra hansı cümlələrdə vergülün işlənmə məqamı səhvdir?\n1. O, məni heç anlamaq istəmir.\n2. O, da bizim dostumuzdur.\n3. O, qapıda qardaşı ilə qarşılaşdı.\n4. O, universitetdə təhsil alır.\n5. O, ki sənin əleyhinə danışmaqla məşğuldur.", options: ["1.4.5", "2,3,5", "1,3,4", "1,2,5", "2,4,5"], correct: 3 },
-            { id: 3, subject: "Azərbaycan dili", question: "3. Verilən variantlardan hansında çoxmənalı söz işlənmişdir:", options: ["məktəb", "kitab", "qələm", "insan", "dəftər"], correct: 0 },
-            { id: 4, subject: "Azərbaycan dili", question: "4. Feilin təsriflənməyən formalarına aid nümunələr verilmiş cərgəni göstərin.", options: ["sevər,bax,gördükdə", "yazırsan,fərəhlənir,görmək", "barmaq,toxmaq,dinləyir", "yazanda,qaça-qaça,görüləsi", "görmək, görüşəndə"], correct: 4 },
-            { id: 5, subject: "Azərbaycan dili", question: "5. Həmcins xəbərləri düzəltmə sifətlərlə ifadə olunmuş cümləni müəyyən edin.\nA) Qış getdi, yenə bahar gəldi.\nB) Uşaqların çoxu hazırcavab və üzüyola idi.\nC) Mənim nənəm çox müdrik və dünyagörmüş idi.\nD) Əcəl aldı, yer gizlədi...\nE) Firudin çox tərbiyəli və ağıllı idi", options: ["A) Qış getdi...", "B) Uşaqların çoxu hazırcavab və üzüyola idi.", "C) Mənim nənəm...", "D) Əcəl aldı...", "E) Firudin çox..."], correct: 4 },
-            { id: 6, subject: "Azərbaycan dili", question: "6. Mürəkkəb yer zərfliyi işlənmiş cümlələri müəyyən edin.\n1. Dayımgil Cəlilabadda yaşayır.\n2. Gündəliyim Əli müəllimdə qalmışdı.\n3. Bağımız dəniz kənarında yerləşir.\n4. Kənd yerində yaşayan bunu bilməz.\n5. Təzə evlər Babək prospektində tikiləcək.", options: ["3,5", "2,4,5", "1,3,5", "2,3,5", "2,5"], correct: 0 },
-            { id: 7, subject: "Azərbaycan dili", question: "7. Bu gün hava tez 'qaraldı' cümləsində fərqləndirilmiş sözün təhlili ilə bağlı fikirlərdən biri səhvdir.", options: ["Qayıdış növdədir.", "Quruluşuna görə düzəltmədır.", "Sifətdən düzəlmişdir.", "Xəbər şəklindədir.", "Kök+leksik+qrammatik sxeminə uyğundur."], correct: 0 },
-            { id: 8, subject: "Azərbaycan dili", question: "8. Sözlərdən birinin yazılışı səhvdir:", options: ["kəhrəba", "haqqsevən", "boş-bikar", "kobud", "felyeton"], correct: 1 },
-            { id: 9, subject: "Azərbaycan dili", question: "9. Məsubiyyət və hal şəkilçili qeyri-müəyyən əvəzliyin işləndiyi nümunələri müəyyənləşdirin.\n1. Dedilər ki, heç nəyə toxunmaq olmaz.\n2. Bu sual uşaqların hamısına verilə bilər.\n3. Dövlətimizin daha da qüdrətlənməsi üçün hər birimiz çalışmalıyıq.\n4. Mən sizin hərənizə bir tapşırıq verəcəyəm.\n5. Eləsinin cavabını vaxtında verərlər.", options: ["1,2,4", "2,4", "2,3,4", "2,3", "2,4,5"], correct: 1 },
-            { id: 10, subject: "Azərbaycan dili", question: "10. Cümlənin şəxsə görə növləri baxımından məntiqi ardıcıllığı tamamlayın.\nCücəni payızda sayarlar.\nQonağı belə qarşılayarlar.\nİndi şəhərimizdə göydələnlərə tez-tez rast gəlirsən.", options: ["Ağır otur, batman gəl.", "Hamı gərək öz işinə hörmətlə yanaşsın.", "Tövlə içərisində ona bir künc vermişdilər.", "Səkiyə qalxan kimi onu yuxu apardı.", "Onun sözlərinə yenə də məhəl qoyulmadı."], correct: 0 },
-            { id: 11, subject: "Azərbaycan dili", question: "11. Mürəkkəb xitab işlənən cümləni müəyyən edin.", options: ["Ay dost, hara gedirsən?", "Məhəmmədhəsən, məni eşidirsən?", "Əziz oğlum, xeyir işin mübarək!", "Aynur, Aysel, məni eşidirsiniz?", "Dərya kimi dalğalan, ey bayrağım!"], correct: 2 },
-            { id: 12, subject: "Azərbaycan dili", question: "12. Qəflətən külək başladı, ağacdakı meyvələr yerə dağıldılar.\nCümlədə ədəbi dilin hansı norması (normaları) pozulmuşdur?", options: ["yalnız leksik", "leksik,qrammatik", "yalnız qrammatik", "fonetik,leksik", "fonetik,leksik,qrammatik"], correct: 1 },
-            { id: 13, subject: "Azərbaycan dili", question: "13. Hansı cümlədə zərf feili sifətə aiddir?", options: ["Dərsə gecikən şagirdləri içəri buraxmadılar.", "Nikbin insanlar həyatı daha çox sevərlər.", "İrəli gedəni yarı yolda saxlamaq olmaz.", "Qapını möhkəmcə bağlayıб içəri keçдим.", "Ucadan danışmaq onun adətidir."], correct: 2 },
-            { id: 14, subject: "Azərbaycan dili", question: "14. Saitlə başlayan hər cür şəkilçi qoşulduqda aşağıdakı hansı sözün kökündəki son sait düşür?", options: ["ömür", "alın", "çiyin", "burun", "oğul"], correct: 0 },
-            { id: 15, subject: "Azərbaycan dili", question: "15. Hansı mürəkkəb adın yazılışı düzgündür?", options: ["Orta paleolit dövrü", "Azərbaycan Respublikası Nazirlər Kabineti", "Nəsimi adına Dilçilik institutu", "31 Dekabr – Dünya Azərbaycanlılarının həmrəylik günü", "Şəmkir rayon Təhsil Şöbəsi"], correct: 1 },
-            { id: 16, subject: "Qanunvericilik", question: "16. Azərbaycan Respublikasında dövlət dili haqqında Qanuna əsasən doğru olanları müəyyən edin.", options: ["1,4,5", "2,4", "1,2,3", "3,5", "1,2,5"], correct: 0 },
-            { id: 17, subject: "Qanunvericilik", question: "17. Azərbaycan Respublikası Konstitusiyasına əsasən Azərbaycan Respublikası Prezidenti tərəfindən ləğv edilə bilməz.", options: ["Azərbaycan Respublikasının Nazirlər Kabinetining qərarları", "Mərkəzi icra hakimiyyəti orqanlarının aktları", "Yerli icra hakimiyyəti orqanlarının aktları", "Məhkəmələrin qərarları"], correct: 2 },
-            { id: 18, subject: "Qanunvericilik", question: "18. Azərbaycan Respublikasının Konstitusiyasına əsasən Milli Məclisin çağırışının səlahiyyət müddəti ilə bağlı doğru olanı seçin.", options: ["Seçkilər hər beş ildən bir...", "Müharibə şəraitində səlahiyyət müddəti beş il müddətinədək uzadılır", "Yeni seçkilər deputatın səlahiyyət müddəti...", "Konstitusiya Məhkəməsi tərəfindən qəbul edilir."], correct: 2 },
-            { id: 19, subject: "Qanunvericilik", question: "19. Dövlət Gerbindən istifadə qaydaları haqqında Qanuna əsasən təsvirindən istifadə ilə bağlı yanlışdır.", options: ["Pul nişanlarında...", "Şəxsiyyət vəsiqəsində...", "Təhsil müəssisələrində...", "Hər bir şəxs... istifadə edə bilər."], correct: 2 },
-            { id: 20, subject: "Qanunvericilik", question: "20. Azərbaycan Respublikasının Konstitusiyasına əsasən doğrudur.", options: ["Normativ hüquqi aktların dərc edilməsi qaydası qanunla müəyyən edilir.", "Yerli icra hakimiyyəti orqanları...", "Bələdiyyələrin aktları...", "Nazirlər Kabinetinin qərarları..."], correct: 2 },
-            { id: 21, subject: "Qanunvericilik", question: "21. Dövlət qulluğu haqqında Qanuna əsasən yanlış fikirləri müəyyən edin.", options: ["1,3,5", "1,4,5", "2,3,6", "2,4,6", "1,3,6"], correct: 0 },
-            { id: 22, subject: "Qanunvericilik", question: "22. Dövlət dili haqqında Qanuna əsasən elmi nəşrdə ərəb əlifbasından istifadə ilə əlaqədar nəşriyyatın cavabı...", options: ["Yanlışdır...", "Yanlışdır...", "Doğrudur elmi nəşrlərdə ədəbiyyat göstəriciləri yalnız Azərbaycan əlifbasında buraxılmalıdır.", "Doğrudur..."], correct: 1 },
-            { id: 23, subject: "Qanunvericilik", question: "23. Dövlət qulluğu haqqında Qanuna əsasən intizam tənbeh tədbirinin tətbiqinə dair hansılar doğrudur.", options: ["Dövlət orqanının rəhbərinin əmri ilə araşdırma aparılır...", "İxtisas dərəcəsinin iki pillə aşağı salınması...", "Vəzifə maşının yarısınadək azaldılması...", "Xidməti yoxlama..."], correct: 1 },
-            { id: 24, subject: "Qanunvericilik", question: "24. Dövlət qulluğu haqqında Qanuna əsasən doğru fikri müəyyən edin.", options: ["Baş müşavir...", "Xüsusi hərbi rütbələr...", "Vaxtından əvvəl ixtisas dərəcəsi... üçdə birini keçdikdən sonra verilə bilər.", "Yalnız üç dəfə..."], correct: 3 },
-            { id: 25, subject: "Qanunvericilik", question: "25. Kargüzarlıq haqqında təlimata əsasən sənədlərin dövriyyəsinin təşkili ilə bağlı doğrudur.", options: ["Teleqramlar və təcili sənədlər dərhal qalan sənədlər isə gündə azı iki dəfə çatdırılır", "Göndərilmək üçün...", "Daxil olunmuş sənədlər...", "Şəxsi korrespondensiya..."], correct: 1 },
-            { id: 26, subject: "Qanunvericilik", question: "26. Elektron imza və elektron sənəd haqqında Qanuna əsasən alınma vaxtı hesab edilir.", options: ["Nəzarətdə olmayan...", "Göndərənin... sisteminə daxil olduğu an", "Elektron sənədin alanın göstərdiyi informasiya sisteminə daxil olduğu an", "Yaradıldığı an"], correct: 3 },
-            { id: 27, subject: "Qanunvericilik", question: "27. Vətəndaşların müraciətləri haqqında Qanuna əsasən müraciət aşağıdakı hallarda baxılmamış saxlanılır.", options: ["1,2,3", "4,5", "1,3,5", "2,4", "1,3,4"], correct: 1 },
-            { id: 28, subject: "Qanunvericilik", question: "28. Sertifikat xidmətləri mərkəzləri fəaliyyətinə xitam verilməsinə neçə gün qalmış mediada elan verir?", options: ["Ən azı 15 gün qalmış", "Ən azı 10 gün qalmış", "Ən azı 20 gün qalmış", "Ən azı 30 gün qalmış"], correct: 1 },
-            { id: 29, subject: "Qanunvericilik", question: "29. İnformasiya əldə edilməsi üçün sorğunun verilməsi qaydası tənzimlənir?", options: ["\"İnformasiya əldə etmək haqqında\" Azərbaycan Respublikasının qanunu ilə", "\"Vətəndaşların müraciətləri haqqında\"...", "\"Məlumat azadlığı haqqında\"...", "\"Ombudsman haqqında\"..."], correct: 1 },
-            { id: 30, subject: "Qanunvericilik", question: "30. Dövlət qulluqçusu xidməti vəzifələrinin yerinə yetirilməsi zamanı siyasi bitərəfliyə əməl etməyə borcludur. Hansı etik davranış qaydalarına aiddir?", options: ["İctimai və ya siyasi fəaliyyət", "Maraqlar toqquşmasının qarşısının alınması", "Qərəzsizlik", "İctimai etimad"], correct: 1 },
-            { id: 31, subject: "Qanunvericilik", question: "31. Dövlət qulluqçusunun əsas vəzifələrinə aiddir:", options: ["Yalnız 3", "1,2,3", "2,3,4", "3,4", "1,2,3,4"], correct: 3 },
-            { id: 32, subject: "Qanunvericilik", question: "32. Elektron sənədə dair tələblərlə bağlı hansılar doğru deyil.", options: ["3,4", "2,4", "1,3", "1,2", "1,4"], correct: 3 },
-            { id: 33, subject: "Qanunvericilik", question: "33. Korrupsiya ilə əlaqədar hüquqpozmalarla bağlı məlumat verən şəxsə qisas məqsədilə tədbirlər... dəlillərin təkzib edilməsi ...... üzərinə düşür.", options: ["Məlumat verən şəxsin", "İşəgötürənin", "Dövlət orqanı rəhbərinin", "Məhkəmənin"], correct: 2 },
-            { id: 34, subject: "Qanunvericilik", question: "34. Təşkilatlarda sərəncam mahiyyətli sənədlərin yaranmasının hüquqi əsasları kimi yanlış göstərilmişdir:", options: ["qüvvədə olan normativ hüquqi aktların tələbləri", "Dövlət orqanının işini...", "təşkilat tərəfindən...", "yuxarı təşkilatların konkret tapşırıqları"], correct: 2 },
-            { id: 35, subject: "Qanunvericilik", question: "35. Korrupsiya risklərinin müəyyən edilməsi, təhlili zamanı nəzərə alınmır:", options: ["mediada... mənbəyi məlum olmayan digər məlumatlar;", "hüquqi və fiziki şəxslər...", "korrupsiya ilə əlaqədar...", "orqanın fəaliyyətinə dair..."], correct: 2 },
-            { id: 36, subject: "Qanunvericilik", question: "36. Konstitusiyaya əlavələrin qəbul edilməsi qaydası ilə bağlı yanlış fikri müəyyən edin.", options: ["Konstitusiya qanunları... 6 ay sonra keçirilir.", "İkinci səsvermədən sonra Prezidentə imzalanmaq üçün təqdim olunur.", "Konstitusiya qanunları... zidd olmamalıdır.", "Azı 63 deputatı təklif edə bilərlər"], correct: 0 },
-            { id: 37, subject: "Qanunvericilik", question: "37. Dövlət Qulluğu İdarəetmə Şurası və Korrupsiyaya qarşı mübarizə üzrə Komissiyanın oxşar cəhəti:", options: ["1,3", "yalnız 2,3", "2,3,4", "1,4", "1,2,3"], correct: 0 },
-            { id: 38, subject: "Qanunvericilik", question: "38. “Məhkəmələr və hakimlər haqqında” Qanuna əsasən yanlış bəndləri müəyyən edin:", options: ["1,2,5", "2,3,5", "1,2,6", "2,4,5", "4,5,6"], correct: 3 },
-            { id: 39, subject: "Qanunvericilik", question: "39. 28.09.2020-ci il tarixində hərbi vəziyyət elan edilməsi ilə bağlı situasiya.", options: ["İnsan hüquqları üzrə müvəkkil...", "Konstitusiya Məhkəməsi...", "İnsan Hüquqları üzrə müvəkkil və Konstitusiya Məhkəməsi...", "Konstitusiya Məhkəməsi haqqlıdır, Prezident fərmanı... uyğundur."], correct: 2 },
-            { id: 40, subject: "Qanunvericilik", question: "40. Azərbaycan Respublikası Konstitusiyasına əsasən doğru olan bəndi müəyyən edin.", options: ["Bələdiyyələrə...", "Bələdiyyələrin qərarları...", "Vergilər...", "Bələdiyyələrin müstəqilliyinə qanunvericilik və icra hakimiyyəti orqanları tərəfindən təminat verilir."], correct: 0 },
-            { id: 41, subject: "Qanunvericilik", question: "41. İxtisas dərəcələri intizam tənbehi qaydasında aşağı salına bilməz.", options: ["Milli Arxiv İdarəsində...", "Ali Atestassiya Komissiyasında...", "Məhkəmə Hüquq şurasında...", "Konstitusiya Məhkəməsində aparat rəhbəri müavinin"], correct: 1 },
-            { id: 42, subject: "Qanunvericilik", question: "42. “Məhkəmələr və hakimlər haqqında” Qanuna əsasən doğru olan bəndləri müəyyən edin.", options: ["2,3,4", "1,2,5", "1,2,3", "1,2,3,6", "1,3,4,6"], correct: 0 },
-            { id: 43, subject: "Qanunvericilik", question: "43. Azərbaycan Respublikasının Konstitusiyasına əsasən yanlış olan bəndləri müəyyən edin:", options: ["1,3,4,5", "1,4,5,6", "1,2,4,5", "2,4,5,6"], correct: 3 },
-            { id: 44, subject: "Qanunvericilik", question: "44. Azərbaycan Respublikasının Konstitusiyasına əsasən yanlış olan bəndləri müəyyən edin.", options: ["1,2,5", "1,4,5", "2,3,6", "1,4,6"], correct: 0 },
-            { id: 45, subject: "Qanunvericilik", question: "45. Naxçıvan MR baş naziri və Ali Məclis sədrinin dialoqu.", options: ["Baş nazir haqsızdır...", "Ali Məclisin sədri haqsızdır, çünki dövlət bayrağının İclas salonunda daimi yerləşdirilməsi nəzərdə tutulmuşdur.", "Hər ikisi haqsızdır...", "Qanunvericilikdə..."], correct: 2 },
-            { id: 46, subject: "Qanunvericilik", question: "46. Aşağıdakılardan hansı doğru deyil?", options: ["Təqsirsizlik prezumpsiyası...", "Təqsiri sübuta yetirilməyibsə...", "Əsaslı şübhələr varsa...", "Cinayətin törədilməsində təqsirləndirilən hər bir şəxs özünün təqsirsizliyini sübuta yetirməyə borcludur."], correct: 1 },
-            { id: 47, subject: "Qanunvericilik", question: "47. Aşağıdakılardan hansı doğru deyil?", options: ["Hüquqlardan sui-istifadəyə yol verilmir.", "Hər kəsin qanunla qadağan olunmayan üsullarla...", "Dövlət hər kəsin hüquqlarına... təminat verir.", "Sağlamlıq imkanları məhdud olanlar... vəzifələri daşıyırlar"], correct: 0 },
-            { id: 48, subject: "Qanunvericilik", question: "48. Qanunvericilik təşəbbüsü qaydasında müzakirəyə təqdim olunmuş qanun layihələrində dəyişiklikləri hansı subyekt edə bilər?", options: ["Prezident", "Milli Məclisin azı 83 deputatının tələbi ilə", "qanunvericilik təşəbbüsü hüququndan istifadə edən subyektin razılığı ilə", "heç bir subyekt"], correct: 2 },
-            { id: 49, subject: "Qanunvericilik", question: "49. Qanun layihəsini hansı subyekt təcili elan edə bilər və bu halda hansı müddətdə səsə qoyulur?", options: ["Prezident...", "Prezident...", "Prezident, Ali Məhkəmə, Prokurorluq və ya Naxçıvan MR Ali Məclisi təcili elan edibsə, bu müddət 20 gün təşkil edir.", "Prezident, Ali Məhkəmə..."], correct: 0 },
-            { id: 50, subject: "Qanunvericilik", question: "50. Konstitusiyasına əsasən Din və dövlət maddəsinə aid olan doğru bəndi müəyyən edin:", options: ["Dövlət təhsil sistemi...", "Dini mərasimlərin yerinə yetirilməsi... sərbəstdir.", "Dini etiqad...", "Bütün dini etiqadlar qanun qarşısında bərabərdir."], correct: 0 },
-            { id: 51, subject: "Qanunvericilik", question: "51. Məlumat azadlığı haqqında qanuna əsasən düzgün bəndi müəyyən edin:", options: ["Dövlət, peşə, qulluq, bank, kommersiya sirri...", "Şəxsiyyətin dini mənsubiyyəti...", "Şəxsiyyətin siyasi partiyaya üzvlüyü...", "Şəxslər haqqında məlumatın saxlanılması qanuni məqsədlər üçün qanunvericiliklə müəyyən edilmiş zəruri olan müddətdən çox ola bilməz"], correct: 3 },
-            { id: 52, subject: "Qanunvericilik", question: "52. Mərkəzi Bankın İdarə Heyətinin üzvlərini vəzifədən azad edilməsi ilə bağlı Milli Məclis nə qəbul edir?", options: ["63 səslə qanun", "83 səslə qanun", "63 səslə qərar", "83 səslə qərar"], correct: 0 },
-            { id: 53, subject: "Qanunvericilik", question: "53. Naxçıvan Muxtar Respublikası Ali Məclisinin müəyyən etdiyi ümumi qaydalara aid deyil:", options: ["Naxçıvan MR Ali Məclisinə seçkilər", "Naxçıvan MR iqtisadiyyatının inkişafı", "Sosial təminat", "Naxçıvan Muxtar Respublikasının Nazirlər Kabineti tərkibinin təsdiqi"], correct: 1 },
-            { id: 54, subject: "Qanunvericilik", question: "54. Azərbaycan Respublikasının Konstitusiyasına əsasən uyğunluğu müəyyən edin.", options: ["1-a; 2-c; 3-b", "1-b; 2-c; 3-a", "1-c; 2-b; 3-a", "1-c; 2-a; 3-b"], correct: 0 },
-            { id: 55, subject: "Qanunvericilik", question: "55. Bələdiyyələrin qəbul etdikləri aktlar nəyə əsaslanmalıdır?", options: ["Qanunlara və sübutlara", "Hüquqa və ədalətə", "Qanunlara və konstitusiyaya", "Hüquqa və haqq-ədalətə"], correct: 1 },
+            { id: 1, subject: "Azərbaycan const questions = [
+    {
+        id: 1,
+        question: "Verilmiş sözlərdən hansında vurğu birinci hecadadır?",
+        options: ["A) Məhzun", "B) Kədərli", "C) Yumru", "D) Yamyaşıl", "E) Böyük"],
+        answer: "C"
+    },
+    {
+        id: 2,
+        question: "“O” əvəzliyindən sonra hansı cümlələrdə vergülün işlənmə məqamı səhvdir?\n1. O, məni heç anlamaq istəmir.\n2. O, da bizim dostumuzdur.\n3. O, qapıda qardaşı ilə qarşılaşdı.\n4. O, universitetdə təhsil alır.\n5. O, ki sənin əleyhinə danışmaqla məşğuldur.",
+        options: ["A) 1.4.5", "B) 2,3,5", "C) 1,3,4", "D) 1,2,5", "E) 2,4,5"],
+        answer: "B"
+    },
+    {
+        id: 3,
+        question: "Verilən variantlardan hansında çoxmənalı söz işlənmişdir:",
+        options: ["A) məktəb", "B) kitab", "C) qələm", "D) insan", "E) dəftər"],
+        answer: "C"
+    },
+    {
+        id: 4,
+        question: "Feilin təsriflənməyən formalarına aid nümunələr verilmiş cərgəni göstərin.",
+        options: ["A) sevər,bax,gördükdə", "B) yazırsan,fərəhlənir,görmək", "C) barmaq,toxmaq,dinləyir", "D) yazanda,qaça-qaça,görüləsi", "E) görmək, görüşəndə"],
+        answer: "D"
+    },
+    {
+        id: 5,
+        question: "Həmcins xəbərləri düzəltmə sifətlərlə ifadə olunmuş cümləni müəyyən edin.",
+        options: ["A) Qış getdi, yenə bahar gəldi.", "B) Uşaqların çoxu hazırcavab və üzüyola idi.", "C) Mənim nənəm çox müdrik və dünyagörmüş idi.", "D) Əcəl aldı, yer gizlədi, fani dünya kimə qaldı?", "E) Firudin çox tərbiyəli və ağıllı idi"],
+        answer: "B"
+    },
+    {
+        id: 6,
+        question: "Mürəkkəb yer zərfliyi işlənmiş cümlələri müəyyən edin.\n1.Dayımgil Cəlilabadda yaşayır.\n2.Gündəliyim Əli müəllimdə qalmışdı.\n3.Bağımız dəniz kənarında yerləşir.\n4.Kənd yerində yaşayan bunu bilməz.\n5.Təzə evlər Babək prospektində tikiləcək.",
+        options: ["A) 3,5", "B) 2,4,5", "C) 1,3,5", "D) 2,3,5", "E) 2,5"],
+        answer: "E"
+    },
+    {
+        id: 7,
+        question: "Bu gün hava tez 'qaraldı' cümləsində fərqləndirilmiş sözün təhlili ilə bağlı fikirlərdən biri səhvdir.",
+        options: ["A) Qayıdış növdədir.", "B) Quruluşuna görə düzəltmədir.", "C) Sifətdən düzəlmişdir.", "D) Xəbər şəklindədir.", "E) Kök+leksik+qrammatik sxeminə uyğundur."],
+        answer: "C"
+    },
+    {
+        id: 8,
+        question: "Sözlərdən birinin yazılışı səhvdir:",
+        options: ["A) kəhrəba", "B) haqqsevən", "C) boş-bikar", "D) kobud", "E) felyeton"],
+        answer: "C"
+    },
+    {
+        id: 9,
+        question: "Mənsubiyyət və hal şəkilçili qeyri-müəyyən əvəzliyin işləndiyi nümunələri müəyyənləşdirin.\n1.Dedilər ki, heç nəyə toxunmaq olmaz.\n2.Bu sual uşaqların hamısına verilə bilər.\n3.Dövlətimizin daha da qüdrətlənməsi üçün hər birimiz çalışmalıyıq.\n4.Mən sizin hərənizə bir tapşırıq verəcəyəm.\n5.Eləsinin cavabını vaxtında verərlər.",
+        options: ["A) 1,2,4", "B) 2,4", "C) 2,3,4", "D) 2,3", "E) 2,4,5"],
+        answer: "E"
+    },
+    {
+        id: 10,
+        question: "Cümlənin şəxsə görə növləri baxımından məntiqi ardıcıllığı tamamlayın.\nCücəni payızda sayarlar.\nQonağı belə qarşılayarlar.\nİndi şəhərimizdə göydələnlərə tez-tez rast gəlirsən.",
+        options: ["A) Ağır otur, batman gəl.", "B) Hamı gərək öz işinə hörmətlə yanaşsın.", "C) Tövlə içərisində ona bir künc vermişdilər.", "D) Səkiyə qalxan kimi onu yuxu apardı.", "E) Onun sözlərinə yenə də məhəl qoyulmadı."],
+        answer: "B"
+    },
+    {
+        id: 11,
+        question: "Mürəkkəb xitab işlənən cümləni müəyyən edin.",
+        options: ["A) Ay dost, hara gedirsən?", "B) Məhəmmədhəsən, məni eşidirsən?", "C) Əziz oğlum, xeyir işin mübarək!", "D) Aynur, Aysel, məni eşidirsiniz?", "E) Dərya kimi dalğalan, ey bayrağım!"],
+        answer: "D"
+    },
+    {
+        id: 12,
+        question: "Qəflətən külək başladı, ağacdakı meyvələr yerə dağıldılar.\nCümlədə ədəbi dilin hansı norması (normaları) pozulmuşdur?",
+        options: ["A) yalnız leksik", "B) leksik, qrammatik", "C) yalnız qrammatik", "D) fonetik, leksik", "E) fonetik, leksik, qrammatik"],
+        answer: "B"
+    },
+    {
+        id: 13,
+        question: "Hansı cümlədə zərf feili sifətə aiddir?",
+        options: ["A) Dərsə gecikən şagirdləri içəri buraxmadılar.", "B) Nikbin insanlar həyatı daha çox sevərlər.", "C) İrəli gedəni yarı yolda saxlamaq olmaz.", "D) Qapını möhkəmcə bağlayıb içəri keçdim.", "E) Ucadan danışmaq onun adətidir."],
+        answer: "C"
+    },
+    {
+        id: 14,
+        question: "Saitlə başlayan hər cür şəkilçi qoşulduqda aşağıda göstərilən hansı sözün kökündəki son sait düşür?",
+        options: ["A) ömür", "B) alın", "C) çiyin", "D) burun", "E) oğul"],
+        answer: "C"
+    },
+    {
+        id: 15,
+        question: "Hansı mürəkkəb adın yazılışı düzgündür?",
+        options: ["A) Orta paleolit dövrü", "B) Azərbaycan Respublikası Nazirlər Kabineti", "C) Nəsimi adına Dilçilik institutu", "D) 31 Dekabr – Dünya Azərbaycanlılarının həmrəylik günü", "E) Şəmkir rayon Təhsil Şöbəsi"],
+        answer: "B"
+    },
+    {
+        id: 16,
+        question: "Konstitusiyaya əsasən 83 səs çoxluğu ilə qəbul edilən qanun deyildir:",
+        options: ["A) Referendum təyin edilməsi", "B) Milli Məclisə seçkilər və deputatların statusu", "C) Prezident seçkiləri", "D) Hər biri aiddir"],
+        answer: "D"
+    },
+    {
+        id: 17,
+        question: "Konstitusiyaya əsasən sosial təminat hüququ ilə bağlı olmayan hansıdır:",
+        options: ["A) Təqaüdlərin minimum məbləği qanunla müəyyən edilir.", "B) Dövlət könüllü sosial siğortanın başqa növlərinin inkişafı üçün imkanlar yaradır.", "C) Dövlət işsizliyin aradan qaldırılması üçün bütün imkanlarından istifadə edir.", "D) Yardıma möhtac olanlara kömək etmək ilk növbədə ailə üzvlərinin borcudur"],
+        answer: "D"
+    },
+    {
+        id: 18,
+        question: "Azərbaycan Respublikası Prezident seçkilərinin yekunları barədə məlumatı rəsmən elan edir:",
+        options: ["A) Azərbaycan Respublikası Ali Məhkəməsi", "B) Azərbaycan Respublikasının Mərkəzi Seçki Komissiyası", "C) Azərbaycan Respublikası Konstitusiya Məhkəməsi", "D) Azərbaycan Respublikası Milli Məclisi"],
+        answer: "C"
+    },
+    {
+        id: 19,
+        question: "Azərbaycan Respublikasının Milli Məclisində qanunvericilik təşəbbüsü hüququna malikdir:",
+        options: ["A) Azərbaycan Respublikasının Prokurorluğu, Azərbaycan Respublikasının Konstitusiya Məhkəməsi", "B) Azərbaycan Respublikasının 40 min vətəndaşı, Azərbaycan Respublikasının Prezidenti", "C) Azərbaycan Respublikasının Prezidenti, Azərbaycan Respublikasının Ali Məhkəməsi", "D) Azərbaycan Respublikasının Ali Məhkəməsi, Azərbaycan Respublikasının Konstitusiya Məhkəməsi"],
+        answer: "B"
+    },
+    {
+        id: 20,
+        question: "Azərbaycan Respublikasının Konstitusiyasına əsasən doğru variantı tapın.\n1. Məhkəmə icraatı dövlət dilində və ya yerli əhalinin çoxluq təşkil edən dilində aparılır...\n2. Qanunda nəzərdə tutulmuş hallar istisna olmaqla, cinayət işlərinin qiyabi məhkəmə icraatına yol verilir.\n3. İşə qapalı iclasda baxılmasına yalnız açıq iclasın sirr açılmasına səbəb olmayacağını güman edən hallarda icazə verilir.\n4. Ədalət mühakiməsi vətəndaşların qanun və məhkəmə qarşısında bərabərliyi əsasında həyata keçirilir.\n5. Hakimlər işlərə qərəzsiz, ədalətlə baxırlar.\n6. Hakimlər müstəqildir, yalnız Konstitusiyaya və qanunlara tabedirlər.",
+        options: ["A) 4, 5, 6", "B) 4, 5", "C) 1, 4, 5, 6", "D) 2, 4, 5, 6"],
+        answer: "C"
+    },
+    {
+        id: 21,
+        question: "Azərbaycan Respublikasının Konstitusiyasına əsasən uyğunluğu müəyyən edin.\n1. 3 gün ərzində\n2. 60 gün müddətində\n3. 14 gün ərzində",
+        options: ["A) 1-a; 2-c; 3-b", "B) 1-c; 2-b; 3-a", "C) 1-b; 2-c; 3-a", "D) 1-c; 2-a; 3-b"],
+        answer: "C"
+    },
+    {
+        id: 22,
+        question: "Azərbaycan Respublikası ərazisində fövqəladə vəziyyət tətbiq olunur:",
+        options: ["A) Azərbaycan Respublikasının ərazisi blokadaya alındıqda", "B) Dövlət təsisatlarının normal fəaliyyəti üçün qorxu törədən münaqişələr zamanı", "C) Azərbaycan Respublikası ərazisinin müəyyən hissəsi faktiki işğal olunduqda", "D) Xarici dövlətlər Azərbaycan Respublikasına müharibə elan etdikdə"],
+        answer: "B"
+    },
+    {
+        id: 23,
+        question: "Orta təhsilli A adlı şəxs Milli Məclisin seçkilərində iştirak edir və deputat seçilir... Doğru mülahizəni seçin.",
+        options: ["A) Vitse-prezidentləri Milli Məclisin rəyi əsasında Prezident təyin edir və ali təhsilli olmalıdırlar.", "B) Vitse-prezidentləri Prezident təyin edir və ali təhsilli vətəndaşlar təyin edilə bilər.", "C) Vitse-prezidentlər Milli Məclisin qərarı ilə təyin edilir və orta təhsilli də ola bilər.", "D) Prezident təyin edir və orta təhsilli şəxslər də təyin edilə bilər."],
+        answer: "B"
+    },
+    {
+        id: 24,
+        question: "Azərbaycan Respublikasının Konstitusiyasına əsasən hakimliyə namizədlərə aid tələb deyil:",
+        options: ["A) Seçkilərdə iştirak etmək hüququna malik olmaq", "B) Ali hüquq təhsilli olmaq", "C) Azərbaycan Respublikası vətəndaşı olmaq", "D) Sahibkarlıq, kommersiya və digər ödənişli fəaliyyətlə məşğul ola bilməzlər."],
+        answer: "D"
+    },
+    {
+        id: 25,
+        question: "Azərbaycan Respublikasının Konstitusiyasına əsasən qanunvericilik sisteminə daxil olan normativ hüquqi aktlara aid deyil:",
+        options: ["A) Fərman", "B) Nazirlər Kabinetinin sərəncamı", "C) Qanunlar", "D) Mərkəzi icra hakimiyyəti orqanlarının normativ aktları"],
+        answer: "B"
+    },
+    {
+        id: 26,
+        question: "Azərbaycan Respublikasının Konstitusiyasına əsasən düzgün fikri müəyyən edin.",
+        options: ["A) 1, 4", "B) 2, 3", "C) 3, 4", "D) 1, 2"],
+        answer: "B"
+    },
+    {
+        id: 27,
+        question: "Azərbaycan Respublikasının Konstitusiyasına əsasən düzgün fikri müəyyən edin.",
+        options: ["A) İqtisadiyyatın inkişafı dövlət mülkiyyətinə əsaslanır...", "B) İnsan və vətəndaş hüquqları... əleyhinə istifadə edilə bilməyən mülkiyyət toxunulmazdır.", "C) Yalnız Milli Məclisin qərarı ilə...", "D) Təbii ehtiyatlar hər hansı fiziki şəxslərin hüquqlarına xələl gətirmədən Azərbaycan xalqına mənsubdur."],
+        answer: "B"
+    },
+    {
+        id: 28,
+        question: "Azərbaycan Respublikasının Konstitusiyasına əsasən hansı müddəa referenduma çıxarıla bilməz?",
+        options: ["A) Xalqı təmsil etmək hüququ", "B) Hakimiyyətin mənimsənilməsinə yol verilməməsi", "C) Silahlı Qüvvələr", "D) Azərbaycan Respublikasının dövlət sərhədlərinin dəyişdirilməsi"],
+        answer: "D"
+    },
+    {
+        id: 29,
+        question: "\"Dövlət qulluğu haqqında\" Qanuna əsasən barələrində intizam tənbehi tətbiq edilən dövlət qulluqçuları...",
+        options: ["A) Müsahibə və müsabiqədə iştirak edə bilməz.", "B) Altı ay müddətində müsahibəyə buraxılmırlar.", "C) Üçün hər hansı məhdudiyyət yoxdur.", "D) 1 il ərzində müsahibəyə buraxılmırlar."],
+        answer: "B"
+    },
+    {
+        id: 30,
+        question: "\"Dövlət qulluğu haqqında\" Qanuna əsasən yardımçı vəzifələrin dördüncü təsnifatı üzrə verilən ixtisas dərəcəsinə aid deyil:",
+        options: ["A) Dövlət qulluğunun kiçik referenti", "B) Dövlət qulluğunun birinci dərəcə referenti", "C) Dövlət qulluğunun ikinci dərəcə referenti", "D) Dövlət qulluğunun üçüncü dərəcə referenti"],
+        answer: "A"
+    },
+    {
+        id: 31,
+        question: "“Dövlət qulluğu haqqında" " Qanuna əsasən şəxs dövlət qulluğuna hansı halda qəbul edilə bilməz?",
+        options: ["A) Barəsində inzibati həbs tətbiq olunması ilə bağlı məhkəmə qərarı olarsa", "B) Barəsində inzibati cərimənin tətbiqi...", "C) Vurulan ziyanın ödənilməsinə dair...", "D) Barəsində tibbi xarakterli məcburi tədbirlərin tətbiqinə dair məhkəmənin qərarı olarsa"],
+        answer: "D"
+    },
+    {
+        id: 32,
+        question: "“Dövlət qulluğu haqqında” Qanuna əsasən dövlət qulluqçusu barədə doğru bəndləri müəyyən edin.",
+        options: ["A) 1, 2, 4", "B) 4, 5", "C) 1, 3", "D) 1, 2, 5"],
+        answer: "D"
+    },
+    {
+        id: 33,
+        question: "\"Dövlət qulluğu haqqında\" Qanuna əsasən dövlət qulluqçusunun əlavə təhsilinə dair yanlış bəndləri müəyyən edin.",
+        options: ["A) 2, 3, 5", "B) 2, 3, 4", "C) 1, 4, 5", "D) 1, 2, 4"],
+        answer: "D"
+    },
+    {
+        id: 34,
+        question: "“Dövlət qulluğu haqqında” Qanuna əsasən göstərilən bəndlərdən neçəsi yanlışdır?",
+        options: ["A) Üçü", "B) Biri", "C) İkisi", "D) Dördü"],
+        answer: "B"
+    },
+    {
+        id: 35,
+        question: "\"Dövlət qulluğu haqqında\" Qanuna görə inzibati vəzifə tutan dövlət qulluqçusu bir il ərzində neçə təqvim günü ödənişli məzuniyyətə çıxır?",
+        options: ["A) 25 təqvim günü", "B) 28 təqvim günü", "C) 30 təqvim günü", "D) 45 təqvim günü"],
+        answer: "C"
+    },
+    {
+        id: 36,
+        question: "Dövlət qulluğuna hansı hallarda xitam verilə bilməz?",
+        options: ["A) Dövlət qulluqçusunun 4 aya qədər fəaliyyət qabiliyyətsizliyi davam edərsə", "B) Dövlət qulluqçusuna intizam tənbeh tədbiri tətbiq edildikdə", "C) Dövlət orqanı ləğv edildikdə", "D) Dövlət qulluqçusunun öz arzusu ilə"],
+        answer: "B"
+    },
+    {
+        id: 37,
+        question: "\"Dövlət qulluğu haqqında\" Qanuna əsasən 3-cü kateqoriya dövlət orqanıdır:",
+        options: ["A) Ağır cinayətlər məhkəməsi", "B) Naxçıvan MR Ali Məhkəməsi", "C) Bakı Şəhər İcra Hakimiyyəti", "D) Azərbaycan Respublikası Hərbi Prokurorluğu"],
+        answer: "C"
+    },
+    {
+        id: 38,
+        question: "Dövlət qulluğunun rotasiyası qaydasına aid deyildir:",
+        options: ["A) İnzibati vəzifə tutan dövlət qulluqçularının bir vəzifədən başqa vəzifəyə keçirilməsi", "B) Dövlət qulluğu haqqında qanunun 31-1-ci maddəsinə uyğun olaraq", "C) Rotasiyanın müvafiq icra hakimiyyəti orqanının müəyyən etdiyi qaydada edilməsi", "D) Rotasiyanın müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan tərəfindən həyata keçirilməsi"],
+        answer: "D"
+    },
+    {
+        id: 39,
+        question: "Müsabiqədən müvəffəqiyyətlə keçən A və B namizədlər... Doğru müddəanı müəyyən edin.",
+        options: ["A) A-nın şikayəti əsassızdır, rəhbər sərbəstdir.", "B) Dövlət orqanı rəhbərinin qərarı doğrudur, B fərqləndirmə ilə bitirib.", "C) Rəhbərin qərarı yanlışdır, A daha yüksək pilləni bitirib.", "D) Rəhbərin qərarı doğrudur, B xarici dil bilir."],
+        answer: "B"
+    },
+    {
+        id: 40,
+        question: "Dövlət qulluğunun prinsiplərinə aid deyil:\n1. Səlahiyyət hüdudlarında qərarların hazırlanması...\n2. Vətəndaşların hüquq və azadlıqlarının təmin edilməsi...\n3. Bütün vətəndaşların qanuni tələbləri icra etməyə borclu olması...\n4. Dövlət orqanlarına nəzarət və hesabat verməsi;",
+        options: ["A) 1, 2", "B) 3, 4", "C) 1, 2, 3", "D) 2, 4"],
+        answer: "B"
+    },
+    {
+        id: 41,
+        question: "\"Dövlət qulluqçularının etik davranış qaydaları haqqında\" Qanuna əsasən nəzarətlə bağlı düzgün deyil:",
+        options: ["A) Müvafiq icra hakimiyyəti orqanının yaratdığı qurum...", "B) Dövlət orqanının hüquqi məsələlər üzrə struktur bölməsinin rəhbəri...", "C) Etik davranış qaydalarına əməl olunmasının nəzarəti yuxarı orqan tabeçiliyi əsasında həyata keçirir.", "D) Etik davranış üzrə müvəkkil təyin edilir."],
+        answer: "C"
+    },
+    {
+        id: 42,
+        question: "A adlı dövlət qulluqçusu... B təhqiramiz ifadələr işlədərək... Qurum rəhbərinin vəzifəsidir:",
+        options: ["A) B tərəfindən pozulan etik davranış qaydalarının nəticələrini aradan qaldırmalıdır.", "B) Normativ xarakterli aktları hazırlaya bilməz.", "C) B-nin əməlində intizam pozuntusu yoxdur...", "D) B-nin əməlinin doğruluğunu araşdırıb profilaktik tədbir görməlidir."],
+        answer: "D"
+    },
+    {
+        id: 43,
+        question: "\"Dövlət qulluqçularının etik davranış qaydaları haqqında\" Qanuna əsasən \"İctimai və ya siyasi fəaliyyət\" qaydasına aid deyil:",
+        options: ["A) İctimai və ya siyasi birliyə mənsubiyyəti şübhə doğurmamalıdır.", "B) Qulluq mövqeyindən istifadə edərək təhrik etməməlidir.", "C) Qanunvericiliklə başqa qayda nəzərdə tutulmamışdırsa üzv olmaq hüququ var.", "D) Xidməti vəzifələrin yerinə yetirilməsi zamanı siyasi bitərəfliyə əməl etməyə borcludur."],
+        answer: "C"
+    },
+    {
+        id: 44,
+        question: "”Korrupsiyaya qarşı mübarizə haqqında” Qanuna əsasən məsuliyyətlə bağlı doğrudur:",
+        options: ["A) Cinayət məsuliyyəti yaratdıqda, qanunvericiliyə uyğun həyata keçirilir.", "B) Məhkəmə-Hüquq Şurasına məlumat verir.", "C) Mülki məsuliyyətə səbəb olur.", "D) “Korrupsiyaya qarşı mübarizə haqqında” Qanunda nəzərdə tutulmuş tədbirlər görülür."],
+        answer: "A"
+    },
+    {
+        id: 45,
+        question: "Korrupsiya hüquqpozması deyil:",
+        options: ["A) Vəzifəli şəxsin xidməti vəzifəsi müqabilində nemətlər tələb etməsi, əldə etməsi...", "B) Qanunsuz olaraq alınmış əmlakdan mənfəət əldə etmək məqsədilə istifadə edilməsi", "C) Normativ hüquqi aktların qəbulu zamanı üstünlüklər vermək", "D) Mükafat müqabilində qərarına qanunsuz təsir göstərmək..."],
+        answer: "C"
+    },
+    {
+        id: 46,
+        question: "Məlumat azadlığının həyata keçirilməsinin əsas prinsiplərindən biri deyil:",
+        options: ["A) Məlumatın açıqlığı və onun mübadilə azadlığı", "B) Yalnız vəzifəli şəxslərin ailə və şəxsi həyat sirlərinin saxlanılması", "C) Məlumatın obyektivliyi, tamlığı və həqiqiliyi", "D) Məlumatın axtarılmasının, əldə edilməsinin və istifadə olunmasının qanuniliyi"],
+        answer: "B"
+    },
+    {
+        id: 47,
+        question: "\"Vətəndaşların müraciətləri haqqında\" Qanuna əsasən yazılı müraciətlərin qəbulu ilə bağlı yanlışdır:",
+        options: ["A) Sorğuya beş iş günü ərzində cavab verilə bilər.", "B) Üç iş günündən gec olmayaraq həmin subyektlərə göndərilir.", "C) Müraciəti nəinki qanunazidd hərəkətindən şikayət edilənə, hətta onun vəzifəli şəxslərinə də göndərmək qadağandır.", "D) Müraciətə müvafiq ərazidə yaşayan əhalinin əksəriyyətinin danışdığı dildə cavab verilə bilər"],
+        answer: "D"
+    },
+    {
+        id: 48,
+        question: "\"Vətəndaşların müraciətləri haqqında\" Qanuna əsasən müraciətə baxılma müddəti ən çoxu nə qədər ola bilər?",
+        options: ["A) 50 iş günü", "B) 30 iş günü", "C) 60 iş günü", "D) 40 iş günü"],
+        answer: "B"
+    },
+    {
+        id: 49,
+        question: "Ayşən aptekə dərman almaq üçün daxil olur... məlumat yazılmadığını görür... Kim haqlıdır?",
+        options: ["A) Ayşənin etirazı əsaslıdır. Azərbaycana idxal olunan məhsulların üzərində xarici dillərlə yanaşı Azərbaycan dilində də yazılar olmalıdır.", "B) Ayşənin etirazı əsassızdır...", "C) Ayşənin etirazı əsaslıdır. Yalnız Azərbaycan dilində...", "D) Ayşənin etirazı əsassızdır..."],
+        answer: "A"
+    },
+    {
+        id: 50,
+        question: "\"Məhkəmələr və hakimlər haqqında\" Qanuna əsasən düzgün fikirləri seçin.\n1. Məhkəmələrin üzərinə qanunda təsbit olunmuş vəzifələrdən başqa vəzifələrin qoyulması yolverilməzdir.\n2. Birinci instansiya məhkəməsində işlərə yalnız təkbaşına baxılır.\n3. Bütün hallarda məhkəmələrin qərarları açıq elan edilir.\n4. Qanunda nəzərdə tutulmuş hallar istisna olmaqla cinayət işlərinin qiyabi məhkəmə icraatına yol verilir.",
+        options: ["A) 1, 3", "B) 2, 3", "C) 1, 4", "D) 3, 4"],
+        answer: "C"
+    },
+    {
+        id: 51,
+        question: "\"Elektron imza və elektron sənəd haqqında\" Qanuna əsasən hansı müddəa doğrudur?\n1, 2, 3, 4, 5",
+        options: ["A) 1, 3, 5", "B) 3, 4, 5", "C) 2, 3, 4", "D) 1, 2, 4"],
+        answer: "A"
+    },
+    {
+        id: 52,
+        question: "“Elektron imza və elektron sənəd haqqında” Qanuna əsasən elektron sənəd:",
+        options: ["A) 2, 3", "B) 1, 4", "C) 1, 3", "D) 1, 2"],
+        answer: "A"
+    },
+    {
+        id: 53,
+        question: "Sertifikat Xidmətləri Mərkəzinin fəaliyyətinə xitam verilməsi ilə bağlı yanlış bəndi müəyyən edin.",
+        options: ["A) Müvafiq icra hakimiyyəti orqanı...", "B) Korporativ informasiya sisteminə xidmət edən Mərkəzin fəaliyyətinə sistemin mülkiyyətçisinin qərarı ilə və ya iştirakçılarının razılaşmasına uyğun olaraq xitam verilə bilməz.", "C) Akkreditə edilmiş Mərkəz fəaliyyətinə xitam verilməsi barədə...", "D) Mərkəz fəaliyyətinə xitam verilməsinə ən azı 30 gün qalmış..."],
+        answer: "B"
+    },
+    {
+        id: 54,
+        question: "“Kargüzarlığın aparılmasına dair Təlimat”a əsasən protokolların hazırlanması ilə bağlı yanlış bəndi seçin.",
+        options: ["A) Geniş protokolda əvvəlcə məruzələrin və çıxışların qısa mətni, sonra isə qərar hissəsi verilir.", "B) Təşkilatların bütün iclaslarının və müşavirələrinin protokolu yazılmalı və stenoqramları aparılmalıdır.", "C) Protokolun mətni giriş hissəsindən və əsas hissədən ibarət olmalıdır.", "D) Protokol təşkilat rəhbəri və iclas katibi tərəfindən imzalanır..."],
+        answer: "B"
+    },
+    {
+        id: 55,
+        question: "\"Kargüzarlığın aparılmasına dair Təlimat\"a əsasən sənədin tarixi ilə bağlı düzgün olmayan fikri müəyyən edin.",
+        options: ["A) Sənədin tarixinin elementləri alt-alta ardıcıllıqla yazılır.", "B) Sənədin imzalanmasının və ya təsdiq edilməsinin tarixi sənədin tarixi hesab edilir.", "C) Sənədin tarixi, həmçinin sənədin məzmununda olan tarixlər rəqəmlə yazılmalıdır.", "D) Sənədin imzalanmasının və ya təsdiq edilməsinin tarixi sənədin tarixi hesab edilir."],
+        answer: "A"
+    }
+];
+
             
             // İnformatika (56-70)
             { id: 56, subject: "İnformatika", question: "56. Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "56.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },

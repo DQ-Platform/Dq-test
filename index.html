@@ -13,8 +13,6 @@
             padding: 0;
             user-select: none;
             -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
             scroll-behavior: smooth;
         }
 
@@ -484,20 +482,17 @@
 
             <div id="dim-report-content"></div>
 
-            <!-- Doğru, Yanlış, Cavabsız statistikaları -->
             <div style="margin-top: 20px; font-weight: bold; font-size: 14px; line-height: 1.6;">
                 Doğru cavabların sayı: <span id="res-total-correct">0</span><br>
                 Yanlış cavabların sayı: <span id="res-total-wrong">0</span><br>
                 Cavablandırılmayan test tapşırıqlarının sayı: <span id="res-total-blank">0</span>
             </div>
 
-            <!-- Yekun Bal Qutusu -->
             <div class="final-score-box">
                 YEKUN BAL: <span id="res-total-score">0</span><br>
                 <span id="res-bb-group" style="font-size: 15px; color: #0f172a; margin-top: 5px; display: inline-block;"></span>
             </div>
 
-            <!-- Suallara qayıt düyməsi -->
             <div style="margin-top: 20px;">
                 <a href="#top" class="btn" style="width: 100%; box-sizing: border-box; text-align: center;" onclick="backToReviewQuestions()">⤴ Suallara qayıt (Baxış)</a>
             </div>
@@ -571,7 +566,6 @@
         const testDuration = 3 * 3600;
 
         const allQuestions = [
-            // Azərbaycan dili (1-15)
             { id: 1, subject: "Azərbaycan dili", question: "Verilmiş sözlərdən hansında vurğu birinci hecadadır?", options: ["Məhzun", "Kədərli", "Yumru", "Yamyaşıl", "Böyük"], correct: 2 },
             { id: 2, subject: "Azərbaycan dili", question: "“O” əvəzliyindən sonra hansı cümlələrdə vergülün işlənmə məqamı səhvdir?\n1. O, məni heç anlamaq istəmir.\n2. O, da bizim dostumuzdur.\n3. O, qapıda qardaşı ilə qarşılaşdı.\n4. O, universitetdə təhsil alır.\n5. O, ki sənin əleyhinə danışmaqla məşğuldur.", options: ["1, 4, 5", "2, 3, 5", "1, 3, 4", "1, 2, 5", "2, 4, 5"], correct: 3 },
             { id: 3, subject: "Azərbaycan dili", question: "Verilən variantlardan hansında çoxmənalı söz işlənmişdir:", options: ["məktəb", "kitab", "qələm", "insan", "dəftər"], correct: 2 },
@@ -588,23 +582,22 @@
             { id: 14, subject: "Azərbaycan dili", question: "Saitlə başlayan hər cür şəkilçi qoşulduqda aşağıda göstərilən hansı sözün kökündəki son sait düşür?", options: ["ömür", "alın", "çiyin", "burun", "oğul"], correct: 2 },
             { id: 15, subject: "Azərbaycan dili", question: "Hansı mürəkkəb adın yazılışı düzgündür?", options: ["Orta paleolit dövrü", "Azərbaycan Respublikası Nazirlər Kabineti", "Nəsimi adına Dilçilik institutu", "31 Dekabr – Dünya Azərbaycanlılarının həmrəylik günü", "Şəmkir rayon Təhsil Şöbəsi"], correct: 1 },
             
-            // QANUNVERİCİLİK (16-55)
             { id: 16, subject: "Hüquq", question: "Konstitusiyaya əsasən 83 səs çoxluğu ilə qəbul edilən qanun deyildir:", options: ["Referendum təyin edilməsi", "Milli Məclisə seçkilər və deputatların statusu", "Prezident seçkiləri", "Hər biri aiddir"], correct: 2 },
             { id: 17, subject: "Hüquq", question: "Konstitusiyaya əsasən sosial təminat hüququ ilə bağlı olmayan hansıdır:", options: ["Təqaüdlərin minimum məbləği qanunla müəyyən edilir.", "Dövlət könüllü sosial siğortanın başqa növlərinin inkişafı üçün imkanlar yaradır.", "Dövlət işsizliyin aradan qaldırılması üçün bütün imkanlarından istifadə edir.", "Yardıma möhtac olanlara kömək etmək ilk növbədə ailə üzvlərinin borcudur"], correct: 3 },
             { id: 18, subject: "Hüquq", question: "Azərbaycan Respublikası Prezident seçkilərinin yekunları barədə məlumatı rəsmən elan edir:", options: ["Azərbaycan Respublikası Ali Məhkəməsi", "Azərbaycan Respublikasının Mərkəzi Seçki Komissiyası", "Azərbaycan Respublikası Konstitusiya Məhkəməsi", "Azərbaycan Respublikası Milli Məclisi"], correct: 2 },
             { id: 19, subject: "Hüquq", question: "Azərbaycan Respublikasının Milli Məclisində qanunvericilik təşəbbüsü hüququna malikdir:", options: ["Azərbaycan Respublikasının Prokurorluğu, Azərbaycan Respublikasının Konstitusiya Məhkəməsi", "Azərbaycan Respublikasının 40 min vətəndaşı, Azərbaycan Respublikasının Prezidenti", "Azərbaycan Respublikasının Prezidenti, Azərbaycan Respublikasının Ali Məhkəməsi", "Azərbaycan Respublikasının Ali Məhkəməsi, Azərbaycan Respublikasının Konstitusiya Məhkəməsi"], correct: 1 },
-            { id: 20, subject: "Hüquq", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən doğru variantı tapın.\n1. Azərbaycan Respublikasında məhkəmə icraatı Azərbaycan Respublikasının dövlət dilində və ya müvafiq yerin əhalisinin çoxluq təşkil edən hissəsinin dilində aparılır...\n2. Qanunda nəzərdə tutulmuş hallar istisna olmaqla, cinayət işlərinin qiyabi məhkəmə icraatına yol verilir.\n3. İşə qapalı iclasda baxılmasına yalnız o halda icazə verilir ki...\n4. Ədalət mühakiməsi vətəndaşların qanun və məhkəmə qarşısında bərabərliyi əsasında həyata keçirilir.\n5. Hakimlər işlərə qərəzsiz, ədalətlə, tərəflərin hüquq bərabərliyinə, faktlara əsasən və qanuna müvafiq baxırlar.\n6. Hakimlər müstəqildir, yalnız Azərbaycan Respublikasının Konstitusiyasına və qanunlarına tabedirlər...", options: ["4, 5, 6", "4, 5", "1, 4, 5, 6", "2, 4, 5, 6"], correct: 2 },
-            { id: 21, subject: "Hüquq", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən uyğunluğu müəyyən edin.\n1. 3 gün ərzində\n2. 60 gün müddətində\n3. 14 gün ərzində\na. Azərbaycan Respublikasının Prezidenti seçilmiş şəxs...\nb. Azərbaycan Respublikası Prezidenti seçkilərinin yekunları haqqında məlumatı...\nc. Azərbaycan Respublikasının Prezidenti vaxtından əvvəl vəzifədən getdikdə...", options: ["1-a; 2-c; 3-b", "1-c; 2-b; 3-a", "1-b; 2-c; 3-a", "1-c; 2-a; 3-b"], correct: 3 },
+            { id: 20, subject: "Hüquq", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən doğru variantı tapın.", options: ["4, 5, 6", "4, 5", "1, 4, 5, 6", "2, 4, 5, 6"], correct: 1 },
+            { id: 21, subject: "Hüquq", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən uyğunluğu müəyyən edin.", options: ["1-a; 2-c; 3-b", "1-c; 2-b; 3-a", "1-b; 2-c; 3-a", "1-c; 2-a; 3-b"], correct: 3 },
             { id: 22, subject: "Hüquq", question: "Azərbaycan Respublikası ərazisində fövqəladə vəziyyət tətbiq olunur:", options: ["Azərbaycan Respublikasının ərazisi blokadaya alındıqda", "Dövlət təsisatlarının normal fəaliyyəti üçün qorxu törədən münaqişələr zamanı", "Azərbaycan Respublikası ərazisinin müəyyən hissəsi faktiki işğal olunduqda", "Xarici dövlətlər Azərbaycan Respublikasına müharibə elan etdikdə"], correct: 1 },
             { id: 23, subject: "Hüquq", question: "Orta təhsilli A adlı şəxs Milli Məclisin seçkilərində iştirak edir və deputat seçilir... Azərbaycan Respublikasının Konstitusiyasına əsasən düzgün mülahizəni seçin.", options: ["Azərbaycan Respublikasında vitse-prezidentləri Milli Məclisin rəyi əsasında...", "Azərbaycan Respublikasında vitse-prezidentləri Azərbaycan Respublikasının Prezidenti vəzifəyə təyin edir və ali təhsilli vətəndaşlar təyin edilə bilər.", "Azərbaycan Respublikasında vitse-prezidentlər Milli Məclisinin qərarı ilə...", "Azərbaycan Respublikasında vitse-prezidentləri Azərbaycan Respublikasının Prezidenti vəzifəyə təyin edir və orta təhsilli vətəndaşlar da təyin edilə bilər."], correct: 1 },
             { id: 24, subject: "Hüquq", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən hakimliyə namizədlərə aid tələb deyil:", options: ["Seçkilərdə iştirak etmək hüququna malik olmaq", "Ali hüquq təhsilli olmaq", "Azərbaycan Respublikası vətəndaşı olmaq", "Sahibkarlıq, kommersiya və digər ödənişli fəaliyyətlə məşğul ola bilməzlər."], correct: 3 },
             { id: 25, subject: "Hüquq", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən qanunvericilik sisteminə daxil olan normativ hüquqi aktlara aid deyil:", options: ["Fərman", "Nazirlər Kabinetinin sərəncamı", "Qanunlar", "Mərkəzi icra hakimiyyəti orqanlarının normativ aktları"], correct: 1 },
-            { id: 26, subject: "Hüquq", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən düzgün fikri müəyyən edin.\n1. Bələdiyyələrin qəbul etdikləri aktlar hüquqa və haqq-ədalətə...\n2. Bələdiyyələrin qəbul etdikləri aktlar Azərbaycan Respublikasının Konstitusiyasına...\n3. Bələdiyyələrin qəbul etdiyi aktın icrası onun ərazisində yaşayan...\n4. Azərbaycan Respublikasının Konstitusiya Məhkəməsi bələdiyyə aktlarının...", options: ["1, 4", "2, 3", "3, 4", "1, 2"], correct: 1 },
+            { id: 26, subject: "Hüquq", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən düzgün fikri müəyyən edin.", options: ["1, 4", "2, 3", "3, 4", "1, 2"], correct: 0 },
             { id: 27, subject: "Hüquq", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən düzgün fikri müəyyən edin.", options: ["Azərbaycan Respublikasında iqtisadiyyatın inkişafı dövlət mülkiyyətinə əsaslanaraq...", "İnsan və vətəndaş hüquqları və azadlıqları, cəmiyyətin və dövlətin mənafeləri, şəxsiyyətin ləyaqəti əleyhinə istifadə edilə bilməyən mülkiyyət toxunulmazdır və dövlət tərəfindən müdafiə olunur.", "Yalnız Azərbaycan Respublikası Milli Məclisinin qərarı ilə...", "Təbii ehtiyatlar hər hansı fiziki və ya hüquqi şəxslərin hüquqlarına..."], correct: 1 },
             { id: 28, subject: "Hüquq", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən hansı müddəa referenduma çıxarıla bilməz?", options: ["Xalqı təmsil etmək hüququ", "Hakimiyyətin mənimsənilməsinə yol verilməməsi", "Silahlı Qüvvələr", "Azərbaycan Respublikasının dövlət sərhədlərinin dəyişdirilməsi"], correct: 3 },
             { id: 29, subject: "Hüquq", question: "\"Dövlət qulluğu haqqında\" Azərbaycan Respublikasının Qanununa əsasən barələrində intizam tənbehi tətbiq edilən dövlət qulluqçuları...", options: ["Müsahibə və müsabiqədə iştirak edə bilməz.", "Altı ay müddətində müsahibəyə buraxılmırlar.", "Üçün hər hansı məhdudiyyət yoxdur.", "1 il ərzində müsahibəyə buraxılmırlar."], correct: 1 },
             { id: 30, subject: "Hüquq", question: "\"Dövlət qulluğu haqqında\" Azərbaycan Respublikasının Qanununa əsasən dövlət qulluqçularının yardımçı vəzifələrin dördüncü təsnifatı üzrə verilən ixtisas dərəcəsinə aid deyil:", options: ["Dövlət qulluğunun kiçik referenti", "Dövlət qulluğunun birinci dərəcə referenti", "Dövlət qulluğunun ikinci dərəcə referenti", "Dövlət qulluğunun üçüncü dərəcə referenti"], correct: 0 },
-            { id: 31, subject: "Hüquq", question: "“Dövlət qulluğu haqqında" + '" Azərbaycan Respublikasının Qanununa əsasən şəxs dövlət qulluğuna hansı halda qəbul edilə bilməz?', options: ["Barəsində inzibati həbs tətbiq olunması ilə bağlı məhkəmə qərarı olarsa", "Barəsində inzibati cərimənin tətbiq olunması ilə bağlı inzibati tənbeh qərarı qəbul edilmiş olarsa", "Vurulan ziyanın ödənilməsinə dair məhkəmənin qanuni qüvvəyə minmiş qətnaməsi olarsa", "Barəsində tibbi xarakterli məcburi tədbirlərin tətbiqinə dair məhkəmənin qanuni qüvvəyə minmiş qərarı olarsa"], correct: 3 },
+            { id: 31, subject: "Hüquq", question: "“Dövlət qulluğu haqqında” Azərbaycan Respublikasının Qanununa əsasən şəxs dövlət qulluğuna hansı halda qəbul edilə bilməz?", options: ["Barəsində inzibati həbs tətbiq olunması ilə bağlı məhkəmə qərarı olarsa", "Barəsində inzibati cərimənin tətbiq olunması ilə bağlı inzibati tənbeh qərarı qəbul edilmiş olarsa", "Vurulan ziyanın ödənilməsinə dair məhkəmənin qanuni qüvvəyə minmiş qətnaməsi olarsa", "Barəsində tibbi xarakterli məcburi tədbirlərin tətbiqinə dair məhkəmənin qanuni qüvvəyə minmiş qərarı olarsa"], correct: 3 },
             { id: 32, subject: "Hüquq", question: "“Dövlət qulluğu haqqında” Azərbaycan Respublikasının Qanununa əsasən dövlət qulluqçusu barədə doğru bəndləri müəyyən edin.", options: ["1, 2, 4", "4, 5", "1, 3", "1, 2, 5"], correct: 3 },
             { id: 33, subject: "Hüquq", question: "\"Dövlət qulluğu haqqında\" Azərbaycan Respublikasının Qanununa əsasən dövlət qulluqçusunun əlavə təhsilinə dair yanlış bəndləri müəyyən edin.", options: ["2, 3, 5", "2, 3, 4", "1, 4, 5", "1, 2, 4"], correct: 1 },
             { id: 34, subject: "Hüquq", question: "“Dövlət qulluğu haqqında” Azərbaycan Respublikasının Qanununa əsasən göstərilən bəndlərdən neçəsi yanlışdır?", options: ["Üçü", "Biri", "İkisi", "Dördü"], correct: 1 },
@@ -630,7 +623,6 @@
             { id: 54, subject: "Hüquq", question: “Dövlət orqanlarında, dövlət mülkiyyətində olan və paylarının (səhmlərinin) nəzarət zərfi dövlətə məxsus olan hüquqi şəxslərdə və büdcə təşkilatlarında kargüzarlığın aparılmasına dair Təlimat”a əsasən protokolların hazırlanması və tərtib edilməsi ilə bağlı yanlış olan bəndi seçin.", options: ["Geniş protokolda əvvəlcə məruzələrin və çıxışların qısa mətni, sonra isə qərar hissəsi verilir.", "Təşkilatların bütün iclaslarının və müşavirələrinin protokolu yazılmalı və stenoqramları aparılmalıdır.", "Protokolun mətni giriş hissəsindən və əsas hissədən ibarət olmalıdır.", "Protokol təşkilat rəhbəri və iclas katibi tərəfindən imzalanır və təqvim ili çərçivəsində nömrələnir."], correct: 1 },
             { id: 55, subject: "Hüquq", question: "\"Dövlət orqanlarında, dövlət mülkiyyətində olan və paylarının (səhmlərinin) nəzarət zərfi dövlətə məxsus olan hüquqi şəxslərdə və büdcə təşkilatlarında kargüzarlığın aparılmasına dair Təlimat\"a əsasən sənədin tarixi ilə bağlı düzgün olmayan fikri müəyyən edin.", options: ["Sənədin tarixinin elementləri alt-alta ardıcıllıqla yazılır.", "Sənədin imzalanmasının və ya təsdiq edilməsinin tarixi sənədin tarixi hesab edilir.", "Sənədin tarixi, həmçinin sənədin məzmununda olan tarixlər rəqəmlə yazılmalıdır.", "Sənədin imzalanmasının və ya təsdiq edilməsinin tarixi sənədin tarixi hesab edilir."], correct: 0 },
 
-            // İnformatika (56-70)
             { id: 56, subject: "İnformatika", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "56.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
             { id: 57, subject: "İnformatika", question: "Verilənlərin şəbəkə modelinin əsas anlayışlarındandır:", options: ["sətir və sütun", "cədvəl və əlaqə", "domen və sütun", "kortej və səviyyə", "qovşaq və əlaqə"], correct: 1 },
             { id: 58, subject: "İnformatika", question: "İnternetdə axtarış sistemlərini müəyyən edin.\n1. Google+\n2. Badoo\n3. Bing\n4. Safari\n5. Yandex\n6. Baidu", options: ["2, 5, 6", "2, 4, 6", "1, 3, 5", "1, 4, 6", "2, 3, 4"], correct: 2 },
@@ -647,7 +639,6 @@
             { id: 69, subject: "İnformatika", question: "Yerləşdirilmiş faylla birgə elektron məktubun təşkili və göndərilməsi necə ola bilər?\n1. yerləşdirilmiş faylı əlavə etmək\n2. alanın elektron poçt ünvanını daxil etmək\n3. “Göndərmək” düyməsini sıxmaq\n4. mətni daxil etmək\n5. “yeni məktub” düyməsini sıxmaq", options: ["A) 2, 4, 1, 5, 3", "B) 5, 1, 3, 4, 2", "C) 5, 2, 4, 1, 3", "D) 2, 1, 5, 4, 3", "E) 2, 1, 4, 3, 5"], correct: 2 },
             { id: 70, subject: "İnformatika", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "70.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             
-            // Məntiq (71-100)
             { id: 71, subject: "Məntiq", question: "Aşağıda verilmiş anaqramlardan hansı birinci sözün sonu , ikinci sözün əvvəlidir ?\nBar(...)qın", options: ["dan", "şad", "nem", "rel", "yer"], correct: 1 },
             { id: 72, subject: "Məntiq", question: "17:00-dan 4,5 dəqiqə keçdikdən sonra dəqiqə əqrəbi 8 dəqiqə ərzində dayanır və sonra yenidən öz sürəti ilə hərəkətə davam edir . Bundan sonra saat və dəqiqə əqrəbi ilk dəfə düzgün saat neçəni göstərdikdə üst-üstə düşər ?", options: ["17 : 24", "17 : 36", "17 : 48", "17 : 28", "17 : 20"], correct: 3 },
             { id: 73, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "73.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },

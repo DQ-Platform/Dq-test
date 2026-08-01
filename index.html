@@ -742,7 +742,7 @@
             window.location.hash = "";
         }
 
-        function startExam() {
+                function startExam() {
             const nameInput = document.getElementById("user-name").value.trim();
             const tokenInput = document.getElementById("user-token").value.trim().toUpperCase();
             const errorMsg = document.getElementById("error-msg");
@@ -756,6 +756,7 @@
                 return;
             }
 
+            errorMsg.innerText = "";
             currentStudentName = nameInput;
             currentActiveToken = tokenInput;
             userAnswers = {};
@@ -764,6 +765,7 @@
             timeLeft = testDuration;
             examFinished = false;
 
+            sessionStorage.removeItem("active_exam_session");
             saveSessionState();
 
             document.getElementById("login-screen").style.display = "none";
@@ -774,6 +776,7 @@
             startTimer(timeLeft);
         }
 
+            
         function saveSessionState() {
             if (examFinished) return;
             let sessionData = {

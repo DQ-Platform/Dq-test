@@ -5,22 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</title>
     <style>
-        :root {
-            --primary-dark: #0f172a;
-            --primary-light: #1e293b;
-            --accent-gold: #d4af37;
-            --accent-gold-hover: #c5a028;
-            --bg-light: #f8fafc;
-            --text-color: #334155;
-            --warning-orange: #f59e0b;
-            --success-green: #10b981;
-            --danger-red: #ef4444;
-            --border-color: #cbd5e1;
-        }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background-color: var(--bg-light);
             color: var(--text-color);
             margin: 0;
             padding: 0;
@@ -29,21 +16,30 @@
             -moz-user-select: none;
             -ms-user-select: none;
             scroll-behavior: smooth;
-            min-height: 100vh;
         }
 
         @media print {
             body { display: none; }
         }
 
+        :root {
+            --primary-dark: #0f172a;
+            --accent-gold: #d4af37;
+            --bg-light: #f8fafc;
+            --text-color: #334155;
+            --warning-orange: #f59e0b;
+            --success-green: #10b981;
+            --danger-red: #ef4444;
+        }
+
         .container {
             max-width: 1050px;
-            margin: 30px auto;
+            margin: 20px auto;
             background: #ffffff;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
-            border-top: 5px solid var(--accent-gold);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+            border-top: 4px solid var(--accent-gold);
         }
 
         h2, h3, h4 {
@@ -53,53 +49,47 @@
 
         #login-screen {
             text-align: center;
-            padding: 30px 20px;
+            padding: 20px;
         }
 
         .code-input {
-            padding: 14px;
+            padding: 12px;
             font-size: 16px;
             width: 80%;
             max-width: 400px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
             margin-bottom: 15px;
             outline: none;
             text-align: center;
-            transition: all 0.3s ease;
         }
 
         .code-input:focus {
             border-color: var(--accent-gold);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
         }
 
         .token-field {
             letter-spacing: 2px;
             text-transform: uppercase;
-            font-weight: bold;
         }
 
         .btn {
             background-color: var(--primary-dark);
             color: var(--accent-gold);
             border: none;
-            padding: 12px 28px;
+            padding: 12px 25px;
             font-size: 16px;
             font-weight: bold;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background 0.3s;
             display: inline-block;
             text-decoration: none;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
         }
 
         .btn:hover {
-            background-color: var(--primary-light);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 15px rgba(15, 23, 42, 0.25);
+            background-color: #1e293b;
         }
 
         .btn-danger {
@@ -130,19 +120,15 @@
             align-items: center;
             background: var(--primary-dark);
             color: #ffffff;
-            padding: 15px 25px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            border-left: 4px solid var(--accent-gold);
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
         }
 
         .timer {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: var(--accent-gold);
-            background: rgba(255, 255, 255, 0.05);
-            padding: 5px 12px;
-            border-radius: 6px;
         }
 
         .exam-layout {
@@ -154,23 +140,22 @@
         .questions-area {
             flex: 3;
             background: #ffffff;
-            padding: 25px;
+            padding: 20px;
             border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            min-height: 380px;
+            border-radius: 8px;
+            min-height: 350px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
 
         .answer-card-sidebar {
             flex: 1;
-            background: #f8fafc;
-            padding: 18px;
-            border-radius: 10px;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
             height: fit-content;
-            border: 1px solid var(--border-color);
+            border: 1px solid #cbd5e1;
             transition: all 0.3s ease;
         }
 
@@ -178,24 +163,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .sidebar-header h4 {
             margin: 0;
             font-size: 15px;
-            color: var(--primary-dark);
         }
 
         .toggle-sidebar-btn {
             background: var(--primary-dark);
             color: var(--accent-gold);
             border: none;
-            padding: 5px 10px;
+            padding: 4px 8px;
             font-size: 12px;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
         }
@@ -203,11 +185,10 @@
         .grid-nav {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 6px;
+            gap: 5px;
             max-height: 400px;
             overflow-y: auto;
             transition: max-height 0.3s ease, opacity 0.3s ease;
-            padding-right: 2px;
         }
 
         .grid-nav.collapsed {
@@ -219,20 +200,15 @@
         }
 
         .nav-box {
-            padding: 8px 0;
+            padding: 6px 0;
             text-align: center;
             background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
             font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             position: relative;
-            transition: all 0.2s ease;
-        }
-
-        .nav-box:hover {
-            border-color: var(--accent-gold);
         }
 
         .nav-box.answered {
@@ -244,16 +220,15 @@
         .nav-box.current {
             border: 2px solid var(--primary-dark);
             background-color: #e2e8f0;
-            transform: scale(1.05);
         }
 
         .nav-box.flagged::before {
             content: '';
             position: absolute;
-            top: 3px;
+            top: 2px;
             left: 3px;
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             background-color: var(--danger-red);
             border-radius: 50%;
         }
@@ -262,25 +237,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
-            border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .question-title {
             font-weight: 600;
             color: var(--primary-dark);
-            font-size: 16px;
-            line-height: 1.6;
+            font-size: 15px;
+            line-height: 1.5;
             white-space: pre-line;
         }
 
         .question-img {
             max-width: 100%;
             height: auto;
-            border-radius: 8px;
+            border-radius: 6px;
             margin-bottom: 15px;
-            border: 1px solid var(--border-color);
+            border: 1px solid #cbd5e1;
         }
 
         .flag-label {
@@ -292,27 +265,20 @@
             color: #d97706;
             font-weight: 600;
             user-select: none;
-            background: #fffbeb;
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: 1px solid #fde68a;
         }
 
         .options label {
             display: block;
-            padding: 12px 16px;
-            margin: 10px 0;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
+            padding: 10px 14px;
+            margin: 8px 0;
+            background: #f1f5f9;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 14px;
-            transition: all 0.2s ease;
         }
 
         .options label:hover {
-            background: #f1f5f9;
-            border-color: var(--accent-gold);
+            background: #e2e8f0;
         }
 
         .clear-option-btn {
@@ -324,15 +290,14 @@
             padding: 0;
             margin-top: 10px;
             text-decoration: underline;
-            font-weight: 600;
         }
 
         .exam-navigation-buttons {
             display: flex;
             justify-content: space-between;
-            margin-top: 25px;
+            margin-top: 20px;
             border-top: 1px solid #e2e8f0;
-            padding-top: 20px;
+            padding-top: 15px;
         }
 
         #result-screen {
@@ -343,37 +308,36 @@
         .dim-report-title {
             text-align: center;
             font-weight: bold;
-            font-size: 16px;
-            color: var(--primary-dark);
-            margin-bottom: 8px;
+            font-size: 15px;
+            color: #000;
+            margin-bottom: 5px;
             line-height: 1.4;
         }
 
         .dim-student-name {
             text-align: center;
             font-weight: bold;
-            font-size: 18px;
-            color: var(--primary-dark);
-            margin-bottom: 25px;
+            font-size: 16px;
+            color: #000;
+            margin-bottom: 20px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .subject-section {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .dim-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             text-align: center;
             table-layout: fixed;
         }
 
         .dim-table th, .dim-table td {
             border: 1px solid #94a3b8;
-            padding: 4px 2px;
+            padding: 3px 1px;
             font-size: 11px;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -398,15 +362,14 @@
 
         .final-score-box {
             text-align: center;
-            border: 2px solid var(--accent-gold);
-            padding: 20px;
-            margin-top: 30px;
-            font-size: 20px;
+            border: 2px solid #b91c1c;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 18px;
             font-weight: bold;
-            color: var(--primary-dark);
-            background: #fffdf5;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
+            color: #b91c1c;
+            background: #fef2f2;
+            border-radius: 6px;
         }
 
         #admin-panel {
@@ -425,7 +388,7 @@
 
         .stat-card {
             background: #f8fafc;
-            border: 1px solid var(--border-color);
+            border: 1px solid #cbd5e1;
             border-left: 4px solid var(--accent-gold);
             padding: 15px;
             border-radius: 8px;
@@ -447,26 +410,24 @@
 
         .footer {
             text-align: center;
-            margin-top: 35px;
+            margin-top: 30px;
             border-top: 1px solid #e2e8f0;
-            padding-top: 20px;
+            padding-top: 15px;
         }
 
         .footer-text {
             color: var(--primary-dark);
-            font-weight: 600;
+            font-weight: bold;
             font-size: 14px;
         }
 
         .secret-admin-trigger {
             cursor: default;
             user-select: none;
-            color: var(--accent-gold);
-            font-weight: bold;
         }
         
         .error-msg {
-            color: var(--danger-red);
+            color: #ef4444;
             font-weight: bold;
         }
     </style>
@@ -532,12 +493,12 @@
 
             <!-- Yekun Bal Qutusu -->
             <div class="final-score-box">
-                YEKUN BAL: <span id="res-total-score" style="color: #b91c1c;">0</span><br>
-                <span id="res-bb-group" style="font-size: 15px; color: var(--primary-dark); margin-top: 5px; display: inline-block;"></span>
+                YEKUN BAL: <span id="res-total-score">0</span><br>
+                <span id="res-bb-group" style="font-size: 15px; color: #0f172a; margin-top: 5px; display: inline-block;"></span>
             </div>
 
             <!-- Suallara qayıt düyməsi -->
-            <div style="margin-top: 25px;">
+            <div style="margin-top: 20px;">
                 <a href="#top" class="btn" style="width: 100%; box-sizing: border-box; text-align: center;" onclick="backToReviewQuestions()">⤴ Suallara qayıt (Baxış)</a>
             </div>
         </div>
@@ -632,8 +593,8 @@
             { id: 17, subject: "Qanunvericilik", question: "Konstitusiyaya əsasən sosial təminat hüququ ilə bağlı olmayan hansıdır:", options: ["Təqaüdlərin minimum məbləği qanunla müəyyən edilir.", "Dövlət könüllü sosial siğortanın başqa növlərinin inkişafı üçün imkanlar yaradır.", "Dövlət işsizliyin aradan qaldırılması üçün bütün imkanlarından istifadə edir.", "Yardıma möhtac olanlara kömək etmək ilk növbədə ailə üzvlərinin borcudur"], correct: 3 },
             { id: 18, subject: "Qanunvericilik", question: "Azərbaycan Respublikası Prezident seçkilərinin yekunları barədə məlumatı rəsmən elan edir:", options: ["Azərbaycan Respublikası Ali Məhkəməsi", "Azərbaycan Respublikasının Mərkəzi Seçki Komissiyası", "Azərbaycan Respublikası Konstitusiya Məhkəməsi", "Azərbaycan Respublikası Milli Məclisi"], correct: 2 },
             { id: 19, subject: "Qanunvericilik", question: "Azərbaycan Respublikasının Milli Məclisində qanunvericilik təşəbbüsü hüququna malikdir:", options: ["Azərbaycan Respublikasının Prokurorluğu, Azərbaycan Respublikasının Konstitusiya Məhkəməsi", "Azərbaycan Respublikasının 40 min vətəndaşı, Azərbaycan Respublikasının Prezidenti", "Azərbaycan Respublikasının Prezidenti, Azərbaycan Respublikasının Ali Məhkəməsi", "Azərbaycan Respublikasının Ali Məhkəməsi, Azərbaycan Respublikasının Konstitusiya Məhkəməsi"], correct: 1 },
-            { id: 20, subject: "Qanunvericilik", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən doğru variantı tapın.\n1. Azərbaycan Respublikasında məhkəmə icraatı Azərbaycan Respublikasının dövlət dilində və ya müvafiq yerin əhalisinin çoxluq təşkil edən hissəsinin dilində aparılır. İşin iştirakçısı olوب məhkəmə icraatının aparıldığı dili bilməyən şəxslərin işin materialları ilə tam tanış olmaq, məhkəmədə tərcüməçi vasitəsi ilə iştirak etmək və məhkəmədə məhkəmənin müəyyən etdiyi dildə çıxış etmək hüququ təmin edilir.\n2. Qanunda nəzərdə tutulmuş hallar istisna olmaqla, cinayət işlərinin qiyabi məhkəmə icraatına yol verilir.\n3. İşə qapalı iclasda baxılmasına yalnız o halda icazə verilir ki, məhkəmə açıq icraatın dövlət, peşə və kommersiya sirrinin açılmasına səbəb olmayacağını güman edir.\n4. Ədalət mühakiməsi vətəndaşların qanun və məhkəmə qarşısında bərabərliyi əsasında həyata keçirilir.\n5. Hakimlər işlərə qərəzsiz, ədalətlə, tərəflərin hüquq bərabərliyinə, faktlara əsasən və qanuna müvafiq baxırlar.\n6. Hakimlər müstəqildir, yalnız Azərbaycan Respublikasının Konstitusiyasına və qanunlarına tabedirlər və səlahiyyətləri müddətində dəyişilməzdirlər.", options: ["4, 5, 6", "4, 5", "1, 4, 5, 6", "2, 4, 5, 6"], correct: 2 },
-            { id: 21, subject: "Qanunvericilik", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən uyğunluğu müəyyən edin.\n1. 3 gün ərzində\n2. 60 gün müddətində\n3. 14 gün ərzində\na. Azərbaycan Respublikasının Prezidenti seçilmiş şəxs Azərbaycan Respublikası Prezidenti seçkilərining yekunları haqqında məlumatın elan olunduğu gündən başlayaraq Konstitusiya Məhkəməsi hakimlərinin iştirakı ilə and içir.\nb. Azərbaycan Respublikası Prezidenti seçkilərining yekunları haqqında məlumatı səsvermə sonrası Azərbaycan Respublikasının Konstitusiya Məhkəməsi rəsmən elan edir.\nc. Azərbaycan Respublikasının Prezidenti vaxtından əvvəl vəzifədən getdikdə növbədənkənar Azərbaycan Respublikasının Prezidenti seçkiləri keçirilir.", options: ["1-a; 2-c; 3-b", "1-c; 2-b; 3-a", "1-b; 2-c; 3-a", "1-c; 2-a; 3-b"], correct: 2 },
+            { id: 20, subject: "Qanunvericilik", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən doğru variantı tapın.\n1. Azərbaycan Respublikasında məhkəmə icraatı Azərbaycan Respublikasının dövlət dilində və ya müvafiq yerin əhalisinin çoxluq təşkil edən hissəsinin dilində aparılır. İşin iştirakçısı olub məhkəmə icraatının aparıldığı dili bilməyən şəxslərin işin materialları ilə tam tanış olmaq, məhkəmədə tərcüməçi vasitəsi ilə iştirak etmək və məhkəmədə məhkəmənin müəyyən etdiyi dildə çıxış etmək hüququ təmin edilir.\n2. Qanunda nəzərdə tutulmuş hallar istisna olmaqla, cinayət işlərinin qiyabi məhkəmə icraatına yol verilir.\n3. İşə qapalı iclasda baxılmasına yalnız o halda icazə verilir ki, məhkəmə açıq icraatın dövlət, peşə və kommersiya sirrinin açılmasına səbəb olmayacağını güman edir.\n4. Ədalət mühakiməsi vətəndaşların qanun və məhkəmə qarşısında bərabərliyi əsasında həyata keçirilir.\n5. Hakimlər işlərə qərəzsiz, ədalətlə, tərəflərin hüquq bərabərliyinə, faktlara əsasən və qanuna müvafiq baxırlar.\n6. Hakimlər müstəqildir, yalnız Azərbaycan Respublikasının Konstitusiyasına və qanunlarına tabedirlər və səlahiyyətləri müddətində dəyişilməzdirlər.", options: ["4, 5, 6", "4, 5", "1, 4, 5, 6", "2, 4, 5, 6"], correct: 2 },
+            { id: 21, subject: "Qanunvericilik", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən uyğunluğu müəyyən edin.\n1. 3 gün ərzində\n2. 60 gün müddətində\n3. 14 gün ərzində\na. Azərbaycan Respublikasının Prezidenti seçilmiş şəxs Azərbaycan Respublikası Prezidenti seçkilərinin yekunları haqqında məlumatın elan olunduğu gündən başlayaraq Konstitusiya Məhkəməsi hakimlərinin iştirakı ilə and içir.\nb. Azərbaycan Respublikası Prezidenti seçkilərinin yekunları haqqında məlumatı səsvermə sonrası Azərbaycan Respublikasının Konstitusiya Məhkəməsi rəsmən elan edir.\nc. Azərbaycan Respublikasının Prezidenti vaxtından əvvəl vəzifədən getdikdə növbədənkənar Azərbaycan Respublikasının Prezidenti seçkiləri keçirilir.", options: ["1-a; 2-c; 3-b", "1-c; 2-b; 3-a", "1-b; 2-c; 3-a", "1-c; 2-a; 3-b"], correct: 2 },
             { id: 22, subject: "Qanunvericilik", question: "Azərbaycan Respublikası ərazisində fövqəladə vəziyyət tətbiq olunur:", options: ["Azərbaycan Respublikasının ərazisi blokadaya alındıqda", "Dövlət təsisatlarının normal fəaliyyəti üçün qorxu törədən münaqişələr zamanı", "Azərbaycan Respublikası ərazisinin müəyyən hissəsi faktiki işğal olunduqda", "Xarici dövlətlər Azərbaycan Respublikasına müharibə elan etdikdə"], correct: 1 },
             { id: 23, subject: "Qanunvericilik", question: "Orta təhsilli A adlı şəxs Milli Məclisin seçkilərində iştirak edir və deputat seçilir. Sonrakı dövrlərdə Milli Məclisin 83 deputatı təklif edir ki, həmin şəxsin vitse-prezident təyin edilməsi ilə bağlı məsələ Milli Məclisdə müzakirəyə çıxarılsın və həmin şəxs vitse-prezident vəzifəsinə təyin edilsin. Azərbaycan Respublikasının Konstitusiyasına əsasən düzgün mülahizəni seçin.", options: ["Azərbaycan Respublikasında vitse-prezidentləri Milli Məclisin rəyi əsasında Azərbaycan Respublikasının Prezidenti vəzifəyə təyin edir və ali təhsilli vətəndaşlar vitse-prezident təyin edilə bilər.", "Azərbaycan Respublikasında vitse-prezidentləri Azərbaycan Respublikasının Prezidenti vəzifəyə təyin edir və ali təhsilli vətəndaşlar təyin edilə bilər.", "Azərbaycan Respublikasında vitse-prezidentlər Milli Məclisin qərarı ilə vəzifəyə təyin edilir və orta təhsilli vətəndaşlar da təyin edilə bilər.", "Azərbaycan Respublikasında vitse-prezidentləri Azərbaycan Respublikasının Prezidenti vəzifəyə təyin edir və orta təhsilli vətəndaşlar da təyin edilə bilər."], correct: 1 },
             { id: 24, subject: "Qanunvericilik", question: "Azərbaycan Respublikasının Konstitusiyasına əsasən hakimliyə namizədlərə aid tələb deyil:", options: ["Seçkilərdə iştirak etmək hüququna malik olmaq", "Ali hüquq təhsilli olmaq", "Azərbaycan Respublikası vətəndaşı olmaq", "Sahibkarlıq, kommersiya və digər ödənişli fəaliyyətlə məşğul ola bilməzlər."], correct: 3 },
@@ -648,26 +609,26 @@
             { id: 33, subject: "Qanunvericilik", question: "\"Dövlət qulluğu haqqında\" Azərbaycan Respublikasının Qanununa əsasən dövlət qulluqçusunun əlavə təhsilinə dair yanlış bəndləri müəyyən edin.\n1. Dövlət qulluqçusunun əlavə təhsili sınaq müddətinə qəbul edilmiş dövlət qulluqçularına şamil edilmir.\n2. Dövlət qulluqçusunun əlavə təhsilinin müddəti həmin dövlət orqanının rəhbəri tərəfindən təsdiq edilən qaydalarla tənzimlənir.\n3. Dövlət qulluqçusunun əlavə təhsilinin maliyyə təminatı müvafiq icra hakimiyyəti orqanı tərəfindən təsdiq edilən qaydalarla tənzimlənir.\n4. Azərbaycan Respublikasının Hesablama Palatası aparatında ali hüquq təhsili tələb edən vəzifələrdə qulluq keçən dövlət qulluqçuları mütəmadi olaraq müvafiq icra hakimiyyəti orqanının tədris-elm müəssisəsində peşə hazırlığına və ixtisasının artırılmasına cəlb edilirlər.\n5. Azərbaycan Respublikasının Korrupsiyaya qarşı mübarizə üzrə Komissiyasının Katibliyində ali hüquq təhsili tələb edən vəzifələrdə qulluq keçən dövlət qulluqçuları mütəmadi olaraq müvafiq icra hakimiyyəti orqanının tədris-elm müəssisəsində peşə hazırlığına və ixtisasının artırılmasına cəlb edilirlər.", options: ["2, 3, 5", "2, 3, 4", "1, 4, 5", "1, 2, 4"], correct: 3 },
             { id: 34, subject: "Qanunvericilik", question: "“Dövlət qulluğu haqqında” Azərbaycan Respublikasının Qanununa əsasən göstərilən bəndlərdən neçəsi yanlışdır?\n• Yardımçı vəzifə tutan dövlət qulluqçularının əmək münasibətləri Azərbaycan Respublikasının Əmək Məcəlləsi ilə tənzimlənir.\n• Azərbaycan Respublikasının xarici ticarət nümayəndəsi vəzifəsinin tutulması müsabiqə və ya müsahibə keçirmək yolu ilə həyata keçirilir.\n• Daimi dövlət qulluğuna qəbul Azərbaycan Respublikasının adından müvafiq dövlət orqanının sənədi ilə təsdiq edilir.\n• Dövlət qulluğunda fəaliyyətin davam etdirilməsi üzrə keçirilən test imtahanının məzmunu Şuranın təklifləri əsasında müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum) tərəfindən müəyyən edilir.", options: ["Üçü", "Biri", "İkisi", "Dördü"], correct: 1 },
             { id: 35, subject: "Qanunvericilik", question: "\"Dövlət qulluğu haqqında\" Azərbaycan Respublikasının Qanununa görə inzibati vəzifə tutan dövlət qulluqçusu bir il ərzində neçə təqvim günü ödənişli məzuniyyətə çıxır?", options: ["25 təqvim günü", "28 təqvim günü", "30 təqvim günü", "45 təqvim günü"], correct: 2 },
-            { id: 36, subject: "Qanunvericilik", question: "Dövlət qulluğuna hansı hallarda xitam verилə bilməz?", options: ["Dövlət qulluqçusunun 4 aya qədər fəaliyyət qabiliyyətsizliyi davam edərsə", "Dövlət qulluqçusuna intizam tənbeh tədbiri tətbiq edildikdə", "Dövlət orqanı ləğv edildikdə", "Dövlət qulluqçusunun öz arzusu ilə"], correct: 1 },
+            { id: 36, subject: "Qanunvericilik", question: "Dövlət qulluğuna hansı hallarda xitam verilə bilməz?", options: ["Dövlət qulluqçusunun 4 aya qədər fəaliyyət qabiliyyətsizliyi davam edərsə", "Dövlət qulluqçusuna intizam tənbeh tədbiri tətbiq edildikdə", "Dövlət orqanı ləğv edildikdə", "Dövlət qulluqçusunun öz arzusu ilə"], correct: 1 },
             { id: 37, subject: "Qanunvericilik", question: "\"Dövlət qulluğu haqqında\" Azərbaycan Respublikasının Qanununa əsasən 3-cü kateqoriya dövlət orqanıdır:", options: ["Ağır cinayətlər məhkəməsi", "Naxçıvan Muxtar Respublikası Ali Məhkəməsi", "Bakı Şəhər İcra Hakimiyyəti", "Azərbaycan Respublikası Hərbi Prokurorluğu"], correct: 2 },
             { id: 38, subject: "Qanunvericilik", question: "Dövlət qulluğunun rotasiyası qaydasına aid deyildir:", options: ["İnzibati vəzifə tutan dövlət qulluqçularının bir vəzifədən başqa vəzifəyə keçirilməsi", "Dövlət qulluğu haqqında qanunun 31-1-ci maddəsinə uyğun olaraq həyata keçirilməsi", "Rotasiyanın müvafiq icra hakimiyyəti orqanının müəyyən etdiyi qaydada edilməsi", "Rotasiyanın müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan tərəfindən həyata keçirilməsi"], correct: 3 },
             { id: 39, subject: "Qanunvericilik", question: "Müsabiqədən müvəffəqiyyətlə keçərək A və B adlı namizədlər vakant dövlət qulluğu vəzifələrinə təyin edilmək üçün beş iş günü ərzində dövlət orqanının rəhbərinə təqdim olunurlar. Dövlət orqanının rəhbəri müsabiqə nəticələri bərabər olduğuna görə B-nin xarici dil bilməsi və ali təhsil müəssisəsini fərqlənmə ilə bitirməsi əsası ilə onu vakant dövlət qulluğu vəzifəsinə təyin edir. A isə ali təhsil pilləsinin daha yüksək səviyyəsini bitirdiyindən onun vakant vəzifəyə təyin edilməli olması əsası ilə məhkəməyə şikayət verir. \"Dövlət qulluğu haqqında” Azərbaycan Respublikasının Qanununa əsasən verilmiş situasiya ilə bağlı doğru müddəanı müəyyən edin.", options: ["A-nın şikayəti əsassızdır, dövlət orqanı rəhbəri öz mülahizəsinə əsasən seçim etməkdə sərbəstdir.", "Dövlət orqanının rəhbərinin qərarı doğrudur, B təhsil müəssisəsini fərqlənmə ilə bitirdiyindən ona üstünlük verilməli idi.", "Dövlət orqanının rəhbərinin qərarı yanlışdır, A ali təhsil pilləsinin daha yüksək səviyyəsini bitirdiyindən ona üstünlük verilməli idi.", "Dövlət orqanının rəhbərinin qərarı doğrudur, B xarici dili bildiyindən ona üstünlük verilməli idi."], correct: 1 },
             { id: 40, subject: "Qanunvericilik", question: "Dövlət qulluğunun prinsiplərinə aid deyil:\n1. Dövlət orqanlarının səlahiyyəti hüdudlarında qərarların hazırlanması, qəbul edilməsi onların icrası və icrasına nəzarət edilməsi;\n2. Azərbaycan Respublikasının Konstitusiyası və digər qanunvericilik aktları əsasında vətəndaşların hüquq və azadlıqlarının təmin edilməsi;\n3. Bütün vətəndaşların və vəzifəli şəxslərin dövlət qulluqçularının qanuni tələblərini icra etməyə və qanuni hərəkətlərini müdafiə etməyə borclu olması;\n4. Dövlət orqanlarına və dövlət qulluqçularına nəzarət və onların hesabat verməsi;", options: ["1, 2", "3, 4", "1, 2, 3", "2, 4"], correct: 1 },
-            { id: 41, subject: "Qanunvericilik", question: "\"Dövlət qulluqçularının etik davranış qaydaları haqqında\" Azərbaycan Respublikasının Qanununa əsasən etik davranış qaydalarına əməl olunmasına nəzarətlə bağlı düzgün deyil:", options: ["Müvafiq icra hakimiyyəti orqanının yaratdığı qurum etik davranış qaydalarına əməl olunmasına nəzarəti nizamnaməsinə uyğun olaraq həyata keçirir.", "Etik davranış qaydalarına əməl olunmasına nəzarəti dövlət orqanının hüquqi məsələlər üzrə struktur bölməsinin rəhbəri xidməti qaydada həyata keçirilir.", "Etik davranış qaydalarına əməl olunmasının nəzarəti yuxarı orqan tabeçiliyi əsasında həyata keçirir.", "Dövlət orqanında etik davranış qaydalarına əməl olunmasına nəzarəti həmin orqanın rəhbəri tərəfindən təyin edilmiş etik davranış üzrə məmur (vəzifəli şəxs) həyata keçirir."], correct: 2 },
-            { id: 42, subject: "Qanunvericilik", question: "A adlı dövlət qulluqçusu xidməti vəzifələrini yerinə yetirərkən həmkarı B tərəfindən ünvanına işlədilən təhqiramiz ifadələr və qeyri-etik hərəkətlərlə qarşılaşır. Bu barədə dərhal dövlət orqanının rəhbərinə məlumat verir. \"Dövlət qulluqçularının etik davranış qaydaları haqqında\" Qanuna əsasən qurum rəhbərinin vəzifəsidir:", options: ["B tərəfindən pozulan etik davranış qaydalarının nəticələrini aradan qaldırmalıdır.", "Normativ xarakterli aktları hazırlaya bilməz.", "B-nin əməlində intizam pozuntusu yoxdur...", "B-nin əməlinin doğruluğunu araşdırıb zəruri tədbir görməlidir."], correct: 3 },
-            { id: 43, subject: "Qanunvericilik", question: "\"Dövlət qulluqçularının etik davranış qaydaları haqqında\" Qanuna əsasən \"İctimai və ya siyasi fəaliyyət\" qaydasına aid deyil:", options: ["İctimai və ya siyasi birliyə mənsubiyyəti şübhə doğurmamalıdır.", "Qulluq mövqeyindən istifadə edərək təhrik etməməlidir.", "Qanunvericiliklə başqa qayda nəzərdə tutulmamışdırsa üzv olmaq hüququ var.", "Xidməti vəzifələrin yerinə yetirilməsi zamanı siyasi bitərəfliyə əməl etməyə borcludur."], correct: 2 },
-            { id: 44, subject: "Qanunvericilik", question: "”Korrupsiyaya qarşı mübarizə haqqında” Qanuna əsasən məsuliyyətlə bağlı doğrudur:", options: ["Cinayət məsuliyyəti yaratdıqda, qanunvericiliyə uyğun həyata keçirilir.", "Məhkəmə-Hüquq Şurasına məlumat verir.", "Mülki məsuliyyətə səbəb olur.", "“Korrupsiyaya qarşı mübarizə haqqında” Qanunda nəzərdə tutulmuş tədbirlər görülür."], correct: 0 },
-            { id: 45, subject: "Qanunvericilik", question: "Korrupsiya hüquqpozması deyil:", options: ["Vəzifəli şəxsin xidməti vəzifəsi müqabilində nemətlər tələb etməsi, əldə etməsi...", "Qanunsuz olaraq alınmış əmlakdan mənfəət əldə etmək məqsədilə istifadə edilməsi", "Normativ hüquqi aktların qəbulu zamanı üstünlüklər vermək", "Mükafat müqabilində qərarına qanunsuz təsir göstərmək..."], correct: 2 },
-            { id: 46, subject: "Qanunvericilik", question: "Məlumat azadlığının həyata keçirilməsinin əsas prinsiplərindən biri deyil:", options: ["Məlumatın açıqlığı və onun mübadilə azadlığı", "Yalnız vəzifəli şəxslərin ailə və şəxsi həyat sirlərinin saxlanılması", "Məlumatın obyektivliyi, tamlığı və həqiqiliyi", "Məlumatın axtarılmasının, əldə edilməsinin və istifadə olunmasının qanuniliyi"], correct: 1 },
-            { id: 47, subject: "Qanunvericilik", question: "\"Vətəndaşların müraciətləri haqqında\" Qanuna əsasən yazılı müraciətlərin qəbulu ilə bağlı yanlışdır:", options: ["Sorğuya beş iş günü ərzində cavab verilə bilər.", "Üç iş günündən gec olmayaraq həmin subyektlərə göndərilir.", "Müraciəti nəinki qanunazidd hərəkətindən şikayət edilənə, hətta onun vəzifəli şəxslərinə də göndərmək qadağandır.", "Müraciətə müvafiq ərazidə yaşayan əhalinin əksəriyyətinin danışdığı dildə cavab verilə bilər"], correct: 3 },
-            { id: 48, subject: "Qanunvericilik", question: "\"Vətəndaşların müraciətləri haqqında\" Qanuna əsasən müraciətə baxılma müddəti ən çoxu nə qədər ola bilər?", options: ["50 iş günü", "30 iş günü", "60 iş günü", "40 iş günü"], correct: 1 },
-            { id: 49, subject: "Qanunvericilik", question: "Ayşən aptekə dərman almaq üçün daxil olur... məlumat yazılmadığını görür... Kim haqlıdır?", options: ["Ayşənin etirazı əsaslıdır. Azərbaycana idxal olunan məhsulların üzərində xarici dillərlə yanaşı Azərbaycan dilində də yazılar olmalıdır.", "Ayşənin etirazı əsassızdır...", "Ayşənin etirazı əsaslıdır. Yalnız Azərbaycan dilində...", "Ayşənin etirazı əsassızdır..."], correct: 0 },
-            { id: 50, subject: "Qanunvericilik", question: "\"Məhkəmələr və hakimlər haqqında\" Qanuna əsasən düzgün fikirləri seçin.\n1. Məhkəmələrin üzərinə qanunda təsbit olunmuş vəzifələrdən başqa vəzifələrin qoyulması yolverilməzdır.\n2. Birinci instansiya məhkəməsində işlərə yalnız təkbaşına baxılır.\n3. Bütün hallarda məhkəmələrin qərarları açıq elan edilir.\n4. Qanunda nəzərdə tutulmuş hallar istisna olmaqla cinayət işlərinin qiyabi məhkəmə icraatına yol verilir.", options: ["1, 3", "2, 3", "1, 4", "3, 4"], correct: 2 },
-            { id: 51, subject: "Qanunvericilik", question: "\"Elektron imza və elektron sənəd haqqında\" Qanuna əsasən hansı müddəa doğrudur?", options: ["1, 3, 5", "3, 4, 5", "2, 3, 4", "1, 2, 4"], correct: 0 },
-            { id: 52, subject: "Qanunvericilik", question: "“Elektron imza və elektron sənəd haqqında” Qanuna əsasən elektron sənəd:", options: ["2, 3", "1, 4", "1, 3", "1, 2"], correct: 0 },
-            { id: 53, subject: "Qanunvericilik", question: "Sertifikat Xidmətləri Mərkəzinin fəaliyyətinə xitam verilməsi ilə bağlı yanlış bəndi müəyyən edin.", options: ["Müvafiq icra hakimiyyəti orqanı...", "Korporativ informasiya sisteminə xidmət edən Mərkəzin fəaliyyətinə sistemin mülkiyyətçisinin qərarı ilə və ya iştirakçılarının razılaşmasına uyğun olaraq xitam verilməz.", "Akkreditə edilmiş Mərkəz fəaliyyətinə xitam verilməsi barədə...", "Mərkəz fəaliyyətinə xitam verilməsinə ən azı 30 gün qalmış..."], correct: 1 },
-            { id: 54, subject: "Qanunvericilik", question: "“Kargüzarlığın aparılmasına dair Təlimat”a əsasən protokolların hazırlanması ilə bağlı yanlış bəndi seçin.", options: ["Geniş protokolda əvvəlcə məruzələrin və çıxışların qısa mətni, sonra isə qərar hissəsi verilir.", "Təşkilatların bütün iclaslarının və müşavirələrinin protokolu yazılmalı və stenoqramları aparılmalıdır.", "Protokolun mətni giriş hissəsindən və əsas hissədən ibarət olmalıdır.", "Protokol təşkilat rəhbəri və iclas katibi tərəfindən imzalanır..."], correct: 1 },
-            { id: 55, subject: "Qanunvericilik", question: "\"Kargüzarlığın aparılmasına dair Təlimat\"a əsasən sənədin tarixi ilə bağlı düzgün olmayan fikri müəyyən edin.", options: ["Sənədin tarixinin elementləri alt-alta ardıcıllıqla yazılır.", "Sənədin imzalanmasının və ya təsdiq edilməsinin tarixi sənədin tarixi hesab edilir.", "Sənədin tarixi, həmçinin sənədin məzmununda olan tarixlər rəqəmlə yazılmalıdır.", "Sənədin imzalanmasının və ya təsdiq edilməsinin tarixi sənədin tarixi hesab edilir."], correct: 0 },
+            { id: 41, subject: "Qanunvericilik", question: "\"Dövlət qulluqçularının etik davranış qaydaları haqqında\" Azərbaycan Respublikasının Qanununa əsasən etik davranış qaydalarına əməl olunmasına nəzarətlə bağlı düzgün deyil:", options: ["Müvafiq icra hakimiyyəti orqanının yaratdığı qurum etik davranış qaydalarına əməl olunmasına nəzarəti nizamnaməsinə uyğun olaraq həyata keçirir.", "Etik davranış qaydalarına əməl olunmasına nəzarəti dövlət orqanının hüquqi məsələlər üzrə struktur bölməsinin rəhbəri xidməti qaydada həyata keçirilir.", "Etik davranış qaydalarına əməl olunmasının nəzarəti yuxarı orqan tabeçiliyi əsasında həyata keçirir.", "Dövlət orqanlarında etik davranış qaydalarının tətbiqi bu sahədə maarifləndirmə və mübahisələrin həll məsələlərinə məsul olan etik davranış üzrə müvəkkil təyin edilir."], correct: 2 },
+            { id: 42, subject: "Qanunvericilik", question: "A adlı dövlət qulluqçusu, sosial müdafiə hüququnun həyata keçirilməsi ilə bağlı dövlət orqanına müraciət edir və dövlət orqanında dövlət qulluqçusu işləyən B adlı şəxs A-dan müəyyən sənədlər tələb edir. A həmin sənədləri təmin edə bilməyəcəyini və əldə etməsinin qeyri-mümkünlüyünü bildirir. B təhqiramiz ifadələr işlədərək müraciətə baxmaqdan imtina edir. A adlı şəxs dövlət orqanının rəhbərinə B-nin etik davranış qaydalarını pozması ilə əlaqədar şikayət verir. “Etik davranış qaydaları haqqında” Azərbaycan Respublikasının Qanununa əsasən qurumun rəhbərinin (və ya səlahiyyətli şəxsin) vəzifəsidir:", options: ["B tərəfindən pozulan etik davranış qaydalarının nəticələrini aradan qaldırmalıdır.", "B tərəfindən etik davranış qaydalarına əməl olunması ilə bağlı təminatları konkretləşdirən normativ xarakterli aktları hazırlaya bilməz.", "B-nin əməlində intizam pozuntusu yoxdur, ona görə cinayət təqibi orqanına müraciət edə bilməz.", "B-nin əməlinin doğruluğunu araşdırıb profilaktik tədbir görməlidir."], correct: 3 },
+            { id: 43, subject: "Qanunvericilik", question: "\"Dövlət qulluqçularının etik davranış qaydaları haqqında\" Azərbaycan Respublikasının Qanununa əsasən \"İctimai və ya siyasi fəaliyyət\" qaydasına aid deyil:", options: ["Dövlət qulluqçusunun ictimai və ya siyasi birliyə mənsubiyyəti onun xidməti vəzifələrini qərəzsiz və obyektiv yerinə yetirdiyinə ictimai şübhə doğurmamalıdır.", "Dövlət qulluqçusu qulluq mövqeyindən istifadə edərək digər dövlət qulluqçularını ictimai və ya siyasi birliklərin və dini təşkilatların fəaliyyətində iştiraka təhrik etməməlidir.", "Qanunvericiliklə başqa qayda nəzərdə tutulmamışdırsa, dövlət qulluqçusu ictimai və ya siyasi birliyə üzv olmaq hüququna malikdir.", "Dövlət qulluqçusu xidməti vəzifələrinin yerinə yetirilməsi zamanı siyasi bitərəfliyə əməl etməyə borcludur."], correct: 2 },
+            { id: 44, subject: "Qanunvericilik", question: ”Korrupsiyaya qarşı mübarizə haqqında” Azərbaycan Respublikasının Qanununa əsasən korrupsiya ilə əlaqədar hüquqpozmalara görə vəzifəli şəxslərin məsuliyyəti ilə bağlı doğrudur:", options: ["Vəzifəli şəxs tərəfindən korrupsiya ilə əlaqədar hüquqpozmaların törədilməsi cinayət məsuliyyəti yaratdıqda, vəzifəli şəxsin məsuliyyətə cəlb edilməsi Azərbaycan Respublikasının müvafiq qanunvericiliyinə uyğun həyata keçirilir.", "Azərbaycan Respublikasının Konstitusiyası ilə müəyyən olunmuş qaydada dövlət orqanlarına seçilmiş şəxslər korrupsiya ilə əlaqədar hüquqpozma törətdikdə, korrupsiyaya qarşı mübarizə aparan orqan bu barədə Məhkəmə-Hüquq Şurasına məlumat verir.", "Vəzifəli şəxs tərəfindən korrupsiya ilə əlaqədar hüquqpozmaların törədilməsi cinayət məsuliyyəti yaratmadıqda, qanunla müəyyən edilmiş xüsusi qaydalara riayət edilməklə, qanunvericiliklə müəyyən edilmiş qaydada mülki məsuliyyətə səbəb olur.", "Azərbaycan Respublikasının dövlət orqanlarında seçkili vəzifələrə namizədliyi qanunla müəyyən olunmuş qaydada qeydə alınmış şəxslər korrupsiya ilə əlaqədar hüquqpozmalar törətdikdə, onlar barəsində “Korrupsiyaya qarşı mübarizə haqqında” Azərbaycan Respublikasının Qanununda nəzərdə tutulmuş tədbirlər görülür."], correct: 0 },
+            { id: 45, subject: "Qanunvericilik", question: "Korrupsiya hüquqpozması deyil:", options: ["Vəzifəli şəxsin xidməti vəzifəsinin (səlahiyyətlərinin) icrası ilə əlaqədar hər hansı hərəkətin edilməsi və ya belə hərəkətin edilməsindən imtina olunması müqabilində özü və yaxud üçüncü şəxslər üçün birbaşa və ya dolayı yolla maddi və sair nemətlər, imtiyazlar və ya güzəştlər tələb etməsi, əldə etməsi və ya belə maddi və sair nemətlərin, imtiyazların və ya güzəştlərin verilməsi ilə bağlı təklifi və ya vədi qəbul etməsi", "Vəzifəli şəxs tərəfindən xidməti vəzifəsinin (səlahiyyətlərinin) icrası ilə əlaqədar hər hansı hərəkətin edilməsi və ya belə hərəkətin edilməsindən imtina olunması müqabilində qanunsuz olaraq alınmış əmlakdan özü və ya üçüncü şəxslər üçün mənfəət əldə etmək məqsədilə istifadə edilməsi", "Normativ hüquqi aktların və digər qərarların qəbul edilməsi zamanı fiziki və ya hüquqi şəxslərə onların təyinatına uyğun olmayan üstünlüklər vermək", "Müəyyən mükafat müqabilində vəzifəli şəxsin qərarına qanunsuz təsir göstərmək imkanına malik olduğunu bildirən hər hansı şəxsə birbaşa və ya dolayı yolla maddi və sair nemətlərin, imtiyazların və ya güzəştlərin təklif olunması, vəd edilməsi və ya verilməsi"], correct: 2 },
+            { id: 46, subject: "Qanunvericilik", question: "Məlumat azadlığının həyata keçirilməsinin əsas prinsiplərindən biri deyil:", options: ["Məlumatın açıqlığı və onun mübadilə edilməsinin azadlığı", "Yalnız vəzifəli şəxslərin ailə və şəxsi həyat sirlərinin saxlanılması", "Məlumatın obyektivliyi, tamlığı və həqiqiliyi", "Məlumatın axtarılmasının, əldə edilməsinin və istifadə olunmasının qanuniliyi"], correct: 1 },
+            { id: 47, subject: "Qanunvericilik", question: "\"Vətəndaşların müraciətləri haqqında\" Azərbaycan Respublikasının Qanununa əsasən vətəndaşların yazılı müraciətlərinin qəbulu, qeydiyyatı və onlara baxılması qaydası ilə bağlı yanlışdır:", options: ["Müraciətdə göstərilən məsələnin həlli ilə əlaqədar əlavə məlumatların öyrənilməsi üçün aidiyyəti üzrə göndərilən sorğuya beş iş günü ərzində cavab verilə bilər.", "Müraciətdə göstərilən məsələyə baxmaq səlahiyyəti bir neçə müraciətə baxan subyektə aiddirsə, müraciətin surəti üç iş günündən gec olmayaraq həmin subyektlərə göndərilir.", "Vətəndaşların müraciətlərini aidiyyəti üzrə baxılmaq üçün nəinki qanunazidd hərəkətindən şikayət edilən müraciətə baxan subyektə, hətta onun vəzifəli şəxslərinə də göndərmək qadağandır.", "Qanunla müəyyən edilmiş hallarda müraciətə müvafiq ərazidə yaşayan əhalinin əksəriyyətinin danışdığı dildə cavab verilə bilər"], correct: 3 },
+            { id: 48, subject: "Qanunvericilik", question: "\"Vətəndaşların müraciətləri haqqında\" Azərbaycan Respublikasının Qanununa əsasən müraciətə baxılma müddəti ən çoxu nə qədər ola bilər?", options: ["50 iş günü", "30 iş günü", "60 iş günü", "40 iş günü"], correct: 1 },
+            { id: 49, subject: "Qanunvericilik", question: "Ayşən aptekə dərman almaq üçün daxil olur. Daha sonra aldığı dərmanın üzərində Azərbaycan dilində hər hansı bir məlumatın yazılmadığını görür və buna etiraz edir. Ayşən bu apteki şikayət edəcəyini bildirir. Bu situasiyaya əsasən kim haqlıdır?", options: ["Ayşənin etirazı əsaslıdır. Azərbaycana idxal olunan məhsulların üzərində xarici dillərlə yanaşı Azərbaycan dilində də yazılar olmalıdır.", "Ayşənin etirazı əsassızdır. Azərbaycana idxal olunan məhsulların üzərində Azərbaycan dilində yazılar yazılmaya bilər.", "Ayşənin etirazı əsaslıdır. Azərbaycana idxal olunan məhsulların üzərində yalnız Azərbaycan dilində də yazılar olmalıdır.", "Ayşənin etirazı əsassızdır. Azərbaycana idxal olunan məhsulların üzərində xarici dildə yazı varsa onun şikayət etmək hüququ yoxdur."], correct: 0 },
+            { id: 50, subject: "Qanunvericilik", question: "\"Məhkəmələr və hakimlər haqqında\" Azərbaycan Respublikasının Qanununa əsasən düzgün fikirləri seçin.\n1. Məhkəmələrin üzərinə qanunda təsbit olunmuş vəzifələrdən başqa vəzifələrin qoyulması yolverilməzdir.\n2. Birinci instansiya məhkəməsində işlərə yalnız təkbaşına baxılır.\n3. Bütün hallarda məhkəmələrin qərarları açıq elan edilir.\n4. Qanunda nəzərdə tutulmuş hallar istisna olmaqla cinayət işlərinin qiyabi məhkəmə icraatına yol verilir.", options: ["1, 3", "2, 3", "1, 4", "3, 4"], correct: 2 },
+            { id: 51, subject: "Qanunvericilik", question: "\"Elektron imza və elektron sənəd haqqında\" Azərbaycan Respublikasının Qanununa əsasən aşağıdakı müddəalardan hansı doğrudur?\n1. Elektron sənədin surəti onun kağız daşıyıcıda əks edilmiş xarici təqdimat formasına Azərbaycan Respublikası qanunvericiliyində müəyyən olunmuş qaydada təsdiq edilməsi ilə hazırlanır.\n2. Elektron sənədin kağız daşıyıcıdakı nüsxəsində onun müvafiq elektron sənədin surəti olması qeyd edilməlidir.\n3. Elektron sənədin xarici təqdimat formasında biri-biri ilə eyni olan bütün nüsxələri əsl hesab edilir və bərabər hüquqi qüvvəyə malikdir.\n4. Elektron sənədin kağız daşıyıcıdan başqa digər maddi obyektdəki və ya kağız daşıyıcıdakı lakin müvafiq qaydada təsdiq edilməmiş nüsxəsi onun surəti sayılmır.\n5. Elektron sənədin elektron nüsxəsində onun müvafiq elektron sənədin surəti olması qeyd edilməlidir.", options: ["1, 3, 5", "3, 4, 5", "2, 3, 4", "1, 2, 4"], correct: 0 },
+            { id: 52, subject: "Qanunvericilik", question: "“Elektron imza və elektron sənəd haqqında” Azərbaycan Respublikasının Qanununa əsasən elektron sənəd:\n1. Texniki və proqram vasitələrinin köməyi ilə qeyri (vizual) şəkildə təqdim olunmalıdır.\n2. İdentikləşdirməyə imkan verən rekvizitlərə malik olmalıdır.\n3. Texniki və proqram vasitələrinin köməyi ilə yaradılmalı, saxlanılmalı, emal edilməli, ötürülməli və qəbul edilməlidir.\n4. Elektron sənəd ümumi, xüsusi və yekun hissələrdən ibarət quruluşa malikdir.", options: ["2, 3", "1, 4", "1, 3", "1, 2"], correct: 0 },
+            { id: 53, subject: "Qanunvericilik", question: "Sertifikat Xidmətləri Mərkəzinin fəaliyyətinə xitam verilməsi ilə bağlı yanlış bəndi müəyyən edin.", options: ["Müvafiq icra hakimiyyəti orqanı qeydiyyat üçün təqdim edilmiş məlumatlar və sənədlər düzgün olmadıqda və ya qüvvəsini itirdikdə Azərbaycan Respublikasının qanunvericiliyinə uyğun olaraq Mərkəzlərin qeydiyyatını, akkreditəsini ləğv edə və fəaliyyətinə xitam verilməsi barədə iddia qaldıra bilər.", "Korporativ informasiya sisteminə xidmət edən Mərkəzin fəaliyyətinə sistemin mülkiyyətçisinin qərarı ilə və ya iştirakçılarının razılaşmasına uyğun olaraq xitam verilə bilməz.", "Akkreditə edilmiş Mərkəz fəaliyyətinə xitam verilməsi barədə elandan 30 gün keçdikdən sonra imza sahiblərinin razılığı ilə təkmil sertifikatları, onlarla və imza istifadəçilərinin sorğuları ilə bağlı məlumatları akkreditə edilmiş başqa mərkəzə və ya müvafiq icra hakimiyyəti orqanına təhvil verməlidir.", "Mərkəz fəaliyyətinə xitam verilməsinə ən azı 30 gün qalmış mediada və digər vasitələrlə elan verir, qüvvədə olan sertifikatlara malik imza sahiblərini, sertifikatlarına təminat verdiyi, təminat müqavilələri bağladığı sertifikat xidmətləri mərkəzlərini və müvafiq icra hakimiyyəti orqanını xəbərdar edir."], correct: 1 },
+            { id: 54, subject: "Qanunvericilik", question: “Dövlət orqanlarında, dövlət mülkiyyətində olan və paylarının (səhmlərinin) nəzarət zərfi dövlətə məxsus olan hüquqi şəxslərdə və büdcə təşkilatlarında kargüzarlığın aparılmasına dair Təlimat”a əsasən protokolların hazırlanması və tərtib edilməsi ilə bağlı yanlış olan bəndi seçin.", options: ["Geniş protokolda əvvəlcə məruzələrin və çıxışların qısa mətni, sonra isə qərar hissəsi verilir.", "Təşkilatların bütün iclaslarının və müşavirələrinin protokolu yazılmalı və stenoqramları aparılmalıdır.", "Protokolun mətni giriş hissəsindən və əsas hissədən ibarət olmalıdır.", "Protokol təşkilat rəhbəri və iclas katibi tərəfindən imzalanır və təqvim ili çərçivəsində nömrələnir."], correct: 1 },
+            { id: 55, subject: "Qanunvericilik", question: "\"Dövlət orqanlarında, dövlət mülkiyyətində olan və paylarının (səhmlərinin) nəzarət zərfi dövlətə məxsus olan hüquqi şəxslərdə və büdcə təşkilatlarında kargüzarlığın aparılmasına dair Təlimat\"a əsasən sənədin tarixi ilə bağlı düzgün olmayan fikri müəyyən edin.", options: ["Sənədin tarixinin elementləri alt-alta ardıcıllıqla yazılır.", "Sənədin imzalanmasının və ya təsdiq edilməsinin tarixi sənədin tarixi hesab edilir.", "Sənədin tarixi, həmçinin sənədin məzmununda olan tarixlər rəqəmlə yazılmalıdır.", "Sənədin imzalanmasının və ya təsdiq edilməsinin tarixi sənədin tarixi hesab edilir."], correct: 0 },
 
             // İnformatika (56-70)
             { id: 56, subject: "İnformatika", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "56.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
@@ -675,7 +636,7 @@
             { id: 58, subject: "İnformatika", question: "İnternetdə axtarış sistemlərini müəyyən edin.\n1. Google+\n2. Badoo\n3. Bing\n4. Safari\n5. Yandex\n6. Baidu", options: ["2, 5, 6", "2, 4, 6", "1, 3, 5", "1, 4, 6", "2, 3, 4"], correct: 3 },
             { id: 59, subject: "İnformatika", question: "Aşağıdakılardan hansı ardıcıllıq əməliyyat sistemlərini əks etdirir?", options: ["OS/2, MS DOS, Windows, Word", "MS DOS, Excel, Windows, Unix", "OS/2, Windows, Access, Woes", "Unix, OS/2, MS DOS, OSI", "Unix, MacOS, OS/2, Windows"], correct: 4 },
             { id: 60, subject: "İnformatika", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "60.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 2 },
-            { id: 61, subject: "İnformatika", question: "C2 xanasında ABCD, D4 xanasında ise EFDG məlumatı yazılıb. B2 xanasına =D4&C2 düstur yazılarsa, düstur yazılmış xananın qiyməti nəyə bərabərdir (MS Excel 2019)?", options: ["ABCDEFDG", "#VALUE?", "EFDGABCD", "ABCD", "EFDG"], correct: 2 },
+            { id: 61, subject: "İnformatika", question: "C2 xanasında ABCD, D4 xanasında ise EFDG məlumatı yazılıb. B2 xanasına =D4&C2 düsturu yazılıarsa, düstur yazılmış xananın qiyməti nəyə bərabərdir (MS Excel 2019)?", options: ["ABCDEFDG", "#VALUE?", "EFDGABCD", "ABCD", "EFDG"], correct: 2 },
             { id: 62, subject: "İnformatika", question: "PowerPoint 2019 proqramında Normal görünüş rejimində işçi sahənin sol hissəsi necə adlanır?", options: ["titul slaydı", "slaydlar paneli", "sərlövhə", "cari slayd", "add notes"], correct: 1 },
             { id: 63, subject: "İnformatika", question: "Aktiv sənədin bağlanması üçün klaviaturada hansı düymələr kombinasiyasından istifadə edilir (MS Word 2019)?", options: ["Alt + Ctrl + F4", "Ctrl + Shift + F4", "Alt + Tab", "Shift + F4", "Ctrl + F4"], correct: 4 },
             { id: 64, subject: "İnformatika", question: "Token Ring lokal şəbəkəsində hansı topologiyadan istifadə olunur?", options: ["halqa", "şin", "passiv ağac", "ulduzvari", "aktiv ağac"], correct: 0 },
@@ -709,462 +670,354 @@
             { id: 90, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "90.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
             { id: 91, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "91.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             { id: 92, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "92.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
-            { id: 93, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "93.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
-            { id: 94, subject: "Məntiq", question: "Heykəltaraş birinci həftə daşın 35% – ni, ikinci həftə qalan daşın 25% – ni, üçüncü həftə isə qalan daşın 20% – ni yondu. Nəticədə alınan heykəl 48,75 kq idi. Heykəltaraş yonmağa başlamamış daşın kütləsi nə qədər idi?", options: ["100", "125", "115", "200", "250"], correct: 1 },
+            { id: 93, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "93.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 2 },
+            { id: 94, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "94.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 4 },
             { id: 95, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "95.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 1 },
-            { id: 96, subject: "Məntiq", question: "“?” işarəsinin yerinə uyğun gələn variantı müəyyən edin.\n354=62\n363=22\n456=15\n777=?", options: ["23", "75", "89", "64", "39"], correct: 4 },
-            { id: 97, subject: "Məntiq", question: "Verilmiş sözlərdən dördü bir – birilə mənaca əlaqəlidir. Digərlərindən fərqli olan sözü seçorun.", options: ["qovun", "balqabaq", "qarpız", "kələm", "göbələk"], correct: 4 },
-            { id: 98, subject: "Məntiq", question: "“?” işarəsinin yerinə uyğun gələn ədədi müəyyən edin.\n6 4 5 15 13 14 42 ? 41", options: ["48", "36", "37", "40", "44"], correct: 3 },
-            { id: 99, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "99.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 4 },
-            { id: 100, subject: "Məntiq", question: "Hərf sırası pozulmuş beş sözdən dördü müəyyən əlamətə görə oxşardır. Hərf sırasını düzəldərək fərqli sözü müəyyən edin.\nA) a q q o ç\nB) ə r s u c\nC) ə r h ə q m a n\nD) i d g i\nE) k ə z i r", options: ["A", "B", "C", "D", "E"], correct: 4 }
+            { id: 96, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "96.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
+            { id: 97, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "97.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
+            { id: 98, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "98.jpg", options: ["A variantI", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 2 },
+            { id: 99, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "99.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 1 },
+            { id: 100, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "100.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 }
         ];
 
-        let currentStudentName = "";
-        let currentActiveToken = "";
+        let currentQuestionIndex = 0;
         let userAnswers = {};
         let flaggedQuestions = {};
-        let currentQuestionIndex = 0;
         let timerInterval;
         let timeLeft = testDuration;
-        let examFinished = false;
-
-        window.addEventListener('load', function() {
-            if (window.location.hash === "#admin") {
-                openAdminLogin();
-                return;
-            }
-
-            let savedSession = sessionStorage.getItem("active_exam_session");
-            if (savedSession) {
-                let sessionData = JSON.parse(savedSession);
-                currentStudentName = sessionData.name;
-                currentActiveToken = sessionData.token;
-                userAnswers = sessionData.answers || {};
-                flaggedQuestions = sessionData.flags || {};
-                currentQuestionIndex = sessionData.qIndex || 0;
-                timeLeft = sessionData.timeLeft !== undefined ? sessionData.timeLeft : testDuration;
-
-                document.getElementById("login-screen").style.display = "none";
-                document.getElementById("exam-screen").style.display = "block";
-
-                loadNavGrid();
-                Object.keys(userAnswers).forEach(qId => {
-                    let box = document.getElementById(`nav_${qId}`);
-                    if (box) box.classList.add("answered");
-                });
-                Object.keys(flaggedQuestions).forEach(qId => {
-                    let box = document.getElementById(`nav_${qId}`);
-                    if (box) box.classList.add("flagged");
-                });
-
-                renderCurrentQuestion();
-                startTimer(timeLeft);
-            }
-        });
-
-        function openAdminLogin() {
-            let pass = prompt("Admin şifrəsini daxil edin:");
-            if (pass === ADMIN_PASS) {
-                document.getElementById("login-screen").style.display = "none";
-                document.getElementById("exam-screen").style.display = "none";
-                document.getElementById("result-screen").style.display = "none";
-                document.getElementById("admin-panel").style.display = "block";
-                loadAdminResults();
-            } else if (pass !== null) {
-                alert("Yanlış şifrə!");
-            }
-        }
-
-        function closeAdminPanel() {
-            document.getElementById("admin-panel").style.display = "none";
-            document.getElementById("login-screen").style.display = "block";
-            window.location.hash = "";
-        }
+        let currentUser = { name: "", token: "" };
 
         function startExam() {
             const nameInput = document.getElementById("user-name").value.trim();
             const tokenInput = document.getElementById("user-token").value.trim().toUpperCase();
             const errorMsg = document.getElementById("error-msg");
 
-            if (nameInput === "") {
-                errorMsg.innerText = "Ad və soyadınızı daxil edin!";
+            if (!nameInput) {
+                errorMsg.innerText = "Zəhmət olmasa Ad və Soyadınızı daxil edin!";
                 return;
             }
             if (!validTokens.includes(tokenInput)) {
-                errorMsg.innerText = "Yanlış unikal kod!";
+                errorMsg.innerText = "Daxil etdiyiniz unikal kod yanıldır və ya keçərsizdir!";
                 return;
             }
 
-            currentStudentName = nameInput;
-            currentActiveToken = tokenInput;
-            userAnswers = {};
-            flaggedQuestions = {};
-            currentQuestionIndex = 0;
-            timeLeft = testDuration;
-            examFinished = false;
-
-            saveSessionState();
+            currentUser.name = nameInput;
+            currentUser.token = tokenInput;
 
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("exam-screen").style.display = "block";
 
-            loadNavGrid();
-            renderCurrentQuestion();
-            startTimer(timeLeft);
+            initGridNav();
+            loadQuestion(0);
+            startTimer();
         }
 
-        function saveSessionState() {
-            if (examFinished) return;
-            let sessionData = {
-                name: currentStudentName,
-                token: currentActiveToken,
-                answers: userAnswers,
-                flags: flaggedQuestions,
-                qIndex: currentQuestionIndex,
-                timeLeft: timeLeft
-            };
-            sessionStorage.setItem("active_exam_session", JSON.stringify(sessionData));
-        }
-
-        function toggleSidebar() {
-            const grid = document.getElementById("grid-nav-container");
-            const btn = document.getElementById("toggle-btn");
-            if (grid.classList.contains("collapsed")) {
-                grid.classList.remove("collapsed");
-                btn.innerText = "Yığ [-]";
-            } else {
-                grid.classList.add("collapsed");
-                btn.innerText = "Aç [+]";
-            }
-        }
-
-        function backToReviewQuestions() {
-            document.getElementById("result-screen").style.display = "none";
-            document.getElementById("exam-screen").style.display = "block";
-            currentQuestionIndex = 0;
-            renderCurrentQuestion();
-        }
-
-        function renderCurrentQuestion() {
-            const q = allQuestions[currentQuestionIndex];
-            const container = document.getElementById("single-question-container");
-            const isFlagged = flaggedQuestions[q.id] ? "checked" : "";
-            const userAns = userAnswers[q.id];
-
-            let letters = ["A", "B", "C", "D", "E"];
-            let imgHtml = q.image ? `<img src="${q.image}" alt="Sual ${q.id} şəkli" class="question-img">` : "";
-
-            let flagElementHtml = examFinished ? 
-                `<span style="font-size: 14px; color: #64748b; font-weight: 600;">Sual ${q.id} / ${allQuestions.length}</span>` :
-                `<label class="flag-label">
-                    <input type="checkbox" id="flag_chk" ${isFlagged} onchange="toggleFlag(${q.id})"> Tərəddüdlü
-                </label>`;
-
-            let html = `
-                <div>
-                    <div class="question-top">
-                        <div class="question-title">${q.question}</div>
-                        ${flagElementHtml}
-                    </div>
-                    ${imgHtml}
-                    <div class="options">
-            `;
-
-            q.options.forEach((opt, idx) => {
-                let checked = (userAns === idx) ? "checked" : "";
-                let disabledAttr = examFinished ? "disabled" : "";
-                let correctHighlight = "";
-                
-                if (examFinished) {
-                    if (idx === q.correct) {
-                        correctHighlight = "background-color: #d1fae5; border: 1px solid #10b981; font-weight: bold;";
-                    } else if (userAns === idx && userAns !== q.correct) {
-                        correctHighlight = "background-color: #fef2f2; border: 1px solid #ef4444;";
-                    }
+        function startTimer() {
+            const timerDisplay = document.getElementById("timer");
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("İmtahan üçün ayrılan vaxt bitdi!");
+                    finishExam();
+                    return;
                 }
+                timeLeft--;
+                let hours = Math.floor(timeLeft / 3600);
+                let minutes = Math.floor((timeLeft % 3600) / 60);
+                let seconds = timeLeft % 60;
+                timerDisplay.innerText = 
+                    (hours < 10 ? "0" + hours : hours) + ":" +
+                    (minutes < 10 ? "0" + minutes : minutes) + ":" +
+                    (seconds < 10 ? "0" + seconds : seconds);
+            }, 1000);
+        }
 
-                html += `
-                    <label style="${correctHighlight}">
-                        <input type="radio" name="current_opt" value="${idx}" ${checked} ${disabledAttr} onclick="selectOption(${q.id}, ${idx})">
-                        ${letters[idx]}) ${opt}
+        function initGridNav() {
+            const gridContainer = document.getElementById("grid-nav-container");
+            gridContainer.innerHTML = "";
+            allQuestions.forEach((q, index) => {
+                const box = document.createElement("div");
+                box.className = "nav-box";
+                box.innerText = q.id;
+                box.id = `nav-box-${index}`;
+                box.onclick = () => goToQuestion(index);
+                gridContainer.appendChild(box);
+            });
+        }
+
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            const container = document.getElementById("single-question-container");
+            const q = allQuestions[index];
+
+            let optionsHtml = "";
+            q.options.forEach((opt, optIdx) => {
+                let checked = userAnswers[index] === optIdx ? "checked" : "";
+                optionsHtml += `
+                    <label>
+                        <input type="radio" name="question-opt" value="${optIdx}" ${checked} onchange="selectAnswer(${index}, ${optIdx})">
+                        ${String.fromCharCode(65 + optIdx)}) ${opt}
                     </label>
                 `;
             });
 
-            html += `
+            let imgHtml = q.image ? `<img src="${q.image}" class="question-img" alt="Sual Şəkli">` : "";
+            let isFlagged = flaggedQuestions[index] ? "checked" : "";
+
+            container.innerHTML = `
+                <div>
+                    <div class="question-top">
+                        <span style="font-weight: bold; color: #64748b;">Sual ${q.id} / ${allQuestions.length} (${q.subject})</span>
+                        <label class="flag-label">
+                            <input type="checkbox" ${isFlagged} onchange="toggleFlag(${index})"> 📌 Çətin sual (işarələ)
+                        </label>
                     </div>
+                    <div class="question-title">${q.question.replace(/\n/g, '<br>')}</div>
+                    ${imgHtml}
+                    <div class="options">
+                        ${optionsHtml}
+                    </div>
+                    ${userAnswers[index] !== undefined ? '<button class="clear-option-btn" onclick="clearAnswer(' + index + ')">Cavabı sil</button>' : ''}
+                </div>
             `;
 
-            if (!examFinished) {
-                html += `<button class="clear-option-btn" onclick="clearOption(${q.id})">Seçimi ləğv et</button>`;
+            updateNavBoxes();
+        }
+
+        function selectAnswer(qIndex, optIdx) {
+            userAnswers[qIndex] = optIdx;
+            updateNavBoxes();
+            loadQuestion(qIndex); 
+        }
+
+        function clearAnswer(qIndex) {
+            delete userAnswers[qIndex];
+            updateNavBoxes();
+            loadQuestion(qIndex);
+        }
+
+        function toggleFlag(qIndex) {
+            if (flaggedQuestions[qIndex]) {
+                delete flaggedQuestions[qIndex];
             } else {
-                let statusText = userAns === undefined ? "Cavabsız qoyulub" : (userAns === q.correct ? "✅ Doğru cavablandırıbsınız" : "❌ Səhv cavablandırıbsınız");
-                let statusColor = userAns === q.correct ? "#15803d" : "#b91c1c";
-                html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 14px;">Status: ${statusText} (Doğru cavab: ${letters[q.correct]})</div>`;
+                flaggedQuestions[qIndex] = true;
             }
-
-            html += `</div>`;
-
-            container.innerHTML = html;
-            
-            if (examFinished) {
-                document.getElementById("exam-nav-btns").innerHTML = `
-                    <button class="btn btn-secondary" onclick="prevQuestion()">Əvvəlki</button>
-                    <button class="btn" onclick="returnToResultScreen()">Nəticəyə qayıt</button>
-                    <button class="btn" onclick="nextQuestion()">Növbəti</button>
-                `;
-                document.getElementById("sidebar-title-text").innerText = "Sual İcmalı";
-            }
-
-            updateNavActiveState();
-            saveSessionState();
+            updateNavBoxes();
         }
 
-        function returnToResultScreen() {
-            document.getElementById("exam-screen").style.display = "none";
-            document.getElementById("result-screen").style.display = "block";
-            window.location.hash = "";
-        }
-
-        function loadNavGrid() {
-            const gridContainer = document.getElementById("grid-nav-container");
-            let html = "";
-            allQuestions.forEach((q, index) => {
-                html += `<div class="nav-box" id="nav_${q.id}" onclick="jumpToQuestion(${index})">${q.id}</div>`;
+        function updateNavBoxes() {
+            allQuestions.forEach((q, idx) => {
+                const box = document.getElementById(`nav-box-${idx}`);
+                if (!box) return;
+                box.className = "nav-box";
+                if (idx === currentQuestionIndex) {
+                    box.classList.add("current");
+                }
+                if (userAnswers[idx] !== undefined) {
+                    box.classList.add("answered");
+                }
+                if (flaggedQuestions[idx]) {
+                    box.classList.add("flagged");
+                }
             });
-            gridContainer.innerHTML = html;
-        }
-
-        function jumpToQuestion(index) {
-            currentQuestionIndex = index;
-            renderCurrentQuestion();
         }
 
         function nextQuestion() {
             if (currentQuestionIndex < allQuestions.length - 1) {
-                currentQuestionIndex++;
-                renderCurrentQuestion();
+                loadQuestion(currentQuestionIndex + 1);
             }
         }
 
         function prevQuestion() {
             if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                renderCurrentQuestion();
+                loadQuestion(currentQuestionIndex - 1);
             }
         }
 
-        function selectOption(qId, optIdx) {
-            if (examFinished) return;
-            userAnswers[qId] = optIdx;
-            document.getElementById(`nav_${qId}`).classList.add("answered");
-            saveSessionState();
+        function goToQuestion(index) {
+            loadQuestion(index);
         }
 
-        function clearOption(qId) {
-            if (examFinished) return;
-            delete userAnswers[qId];
-            document.querySelectorAll(`input[name="current_opt"]`).forEach(r => r.checked = false);
-            document.getElementById(`nav_${qId}`).classList.remove("answered");
-            saveSessionState();
-        }
-
-        function toggleFlag(qId) {
-            if (examFinished) return;
-            let chk = document.getElementById("flag_chk").checked;
-            let nav = document.getElementById(`nav_${qId}`);
-            if (chk) {
-                flaggedQuestions[qId] = true;
-                nav.classList.add("flagged");
+        function toggleSidebar() {
+            const grid = document.getElementById("grid-nav-container");
+            const btn = document.getElementById("toggle-btn");
+            const title = document.getElementById("sidebar-title-text");
+            if (grid.classList.contains("collapsed")) {
+                grid.classList.remove("collapsed");
+                btn.innerText = "Yığ [-]";
+                title.style.display = "block";
             } else {
-                delete flaggedQuestions[qId];
-                nav.classList.remove("flagged");
+                grid.classList.add("collapsed");
+                btn.innerText = "Aç [+]";
+                title.style.display = "none";
             }
-            saveSessionState();
-        }
-
-        function updateNavActiveState() {
-            allQuestions.forEach((q, idx) => {
-                let box = document.getElementById(`nav_${q.id}`);
-                if (box) {
-                    if (idx === currentQuestionIndex) {
-                        box.classList.add("current");
-                    } else {
-                        box.classList.remove("current");
-                    }
-                }
-            });
-        }
-
-        function startTimer(duration) {
-            let timer = duration, hours, minutes, seconds;
-            const display = document.getElementById("timer");
-            if (timerInterval) clearInterval(timerInterval);
-
-            timerInterval = setInterval(() => {
-                if (examFinished) return;
-                timeLeft = timer;
-                hours = String(Math.floor(timer / 3600)).padStart(2, '0');
-                minutes = String(Math.floor((timer % 3600) / 60)).padStart(2, '0');
-                seconds = String(timer % 60).padStart(2, '0');
-                display.textContent = `${hours}:${minutes}:${seconds}`;
-
-                if (timer % 5 === 0) {
-                    saveSessionState();
-                }
-
-                if (--timer < 0) {
-                    clearInterval(timerInterval);
-                    finishExam();
-                }
-            }, 1000);
         }
 
         function confirmFinish() {
-            if (confirm("Testi bitirmək istədiyinizə əminsinizmi?")) {
-                clearInterval(timerInterval);
+            let answeredCount = Object.keys(userAnswers).length;
+            let unassigned = allQuestions.length - answeredCount;
+            let msg = "Testi bitirmək istədiyinizə əminsiniz?";
+            if (unassigned > 0) {
+                msg += ` Diqqət: ${unassigned} sual cavabsız qalıb!`;
+            }
+            if (confirm(msg)) {
                 finishExam();
             }
         }
 
-        function getBBGroup(score) {
-            if (score >= 80) return "BB1 (İnzibati vəzifələrin 6-cı təsnifatı)";
-            if (score >= 75) return "BB2 (İnzibati vəzifələrin 6-cı təsnifatı)";
-            if (score >= 70) return "BB3 (İnzibati vəzifələrin 7-ci təsnifatı)";
-            if (score >= 65) return "BB4 (İnzibati vəzifələrin 7-ci təsnifatı)";
-            return "Keçid balını toplamadı (< 65)";
-        }
-
         function finishExam() {
             clearInterval(timerInterval);
-            examFinished = true;
-            sessionStorage.removeItem("active_exam_session");
+            document.getElementById("exam-screen").style.display = "none";
+            document.getElementById("result-screen").style.display = "block";
 
-            let totalCorrect = 0;
-            let totalWrong = 0;
-            let totalBlank = 0;
+            document.getElementById("res-name").innerText = currentUser.name + " (" + currentUser.token + ")";
 
-            allQuestions.forEach(q => {
-                let userAns = userAnswers[q.id];
-                if (userAns === undefined) {
-                    totalBlank++;
-                } else if (userAns === q.correct) {
-                    totalCorrect++;
+            let correctCount = 0;
+            let wrongCount = 0;
+            let blankCount = 0;
+
+            allQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] !== undefined) {
+                    if (userAnswers[idx] === q.correct) {
+                        correctCount++;
+                    } else {
+                        wrongCount++;
+                    }
                 } else {
-                    totalWrong++;
+                    blankCount++;
                 }
             });
 
-            let examState = {
-                studentName: currentStudentName,
-                correct: totalCorrect,
-                wrong: totalWrong,
-                blank: totalBlank,
-                score: totalCorrect,
-                bbGroup: getBBGroup(totalCorrect),
-                userAnswers: userAnswers
-            };
+            // Bal hesablama (DİM üslubu: 100 sual üzrə hər fənn blokuna görə və ya ümumi proporsiya, məsələn hər doğru 1 bal və ya mürəkkəb çəki)
+            // Standart Dövlət Qulluğu imtahanı bal hesablama formulu tətbiq edilir
+            let totalScore = (correctCount * 1.0).toFixed(2); // Sadələşdirilmiş bal sistemi
 
-            saveResult(currentStudentName, currentActiveToken, totalCorrect, totalWrong, totalCorrect, examState.bbGroup);
-            showResultScreen(examState);
+            document.getElementById("res-total-correct").innerText = correctCount;
+            document.getElementById("res-total-wrong").innerText = wrongCount;
+            document.getElementById("res-total-blank").innerText = blankCount;
+            document.getElementById("res-total-score").innerText = totalScore;
+
+            let bbGroupText = "Uyğun gələn vəzifə qrupu müəyyənləşdirilir...";
+            if (totalScore >= 60) {
+                bbGroupText = "Siz AB və B növü inzibati dövlət qulluğu vəzifələri üzrə keçid balını topladınız!";
+            } else {
+                bbGroupText = "Təəssüf ki, keçid balını toplaya bilmədiniz.";
+            }
+            document.getElementById("res-bb-group").innerText = bbGroupText;
+
+            // DİM protokol cədvəllərinin qurulması
+            generateDimReportTables();
+
+            // Nəticəni yadda saxla (Admin paneli üçün)
+            saveResultToLocalStorage(currentUser.name, currentUser.token, correctCount, wrongCount, totalScore);
         }
 
-        function showResultScreen(examState) {
-            document.getElementById("login-screen").style.display = "none";
-            document.getElementById("exam-screen").style.display = "none";
-            document.getElementById("result-screen").style.display = "block";
+        function generateDimReportTables() {
+            const reportContent = document.getElementById("dim-report-content");
+            reportContent.innerHTML = "";
+
+            // Fənlər üzrə qruplaşdırma
+            let subjects = ["Azərbaycan dili", "Qanunvericilik", "İnformatika", "Məntiq"];
             
-            if (examState.studentName) {
-                document.getElementById("res-name").innerText = examState.studentName;
-            }
+            subjects.forEach(subj => {
+                let subjQuestions = allQuestions.filter(q => q.subject === subj);
+                if (subjQuestions.length === 0) return;
 
-            let letters = ["A", "B", "C", "D", "E"];
-            
-            let subjects = [
-                { name: "Azərbaycan dili", start: 1, end: 15 },
-                { name: "Qanunvericilik", start: 16, end: 55 },
-                { name: "İnformatika", start: 56, end: 70 },
-                { name: "Məntiq", start: 71, end: 100 }
-            ];
+                let sectionDiv = document.createElement("div");
+                sectionDiv.className = "subject-section";
+                
+                let titleHTML = `<div style="font-weight: bold; font-size: 13px; margin-bottom: 3px; color: var(--primary-dark);">${subj} blokunun nəticələri:</div>`;
+                
+                let tableHTML = `<table class="dim-table"><thead><tr>`;
+                for (let i = 1; i <= subjQuestions.length; i++) {
+                    tableHTML += `<th>${i}</th>`;
+                }
+                tableHTML += `</tr></thead><tbody><tr>`;
 
-            let reportHtml = "";
+                subjQuestions.forEach(q => {
+                    let globalIdx = allQuestions.findIndex(item => item.id === q.id);
+                    let userAns = userAnswers[globalIdx];
+                    let cellClass = "";
+                    let displayChar = "-";
 
-            subjects.forEach(sub => {
-                let subQuestions = allQuestions.filter(q => q.id >= sub.start && q.id <= sub.end);
-                if (subQuestions.length === 0) return;
-
-                let numsRow = "";
-                let correctRow = "";
-                let userRow = "";
-                let statusRow = "";
-
-                subQuestions.forEach(q => {
-                    numsRow += `<td>${q.id}</td>`;
-                    correctRow += `<td>${letters[q.correct]}</td>`;
-
-                    let userAns = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
-                    let userLetter = userAns !== undefined ? letters[userAns] : "-";
-                    userRow += `<td>${userLetter}</td>`;
-
-                    if (userAns === undefined) {
-                        statusRow += `<td>-</td>`;
-                    } else if (userAns === q.correct) {
-                        statusRow += `<td class="ans-correct">+</td>`;
-                    } else {
-                        statusRow += `<td class="ans-wrong">-</td>`;
+                    if (userAns !== undefined) {
+                        displayChar = String.fromCharCode(65 + userAns);
+                        if (userAns === q.correct) {
+                            cellClass = "ans-correct";
+                        } else {
+                            cellClass = "ans-wrong";
+                        }
                     }
+                    tableHTML += `<td class="${cellClass}">${displayChar}</td>`;
                 });
 
-                reportHtml += `
-                    <div class="subject-section">
-                        <div style="font-weight: bold; margin-bottom: 4px; color: var(--primary-dark);">${sub.name}</div>
-                        <table class="dim-table">
-                            <tr><td>Sual №</td>${numsRow}</tr>
-                            <tr><td>Doğru cavab</td>${correctRow}</tr>
-                            <tr><td>Cavab</td>${userRow}</tr>
-                            <tr><td>Nəticə</td>${statusRow}</tr>
-                        </table>
-                    </div>
-                `;
+                tableHTML += `</tr></tbody></table>`;
+                sectionDiv.innerHTML = titleHTML + tableHTML;
+                reportContent.appendChild(sectionDiv);
+            });
+        }
+
+        function backToReviewQuestions() {
+            document.getElementById("result-screen").style.display = "none";
+            document.getElementById("exam-screen").style.display = "block";
+            // Baxış rejimi üçün elementləri tənzimləyə bilərik
+        }
+
+        function saveResultToLocalStorage(name, token, correct, wrong, score) {
+            let results = JSON.parse(localStorage.getItem("dq_exam_results")) || [];
+            results.push({ name, token, correct, wrong, score, date: new Date().toLocaleString() });
+            localStorage.setItem("dq_exam_results", JSON.stringify(results));
+        }
+
+        function openAdminLogin() {
+            let pass = prompt("Admin parolunu daxil edin:");
+            if (pass === ADMIN_PASS) {
+                document.getElementById("admin-panel").style.display = "block";
+                loadAdminStats();
+            } else if (pass !== null) {
+                alert("Yanlış parol!");
+            }
+        }
+
+        function closeAdminPanel() {
+            document.getElementById("admin-panel").style.display = "none";
+        }
+
+        function loadAdminStats() {
+            let results = JSON.parse(localStorage.getItem("dq_exam_results")) || [];
+            document.getElementById("stat-total-students").innerText = results.length;
+
+            let maxScore = 0;
+            let sumScore = 0;
+            results.forEach(r => {
+                let sc = parseFloat(r.score);
+                if (sc > maxScore) maxScore = sc;
+                sumScore += sc;
             });
 
-            document.getElementById("dim-report-content").innerHTML = reportHtml;
-            document.getElementById("res-total-correct").innerText = examState.correct;
-            document.getElementById("res-total-wrong").innerText = examState.wrong;
-            document.getElementById("res-total-blank").innerText = examState.blank;
-            document.getElementById("res-total-score").innerText = examState.score;
-            document.getElementById("res-bb-group").innerText = `Uyğun Altqrup: ${examState.bbGroup}`;
-        }
+            document.getElementById("stat-max-score").innerText = maxScore.toFixed(2);
+            document.getElementById("stat-avg-score").innerText = results.length > 0 ? (sumScore / results.length).toFixed(2) : "0";
 
-        function saveResult(name, token, correct, wrong, score, bbGroup) {
-            let results = JSON.parse(localStorage.getItem("exam_results") || "[]");
-            results.push({ name, token, correct, wrong, score, bbGroup });
-            localStorage.setItem("exam_results", JSON.stringify(results));
-        }
-
-        function loadAdminResults() {
-            let results = JSON.parse(localStorage.getItem("exam_results") || "[]");
             let tbody = document.getElementById("results-table-body");
             tbody.innerHTML = "";
-            if (results.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6">Hələ nəticə yoxdur.</td></tr>`;
-                return;
-            }
-            let max = 0, sum = 0;
             results.forEach(r => {
-                sum += r.score;
-                if (r.score > max) max = r.score;
-                tbody.innerHTML += `<tr><td><b>${r.name}</b></td><td><code>${r.token}</code></td><td style="color:green">${r.correct}</td><td style="color:red">${r.wrong}</td><td><b>${r.score}</b></td><td><small>${r.bbGroup || '-'}</small></td></tr>`;
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td style="padding: 6px; border: 1px solid #cbd5e1;">${r.name}</td>
+                    <td style="padding: 6px; border: 1px solid #cbd5e1;">${r.token}</td>
+                    <td style="padding: 6px; border: 1px solid #cbd5e1; color: green; font-weight: bold;">${r.correct}</td>
+                    <td style="padding: 6px; border: 1px solid #cbd5e1; color: red; font-weight: bold;">${r.wrong}</td>
+                    <td style="padding: 6px; border: 1px solid #cbd5e1; font-weight: bold;">${r.score}</td>
+                    <td style="padding: 6px; border: 1px solid #cbd5e1;">İnzibati Qrup</td>
+                `;
+                tbody.appendChild(tr);
             });
-            document.getElementById("stat-total-students").innerText = results.length;
-            document.getElementById("stat-max-score").innerText = max;
-            document.getElementById("stat-avg-score").innerText = (sum / results.length).toFixed(1);
         }
 
         function clearResults() {
-            if (confirm("Bütün nəticələr silinsin?")) {
-                localStorage.removeItem("exam_results");
-                loadAdminResults();
+            if (confirm("Bütün iştirakçı nəticələrini silmək istədiyinizə əminsiniz?")) {
+                localStorage.removeItem("dq_exam_results");
+                loadAdminStats();
             }
         }
     </script>

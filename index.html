@@ -91,6 +91,27 @@
         </main>
     </div>
 
+    <!-- İMTAHAN REJİMİ SƏHİFƏSİ -->
+    <div id="examView" class="hidden min-h-screen flex flex-col bg-slate-50">
+        <header class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-xs">
+            <h3 id="activeExamTitle" class="font-extrabold text-slate-800 text-base">İmtahan Adı</h3>
+            <button onclick="finishExam()" class="bg-red-500 hover:bg-red-600 text-white text-xs px-5 py-2.5 rounded-xl font-bold transition">İmtahanı Bitir</button>
+        </header>
+        <main class="flex-1 max-w-3xl w-full mx-auto p-4 md:p-8 overflow-y-auto">
+            <div id="examQuestionsContainer" class="space-y-6"></div>
+        </main>
+    </div>
+
+    <!-- NƏTİCƏ SƏHİFƏSİ -->
+    <div id="resultView" class="hidden min-h-screen flex flex-col items-center justify-center p-6 bg-slate-50">
+        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-xl max-w-md w-full text-center space-y-4">
+            <div class="bg-purple-100 text-purple-600 w-16 h-16 mx-auto rounded-2xl flex items-center justify-center text-2xl font-bold shadow-md"><i class="fa-solid fa-award"></i></div>
+            <h2 class="text-2xl font-extrabold text-slate-800">İmtahan Nəticəniz</h2>
+            <p id="examScoreText" class="text-slate-600 font-medium text-lg"></p>
+            <button onclick="logout()" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-bold transition shadow-md shadow-purple-200">Kabinetə Qayıt</button>
+        </div>
+    </div>
+
     <!-- ADMİN PANEL SƏHİFƏSİ -->
     <div id="adminView" class="hidden min-h-screen flex bg-slate-100">
         <aside class="w-64 bg-slate-900 text-white flex flex-col shadow-xl">
@@ -107,14 +128,12 @@
         
         <main class="flex-1 p-8 overflow-y-auto max-w-4xl mx-auto">
             
-            <!-- BÖLMƏ 1: Yeni Sınaq Əlavə Et -->
             <div id="createExamTab" class="bg-white rounded-2xl p-6 md:p-8 shadow-xs border border-slate-200">
                 <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
                     <i class="fa-solid fa-file-circle-plus text-purple-600"></i>
                     <span>Peşəkar PDF Sınaq Yükləyici</span>
                 </h2>
                 
-                <!-- PDF Fayl Yükləmə Bölməsi -->
                 <div class="mb-6 p-5 bg-purple-50/60 border border-purple-100 rounded-2xl">
                     <label class="block text-xs font-bold text-purple-900 mb-2 uppercase tracking-wider"><i class="fa-solid fa-file-pdf"></i> Sınaq PDF Faylını Seçin</label>
                     <input type="file" id="pdfFile" accept=".pdf" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer transition">
@@ -137,26 +156,7 @@
                         <span>Suallar və Variantlar</span>
                         <span id="questionCounterBadge" class="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-bold">0 sual</span>
                     </h3>
-                    <div id="questionsContainer" class="space-y-4">
-                        <div class="question-block bg-slate-50/70 p-5 rounded-2xl border border-slate-200 space-y-3">
-                            <input type="text" placeholder="Sual mətni..." class="q-text w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white outline-none focus:ring-1 focus:ring-purple-500" required>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-                                <input type="text" placeholder="A variantı" class="opt-a border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
-                                <input type="text" placeholder="B variantı" class="opt-b border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
-                                <input type="text" placeholder="C variantı" class="opt-c border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
-                                <input type="text" placeholder="D variantı" class="opt-d border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
-                            </div>
-                            <div class="flex justify-between items-center pt-2">
-                                <div>
-                                    <label class="text-xs font-semibold text-slate-500">Düzgün Cavab:</label>
-                                    <select class="correct-ans border border-slate-200 rounded-xl px-3 py-1.5 text-xs bg-white ml-2 font-bold text-purple-600 outline-none">
-                                        <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
-                                    </select>
-                                </div>
-                                <button type="button" onclick="this.closest('.question-block').remove(); updateCounter();" class="text-red-500 hover:text-red-700 text-xs font-semibold transition"><i class="fa-solid fa-trash"></i> Sil</button>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="questionsContainer" class="space-y-4"></div>
 
                     <div class="flex space-x-3 pt-2">
                         <button type="button" onclick="addQuestionField()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs px-4 py-3 rounded-xl font-bold transition">
@@ -172,7 +172,6 @@
                 </form>
             </div>
 
-            <!-- BÖLMƏ 2: Cavabları Tənzimlə -->
             <div id="answersTab" class="hidden bg-white rounded-2xl p-6 md:p-8 shadow-xs border border-slate-200">
                 <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
                     <i class="fa-solid fa-list-check text-purple-600"></i>
@@ -187,6 +186,7 @@
     <!-- JavaScript Məntiqi -->
     <script>
         let exams = JSON.parse(localStorage.getItem('dq_exams')) || [];
+        let currentActiveExam = null;
 
         function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
@@ -210,6 +210,8 @@
             closeModal('loginModal');
             closeModal('registerModal');
             document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('examView').classList.add('hidden');
+            document.getElementById('resultView').classList.add('hidden');
             document.getElementById('dashboardView').classList.remove('hidden');
             renderStudentExams();
         }
@@ -217,6 +219,8 @@
         function logout() {
             document.getElementById('dashboardView').classList.add('hidden');
             document.getElementById('adminView').classList.add('hidden');
+            document.getElementById('examView').classList.add('hidden');
+            document.getElementById('resultView').classList.add('hidden');
             document.getElementById('homeView').classList.remove('hidden');
         }
 
@@ -269,7 +273,7 @@
             updateCounter();
         }
 
-        // GÜCLƏNDİRİLMİŞ VƏ QÜSURSUZ VARIANT PARSERİ
+        // PDF PARSER
         document.getElementById('pdfFile').addEventListener('change', async function(e) {
             let file = e.target.files[0];
             if (!file) return;
@@ -293,10 +297,7 @@
                     document.getElementById('examTitle').value = file.name.replace('.pdf', '');
                     document.getElementById('questionsContainer').innerHTML = ""; 
 
-                    // Boşluqları tənzimləyirik
                     fullText = fullText.replace(/\s+/g, ' ');
-
-                    // Sualları nömrələrinə görə (1., 2., 3. və s.) ayırırıq
                     let rawQuestions = fullText.split(/(?=\d{1,3}\.\s+)/);
                     let addedCount = 0;
 
@@ -304,11 +305,9 @@
                         let text = block.trim();
                         if (text.length > 5) {
                             let cleanBlock = text.replace(/^\d{1,3}\.\s*/, '');
-                            
                             let qText = cleanBlock;
                             let optA = "", optB = "", optC = "", optD = "";
 
-                            // Çox güclü variant bölücü (A), B), C), D) hərflərini müxtəlif simvollarla dəqiq tutur)
                             let aMatch = cleanBlock.search(/\bA[\)\.]/);
                             let bMatch = cleanBlock.search(/\bB[\)\.]/);
                             let cMatch = cleanBlock.search(/\bC[\)\.]/);
@@ -321,7 +320,6 @@
                                 optC = cleanBlock.substring(cMatch + 2, dMatch).trim();
                                 optD = cleanBlock.substring(dMatch + 2).trim();
                             } else {
-                                // Alternativ bölmə (əgər hərflər bitişikdirsə)
                                 let partsA = cleanBlock.split(/A[\)\.]\s*/);
                                 qText = partsA[0].trim();
                                 if (partsA[1]) {
@@ -438,18 +436,74 @@
         function renderStudentExams() {
             let list = document.getElementById('studentExamList');
             list.innerHTML = exams.length === 0 ? '<p class="text-slate-500 text-sm">Hələ ki, əlavə edilmiş sınaq yoxdur.</p>' : '';
-            exams.forEach(exam => {
+            exams.forEach((exam, index) => {
                 list.innerHTML += `
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex justify-between items-center">
                         <div>
                             <h4 class="font-extrabold text-slate-800 text-base">${exam.title}</h4>
                             <p class="text-xs text-slate-500 mt-1 font-medium">${exam.category} • ${exam.questions.length} sual</p>
                         </div>
-                        <button onclick="alert('İmtahan rejimi tezliklə aktivləşəcək!')" class="bg-purple-600 hover:bg-purple-700 text-white text-xs px-5 py-3 rounded-xl font-bold transition shadow-md shadow-purple-200">İmtahana Başla</button>
+                        <button onclick="startExam(${index})" class="bg-purple-600 hover:bg-purple-700 text-white text-xs px-5 py-3 rounded-xl font-bold transition shadow-md shadow-purple-200">İmtahana Başla</button>
                     </div>
                 `;
             });
         }
+
+        // İMTAHANI BAŞLATMAQ VƏ İŞLƏMƏK MƏNTİQİ
+        function startExam(index) {
+            currentActiveExam = exams[index];
+            document.getElementById('dashboardView').classList.add('hidden');
+            document.getElementById('examView').classList.remove('hidden');
+            document.getElementById('activeExamTitle').innerText = currentActiveExam.title;
+
+            let container = document.getElementById('examQuestionsContainer');
+            container.innerHTML = "";
+
+            currentActiveExam.questions.forEach((q, qIdx) => {
+                container.innerHTML += `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4" data-qindex="${qIdx}">
+                        <h4 class="font-bold text-slate-800 text-sm md:text-base">${qIdx + 1}. ${q.text}</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-3 p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                                <input type="radio" name="q_${qIdx}" value="A" class="text-purple-600 focus:ring-purple-500">
+                                <span class="text-xs md:text-sm text-slate-700 font-medium"><strong class="text-purple-600 mr-1">A)</strong> ${q.a}</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                                <input type="radio" name="q_${qIdx}" value="B" class="text-purple-600 focus:ring-purple-500">
+                                <span class="text-xs md:text-sm text-slate-700 font-medium"><strong class="text-purple-600 mr-1">B)</strong> ${q.b}</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                                <input type="radio" name="q_${qIdx}" value="C" class="text-purple-600 focus:ring-purple-500">
+                                <span class="text-xs md:text-sm text-slate-700 font-medium"><strong class="text-purple-600 mr-1">C)</strong> ${q.c}</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                                <input type="radio" name="q_${qIdx}" value="D" class="text-purple-600 focus:ring-purple-500">
+                                <span class="text-xs md:text-sm text-slate-700 font-medium"><strong class="text-purple-600 mr-1">D)</strong> ${q.d}</span>
+                            </label>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function finishExam() {
+            if(!confirm('İmtahanı bitirmək istədiyinizə əminsiniz?')) return;
+
+            let correctCount = 0;
+            let total = currentActiveExam.questions.length;
+
+            currentActiveExam.questions.forEach((q, qIdx) => {
+                let selected = document.querySelector(`input[name="q_${qIdx}"]:checked`);
+                if(selected && selected.value === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            document.getElementById('examView').classList.add('hidden');
+            document.getElementById('resultView').classList.remove('hidden');
+            document.getElementById('examScoreText').innerHTML = `Sizin nəticəniz: <strong class="text-purple-600">${correctCount}</strong> / ${total} düzgün`;
+        }
     </script>
 </body>
 </html>
+

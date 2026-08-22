@@ -6,7 +6,6 @@
     <title>Dövlət Qulluğu Sınaq Platforması</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- PDF.js kitabxanası -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 <body class="bg-slate-100 font-sans antialiased">
@@ -89,30 +88,26 @@
         </main>
     </div>
 
-    <!-- ADMİN PANEL SƏHİFƏSİ (PDF YÜKLƏMƏLİ) -->
+    <!-- ADMİN PANEL SƏHİFƏSİ -->
     <div id="adminView" class="hidden min-h-screen flex bg-slate-100">
         <aside class="w-64 bg-slate-900 text-white flex flex-col">
             <div class="p-4 font-bold text-purple-400 border-b border-slate-800">Admin Panel</div>
             <nav class="p-4 space-y-2 flex-1">
-                <a href="#" class="flex items-center space-x-3 bg-purple-600 px-3 py-2 rounded-lg font-medium"><i class="fa-solid fa-plus-circle"></i> <span>Sınaq Əlavə Et</span></a>
+                <button onclick="switchAdminTab('createExamTab')" id="btnCreateExam" class="w-full text-left flex items-center space-x-3 bg-purple-600 px-3 py-2 rounded-lg font-medium transition"><i class="fa-solid fa-plus-circle"></i> <span>Yeni Sınaq Əlavə Et</span></button>
+                <button onclick="switchAdminTab('answersTab')" id="btnAnswers" class="w-full text-left flex items-center space-x-3 text-slate-300 hover:bg-slate-800 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-list-check"></i> <span>Cavabları Əlavə Et</span></button>
                 <a href="#" onclick="logout()" class="flex items-center space-x-3 text-red-400 hover:bg-slate-800 px-3 py-2 rounded-lg mt-auto"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Çıxış</span></a>
             </nav>
         </aside>
         
-        <main class="flex-1 p-8 overflow-y-auto max-w-3xl mx-auto">
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <main class="flex-1 p-8 overflow-y-auto max-w-4xl mx-auto">
+            
+            <!-- BÖLMƏ 1: Yeni Sınaq Əlavə Et -->
+            <div id="createExamTab" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
                 <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
                     <i class="fa-solid fa-file-circle-plus text-purple-600"></i>
-                    <span>Yeni Sınaq Əlavə Et (PDF / Avtomatik)</span>
+                    <span>Yeni Sınaq İmtahanı Yarat</span>
                 </h2>
                 
-                <!-- PDF YÜKLƏMƏ BÖLMƏSİ -->
-                <div class="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-xl">
-                    <label class="block text-xs font-bold text-purple-900 mb-2"><i class="fa-solid fa-file-pdf"></i> DİM Sınaq PDF Faylını Yüklə (Avtomatik oxumaq üçün)</label>
-                    <input type="file" id="pdfFile" accept=".pdf" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer">
-                    <p class="text-[11px] text-purple-700 mt-2">Qeyd: PDF yüklədikdən sonra mətn avtomatik olaraq aşağıdakı sual xanalarına əlavə olunacaq.</p>
-                </div>
-
                 <form onsubmit="saveNewExam(event)" class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-600 mb-1">Sınağın Adı</label>
@@ -127,7 +122,6 @@
 
                     <h3 class="font-bold text-slate-700">Suallar</h3>
                     <div id="questionsContainer" class="space-y-4">
-                        <!-- İlk default sual qutusu -->
                         <div class="question-block bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
                             <input type="text" placeholder="Sual mətni..." class="q-text w-full border rounded-lg px-3 py-2 text-sm bg-white" required>
                             <div class="grid grid-cols-2 gap-2">
@@ -146,7 +140,7 @@
                     </div>
 
                     <button type="button" onclick="addQuestionField()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs px-4 py-2 rounded-lg font-semibold transition">
-                        <i class="fa-solid fa-plus"></i> Əlavə Sual Qutusu Əlavə Et
+                        <i class="fa-solid fa-plus"></i> Sual Qutusu Əlavə Et
                     </button>
 
                     <div class="pt-4">
@@ -156,6 +150,19 @@
                     </div>
                 </form>
             </div>
+
+            <!-- BÖLMƏ 2: Cavabları Əlavə Et / Düzənlət (Ayrı Panel) -->
+            <div id="answersTab" class="hidden bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
+                    <i class="fa-solid fa-list-check text-purple-600"></i>
+                    <span>Sınaqların Cavablarını Tənzimlə</span>
+                </h2>
+                <p class="text-xs text-slate-500 mb-4">Buradan mövcud sınaqların sual cavablarını ayrıca redaktə edə bilərsiniz.</p>
+                <div id="adminExamListForAnswers" class="space-y-4">
+                    <!-- Sınaqların cavab idarəetmə siyahısı bura gələcək -->
+                </div>
+            </div>
+
         </main>
     </div>
 
@@ -175,6 +182,7 @@
                 closeModal('adminLoginModal');
                 document.getElementById('homeView').classList.add('hidden');
                 document.getElementById('adminView').classList.remove('hidden');
+                renderAdminAnswersList();
             } else {
                 alert('Şifrə yanlışdır! (Default: admin123)');
             }
@@ -192,6 +200,21 @@
             document.getElementById('dashboardView').classList.add('hidden');
             document.getElementById('adminView').classList.add('hidden');
             document.getElementById('homeView').classList.remove('hidden');
+        }
+
+        function switchAdminTab(tabId) {
+            document.getElementById('createExamTab').classList.add('hidden');
+            document.getElementById('answersTab').classList.add('hidden');
+            document.getElementById('btnCreateExam').className = "w-full text-left flex items-center space-x-3 text-slate-300 hover:bg-slate-800 px-3 py-2 rounded-lg transition";
+            document.getElementById('btnAnswers').className = "w-full text-left flex items-center space-x-3 text-slate-300 hover:bg-slate-800 px-3 py-2 rounded-lg transition";
+
+            document.getElementById(tabId).classList.remove('hidden');
+            if(tabId === 'createExamTab') {
+                document.getElementById('btnCreateExam').className = "w-full text-left flex items-center space-x-3 bg-purple-600 px-3 py-2 rounded-lg font-medium transition";
+            } else {
+                document.getElementById('btnAnswers').className = "w-full text-left flex items-center space-x-3 bg-purple-600 px-3 py-2 rounded-lg font-medium transition";
+                renderAdminAnswersList();
+            }
         }
 
         function addQuestionField(qText='', a='', b='', c='', d='', correct='A') {
@@ -219,40 +242,6 @@
             container.appendChild(div);
         }
 
-        // PDF Oxuma Məntiqi (PDF.js istifadə edərək)
-        document.getElementById('pdfFile').addEventListener('change', async function(e) {
-            let file = e.target.files[0];
-            if (!file) return;
-
-            let reader = new FileReader();
-            reader.readAsArrayBuffer(file);
-            reader.onload = async function() {
-                let typedarray = new Uint8Array(this.result);
-                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-                
-                try {
-                    let pdf = await pdfjsLib.getDocument(typedarray).promise;
-                    let fullText = "";
-                    for (let i = 1; i <= pdf.numPages; i++) {
-                        let page = await pdf.getPage(i);
-                        let textContent = await page.getTextContent();
-                        let pageText = textContent.items.map(item => item.str).join(" ");
-                        fullText += pageText + "\n";
-                    }
-
-                    // Avtomatik olaraq ilk sual sahəsinə məlumatı doldurma nümunəsi
-                    alert('PDF uğurla oxundu! Mətn sistemə uyğunlaşdırılır.');
-                    document.getElementById('examTitle').value = file.name.replace('.pdf', '');
-                    
-                    // Sirlənmiş mətni sadə üsulla əlavə edirik
-                    addQuestionField("PDF-dən oxunan sual: " + fullText.substring(0, 100) + "...", "A variantı", "B variantı", "C variantı", "D variantı", "A");
-
-                } catch (err) {
-                    alert('PDF oxunarkən xəta baş verdi.');
-                }
-            };
-        });
-
         function saveNewExam(e) {
             e.preventDefault();
             let title = document.getElementById('examTitle').value;
@@ -273,7 +262,46 @@
             exams.push({ title, category, questions });
             localStorage.setItem('dq_exams', JSON.stringify(exams));
             alert('Sınaq uğurla yadda saxlanıldı!');
-            location.reload();
+            document.querySelector('#createExamTab form').reset();
+            switchAdminTab('answersTab');
+        }
+
+        // Admin üçün cavabların siyahısını yaratmaq və redaktə etmək
+        function renderAdminAnswersList() {
+            let container = document.getElementById('adminExamListForAnswers');
+            container.innerHTML = exams.length === 0 ? '<p class="text-sm text-slate-500">Hələ ki, yaradılmış sınaq yoxdur.</p>' : '';
+            
+            exams.forEach((exam, examIndex) => {
+                let qHtml = '';
+                exam.questions.forEach((q, qIndex) => {
+                    qHtml += `
+                        <div class="flex items-center justify-between bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                            <span class="font-medium text-slate-700 truncate max-w-[250px]">${qIndex + 1}. ${q.text}</span>
+                            <select onchange="updateAnswer(${examIndex}, ${qIndex}, this.value)" class="border rounded px-2 py-1 bg-white font-bold text-purple-600">
+                                <option value="A" ${q.correct=='A'?'selected':''}>A</option>
+                                <option value="B" ${q.correct=='B'?'selected':''}>B</option>
+                                <option value="C" ${q.correct=='C'?'selected':''}>C</option>
+                                <option value="D" ${q.correct=='D'?'selected':''}>D</option>
+                            </select>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML += `
+                    <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm space-y-3">
+                        <h4 class="font-bold text-slate-800 text-sm border-b pb-2">${exam.title} <span class="text-xs font-normal text-slate-500">(${exam.category})</span></h4>
+                        <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                            ${qHtml}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Cavabı birbaşa dəyişib yadda saxlamaq
+        function updateAnswer(examIdx, qIdx, newAns) {
+            exams[examIdx].questions[qIdx].correct = newAns;
+            localStorage.setItem('dq_exams', JSON.stringify(exams));
         }
 
         function renderStudentExams() {

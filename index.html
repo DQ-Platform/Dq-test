@@ -110,9 +110,9 @@
                 
                 <!-- PDF Fayl Yükləmə Bölməsi -->
                 <div class="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-xl">
-                    <label class="block text-xs font-bold text-purple-900 mb-2"><i class="fa-solid fa-file-pdf"></i> Sınaq PDF Faylını Yüklə (Avtomatik Parser)</label>
+                    <label class="block text-xs font-bold text-purple-900 mb-2"><i class="fa-solid fa-file-pdf"></i> Sınaq PDF Faylını Yüklə</label>
                     <input type="file" id="pdfFile" accept=".pdf" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer">
-                    <p class="text-[11px] text-purple-700 mt-2">PDF seçildikdə içindəki suallar və variantlar avtomatik ardıcıl olaraq qutulara doldurulacaq.</p>
+                    <p class="text-[11px] text-purple-700 mt-2">PDF seçildikdə mətndəki simvol boşluqları təmizlənir və suallar səliqəli şəkildə qutulara bölünür.</p>
                 </div>
                 
                 <form onsubmit="saveNewExam(event)" class="space-y-4">
@@ -246,7 +246,7 @@
             container.appendChild(div);
         }
 
-        // Təkmilləşdirilmiş Avtomatik PDF Oxuma (Açılıb ardıcıl əlavə etmə)
+        // Təmizlənmiş və səliqəli PDF Parser
         document.getElementById('pdfFile').addEventListener('change', async function(e) {
             let file = e.target.files[0];
             if (!file) return;
@@ -263,24 +263,31 @@
                     for (let i = 1; i <= pdf.numPages; i++) {
                         let page = await pdf.getPage(i);
                         let textContent = await page.getTextContent();
-                        fullText += textContent.items.map(item => item.str).join(" ") + "\n";
+                        // Hər sözün arasındakı artıq boşluqları tənzimləyirik
+                        let pageText = textContent.items.map(item => item.str).join(" ");
+                        fullText += pageText + "\n";
                     }
 
+                    // Səhifə adını daxil edirik
                     document.getElementById('examTitle').value = file.name.replace('.pdf', '');
-                    document.getElementById('questionsContainer').innerHTML = ""; // Əvvəlki boş qutunu təmizlə
+                    document.getElementById('questionsContainer').innerHTML = ""; 
 
-                    // Sualları rəqəmlərinə görə parçalayırıq (Məs: 1., 2., 3. və s.)
+                    // Sualları nömrələrinə görə (Məsələn: 1., 2., 3.) ayırırıq
                     let rawQuestions = fullText.split(/(?=\d{1,2}\.\s+)/);
                     let addedCount = 0;
 
                     rawQuestions.forEach(block => {
-                        let text = block.trim();
+                        let text = block.replace(/\s+/g, ' ').trim();
                         if (text.length > 10) {
-                            // Variantları A), B), C), D) olaraq bölməyə çalışırıq
-                            let partsA = text.split(/A\)\s*/);
-                            let qText = partsA[0].replace(/^\d{1,2}\.\s*/, '').trim();
+                            // Sual mətnini və variantları təmizləyirik
+                            let qPart = text.replace(/^\d{1,2}\.\s*/, '');
                             
                             let optA = "", optB = "", optC = "", optD = "";
+                            
+                            // Variantları A), B), C), D) hərflərinə görə bölürük
+                            let partsA = qPart.split(/A\)\s*/);
+                            let qText = partsA[0].trim();
+
                             if (partsA[1]) {
                                 let partsB = partsA[1].split(/B\)\s*/);
                                 optA = partsB[0].trim();
@@ -291,7 +298,6 @@
                                         let partsD = partsC[1].split(/D\)\s*/);
                                         optC = partsD[0].trim();
                                         if (partsD[1]) {
-                                            // D variantının sonrasını təmizləyirik
                                             optD = partsD[1].split(/\d{1,2}\./)[0].trim();
                                         }
                                     }
@@ -304,11 +310,10 @@
                     });
 
                     if (addedCount === 0) {
-                        // Əgər xüsusi format tapılmasa mətnin ilk hissəsini əlavə edir
                         addQuestionField(fullText.substring(0, 150), "", "", "", "", "A");
                     }
 
-                    alert(`PDF uğurla oxundu! ${Math.max(addedCount, 1)} sual ardıcıl olaraq əlavə edildi.`);
+                    alert(`PDF-dən ${Math.max(addedCount, 1)} sual səliqəli şəkildə oxundu!`);
                 } catch (err) {
                     alert('PDF oxunarkən xəta baş verdi.');
                 }

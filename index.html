@@ -6,7 +6,6 @@
     <title>Dövlət Qulluğu Sınaq Platforması</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- PDF.js kitabxanası -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 <body class="bg-slate-100 font-sans antialiased">
@@ -102,7 +101,7 @@
         
         <main class="flex-1 p-8 overflow-y-auto max-w-4xl mx-auto">
             
-            <!-- BÖLMƏ 1: Yeni Sınaq Əlavə Et (PDF Yükləmə Daxil) -->
+            <!-- BÖLMƏ 1: Yeni Sınaq Əlavə Et -->
             <div id="createExamTab" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
                 <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
                     <i class="fa-solid fa-file-circle-plus text-purple-600"></i>
@@ -111,9 +110,9 @@
                 
                 <!-- PDF Fayl Yükləmə Bölməsi -->
                 <div class="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-xl">
-                    <label class="block text-xs font-bold text-purple-900 mb-2"><i class="fa-solid fa-file-pdf"></i> Sınaq PDF Faylını Yüklə (Avtomatik Oxumaq Üçün)</label>
+                    <label class="block text-xs font-bold text-purple-900 mb-2"><i class="fa-solid fa-file-pdf"></i> Sınaq PDF Faylını Yüklə (Avtomatik Parser)</label>
                     <input type="file" id="pdfFile" accept=".pdf" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer">
-                    <p class="text-[11px] text-purple-700 mt-2">PDF seçildikdən sonra mətni avtomatik olaraq sual sahəsinə əlavə olunacaq.</p>
+                    <p class="text-[11px] text-purple-700 mt-2">PDF seçildikdə içindəki suallar və variantlar avtomatik ardıcıl olaraq qutulara doldurulacaq.</p>
                 </div>
                 
                 <form onsubmit="saveNewExam(event)" class="space-y-4">
@@ -247,7 +246,7 @@
             container.appendChild(div);
         }
 
-        // PDF Oxuma Funksiyası
+        // Təkmilləşdirilmiş Avtomatik PDF Oxuma (Açılıb ardıcıl əlavə etmə)
         document.getElementById('pdfFile').addEventListener('change', async function(e) {
             let file = e.target.files[0];
             if (!file) return;
@@ -268,8 +267,48 @@
                     }
 
                     document.getElementById('examTitle').value = file.name.replace('.pdf', '');
-                    addQuestionField("PDF-dən oxunan sual: " + fullText.substring(0, 120) + "...", "A variantı", "B variantı", "C variantı", "D variantı", "A");
-                    alert('PDF uğurla oxundu və məlumatlar daxil edildi!');
+                    document.getElementById('questionsContainer').innerHTML = ""; // Əvvəlki boş qutunu təmizlə
+
+                    // Sualları rəqəmlərinə görə parçalayırıq (Məs: 1., 2., 3. və s.)
+                    let rawQuestions = fullText.split(/(?=\d{1,2}\.\s+)/);
+                    let addedCount = 0;
+
+                    rawQuestions.forEach(block => {
+                        let text = block.trim();
+                        if (text.length > 10) {
+                            // Variantları A), B), C), D) olaraq bölməyə çalışırıq
+                            let partsA = text.split(/A\)\s*/);
+                            let qText = partsA[0].replace(/^\d{1,2}\.\s*/, '').trim();
+                            
+                            let optA = "", optB = "", optC = "", optD = "";
+                            if (partsA[1]) {
+                                let partsB = partsA[1].split(/B\)\s*/);
+                                optA = partsB[0].trim();
+                                if (partsB[1]) {
+                                    let partsC = partsB[1].split(/C\)\s*/);
+                                    optB = partsC[0].trim();
+                                    if (partsC[1]) {
+                                        let partsD = partsC[1].split(/D\)\s*/);
+                                        optC = partsD[0].trim();
+                                        if (partsD[1]) {
+                                            // D variantının sonrasını təmizləyirik
+                                            optD = partsD[1].split(/\d{1,2}\./)[0].trim();
+                                        }
+                                    }
+                                }
+                            }
+
+                            addQuestionField(qText, optA, optB, optC, optD, 'A');
+                            addedCount++;
+                        }
+                    });
+
+                    if (addedCount === 0) {
+                        // Əgər xüsusi format tapılmasa mətnin ilk hissəsini əlavə edir
+                        addQuestionField(fullText.substring(0, 150), "", "", "", "", "A");
+                    }
+
+                    alert(`PDF uğurla oxundu! ${Math.max(addedCount, 1)} sual ardıcıl olaraq əlavə edildi.`);
                 } catch (err) {
                     alert('PDF oxunarkən xəta baş verdi.');
                 }

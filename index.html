@@ -3,163 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dövlət Qulluğu Sınaq Platforması</title>
+    <title>Dövlət Qulluğu Sınaq Platforması - Pro Enterprise</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
-<body class="bg-slate-100 font-sans antialiased">
+<body class="bg-slate-100 font-sans antialiased selection:bg-purple-500 selection:text-white">
 
     <!-- ANA SƏHİFƏ (LANDING) -->
     <div id="homeView" class="min-h-screen flex flex-col">
-        <header class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center">
+        <header class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-xs">
             <div class="flex items-center space-x-2">
-                <div class="bg-blue-600 text-white p-2 rounded-lg font-bold"><i class="fa-solid fa-graduation-cap"></i></div>
-                <span class="font-bold text-lg text-slate-800">DQexam.az</span>
+                <div class="bg-purple-600 text-white p-2.5 rounded-xl font-bold shadow-md shadow-purple-200"><i class="fa-solid fa-graduation-cap"></i></div>
+                <span class="font-extrabold text-lg text-slate-800 tracking-wide">DQexam<span class="text-purple-600">.az</span> <span class="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full uppercase">Enterprise</span></span>
             </div>
             <div class="space-x-3">
-                <button onclick="openModal('adminLoginModal')" class="text-slate-600 hover:text-blue-600 text-sm font-medium">Admin Girişi</button>
-                <button onclick="openModal('loginModal')" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition">Giriş</button>
+                <button onclick="openModal('adminLoginModal')" class="text-slate-600 hover:text-purple-600 text-sm font-semibold transition">Admin Girişi</button>
+                <button onclick="openModal('loginModal')" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-purple-200 transition">Giriş</button>
             </div>
         </header>
 
         <main class="flex-1 flex flex-col items-center justify-center text-center px-4 py-12">
-            <span class="bg-blue-50 text-blue-600 text-xs font-semibold px-3 py-1 rounded-full mb-4">⭐ DÖVLƏT QULLUĞUNA QƏBUL PLATFORMASI</span>
-            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 max-w-2xl mb-4">
-                Dövlət qulluğuna qəbul üçün <span class="text-blue-600">peşəkar hazırlıq</span>
+            <span class="bg-purple-50 text-purple-600 text-xs font-bold px-4 py-1.5 rounded-full mb-4 border border-purple-100">⭐ PEŞƏKAR DÖVLƏT QULLUĞU PLATFORMASI</span>
+            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 max-w-2xl mb-4 leading-tight">
+                Sınaqlarınızı qüsursuz və avtomatik idarə edin
             </h1>
-            <p class="text-slate-600 max-w-xl mb-8">BB, BA, AC və AB kateqoriyaları üzrə sınaq imtahanları və ani nəticə analizi.</p>
-            <button onclick="openModal('registerModal')" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold shadow-lg transition">İndi Başla</button>
+            <p class="text-slate-500 max-w-xl mb-8 text-sm md:text-base">PDF fayllarını saniyələr içində oxuyub qüsursuz imtahan bazasına çevirən ağıllı sistem.</p>
+            <button onclick="openModal('registerModal')" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg shadow-purple-200 transition">İndi Başla</button>
         </main>
     </div>
 
     <!-- GİRİŞ MODALLARI -->
-    <div id="loginModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl">
+    <div id="loginModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl border border-slate-100">
             <button onclick="closeModal('loginModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h2 class="font-bold text-slate-800 mb-4">İstifadəçi Girişi</h2>
+            <h2 class="font-bold text-slate-800 text-lg mb-4">İstifadəçi Girişi</h2>
             <form onsubmit="handleLogin(event)" class="space-y-4">
-                <input type="text" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm" placeholder="İstifadəçi adı">
-                <input type="password" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm" placeholder="Şifrə">
-                <button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold">Daxil ol</button>
+                <input type="text" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-purple-500 outline-none" placeholder="İstifadəçi adı">
+                <input type="password" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-purple-500 outline-none" placeholder="Şifrə">
+                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-bold transition shadow-md shadow-purple-200">Daxil ol</button>
             </form>
         </div>
     </div>
 
-    <div id="adminLoginModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl">
+    <div id="adminLoginModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl border border-slate-100">
             <button onclick="closeModal('adminLoginModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
             <div class="text-center mb-6">
-                <div class="bg-purple-600 text-white w-10 h-10 mx-auto rounded-xl flex items-center justify-center mb-2"><i class="fa-solid fa-lock"></i></div>
-                <h2 class="font-bold text-slate-800">Admin Panel Girişi</h2>
+                <div class="bg-purple-600 text-white w-12 h-12 mx-auto rounded-2xl flex items-center justify-center mb-3 shadow-md shadow-purple-200"><i class="fa-solid fa-lock text-lg"></i></div>
+                <h2 class="font-bold text-slate-800 text-lg">Admin Panel Girişi</h2>
             </div>
             <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-                <input type="password" id="adminPass" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm" placeholder="Admin şifrəsi (admin123)">
-                <button type="submit" class="w-full bg-purple-600 text-white py-2.5 rounded-lg font-semibold hover:bg-purple-700">Daxil Ol</button>
+                <input type="password" id="adminPass" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-purple-500 outline-none" placeholder="Admin şifrəsi (admin123)">
+                <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition shadow-md shadow-purple-200">Daxil Ol</button>
             </form>
         </div>
     </div>
 
-    <div id="registerModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl">
+    <div id="registerModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl border border-slate-100">
             <button onclick="closeModal('registerModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h2 class="font-bold text-center text-slate-800 mb-4">Qeydiyyatdan keçin</h2>
+            <h2 class="font-bold text-center text-slate-800 text-lg mb-4">Qeydiyyatdan keçin</h2>
             <form onsubmit="loginSuccess(event)" class="space-y-3">
-                <input type="text" placeholder="Ad və Soyad" required class="border p-2 rounded-lg text-sm w-full">
-                <input type="text" placeholder="İstifadəçi adı" required class="border p-2 rounded-lg text-sm w-full">
-                <input type="password" placeholder="Şifrə" required class="border p-2 rounded-lg text-sm w-full">
-                <button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold">Qeydiyyatdan keç</button>
+                <input type="text" placeholder="Ad və Soyad" required class="border border-slate-200 p-3 rounded-xl text-sm w-full outline-none focus:ring-2 focus:ring-purple-500">
+                <input type="text" placeholder="İstifadəçi adı" required class="border border-slate-200 p-3 rounded-xl text-sm w-full outline-none focus:ring-2 focus:ring-purple-500">
+                <input type="password" placeholder="Şifrə" required class="border border-slate-200 p-3 rounded-xl text-sm w-full outline-none focus:ring-2 focus:ring-purple-500">
+                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-bold transition shadow-md shadow-purple-200">Qeydiyyatdan keç</button>
             </form>
         </div>
     </div>
 
     <!-- TƏLƏBƏ KABİNETİ -->
     <div id="dashboardView" class="hidden min-h-screen flex">
-        <aside class="w-64 bg-white border-r border-slate-200 hidden md:flex flex-col">
-            <div class="p-4 font-bold text-blue-600 border-b">DQexam Kabinet</div>
+        <aside class="w-64 bg-white border-r border-slate-200 hidden md:flex flex-col shadow-xs">
+            <div class="p-5 font-bold text-purple-600 border-b flex items-center space-x-2">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>DQexam Kabinet</span>
+            </div>
             <nav class="p-4 space-y-1 flex-1">
-                <a href="#" class="flex items-center space-x-3 bg-blue-50 text-blue-600 px-3 py-2 rounded-lg font-medium"><i class="fa-solid fa-house"></i> <span>Əsas</span></a>
-                <a href="#" onclick="logout()" class="flex items-center space-x-3 text-red-600 hover:bg-red-50 px-3 py-2 rounded-lg mt-auto"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Çıxış</span></a>
+                <a href="#" class="flex items-center space-x-3 bg-purple-50 text-purple-600 px-3.5 py-2.5 rounded-xl font-semibold"><i class="fa-solid fa-house"></i> <span>Əsas Səhifə</span></a>
+                <a href="#" onclick="logout()" class="flex items-center space-x-3 text-red-600 hover:bg-red-50 px-3.5 py-2.5 rounded-xl mt-auto font-medium transition"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Çıxış</span></a>
             </nav>
         </aside>
-        <main class="flex-1 p-6 overflow-y-auto">
-            <h2 class="text-2xl font-bold mb-4">Mövcud Sınaq İmtahanları</h2>
-            <div id="studentExamList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        <main class="flex-1 p-8 overflow-y-auto">
+            <h2 class="text-2xl font-extrabold mb-6 text-slate-800">Mövcud Sınaq İmtahanları</h2>
+            <div id="studentExamList" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
         </main>
     </div>
 
     <!-- ADMİN PANEL SƏHİFƏSİ -->
     <div id="adminView" class="hidden min-h-screen flex bg-slate-100">
-        <aside class="w-64 bg-slate-900 text-white flex flex-col">
-            <div class="p-4 font-bold text-purple-400 border-b border-slate-800">Admin Panel</div>
+        <aside class="w-64 bg-slate-900 text-white flex flex-col shadow-xl">
+            <div class="p-5 font-bold text-purple-400 border-b border-slate-800 flex items-center space-x-2">
+                <i class="fa-solid fa-gears"></i>
+                <span>Pro Admin Panel</span>
+            </div>
             <nav class="p-4 space-y-2 flex-1">
-                <button onclick="switchAdminTab('createExamTab')" id="btnCreateExam" class="w-full text-left flex items-center space-x-3 bg-purple-600 px-3 py-2 rounded-lg font-medium transition"><i class="fa-solid fa-plus-circle"></i> <span>Yeni Sınaq Əlavə Et</span></button>
-                <button onclick="switchAdminTab('answersTab')" id="btnAnswers" class="w-full text-left flex items-center space-x-3 text-slate-300 hover:bg-slate-800 px-3 py-2 rounded-lg transition"><i class="fa-solid fa-list-check"></i> <span>Cavabları Əlavə Et</span></button>
-                <a href="#" onclick="logout()" class="flex items-center space-x-3 text-red-400 hover:bg-slate-800 px-3 py-2 rounded-lg mt-auto"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Çıxış</span></a>
+                <button onclick="switchAdminTab('createExamTab')" id="btnCreateExam" class="w-full text-left flex items-center space-x-3 bg-purple-600 px-3.5 py-2.5 rounded-xl font-semibold transition shadow-md shadow-purple-900/50"><i class="fa-solid fa-plus-circle"></i> <span>Yeni Sınaq Əlavə Et</span></button>
+                <button onclick="switchAdminTab('answersTab')" id="btnAnswers" class="w-full text-left flex items-center space-x-3 text-slate-300 hover:bg-slate-800 px-3.5 py-2.5 rounded-xl font-medium transition"><i class="fa-solid fa-list-check"></i> <span>Cavabları Tənzimlə</span></button>
+                <a href="#" onclick="logout()" class="flex items-center space-x-3 text-red-400 hover:bg-slate-800 px-3.5 py-2.5 rounded-xl mt-auto font-medium transition"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Çıxış</span></a>
             </nav>
         </aside>
         
         <main class="flex-1 p-8 overflow-y-auto max-w-4xl mx-auto">
             
             <!-- BÖLMƏ 1: Yeni Sınaq Əlavə Et -->
-            <div id="createExamTab" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <div id="createExamTab" class="bg-white rounded-2xl p-6 md:p-8 shadow-xs border border-slate-200">
                 <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
                     <i class="fa-solid fa-file-circle-plus text-purple-600"></i>
-                    <span>Yeni Sınaq İmtahanı Yarat</span>
+                    <span>Peşəkar PDF Sınaq Yükləyici</span>
                 </h2>
                 
                 <!-- PDF Fayl Yükləmə Bölməsi -->
-                <div class="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-xl">
-                    <label class="block text-xs font-bold text-purple-900 mb-2"><i class="fa-solid fa-file-pdf"></i> Sınaq PDF Faylını Yüklə</label>
-                    <input type="file" id="pdfFile" accept=".pdf" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer">
-                    <p class="text-[11px] text-purple-700 mt-2">PDF seçildikdə mətndəki simvol boşluqları təmizlənir və suallar səliqəli şəkildə qutulara bölünür.</p>
+                <div class="mb-6 p-5 bg-purple-50/60 border border-purple-100 rounded-2xl">
+                    <label class="block text-xs font-bold text-purple-900 mb-2 uppercase tracking-wider"><i class="fa-solid fa-file-pdf"></i> Sınaq PDF Faylını Seçin</label>
+                    <input type="file" id="pdfFile" accept=".pdf" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer transition">
+                    <p class="text-[11px] text-purple-700 mt-2 font-medium">Sistem PDF daxilindəki mətnləri təmizləyərək bütün sualları və variantları tam avtomatik şəkildə qutulara bölür.</p>
                 </div>
                 
                 <form onsubmit="saveNewExam(event)" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Sınağın Adı</label>
-                        <input type="text" id="examTitle" required class="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Məs: Qanunvericilik Sınaq 1">
+                        <label class="block text-xs font-bold text-slate-600 mb-1 uppercase tracking-wider">Sınağın Adı</label>
+                        <input type="text" id="examTitle" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500" placeholder="Məs: Qanunvericilik Sınaq 1">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Kateqoriya / Məlumat</label>
-                        <input type="text" id="examCategory" required class="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Məs: Dövlət qulluğu - 30 sual">
+                        <label class="block text-xs font-bold text-slate-600 mb-1 uppercase tracking-wider">Kateqoriya / Məlumat</label>
+                        <input type="text" id="examCategory" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500" placeholder="Məs: Dövlət qulluğu - Sınaq">
                     </div>
 
-                    <hr class="my-4">
+                    <hr class="my-6 border-slate-100">
 
-                    <h3 class="font-bold text-slate-700">Suallar</h3>
+                    <h3 class="font-bold text-slate-700 flex justify-between items-center">
+                        <span>Suallar və Variantlar</span>
+                        <span id="questionCounterBadge" class="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-bold">0 sual</span>
+                    </h3>
                     <div id="questionsContainer" class="space-y-4">
-                        <div class="question-block bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                            <input type="text" placeholder="Sual mətni..." class="q-text w-full border rounded-lg px-3 py-2 text-sm bg-white" required>
-                            <div class="grid grid-cols-2 gap-2">
-                                <input type="text" placeholder="A variantı" class="opt-a border rounded-lg px-3 py-1.5 text-xs bg-white" required>
-                                <input type="text" placeholder="B variantı" class="opt-b border rounded-lg px-3 py-1.5 text-xs bg-white" required>
-                                <input type="text" placeholder="C variantı" class="opt-c border rounded-lg px-3 py-1.5 text-xs bg-white" required>
-                                <input type="text" placeholder="D variantı" class="opt-d border rounded-lg px-3 py-1.5 text-xs bg-white" required>
+                        <div class="question-block bg-slate-50/70 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <input type="text" placeholder="Sual mətni..." class="q-text w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white outline-none focus:ring-1 focus:ring-purple-500" required>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                                <input type="text" placeholder="A variantı" class="opt-a border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
+                                <input type="text" placeholder="B variantı" class="opt-b border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
+                                <input type="text" placeholder="C variantı" class="opt-c border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
+                                <input type="text" placeholder="D variantı" class="opt-d border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
                             </div>
-                            <div>
-                                <label class="text-xs font-semibold text-slate-500">Düzgün Cavab:</label>
-                                <select class="correct-ans border rounded-lg px-2 py-1 text-xs bg-white ml-2">
-                                    <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
-                                </select>
+                            <div class="flex justify-between items-center pt-2">
+                                <div>
+                                    <label class="text-xs font-semibold text-slate-500">Düzgün Cavab:</label>
+                                    <select class="correct-ans border border-slate-200 rounded-xl px-3 py-1.5 text-xs bg-white ml-2 font-bold text-purple-600 outline-none">
+                                        <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+                                    </select>
+                                </div>
+                                <button type="button" onclick="this.closest('.question-block').remove(); updateCounter();" class="text-red-500 hover:text-red-700 text-xs font-semibold transition"><i class="fa-solid fa-trash"></i> Sil</button>
                             </div>
                         </div>
                     </div>
 
-                    <button type="button" onclick="addQuestionField()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs px-4 py-2 rounded-lg font-semibold transition">
-                        <i class="fa-solid fa-plus"></i> Sual Qutusu Əlavə Et
-                    </button>
+                    <div class="flex space-x-3 pt-2">
+                        <button type="button" onclick="addQuestionField()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs px-4 py-3 rounded-xl font-bold transition">
+                            <i class="fa-solid fa-plus"></i> Sual Qutusu Əlavə Et
+                        </button>
+                    </div>
 
                     <div class="pt-4">
-                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-bold transition shadow-lg">
-                            Sınağı Yadda Saxla
+                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3.5 rounded-xl font-bold transition shadow-lg shadow-purple-200">
+                            Sınağı Yadda Saxla və Dərc Et
                         </button>
                     </div>
                 </form>
             </div>
 
-            <!-- BÖLMƏ 2: Cavabları Əlavə Et -->
-            <div id="answersTab" class="hidden bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+            <!-- BÖLMƏ 2: Cavabları Tənzimlə -->
+            <div id="answersTab" class="hidden bg-white rounded-2xl p-6 md:p-8 shadow-xs border border-slate-200">
                 <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center space-x-2">
                     <i class="fa-solid fa-list-check text-purple-600"></i>
                     <span>Sınaqların Cavablarını Tənzimlə</span>
@@ -209,44 +223,53 @@
         function switchAdminTab(tabId) {
             document.getElementById('createExamTab').classList.add('hidden');
             document.getElementById('answersTab').classList.add('hidden');
-            document.getElementById('btnCreateExam').className = "w-full text-left flex items-center space-x-3 text-slate-300 hover:bg-slate-800 px-3 py-2 rounded-lg transition";
-            document.getElementById('btnAnswers').className = "w-full text-left flex items-center space-x-3 text-slate-300 hover:bg-slate-800 px-3 py-2 rounded-lg transition";
+            document.getElementById('btnCreateExam').className = "w-full text-left flex items-center space-x-3 text-slate-300 hover:bg-slate-800 px-3.5 py-2.5 rounded-xl font-medium transition";
+            document.getElementById('btnAnswers').className = "w-full text-left flex items-center space-x-3 text-slate-300 hover:bg-slate-800 px-3.5 py-2.5 rounded-xl font-medium transition";
 
             document.getElementById(tabId).classList.remove('hidden');
             if(tabId === 'createExamTab') {
-                document.getElementById('btnCreateExam').className = "w-full text-left flex items-center space-x-3 bg-purple-600 px-3 py-2 rounded-lg font-medium transition";
+                document.getElementById('btnCreateExam').className = "w-full text-left flex items-center space-x-3 bg-purple-600 px-3.5 py-2.5 rounded-xl font-semibold transition shadow-md shadow-purple-900/50";
             } else {
-                document.getElementById('btnAnswers').className = "w-full text-left flex items-center space-x-3 bg-purple-600 px-3 py-2 rounded-lg font-medium transition";
+                document.getElementById('btnAnswers').className = "w-full text-left flex items-center space-x-3 bg-purple-600 px-3.5 py-2.5 rounded-xl font-semibold transition shadow-md shadow-purple-900/50";
                 renderAdminAnswersList();
             }
+        }
+
+        function updateCounter() {
+            let count = document.querySelectorAll('.question-block').length;
+            document.getElementById('questionCounterBadge').innerText = count + " sual";
         }
 
         function addQuestionField(qText='', a='', b='', c='', d='', correct='A') {
             let container = document.getElementById('questionsContainer');
             let div = document.createElement('div');
-            div.className = "question-block bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 mt-3";
+            div.className = "question-block bg-slate-50/70 p-5 rounded-2xl border border-slate-200 space-y-3 mt-3 shadow-xs";
             div.innerHTML = `
-                <input type="text" value="${qText}" placeholder="Sual mətni..." class="q-text w-full border rounded-lg px-3 py-2 text-sm bg-white" required>
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" value="${a}" placeholder="A variantı" class="opt-a border rounded-lg px-3 py-1.5 text-xs bg-white" required>
-                    <input type="text" value="${b}" placeholder="B variantı" class="opt-b border rounded-lg px-3 py-1.5 text-xs bg-white" required>
-                    <input type="text" value="${c}" placeholder="C variantı" class="opt-c border rounded-lg px-3 py-1.5 text-xs bg-white" required>
-                    <input type="text" value="${d}" placeholder="D variantı" class="opt-d border rounded-lg px-3 py-1.5 text-xs bg-white" required>
+                <input type="text" value="${qText}" placeholder="Sual mətni..." class="q-text w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white outline-none focus:ring-1 focus:ring-purple-500" required>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                    <input type="text" value="${a}" placeholder="A variantı" class="opt-a border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
+                    <input type="text" value="${b}" placeholder="B variantı" class="opt-b border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
+                    <input type="text" value="${c}" placeholder="C variantı" class="opt-c border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
+                    <input type="text" value="${d}" placeholder="D variantı" class="opt-d border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
                 </div>
-                <div>
-                    <label class="text-xs font-semibold text-slate-500">Düzgün Cavab:</label>
-                    <select class="correct-ans border rounded-lg px-2 py-1 text-xs bg-white ml-2">
-                        <option value="A" ${correct=='A'?'selected':''}>A</option>
-                        <option value="B" ${correct=='B'?'selected':''}>B</option>
-                        <option value="C" ${correct=='C'?'selected':''}>C</option>
-                        <option value="D" ${correct=='D'?'selected':''}>D</option>
-                    </select>
+                <div class="flex justify-between items-center pt-2">
+                    <div>
+                        <label class="text-xs font-semibold text-slate-500">Düzgün Cavab:</label>
+                        <select class="correct-ans border border-slate-200 rounded-xl px-3 py-1.5 text-xs bg-white ml-2 font-bold text-purple-600 outline-none">
+                            <option value="A" ${correct=='A'?'selected':''}>A</option>
+                            <option value="B" ${correct=='B'?'selected':''}>B</option>
+                            <option value="C" ${correct=='C'?'selected':''}>C</option>
+                            <option value="D" ${correct=='D'?'selected':''}>D</option>
+                        </select>
+                    </div>
+                    <button type="button" onclick="this.closest('.question-block').remove(); updateCounter();" class="text-red-500 hover:text-red-700 text-xs font-semibold transition"><i class="fa-solid fa-trash"></i> Sil</button>
                 </div>
             `;
             container.appendChild(div);
+            updateCounter();
         }
 
-        // Təmizlənmiş və səliqəli PDF Parser
+        // PEŞƏKAR VƏ SİSTEMLİ PDF PARSER
         document.getElementById('pdfFile').addEventListener('change', async function(e) {
             let file = e.target.files[0];
             if (!file) return;
@@ -263,42 +286,40 @@
                     for (let i = 1; i <= pdf.numPages; i++) {
                         let page = await pdf.getPage(i);
                         let textContent = await page.getTextContent();
-                        // Hər sözün arasındakı artıq boşluqları tənzimləyirik
                         let pageText = textContent.items.map(item => item.str).join(" ");
                         fullText += pageText + "\n";
                     }
 
-                    // Səhifə adını daxil edirik
                     document.getElementById('examTitle').value = file.name.replace('.pdf', '');
                     document.getElementById('questionsContainer').innerHTML = ""; 
 
-                    // Sualları nömrələrinə görə (Məsələn: 1., 2., 3.) ayırırıq
-                    let rawQuestions = fullText.split(/(?=\d{1,2}\.\s+)/);
+                    fullText = fullText.replace(/\s+/g, ' ');
+                    let rawQuestions = fullText.split(/(?=\d{1,3}\.\s+)/);
                     let addedCount = 0;
 
                     rawQuestions.forEach(block => {
-                        let text = block.replace(/\s+/g, ' ').trim();
+                        let text = block.trim();
                         if (text.length > 10) {
-                            // Sual mətnini və variantları təmizləyirik
-                            let qPart = text.replace(/^\d{1,2}\.\s*/, '');
-                            
+                            let cleanBlock = text.replace(/^\d{1,3}\.\s*/, '');
+                            let qText = cleanBlock;
                             let optA = "", optB = "", optC = "", optD = "";
-                            
-                            // Variantları A), B), C), D) hərflərinə görə bölürük
-                            let partsA = qPart.split(/A\)\s*/);
-                            let qText = partsA[0].trim();
 
-                            if (partsA[1]) {
-                                let partsB = partsA[1].split(/B\)\s*/);
-                                optA = partsB[0].trim();
-                                if (partsB[1]) {
-                                    let partsC = partsB[1].split(/C\)\s*/);
-                                    optB = partsC[0].trim();
-                                    if (partsC[1]) {
-                                        let partsD = partsC[1].split(/D\)\s*/);
-                                        optC = partsD[0].trim();
-                                        if (partsD[1]) {
-                                            optD = partsD[1].split(/\d{1,2}\./)[0].trim();
+                            if (cleanBlock.includes('A)') && cleanBlock.includes('B)')) {
+                                let partsA = cleanBlock.split(/A\)\s*/);
+                                qText = partsA[0].trim();
+                                
+                                if (partsA[1]) {
+                                    let partsB = partsA[1].split(/B\)\s*/);
+                                    optA = partsB[0].trim();
+                                    if (partsB[1]) {
+                                        let partsC = partsB[1].split(/C\)\s*/);
+                                        optB = partsC[0].trim();
+                                        if (partsC[1]) {
+                                            let partsD = partsC[1].split(/D\)\s*/);
+                                            optC = partsD[0].trim();
+                                            if (partsD[1]) {
+                                                optD = partsD[1].split(/\d{1,3}\./)[0].trim();
+                                            }
                                         }
                                     }
                                 }
@@ -310,10 +331,10 @@
                     });
 
                     if (addedCount === 0) {
-                        addQuestionField(fullText.substring(0, 150), "", "", "", "", "A");
+                        addQuestionField(fullText.substring(0, 200), "", "", "", "", "A");
                     }
 
-                    alert(`PDF-dən ${Math.max(addedCount, 1)} sual səliqəli şəkildə oxundu!`);
+                    alert(`PDF-dən ${Math.max(addedCount, 1)} sual peşəkar şəkildə oxunub qutulara bölündü!`);
                 } catch (err) {
                     alert('PDF oxunarkən xəta baş verdi.');
                 }
@@ -337,10 +358,17 @@
                 });
             });
 
+            if(questions.length === 0) {
+                alert('Heç bir sual tapılmadı!');
+                return;
+            }
+
             exams.push({ title, category, questions });
             localStorage.setItem('dq_exams', JSON.stringify(exams));
             alert('Sınaq uğurla yadda saxlanıldı!');
             document.querySelector('#createExamTab form').reset();
+            document.getElementById('questionsContainer').innerHTML = "";
+            addQuestionField();
             switchAdminTab('answersTab');
         }
 
@@ -352,9 +380,9 @@
                 let qHtml = '';
                 exam.questions.forEach((q, qIndex) => {
                     qHtml += `
-                        <div class="flex items-center justify-between bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                        <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs">
                             <span class="font-medium text-slate-700 truncate max-w-[250px]">${qIndex + 1}. ${q.text}</span>
-                            <select onchange="updateAnswer(${examIndex}, ${qIndex}, this.value)" class="border rounded px-2 py-1 bg-white font-bold text-purple-600">
+                            <select onchange="updateAnswer(${examIndex}, ${qIndex}, this.value)" class="border border-slate-200 rounded-lg px-2.5 py-1 bg-white font-bold text-purple-600 outline-none">
                                 <option value="A" ${q.correct=='A'?'selected':''}>A</option>
                                 <option value="B" ${q.correct=='B'?'selected':''}>B</option>
                                 <option value="C" ${q.correct=='C'?'selected':''}>C</option>
@@ -365,8 +393,11 @@
                 });
 
                 container.innerHTML += `
-                    <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm space-y-3">
-                        <h4 class="font-bold text-slate-800 text-sm border-b pb-2">${exam.title} <span class="text-xs font-normal text-slate-500">(${exam.category})</span></h4>
+                    <div class="border border-slate-200 rounded-2xl p-5 bg-white shadow-xs space-y-3">
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                            <h4 class="font-bold text-slate-800 text-sm">${exam.title} <span class="text-xs font-normal text-slate-500">(${exam.category})</span></h4>
+                            <button onclick="deleteExam(${examIndex})" class="text-red-500 hover:text-red-700 text-xs font-semibold transition"><i class="fa-solid fa-trash"></i> Sınağı Sil</button>
+                        </div>
                         <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
                             ${qHtml}
                         </div>
@@ -380,17 +411,25 @@
             localStorage.setItem('dq_exams', JSON.stringify(exams));
         }
 
+        function deleteExam(examIdx) {
+            if(confirm('Bu sınağı silmək istədiyinizə əminsiniz?')) {
+                exams.splice(examIdx, 1);
+                localStorage.setItem('dq_exams', JSON.stringify(exams));
+                renderAdminAnswersList();
+            }
+        }
+
         function renderStudentExams() {
             let list = document.getElementById('studentExamList');
             list.innerHTML = exams.length === 0 ? '<p class="text-slate-500 text-sm">Hələ ki, əlavə edilmiş sınaq yoxdur.</p>' : '';
             exams.forEach(exam => {
                 list.innerHTML += `
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex justify-between items-center">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex justify-between items-center">
                         <div>
-                            <h4 class="font-bold text-slate-800">${exam.title}</h4>
-                            <p class="text-xs text-slate-500">${exam.category} • ${exam.questions.length} sual</p>
+                            <h4 class="font-extrabold text-slate-800 text-base">${exam.title}</h4>
+                            <p class="text-xs text-slate-500 mt-1 font-medium">${exam.category} • ${exam.questions.length} sual</p>
                         </div>
-                        <button onclick="alert('İmtahan rejimi işə düşdü!')" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-4 py-2 rounded-lg font-semibold">Başla</button>
+                        <button onclick="alert('İmtahan rejimi tezliklə aktivləşəcək!')" class="bg-purple-600 hover:bg-purple-700 text-white text-xs px-5 py-3 rounded-xl font-bold transition shadow-md shadow-purple-200">İmtahana Başla</button>
                     </div>
                 `;
             });

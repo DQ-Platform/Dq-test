@@ -93,9 +93,9 @@
 
     <!-- İMTAHAN REJİMİ SƏHİFƏSİ -->
     <div id="examView" class="hidden min-h-screen flex flex-col bg-slate-50">
-        <header class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-xs">
-            <h3 id="activeExamTitle" class="font-extrabold text-slate-800 text-base">İmtahan Adı</h3>
-            <button onclick="finishExam()" class="bg-red-500 hover:bg-red-600 text-white text-xs px-5 py-2.5 rounded-xl font-bold transition">İmtahanı Bitir</button>
+        <header class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-xs sticky top-0 z-20">
+            <h3 id="activeExamTitle" class="font-extrabold text-slate-800 text-sm md:text-base truncate max-w-[70%]">İmtahan Adı</h3>
+            <button onclick="finishExam()" class="bg-red-500 hover:bg-red-600 text-white text-xs px-4 py-2 rounded-xl font-bold transition shrink-0">İmtahanı Bitir</button>
         </header>
         <main class="flex-1 max-w-3xl w-full mx-auto p-4 md:p-8 overflow-y-auto">
             <div id="examQuestionsContainer" class="space-y-6"></div>
@@ -244,17 +244,26 @@
             document.getElementById('questionCounterBadge').innerText = count + " sual";
         }
 
+        // MƏTNİ TƏMİZLƏYƏN VƏ SƏLİQƏLƏŞDİRƏN FUNKSİYA
+        function cleanPdfText(text) {
+            if (!text) return "";
+            return text
+                .replace(/([a-zA-ZəıöüçşğƏIÖÜÇŞĞ])\s(?=[a-zA-ZəıöüçşğƏIÖÜÇŞĞ]\b)/g, '$1') // Tək hərflər arasındakı süni boşluqları yığışdırır
+                .replace(/\s+/g, ' ') // Artıq boşluqları təmizləyir
+                .trim();
+        }
+
         function addQuestionField(qText='', a='', b='', c='', d='', correct='A') {
             let container = document.getElementById('questionsContainer');
             let div = document.createElement('div');
             div.className = "question-block bg-slate-50/70 p-5 rounded-2xl border border-slate-200 space-y-3 mt-3 shadow-xs";
             div.innerHTML = `
-                <input type="text" value="${qText}" placeholder="Sual mətni..." class="q-text w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white outline-none focus:ring-1 focus:ring-purple-500" required>
+                <input type="text" value="${cleanPdfText(qText)}" placeholder="Sual mətni..." class="q-text w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white outline-none focus:ring-1 focus:ring-purple-500" required>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-                    <input type="text" value="${a}" placeholder="A variantı" class="opt-a border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
-                    <input type="text" value="${b}" placeholder="B variantı" class="opt-b border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
-                    <input type="text" value="${c}" placeholder="C variantı" class="opt-c border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
-                    <input type="text" value="${d}" placeholder="D variantı" class="opt-d border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
+                    <input type="text" value="${cleanPdfText(a)}" placeholder="A variantı" class="opt-a border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
+                    <input type="text" value="${cleanPdfText(b)}" placeholder="B variantı" class="opt-b border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
+                    <input type="text" value="${cleanPdfText(c)}" placeholder="C variantı" class="opt-c border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
+                    <input type="text" value="${cleanPdfText(d)}" placeholder="D variantı" class="opt-d border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs bg-white outline-none" required>
                 </div>
                 <div class="flex justify-between items-center pt-2">
                     <div>
@@ -348,7 +357,7 @@
                         addQuestionField(fullText.substring(0, 200), "", "", "", "", "A");
                     }
 
-                    alert(`PDF-dən ${Math.max(addedCount, 1)} sual və variantları uğurla oxunub qutulara yerləşdirildi!`);
+                    alert(`PDF-dən ${Math.max(addedCount, 1)} sual təmizlənərək qutulara yerləşdirildi!`);
                 } catch (err) {
                     alert('PDF oxunarkən xəta baş verdi.');
                 }
@@ -449,7 +458,6 @@
             });
         }
 
-        // İMTAHANI BAŞLATMAQ VƏ İŞLƏMƏK MƏNTİQİ
         function startExam(index) {
             currentActiveExam = exams[index];
             document.getElementById('dashboardView').classList.add('hidden');

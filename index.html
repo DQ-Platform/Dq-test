@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</title>
     <style>
         body {
@@ -33,13 +33,15 @@
         }
 
         .container {
+            width: 95%;
             max-width: 1050px;
-            margin: 20px auto;
+            margin: 15px auto;
             background: #ffffff;
-            padding: 25px;
+            padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
             border-top: 4px solid var(--accent-gold);
+            box-sizing: border-box;
         }
 
         h2, h3, h4 {
@@ -77,8 +79,8 @@
             background-color: var(--primary-dark);
             color: var(--accent-gold);
             border: none;
-            padding: 12px 25px;
-            font-size: 16px;
+            padding: 10px 18px;
+            font-size: 14px;
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
@@ -120,43 +122,48 @@
             align-items: center;
             background: var(--primary-dark);
             color: #ffffff;
-            padding: 12px 20px;
+            padding: 12px 15px;
             border-radius: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 14px;
         }
 
         .timer {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             color: var(--accent-gold);
         }
 
         .exam-layout {
             display: flex;
-            gap: 20px;
+            flex-direction: row !important;
+            gap: 15px;
             position: relative;
+            align-items: flex-start;
         }
 
         .questions-area {
-            flex: 3;
+            flex: 1 1 68%;
             background: #ffffff;
-            padding: 20px;
+            padding: 15px;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             min-height: 350px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-sizing: border-box;
         }
 
         .answer-card-sidebar {
-            flex: 1;
+            flex: 0 0 220px;
             background: #f1f5f9;
-            padding: 15px;
+            padding: 10px;
             border-radius: 8px;
             height: fit-content;
             border: 1px solid #cbd5e1;
             transition: all 0.3s ease;
+            box-sizing: border-box;
         }
 
         .sidebar-header {
@@ -168,15 +175,15 @@
 
         .sidebar-header h4 {
             margin: 0;
-            font-size: 15px;
+            font-size: 13px;
         }
 
         .toggle-sidebar-btn {
             background: var(--primary-dark);
             color: var(--accent-gold);
             border: none;
-            padding: 4px 8px;
-            font-size: 12px;
+            padding: 3px 6px;
+            font-size: 11px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
@@ -185,8 +192,8 @@
         .grid-nav {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
-            max-height: 400px;
+            gap: 4px;
+            max-height: 380px;
             overflow-y: auto;
             transition: max-height 0.3s ease, opacity 0.3s ease;
         }
@@ -200,12 +207,12 @@
         }
 
         .nav-box {
-            padding: 6px 0;
+            padding: 5px 0;
             text-align: center;
             background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             cursor: pointer;
             position: relative;
@@ -226,7 +233,7 @@
             content: '';
             position: absolute;
             top: 2px;
-            left: 3px;
+            left: 2px;
             width: 5px;
             height: 5px;
             background-color: var(--danger-red);
@@ -236,14 +243,15 @@
         .question-top {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 15px;
+            gap: 10px;
         }
 
         .question-title {
             font-weight: 600;
             color: var(--primary-dark);
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.5;
             white-space: pre-line;
         }
@@ -259,22 +267,23 @@
         .flag-label {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 14px;
+            gap: 4px;
+            font-size: 12px;
             cursor: pointer;
             color: #d97706;
             font-weight: 600;
             user-select: none;
+            white-space: nowrap;
         }
 
         .options label {
             display: block;
-            padding: 10px 14px;
-            margin: 8px 0;
+            padding: 8px 12px;
+            margin: 6px 0;
             background: #f1f5f9;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .options label:hover {
@@ -285,19 +294,20 @@
             background: none;
             border: none;
             color: #ef4444;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             padding: 0;
-            margin-top: 10px;
+            margin-top: 8px;
             text-decoration: underline;
         }
 
         .exam-navigation-buttons {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
+            margin-top: 15px;
             border-top: 1px solid #e2e8f0;
-            padding-top: 15px;
+            padding-top: 12px;
+            gap: 5px;
         }
 
         #result-screen {
@@ -381,16 +391,16 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .stat-card {
             background: #f8fafc;
             border: 1px solid #cbd5e1;
             border-left: 4px solid var(--accent-gold);
-            padding: 15px;
+            padding: 10px;
             border-radius: 8px;
             text-align: center;
         }
@@ -398,11 +408,11 @@
         .stat-card h5 {
             margin: 0;
             color: #64748b;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .stat-card .value {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: bold;
             color: var(--primary-dark);
             margin-top: 5px;
@@ -410,15 +420,15 @@
 
         .footer {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 20px;
             border-top: 1px solid #e2e8f0;
-            padding-top: 15px;
+            padding-top: 12px;
         }
 
         .footer-text {
             color: var(--primary-dark);
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .secret-admin-trigger {
@@ -429,6 +439,33 @@
         .error-msg {
             color: #ef4444;
             font-weight: bold;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 98%;
+                padding: 10px;
+                margin: 5px auto;
+            }
+            .answer-card-sidebar {
+                flex: 0 0 130px;
+                padding: 5px;
+            }
+            .grid-nav {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 3px;
+            }
+            .btn {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+            .exam-header {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+            .timer {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
@@ -816,7 +853,7 @@
             let imgHtml = q.image ? `<img src="${q.image}" alt="Sual ${q.id} şəkli" class="question-img">` : "";
 
             let flagElementHtml = examFinished ? 
-                `<span style="font-size: 14px; color: #64748b; font-weight: 600;">Sual ${q.id} / ${allQuestions.length}</span>` :
+                `<span style="font-size: 12px; color: #64748b; font-weight: 600;">Sual ${q.id} / ${allQuestions.length}</span>` :
                 `<label class="flag-label">
                     <input type="checkbox" id="flag_chk" ${isFlagged} onchange="toggleFlag(${q.id})"> Tərəddüdlü
                 </label>`;
@@ -861,7 +898,7 @@
             } else {
                 let statusText = userAns === undefined ? "Cavabsız qoyulub" : (userAns === q.correct ? "✅ Doğru cavablandırıbsınız" : "❌ Səhv cavablandırıbsınız");
                 let statusColor = userAns === q.correct ? "#15803d" : "#b91c1c";
-                html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 14px;">Status: ${statusText} (Doğru cavab: ${letters[q.correct]})</div>`;
+                html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 13px;">Status: ${statusText} (Doğru cavab: ${letters[q.correct]})</div>`;
             }
 
             html += `</div>`;
@@ -1145,3 +1182,4 @@
     </script>
 </body>
 </html>
+

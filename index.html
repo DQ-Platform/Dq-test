@@ -110,6 +110,15 @@
             background-color: #475569;
         }
 
+        .btn-success {
+            background-color: var(--success-green);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #059669;
+        }
+
         #exam-screen {
             display: none;
         }
@@ -408,6 +417,22 @@
             margin-top: 5px;
         }
 
+        .admin-section {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+
+        .admin-section h4 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -505,7 +530,7 @@
 
         <!-- 4. GİZLİ ADMİN PANELİ -->
         <div id="admin-panel">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h3>🔑 Admin Nəzarət Paneli</h3>
                 <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="closeAdminPanel()">Paneli Bağla</button>
             </div>
@@ -525,25 +550,52 @@
                 </div>
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h4 style="margin: 0;">İştirakçılar və Nəticələr</h4>
-                <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="clearResults()">Bütün Nəticələri Təmizlə</button>
+            <!-- İştirak Kodları İdarəetmə Bloku -->
+            <div class="admin-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4 style="margin: 0; border: none; padding: 0;">İştirak Kodları</h4>
+                    <div>
+                        <button class="btn btn-success" style="padding: 6px 12px; font-size: 13px; margin-right: 5px;" onclick="addNewTokenPrompt()">[ + Yeni kod ]</button>
+                        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px;" onclick="generateRandomToken()">[ Avtomatik kod yarat ]</button>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: center; background: white;">
+                        <thead>
+                            <tr style="background: var(--primary-dark); color: white;">
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Kod</th>
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Status</th>
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">İstifadə Vəziyyəti</th>
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Əməliyyat</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tokens-table-body"></tbody>
+                    </table>
+                </div>
             </div>
 
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: var(--primary-dark); color: white;">
-                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Ad Soyad</th>
-                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Kod</th>
-                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Doğru</th>
-                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Yanlış</th>
-                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Bal</th>
-                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Uyğun Qrup</th>
-                        </tr>
-                    </thead>
-                    <tbody id="results-table-body"></tbody>
-                </table>
+            <!-- Nəticələr Bloku -->
+            <div class="admin-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4 style="margin: 0; border: none; padding: 0;">İştirakçılar və Nəticələr</h4>
+                    <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="clearResults()">Bütün Nəticələri Təmizlə</button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: center; background: white;">
+                        <thead>
+                            <tr style="background: var(--primary-dark); color: white;">
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Ad Soyad</th>
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Kod</th>
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Doğru</th>
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Yanlış</th>
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Bal</th>
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Uyğun Qrup</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-table-body"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -566,7 +618,15 @@
             }
         });
 
-        const validTokens = ["P7GS57", "K9X2M4", "B3R8L9", "H2V5N1", "T6Z4Q8"];
+        // Başlanğıc token strukturu (obyekt formatında: kod, aktivlik, istifadə edilibmi)
+        let initialTokens = [
+            { code: "Y667S7", active: true, used: false },
+            { code: "K92P4A", active: true, used: true },
+            { code: "M8X31B", active: false, used: false },
+            { code: "P7GS57", active: true, used: false },
+            { code: "B3R8L9", active: true, used: false }
+        ];
+
         const ADMIN_PASS = "6675157";
         const testDuration = 3 * 3600;
 
@@ -580,7 +640,7 @@
             { id: 6, subject: "Azərbaycan dili", question: "Mürəkkəb yer zərfliyi işlənmiş cümlələri müəyyən edin.\n1. Dayımgil Cəlilabadda yaşayır.\n2. Gündəliyim Əli müəllimdə qalmışdı.\n3. Bağımız dəniz kənarında yerləşir.\n4. Kənd yerində yaşayan bunu bilməz.\n5. Təzə evlər Babək prospektində tikiləcək.", options: ["3, 5", "2, 4, 5", "1, 3, 5", "2, 3, 5", "2, 5"], correct: 0 },
             { id: 7, subject: "Azərbaycan dili", question: "Bu gün hava tez 'qaraldı' cümləsində fərqləndirilmiş sözün təhlili ilə bağlı fikirlərdən biri səhvdir.", options: ["Qayıdış növdədir.", "Quruluşuna görə düzəltmədir.", "Sifətdən düzəlmişdir.", "Xəbər şəklindədir.", "Kök+leksik+qrammatik sxeminə uyğundur."], correct: 0 },
             { id: 8, subject: "Azərbaycan dili", question: "Sözlərdən birinin yazılışı səhvdir:", options: ["kəhrəba", "haqqsevən", "boş-bikar", "kobud", "felyeton"], correct: 1 },
-            { id: 9, subject: "Azərbaycan dili", question: "Mənsubiyyət və hal şəkilçili qeyri-müəyyən əvəzliyin işləndiyi nümunələri müəyyənləşdirin.\n1. Dedilər ki, heç nəyə toxunmaq olmaz.\n2. Bu sual uşaqların hamısına verilə bilər.\n3. Dövlətimizin daha da qüdrətlənməsi üçün hər birimiz çalışmalıyıq.\n4. Mən sizin hərənizə bir tapşırıq verəcəyəm.\n5. Eləsinin cavabını vaxtında verərlər.", options: ["1, 2, 4", "2, 4", "2, 3, 4", "2, 3", "2, 4, 5"], correct: 1 },
+            { id: 9, subject: "Azərbaycan dili", question: "Məsubiyyət və hal şəkilçili qeyri-müəyyən əvəzliyin işləndiyi nümunələri müəyyənləşdirin.\n1. Dedilər ki, heç nəyə toxunmaq olmaz.\n2. Bu sual uşaqların hamısına verilə bilər.\n3. Dövlətimizin daha da qüdrətlənməsi üçün hər birimiz çalışmalıyıq.\n4. Mən sizin hərənizə bir tapşırıq verəcəyəm.\n5. Eləsinin cavabını vaxtında verərlər.", options: ["1, 2, 4", "2, 4", "2, 3, 4", "2, 3", "2, 4, 5"], correct: 1 },
             { id: 10, subject: "Azərbaycan dili", question: "Cümlənin şəxsə görə növləri baxımından məntiqi ardıcıllığı tamamlayın.\nCücəni payızda sayarlar.\nQonağı belə qarşılayarlar.\nİndi şəhərimizdə göydələnlərə tez-tez rast gəlirsən.", options: ["Ağır otur, batman gəl.", "Hamı gərək öz işinə hörmətlə yanaşsın.", "Tövlə içərisində ona bir künc vermişdilər.", "Səkiyə qalxan kimi onu yuxu apardı.", "Onun sözlərinə yenə də məhəl qoyulmadı."], correct: 0 },
             { id: 11, subject: "Azərbaycan dili", question: "Mürəkkəb xitab işlənən cümləni müəyyən edin.", options: ["Ay dost, hara gedirsən?", "Məhəmmədhəsən, məni eşidirsən?", "Əziz oğlum, xeyir işin mübarək!", "Aynur, Aysel, məni eşidirsiniz?", "Dərya kimi dalğalan, ey bayrağım!"], correct: 2 },
             { id: 12, subject: "Azərbaycan dili", question: "Qəflətən külək başladı, ağacdakı meyvələr yerə dağıldılar.\nCümlədə ədəbi dilin hansı norması (normaları) pozulmuşdur?", options: ["yalnız leksik", "leksik, qrammatik", "yalnız qrammatik", "fonetik, leksik", "fonetik, leksik, qrammatik"], correct: 1 },
@@ -723,6 +783,20 @@
             }
         });
 
+        // Tokenləri local storage-dən almaq və ya ilkin siyahı ilə yükləmək
+        function getStoredTokens() {
+            let stored = localStorage.getItem("dq_exam_tokens");
+            if (!stored) {
+                localStorage.setItem("dq_exam_tokens", JSON.stringify(initialTokens));
+                return initialTokens;
+            }
+            return JSON.parse(stored);
+        }
+
+        function saveStoredTokens(tokens) {
+            localStorage.setItem("dq_exam_tokens", JSON.stringify(tokens));
+        }
+
         function openAdminLogin() {
             let pass = prompt("Admin şifrəsini daxil edin:");
             if (pass === ADMIN_PASS) {
@@ -730,7 +804,7 @@
                 document.getElementById("exam-screen").style.display = "none";
                 document.getElementById("result-screen").style.display = "none";
                 document.getElementById("admin-panel").style.display = "block";
-                loadAdminResults();
+                loadAdminData();
             } else if (pass !== null) {
                 alert("Yanlış şifrə!");
             }
@@ -751,8 +825,24 @@
                 errorMsg.innerText = "Ad və soyadınızı daxil edin!";
                 return;
             }
-            if (!validTokens.includes(tokenInput)) {
+            if (tokenInput === "") {
+                errorMsg.innerText = "İştirak kodunu daxil edin!";
+                return;
+            }
+
+            let tokens = getStoredTokens();
+            let tokenObj = tokens.find(t => t.code === tokenInput);
+
+            if (!tokenObj) {
                 errorMsg.innerText = "Yanlış unikal kod!";
+                return;
+            }
+            if (!tokenObj.active) {
+                errorMsg.innerText = "Bu kod deaktiv edilib!";
+                return;
+            }
+            if (tokenObj.used) {
+                errorMsg.innerText = "Bu kod artıq istifadə olunub!";
                 return;
             }
 
@@ -1001,6 +1091,14 @@
             examFinished = true;
             sessionStorage.removeItem("active_exam_session");
 
+            // Tokeni istifadə olunmuş kimi qeyd et
+            let tokens = getStoredTokens();
+            let tokenObj = tokens.find(t => t.code === currentActiveToken);
+            if (tokenObj) {
+                tokenObj.used = true;
+                saveStoredTokens(tokens);
+            }
+
             let totalCorrect = 0;
             let totalWrong = 0;
             let totalBlank = 0;
@@ -1103,7 +1201,7 @@
             localStorage.setItem("dq_exam_results", JSON.stringify(results));
         }
 
-        function loadAdminResults() {
+        function loadAdminData() {
             let results = JSON.parse(localStorage.getItem("dq_exam_results") || "[]");
             document.getElementById("stat-total-students").innerText = results.length;
 
@@ -1119,10 +1217,11 @@
             document.getElementById("stat-max-score").innerText = maxScore;
             document.getElementById("stat-avg-score").innerText = avgScore;
 
-            let tbody = document.getElementById("results-table-body");
-            let html = "";
+            // Nəticələr cədvəli
+            let tbodyRes = document.getElementById("results-table-body");
+            let htmlRes = "";
             results.forEach(r => {
-                html += `
+                htmlRes += `
                     <tr>
                         <td style="padding: 8px; border: 1px solid #cbd5e1;">${r.name}</td>
                         <td style="padding: 8px; border: 1px solid #cbd5e1;">${r.token}</td>
@@ -1133,15 +1232,101 @@
                     </tr>
                 `;
             });
-            tbody.innerHTML = html;
+            tbodyRes.innerHTML = htmlRes;
+
+            // Tokenlər cədvəli
+            loadTokensTable();
+        }
+
+        function loadTokensTable() {
+            let tokens = getStoredTokens();
+            let tbodyTok = document.getElementById("tokens-table-body");
+            let htmlTok = "";
+
+            tokens.forEach((t, index) => {
+                let statusBadge = t.active ? 
+                    `<span style="color: #15803d; font-weight: bold;">Aktiv</span>` : 
+                    `<span style="color: #b91c1c; font-weight: bold;">Deaktiv</span>`;
+                
+                let usedText = t.used ? 
+                    `<span style="color: #64748b;">İstifadə olunub</span>` : 
+                    `<span style="color: #0284c7;">İstifadə olunmayıb</span>`;
+
+                let toggleBtnText = t.active ? "Deaktiv et" : "Aktivləşdir";
+                let toggleBtnClass = t.active ? "btn-secondary" : "btn-success";
+
+                htmlTok += `
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; letter-spacing: 1px;">${t.code}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1;">${statusBadge}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1;">${usedText}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1;">
+                            <button class="btn ${toggleBtnClass}" style="padding: 4px 8px; font-size: 11px; margin-right: 4px;" onclick="toggleTokenStatus(${index})">${toggleBtnText}</button>
+                            <button class="btn btn-danger" style="padding: 4px 8px; font-size: 11px;" onclick="deleteToken(${index})">Sil</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbodyTok.innerHTML = htmlTok;
+        }
+
+        function addNewTokenPrompt() {
+            let newToken = prompt("Yeni iştirak kodunu daxil edin (məs: A1B2C3):");
+            if (newToken) {
+                newToken = newToken.trim().toUpperCase();
+                let tokens = getStoredTokens();
+                if (tokens.some(t => t.code === newToken)) {
+                    alert("Bu kod artıq mövcuddur!");
+                    return;
+                }
+                tokens.push({ code: newToken, active: true, used: false });
+                saveStoredTokens(tokens);
+                loadTokensTable();
+            }
+        }
+
+        function generateRandomToken() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            let randomCode = "";
+            for (let i = 0; i < 6; i++) {
+                randomCode += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            let tokens = getStoredTokens();
+            // Təkrarlanmanın qarşısını alaq
+            while (tokens.some(t => t.code === randomCode)) {
+                randomCode = "";
+                for (let i = 0; i < 6; i++) {
+                    randomCode += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+            }
+            tokens.push({ code: randomCode, active: true, used: false });
+            saveStoredTokens(tokens);
+            loadTokensTable();
+        }
+
+        function toggleTokenStatus(index) {
+            let tokens = getStoredTokens();
+            tokens[index].active = !tokens[index].active;
+            saveStoredTokens(tokens);
+            loadTokensTable();
+        }
+
+        function deleteToken(index) {
+            if (confirm("Bu kodu silmək istədiyinizə əminsinizmi?")) {
+                let tokens = getStoredTokens();
+                tokens.splice(index, 1);
+                saveStoredTokens(tokens);
+                loadTokensTable();
+            }
         }
 
         function clearResults() {
             if (confirm("Bütün nəticələri silmək istədiyinizə əminsinizmi?")) {
                 localStorage.removeItem("dq_exam_results");
-                loadAdminResults();
+                loadAdminData();
             }
         }
     </script>
 </body>
 </html>
+

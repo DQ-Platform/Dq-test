@@ -110,6 +110,12 @@
             background-color: #475569;
         }
 
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+
         #exam-screen {
             display: none;
         }
@@ -408,6 +414,25 @@
             margin-top: 5px;
         }
 
+        .admin-section-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .badge-success { background: #d1fae5; color: #065f46; }
+        .badge-danger { background: #fef2f2; color: #991b1b; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -453,7 +478,6 @@
             </div>
 
             <div class="exam-layout">
-                <!-- Solda Cari Sual Paneli -->
                 <div class="questions-area">
                     <div id="single-question-container"></div>
 
@@ -464,7 +488,6 @@
                     </div>
                 </div>
 
-                <!-- Sağda Cavab Kartı -->
                 <div class="answer-card-sidebar" id="sidebar-container">
                     <div class="sidebar-header">
                         <h4 id="sidebar-title-text">Cavab Kartı</h4>
@@ -484,20 +507,17 @@
 
             <div id="dim-report-content"></div>
 
-            <!-- Doğru, Yanlış, Cavabsız statistikaları -->
             <div style="margin-top: 20px; font-weight: bold; font-size: 14px; line-height: 1.6;">
                 Doğru cavabların sayı: <span id="res-total-correct">0</span><br>
                 Yanlış cavabların sayı: <span id="res-total-wrong">0</span><br>
                 Cavablandırılmayan test tapşırıqlarının sayı: <span id="res-total-blank">0</span>
             </div>
 
-            <!-- Yekun Bal Qutusu -->
             <div class="final-score-box">
                 YEKUN BAL: <span id="res-total-score">0</span><br>
                 <span id="res-bb-group" style="font-size: 15px; color: #0f172a; margin-top: 5px; display: inline-block;"></span>
             </div>
 
-            <!-- Suallara qayıt düyməsi -->
             <div style="margin-top: 20px;">
                 <a href="#top" class="btn" style="width: 100%; box-sizing: border-box; text-align: center;" onclick="backToReviewQuestions()">⤴ Suallara qayıt (Baxış)</a>
             </div>
@@ -505,8 +525,8 @@
 
         <!-- 4. GİZLİ ADMİN PANELİ -->
         <div id="admin-panel">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h3>🔑 Admin Nəzarət Paneli</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0;">🔑 Admin Nəzarət Paneli</h3>
                 <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="closeAdminPanel()">Paneli Bağla</button>
             </div>
 
@@ -525,6 +545,29 @@
                 </div>
             </div>
 
+            <!-- Kodların İdarə Edilməsi Hissəsi -->
+            <div class="admin-section-box">
+                <h4 style="margin-top: 0; text-align: left;">🎟 Giriş Kodlarının İdarə Edilməsi</h4>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="text" id="new-token-input" class="code-input token-field" placeholder="Yeni Kod (Məs: TEST12)" style="margin: 0; width: 60%; text-align: left;">
+                    <button class="btn" onclick="addNewToken()">Kod Əlavə Et</button>
+                </div>
+
+                <div style="overflow-x: auto; max-height: 250px; overflow-y: auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: center;">
+                        <thead>
+                            <tr style="background: var(--primary-dark); color: white;">
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Kod</th>
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Status</th>
+                                <th style="padding: 8px; border: 1px solid #cbd5e1;">Əməliyyatlar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tokens-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- İştirakçılar və Nəticələr Hissəsi -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <h4 style="margin: 0;">İştirakçılar və Nəticələr</h4>
                 <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="clearResults()">Bütün Nəticələri Təmizlə</button>
@@ -566,7 +609,27 @@
             }
         });
 
-        const validTokens = ["P7GS57", "K9X2M4", "B3R8L9", "H2V5N1", "T6Z4Q8"];
+        const defaultTokens = [
+            { code: "P7GS57", status: "active" },
+            { code: "K9X2M4", status: "active" },
+            { code: "B3R8L9", status: "active" },
+            { code: "H2V5N1", status: "active" },
+            { code: "T6Z4Q8", status: "active" }
+        ];
+
+        function getStoredTokens() {
+            let tokens = localStorage.getItem("dq_exam_tokens");
+            if (!tokens) {
+                localStorage.setItem("dq_exam_tokens", JSON.stringify(defaultTokens));
+                return defaultTokens;
+            }
+            return JSON.parse(tokens);
+        }
+
+        function saveTokens(tokens) {
+            localStorage.setItem("dq_exam_tokens", JSON.stringify(tokens));
+        }
+
         const ADMIN_PASS = "6675157";
         const testDuration = 3 * 3600;
 
@@ -614,7 +677,7 @@
             { id: 38, subject: "Qanunvericilik", question: "Dövlət qulluğunun rotasiyası qaydasına aid deyildir:", options: ["İnzibati vəzifə tutan dövlət qulluqçularının bir vəzifədən başqa vəzifəyə keçirilməsi", "Dövlət qulluğu haqqında qanunun 31-1-ci maddəsinə uyğun olaraq həyata keçirilməsi", "Rotasiyanın müvafiq icra hakimiyyəti orqanının müəyyən etdiyi qaydada edilməsi", "Rotasiyanın müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan tərəfindən həyata keçirilməsi"], correct: 3 },
             { id: 39, subject: "Qanunvericilik", question: "Müsabiqədən müvəffəqiyyətlə keçərək A və B adlı namizədlər vakant dövlət qulluğu vəzifələrinə təyin edilmək üçün beş iş günü ərzində dövlət orqanının rəhbərinə təqdim olunurlar. Dövlət orqanının rəhbəri müsabiqə nəticələri bərabər olduğuna görə B-nin xarici dil bilməsi və ali təhsil müəssisəsini fərqlənmə ilə bitirməsi əsası ilə onu vakant dövlət qulluğu vəzifəsinə təyin edir. A isə ali təhsil pilləsinin daha yüksək səviyyəsini bitirdiyindən onun vakant vəzifəyə təyin edilməli olması əsası ilə məhkəməyə şikayət verir. \"Dövlət qulluğu haqqında” Azərbaycan Respublikasının Qanununa əsasən verilmiş situasiya ilə bağlı doğru müddəanı müəyyən edin.", options: ["A-nın şikayəti əsassızdır, dövlət orqanı rəhbəri öz mülahizəsinə əsasən seçim etməkdə sərbəstdir.", "Dövlət orqanının rəhbərinin qərarı doğrudur, B təhsil müəssisəsini fərqlənmə ilə bitirdiyindən ona üstünlük verilməli idi.", "Dövlət orqanının rəhbərinin qərarı yanlışdır, A ali təhsil pilləsinin daha yüksək səviyyəsini bitirdiyindən ona üstünlük verilməli idi.", "Dövlət orqanının rəhbərinin qərarı doğrudur, B xarici dili bildiyindən ona üstünlük verilməli idi."], correct: 2 },
             { id: 40, subject: "Qanunvericilik", question: "Dövlət qulluğunun prinsiplərinə aid deyil:\n1. Dövlət orqanlarının səlahiyyəti hüdudlarında qərarların hazırlanması, qəbul edilməsi onların icrası və icrasına nəzarət edilməsi;\n2. Azərbaycan Respublikasının Konstitusiyası və digər qanunvericilik aktları əsasında vətəndaşların hüquq və azadlıqlarının təmin edilməsi;\n3. Bütün vətəndaşların və vəzifəli şəxslərin dövlət qulluqçularının qanuni tələblərini icra etməyə və qanuni hərəkətlərini müdafiə etməyə borclu olması;\n4. Dövlət orqanlarına və dövlət qulluqçularına nəzarət və onların hesabat verməsi;", options: ["1, 2", "3, 4", "1, 2, 3", "2, 4"], correct: 0 },
-            { id: 41, subject: "Qanunvericilik", question: "\"Dövlət qulluqçularının etik davranış qaydaları haqqında\" Azərbaycan Respublikasının Qanununa əsasən etik davranış qaydalarına əməl olunmasına nəzarətlə bağlı düzgün deyil:", options: ["Müvafiq icra hakimiyyəti orqanının yaratdığı qurum etik davranış qaydalarına əməl olunmasına nəzarəti nizamnaməsinə uyğun olaraq həyata keçirir.", "Etik davranış qaydalarına əməl olunmasına nəzarəti dövlət orqanının hüquqi məsələlər üzrə struktur bölməsinin rəhbəri xidməti qaydada həyata keçirilir.", "Etik davranış qaydalarına əməl olunmasının nəzarəti yuxarı orqan tabeçiliyi əsasında həyata keçirir.", "Dövlət orqanlarında etik davranış qaydalarının tətbiqi bu sahədə maarifləndirmə və mübahisələrin həll məsələlərinə məsul olan etik davranış üzrə müvəkkil təyin edilir."], correct: 1 },
+            { id: 41, subject: "Qanunvericilik", question: "\"Dövlət qulluqçularının etik davranış qaydaları haqqında\" Azərbaycan Respublikasının Qanununa əsasən etik davranış qaydalarına əməl olunmasına nəzarətlə bağlı düzgün deyil:", options: ["Müvafiq icra hakimiyyəti orqanının yaratdığı qurum etik davranış qaydalarına əməl olunmasına nəzarəti nizamnaməsinə uyğun olaraq həyata keçirir.", "Etik davranış qaydalarına əməl olunmasına nəzarəti dövlət orqanının hüquqi məsələlər üzrə struktur bölməsinin rəhbəri xidməti qaydada həyata keçirilir.", "Etik davranış qaydalarına əməl olunmasının nəzarəti yuxarı orqan tabeçiliyi əsasında həyata keçirilir.", "Dövlət orqanlarında etik davranış qaydalarının tətbiqi bu sahədə maarifləndirmə və mübahisələrin həll məsələlərinə məsul olan etik davranış üzrə müvəkkil təyin edilir."], correct: 1 },
             { id: 42, subject: "Qanunvericilik", question: "A adlı dövlət qulluqçusu, sosial müdafiə hüququnun həyata keçirilməsi ilə bağlı dövlət orqanına müraciət edir və dövlət orqanında dövlət qulluqçusu işləyən B adlı şəxs A-dan müəyyən sənədlər tələb edir. A həmin sənədləri təmin edə bilməyəcəyini və əldə etməsinin qeyri-mümkünlüyünü bildirir. B təhqiramiz ifadələr işlədərək müraciətə baxmaqdan imtina edir. A adlı şəxs dövlət orqanının rəhbərinə B-nin etik davranış qaydalarını pozması ilə əlaqədar şikayət verir. “Etik davranış qaydaları haqqında” Azərbaycan Respublikasının Qanununa əsasən qurumun rəhbərinin (və ya səlahiyyətli şəxsin) vəzifəsidir:", options: ["B tərəfindən pozulan etik davranış qaydalarının nəticələrini aradan qaldırmalıdır.", "B tərəfindən etik davranış qaydalarına əməl olunması ilə bağlı təminatları konkretləşdirən normativ xarakterli aktları hazırlaya bilməz.", "B-nin əməlində intizam pozuntusu yoxdur, ona görə cinayət təqibi orqanına müraciət edə bilməz.", "B-nin əməlinin doğruluğunu araşdırıb profilaktik tədbir görməlidir."], correct: 0 },
             { id: 43, subject: "Qanunvericilik", question: "\"Dövlət qulluqçularının etik davranış qaydaları haqqında\" Azərbaycan Respublikasının Qanununa əsasən \"İctimai və ya siyasi fəaliyyət\" qaydasına aid deyil:", options: ["Dövlət qulluqçusunun ictimai və ya siyasi birliyə mənsubiyyəti onun xidməti vəzifələrini qərəzsiz və obyektiv yerinə yetirdiyinə ictimai şübhə doğurmamalıdır.", "Dövlət qulluqçusu qulluq mövqeyindən istifadə edərək digər dövlət qulluqçularını ictimai və ya siyasi birliklərin və dini təşkilatların fəaliyyətində iştiraka təhrik etməməlidir.", "Qanunvericiliklə başqa qayda nəzərdə tutulmamışdırsa, dövlət qulluqçusu ictimai və ya siyasi birliyə üzv olmaq hüququna malikdir.", "Dövlət qulluqçusu xidməti vəzifələrinin yerinə yetirilməsi zamanı siyasi bitərəfliyə əməl etməyə borcludur."], correct: 3 },
             { id: 44, subject: "Qanunvericilik", question: "”Korrupsiyaya qarşı mübarizə haqqında” Azərbaycan Respublikasının Qanununa əsasən korrupsiya ilə əlaqədar hüquqpozmalara görə vəzifəli şəxslərin məsuliyyəti ilə bağlı doğrudur:", options: ["Vəzifəli şəxs tərəfindən korrupsiya ilə əlaqədar hüquqpozmaların törədilməsi cinayət məsuliyyəti yaratdıqda, vəzifəli şəxsin məsuliyyətə cəlb edilməsi Azərbaycan Respublikasının müvafiq qanunvericiliyinə uyğun həyata keçirilir.", "Azərbaycan Respublikasının Konstitusiyası ilə müəyyən olunmuş qaydada dövlət orqanlarına seçilmiş şəxslər korrupsiya ilə əlaqədar hüquqpozma törətdikdə, korrupsiyaya qarşı mübarizə aparan orqan bu barədə Məhkəmə-Hüquq Şurasına məlumat verir.", "Vəzifəli şəxs tərəfindən korrupsiya ilə əlaqədar hüquqpozmaların törədilməsi cinayət məsuliyyəti yaratmadıqda, qanunla müəyyən edilmiş xüsusi qaydalara riayət edilməklə, qanunvericiliklə müəyyən edilmiş qaydada mülki məsuliyyətə səbəb olur.", "Azərbaycan Respublikasının dövlət orqanlarında seçkili vəzifələrə namizədliyi qanunla müəyyən olunmuş qaydada qeydə alınmış şəxslər korrupsiya ilə əlaqədar hüquqpozmalar törətdikdə, onlar barəsində “Korrupsiyaya qarşı mübarizə haqqında” Azərbaycan Respublikasının Qanununda nəzərdə tutulmuş tədbirlər görülür."], correct: 0 },
@@ -641,12 +704,12 @@
             { id: 63, subject: "İnformatika", question: "Aktiv sənədin bağlanması üçün klaviaturada hansı düymələr kombinasiyasından istifadə edilir (MS Word 2019)?", options: ["Alt + Ctrl + F4", "Ctrl + Shift + F4", "Alt + Tab", "Shift + F4", "Ctrl + F4"], correct: 4 },
             { id: 64, subject: "İnformatika", question: "Token Ring lokal şəbəkəsində hansı topologiyadan istifadə olunur?", options: ["halqa", "şin", "passiv ağac", "ulduzvari", "aktiv ağac"], correct: 0 },
             { id: 65, subject: "İnformatika", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "65.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
-            { id: 66, subject: "İnformatika", question: "Təqdimat proqramı barədə hansı fikir doğru deyil (Powerpoint 2019)?", options: ["Müxtəlif slaydlara müxtəlif sərlövhələr vermək olar.", "Slaydda seçilmiş obyektləri ayrıca çap etmək olar.", "Slaydda şəkillərə animasiya effektlərining verilməsi Animations tabından təmin olunur.", "Slaydların nümayiş zamanı gizlədilməsi Set Up lent qrupundan həyata keçirilir.", "Bir səhifədə ən çoxu 9 slayd çap etmək olar."], correct: 4 },
+            { id: 66, subject: "İnformatika", question: "Təqdimat proqramı barədə hansı fikir doğru deyil (Powerpoint 2019)?", options: ["Müxtəlif slaydlara müxtəlif sərlövhələr vermək olar.", "Slaydda seçilmiş obyektləri ayrıca çap etmək olar.", "Slaydda şəkillərə animasiya effektlering verilməsi Animations tabından təmin olunur.", "Slaydların nümayiş zamanı gizlədilməsi Set Up lent qrupundan həyata keçirilir.", "Bir səhifədə ən çoxu 9 slayd çap etmək olar."], correct: 4 },
             { id: 67, subject: "İnformatika", question: "Foto7.jpg faylı C: diskindəki Foto qovluğunda yerləşir. Bu qovluqda Şəhər qovluğu və onun içərisində Bakı altqovluğu yaradılır. Foto7.jpg faylı həmin altqovluğa daşındıqdan sonra faylın tam adı aşağıdakılardan hansıdır?", options: ["C:\\Foto\\Foto7.jpg", "C:\\Foto\\Bakı\\Foto7.jpg", "C:\\Foto\\Bakı\\Şəhər\\Foto7.jpg", "C:\\Şəhər\\Bakı\\Foto7.jpg", "C:\\Foto\\Şəhər\\Bakı\\Foto7.jpg"], correct: 3 },
             { id: 68, subject: "İnformatika", question: "Aşağıdakı əməliyyatlardan hansılar ilə sətri cədvəldən silmək olar (MS Word 2019)?\n1. sətri seçmək və klaviaturanın Delete düyməsini basmaqla\n2. sətri seçmək və klaviaturanın Alt+Delete düymələrini basmaqla\n3. sətri seçmək və kəsib mübadilə buferinə yerləşdirməklə\n4. sətri seçmək və klaviaturanın BackSpace düyməsini basmaqla", options: ["A) 1, 3", "B) 1, 2", "C) 3, 4", "D) 1, 4", "E) 2, 3"], correct: 3 },
             { id: 69, subject: "İnformatika", question: "Yerləşdirilmiş faylla birgə elektron məktubun təşkili və göndərilməsi necə ola bilər?\n1. yerləşdirilmiş faylı əlavə etmək\n2. alanın elektron poçt ünvanını daxil etmək\n3. “Göndərmək” düyməsini sıxmaq\n4. mətni daxil etmək\n5. “yeni məktub” düyməsini sıxmaq", options: ["A) 2, 4, 1, 5, 3", "B) 5, 1, 3, 4, 2", "C) 5, 2, 4, 1, 3", "D) 2, 1, 5, 4, 3", "E) 2, 1, 4, 3, 5"], correct: 0 },
             { id: 70, subject: "İnformatika", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "70.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
-            
+
             // Məntiq (71-100)
             { id: 71, subject: "Məntiq", question: "Aşağıda verilmiş anaqramlardan hansı birinci sözün sonu , ikinci sözün əvvəlidir ?\nBar(...)qın", options: ["dan", "şad", "nem", "rel", "yer"], correct: 1 },
             { id: 72, subject: "Məntiq", question: "17:00-dan 4,5 dəqiqə keçdikdən sonra dəqiqə əqrəbi 8 dəqiqə ərzində dayanır və sonra yenidən öz sürəti ilə hərəkətə davam edir . Bundan sonra saat və dəqiqə əqrəbi ilk dəfə düzgün saat neçəni göstərdikdə üst-üstə düşər ?", options: ["17 : 24", "17 : 36", "17 : 48", "17 : 28", "17 : 20"], correct: 3 },
@@ -731,6 +794,7 @@
                 document.getElementById("result-screen").style.display = "none";
                 document.getElementById("admin-panel").style.display = "block";
                 loadAdminResults();
+                loadAdminTokens();
             } else if (pass !== null) {
                 alert("Yanlış şifrə!");
             }
@@ -751,10 +815,28 @@
                 errorMsg.innerText = "Ad və soyadınızı daxil edin!";
                 return;
             }
-            if (!validTokens.includes(tokenInput)) {
+
+            let tokens = getStoredTokens();
+            let matchedToken = tokens.find(t => t.code === tokenInput);
+
+            if (!matchedToken) {
                 errorMsg.innerText = "Yanlış unikal kod!";
                 return;
             }
+
+            if (matchedToken.status === "disabled") {
+                errorMsg.innerText = "Bu kodun istifadəsinə administrator tərəfindən qadağa qoyulub!";
+                return;
+            }
+
+            if (matchedToken.status === "used") {
+                errorMsg.innerText = "Bu kod artıq istifadə olunub! Hər kod yalnız 1 dəfə istifadə edilə bilər.";
+                return;
+            }
+
+            // Kodu istifadə olunmuş statusa keçiririk
+            matchedToken.status = "used";
+            saveTokens(tokens);
 
             currentStudentName = nameInput;
             currentActiveToken = tokenInput;
@@ -1136,6 +1218,84 @@
             tbody.innerHTML = html;
         }
 
+        function loadAdminTokens() {
+            let tokens = getStoredTokens();
+            let tbody = document.getElementById("tokens-table-body");
+            let html = "";
+
+            tokens.forEach((t, index) => {
+                let badgeHtml = "";
+                if (t.status === "active") badgeHtml = `<span class="badge badge-success">Aktiv</span>`;
+                else if (t.status === "used") badgeHtml = `<span class="badge badge-warning">İstifadə olunub</span>`;
+                else badgeHtml = `<span class="badge badge-danger">Deaktivdir</span>`;
+
+                let toggleBtnText = t.status === "active" ? "Qadağan Et" : "Aktiv Et";
+                let toggleBtnClass = t.status === "active" ? "btn-danger" : "btn-secondary";
+
+                html += `
+                    <tr>
+                        <td style="padding: 6px; border: 1px solid #cbd5e1; font-weight: bold;">${t.code}</td>
+                        <td style="padding: 6px; border: 1px solid #cbd5e1;">${badgeHtml}</td>
+                        <td style="padding: 6px; border: 1px solid #cbd5e1;">
+                            <button class="btn ${toggleBtnClass} btn-sm" onclick="toggleTokenStatus(${index})">${toggleBtnText}</button>
+                            <button class="btn btn-secondary btn-sm" onclick="resetTokenStatus(${index})">Sıfırla</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteToken(${index})">Sil</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function addNewToken() {
+            let input = document.getElementById("new-token-input");
+            let code = input.value.trim().toUpperCase();
+
+            if (!code) {
+                alert("Kod daxil edin!");
+                return;
+            }
+
+            let tokens = getStoredTokens();
+            if (tokens.some(t => t.code === code)) {
+                alert("Bu kod artıq sistemdə mövcuddur!");
+                return;
+            }
+
+            tokens.push({ code: code, status: "active" });
+            saveTokens(tokens);
+            input.value = "";
+            loadAdminTokens();
+        }
+
+        function toggleTokenStatus(index) {
+            let tokens = getStoredTokens();
+            if (tokens[index].status === "active") {
+                tokens[index].status = "disabled";
+            } else {
+                tokens[index].status = "active";
+            }
+            saveTokens(tokens);
+            loadAdminTokens();
+        }
+
+        function resetTokenStatus(index) {
+            let tokens = getStoredTokens();
+            tokens[index].status = "active";
+            saveTokens(tokens);
+            loadAdminTokens();
+        }
+
+        function deleteToken(index) {
+            if (confirm("Bu kodu silmək istədiyinizə əminsinizmi?")) {
+                let tokens = getStoredTokens();
+                tokens.splice(index, 1);
+                saveTokens(tokens);
+                loadAdminTokens();
+            }
+        }
+
         function clearResults() {
             if (confirm("Bütün nəticələri silmək istədiyinizə əminsinizmi?")) {
                 localStorage.removeItem("dq_exam_results");
@@ -1145,3 +1305,4 @@
     </script>
 </body>
 </html>
+

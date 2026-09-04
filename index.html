@@ -178,7 +178,7 @@
             font-size: 13px;
         }
 
-        .toggle-sidebar-btn {
+        .toggle-sidebar-btn, .filter-btn {
             background: var(--primary-dark);
             color: var(--accent-gold);
             border: none;
@@ -187,6 +187,11 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+        }
+
+        .filter-btn.active {
+            background: var(--warning-orange);
+            color: #fff;
         }
 
         .grid-nav {
@@ -505,7 +510,10 @@
                 <div class="answer-card-sidebar" id="sidebar-container">
                     <div class="sidebar-header">
                         <h4 id="sidebar-title-text">Cavab Kartı</h4>
-                        <button class="toggle-sidebar-btn" id="toggle-btn" onclick="toggleSidebar()">Yığ [-]</button>
+                        <div style="display: flex; gap: 2px;">
+                            <button class="filter-btn" id="filter-flag-btn" onclick="toggleFlagFilter()">🚩</button>
+                            <button class="toggle-sidebar-btn" id="toggle-btn" onclick="toggleSidebar()">Yığ [-]</button>
+                        </div>
                     </div>
                     <div class="grid-nav" id="grid-nav-container"></div>
                 </div>
@@ -657,7 +665,7 @@
             { id: 44, subject: "Qanunvericilik", question: "”Korrupsiyaya qarşı mübarizə haqqında” Azərbaycan Respublikasının Qanununa əsasən korrupsiya ilə əlaqədar hüquqpozmalara görə vəzifəli şəxslərin məsuliyyəti ilə bağlı doğrudur:", options: ["Vəzifəli şəxs tərəfindən korrupsiya ilə əlaqədar hüquqpozmaların törədilməsi cinayət məsuliyyəti yaratdıqda, vəzifəli şəxsin məsuliyyətə cəlb edilməsi Azərbaycan Respublikasının müvafiq qanunvericiliyinə uyğun həyata keçirilir.", "Azərbaycan Respublikasının Konstitusiyası ilə müəyyən olunmuş qaydada dövlət orqanlarına seçilmiş şəxslər korrupsiya ilə əlaqədar hüquqpozma törətdikdə, korrupsiyaya qarşı mübarizə aparan orqan bu barədə Məhkəmə-Hüquq Şurasına məlumat verir.", "Vəzifəli şəxs tərəfindən korrupsiya ilə əlaqədar hüquqpozmaların törədilməsi cinayət məsuliyyəti yaratmadıqda, qanunla müəyyən edilmiş xüsusi qaydalara riayət edilməklə, qanunvericiliklə müəyyən edilmiş qaydada mülki məsuliyyətə səbəb olur.", "Azərbaycan Respublikasının dövlət orqanlarında seçkili vəzifələrə namizədliyi qanunla müəyyən olunmuş qaydada qeydə alınmış şəxslər korrupsiya ilə əlaqədar hüquqpozmalar törətdikdə, onlar barəsində “Korrupsiyaya qarşı mübarizə haqqında” Azərbaycan Respublikasının Qanununda nəzərdə tutulmuş tədbirlər görülür."], correct: 0 },
             { id: 45, subject: "Qanunvericilik", question: "Korrupsiya hüquqpozması deyil:", options: ["Vəzifəli şəxsin xidməti vəzifəsinin (səlahiyyətlərinin) icrası ilə əlaqədar hər hansı hərəkətin edilməsi və ya belə hərəkətin edilməsindən imtina olunması müqabilində özü və yaxud üçüncü şəxslər üçün birbaşa və ya dolayı yolla maddi və sair nemətlər, imtiyazlar və ya güzəştlər tələb etməsi, əldə etməsi və ya belə maddi və sair nemətlərin, imtiyazların və ya güzəştlərin verilməsi ilə bağlı təklifi və ya vədi qəbul etməsi", "Vəzifəli şəxs tərəfindən xidməti vəzifəsinin (səlahiyyətlərinin) icrası ilə əlaqədar hər hansı hərəkətin edilməsi və ya belə hərəkətin edilməsindən imtina olunması müqabilində qanunsuz olaraq alınmış əmlakdan özü və ya üçüncü şəxslər üçün mənfəət əldə etmək məqsədilə istifadə edilməsi", "Normativ hüquqi aktların və digər qərarların qəbul edilməsi zamanı fiziki və ya hüquqi şəxslərə onların təyinatına uyğun olmayan üstünlüklər vermək", "Müəyyən mükafat müqabilində vəzifəli şəxsin qərarına qanunsuz təsir göstərmək imkanına malik olduğunu bildirən hər hansı şəxsə birbaşa və ya dolayı yolla maddi və sair nemətlərin, imtiyazların və ya güzəştlərin təklif olunması, vəd edilməsi və ya verilməsi"], correct: 2 },
             { id: 46, subject: "Qanunvericilik", question: "Məlumat azadlığının həyata keçirilməsinin əsas prinsiplərindən biri deyil:", options: ["Məlumatın açıqlığı və onun mübadilə edilməsinin azadlığı", "Yalnız vəzifəli şəxslərin ailə və şəxsi həyat sirlərinin saxlanılması", "Məlumatın obyektivliyi, tamlığı və həqiqiliyi", "Məlumatın axtarılmasının, əldə edilməsinin və istifadə olunmasının qanuniliyi"], correct: 1 },
-            { id: 47, subject: "Qanunvericilik", question: "\"Vətəndaşların müraciətləri haqqında\" Azərbaycan Respublikasının Qanununa əsasən vətəndaşların yazılı müraciətlərinin qəbulu, qeydiyyatı və onlara baxılması qaydası ilə bağlı yanlışdır:", options: ["Müraciətdə göstərilən məsələnin həlli ilə əlaqədar əlavə məlumatların öyrənilməsi üçün aidiyyəti üzrə göndərilən sorğuya beş iş günü ərzində cavab verilə bilər.", "Müraciətdə göstərilən məsələyə baxmaq səlahiyyəti bir neçə müraciətə baxan subyektə aiddirsə, müraciətin surəti üç iş günündən gec olmayaraq həmin subyektlərə göndərilir.", "Vətəndaşların müraciətlərini aidiyyəti üzrə baxılmaq üçün nəinki qanunazidd hərəkətindən şikayət edilən müraciətə baxan subyektə, hətta onun vəzifəli şəxslərinə də göndərmək qadağandır.", "Qanunla müəyyən edilmiş hallarda müraciətə müvafiq ərazidə yaşayan əhalinin əksəriyyətinin danışdığı dildə cavab verilə bilər"], correct: 0 },
+            { id: 47, subject: "Qanunvericilik", question: "\"Vətəndaşların müraciətləri haqqında\" Azərbaycan Respublikasının Qanununa əsasən vətəndaşların yazılı müraciətlərinin qəbulu, qeydiyyatı və onlara baxılması qaydası ilə bağlı yanlışdır:", options: ["Müraciətdə göstərilən məsələnin həlli ilə əlaqədar əlavə məlumatların öyrənilməsi üçün aidiyyəti üzrə göndərilən sorğuya beş iş günü ərzində cavab verilə bilər.", "Müraciətdə göstərilən məsələyə baxmaq səlahiyyəti bir neçə müraciətə baxan subyektə aiddirsə, müraciətin surəti üç iş günündən gec olmayaraq həmin subyektlərə göndərilir.", "Vətəndaşların müraciətlərini aidiyyəti üzrə baxılmaq üçün nəinki qanunazidd hərəkətindən şikayət edilən müraciətə baxan subyektə, hətdə onun vəzifəli şəxslərinə də göndərmək qadağandır.", "Qanunla müəyyən edilmiş hallarda müraciətə müvafiq ərazidə yaşayan əhalinin əksəriyyətinin danışdığı dildə cavab verilə bilər"], correct: 0 },
             { id: 48, subject: "Qanunvericilik", question: "\"Vətəndaşların müraciətləri haqqında\" Azərbaycan Respublikasının Qanununa əsasən müraciətə baxılma müddəti ən çoxu nə qədər ola bilər?", options: ["50 iş günü", "30 iş günü", "60 iş günü", "40 iş günü"], correct: 2 },
             { id: 49, subject: "Qanunvericilik", question: "Ayşən aptekə dərman almaq üçün daxil olur. Daha sonra aldığı dərmanın üzərində Azərbaycan dilində hər hansı bir məlumatın yazılmadığını görür və buna etiraz edir. Ayşən bu apteki şikayət edəcəyini bildirir. Bu situasiyaya əsasən kim haqlıdır?", options: ["Ayşənin etirazı əsaslıdır. Azərbaycana idxal olunan məhsulların üzərində xarici dillərlə yanaşı Azərbaycan dilində də yazılar olmalıdır.", "Ayşənin etirazı əsassızdır. Azərbaycana idxal olunan məhsulların üzərində Azərbaycan dilində yazılar yazılmaya bilər.", "Ayşənin etirazı əsaslıdır. Azərbaycana idxal olunan məhsulların üzərində yalnız Azərbaycan dilində də yazılar olmalıdır.", "Ayşənin etirazı əsassızdır. Azərbaycana idxal olunan məhsulların üzərində xarici dildə yazı varsa onun şikayət etmək hüququ yoxdur."], correct: 0 },
             { id: 50, subject: "Qanunvericilik", question: "\"Məhkəmələr və hakimlər haqqında\" Azərbaycan Respublikasının Qanununa əsasən düzgün fikirləri seçin.\n\n1. Məhkəmələrin üzərinə qanunda təsbit olunmuş vəzifələrdən başqa vəzifələrin qoyulması yolverilməzdir.\n2. Birinci instansiya məhkəməsində işlərə yalnız təkbaşına baxılır.\n3. Bütün hallarda məhkəmələrin qərarları açıq elan edilir.\n4. Qanunda nəzərdə tutulmuş hallar istisna olmaqla cinayət işlərinin qiyabi məhkəmə icraatına yol verilir.", options: ["1, 3", "2, 3", "1, 4", "3, 4"], correct: 0 },
@@ -684,20 +692,20 @@
             { id: 69, subject: "İnformatika", question: "Yerləşdirilmiş faylla birgə elektron məktubun təşkili və göndərilməsi necə ola bilər?\n1. yerləşdirilmiş faylı əlavə etmək\n2. alanın elektron poçt ünvanını daxil etmək\n3. “Göndərmək” düyməsini sıxmaq\n4. mətni daxil etmək\n5. “yeni məktub” düyməsini sıxmaq", options: ["A) 2, 4, 1, 5, 3", "B) 5, 1, 3, 4, 2", "C) 5, 2, 4, 1, 3", "D) 2, 1, 5, 4, 3", "E) 2, 1, 4, 3, 5"], correct: 0 },
             { id: 70, subject: "İnformatika", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "70.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             
-            // Məntiq (71-100)
-            { id: 71, subject: "Məntiq", question: "Aşağıda verilmiş anaqramlardan hansı birinci sözün sonu , ikinci sözün əvvəlidir ?\nBar(...)qın", options: ["dan", "şad", "nem", "rel", "yer"], correct: 1 },
+            // Məntiq (71-100) - Bəzi suallar üçün Xüsusi/Açıq və Uyğunluq tipləri əlavə olundu
+            { id: 71, subject: "Məntiq", type: "open", question: "Aşağıda verilmiş anaqramda MƏTİN sözünü yaratmaq üçün hərf sırasını müəyyən edin (Rəqəmlərlə daxil edin):\n1.T  2.İ  3.M  4.Ə  5.N", correct: "34125" },
             { id: 72, subject: "Məntiq", question: "17:00-dan 4,5 dəqiqə keçdikdən sonra dəqiqə əqrəbi 8 dəqiqə ərzində dayanır və sonra yenidən öz sürəti ilə hərəkətə davam edir . Bundan sonra saat və dəqiqə əqrəbi ilk dəfə düzgün saat neçəni göstərdikdə üst-üstə düşər ?", options: ["17 : 24", "17 : 36", "17 : 48", "17 : 28", "17 : 20"], correct: 3 },
             { id: 73, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "73.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
             { id: 74, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "74.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
             { id: 75, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "75.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 1 },
-            { id: 76, subject: "Məntiq", question: "1-dən 240-a qədər yazarkən neçə dəfə 5 rəqəmindən istifadə edilir?", options: ["42", "43", "44", "45", "46"], correct: 2 },
+            { id: 76, subject: "Məntiq", type: "open", question: "1-dən 240-a qədər yazarkən neçə dəfə 5 rəqəmindən istifadə edilir? (Ədəd şəklində yazın)", correct: "44" },
             { id: 77, subject: "Məntiq", question: "Verilmiş hansı iki sözün hər birindən yalnız bir dəfə istifadə etməklə yeni söz yaratmaq olar (yaradılan sözdəki hərflərin sayı istifadə olunan sözlərdəki hərflərin sayına bərabərdir).\nnaqra -1\nqala -2\nutra -3\ninfl -4\nşuq -5", options: ["A. 2,3", "B. 1,5", "C. 3,5", "D. 1,3", "E. 4,5"], correct: 1 },
             { id: 78, subject: "Məntiq", question: "(X+Y+Z)²=?\nX+Y=2√3\nX+Z=7√3\nY+Z=3√3", options: ["3√3", "6√3", "108", "12", "108√3"], correct: 2 },
             { id: 79, subject: "Məntiq", question: "9 nəfərdən ibarət komanda bir-birilə 1 dəfə oynamaq şərtilə neçə oyun keçirəcək?", options: ["75", "77", "27", "72", "53"], correct: 2 },
             { id: 80, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "80.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 1 },
             { id: 81, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "81.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             { id: 82, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "82.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
-            { id: 83, subject: "Məntiq", question: "Üç yoldaş – Sərxan, Mikayıl, Şamil – hər biri öz bacısıyla meşəyə göbələk yığmağa getdilər. Qızların adları Ülviyyə, Xəyalə və Mehribandır. Oğlanlar öz səbətlərini göbələklə tez doldurdular və qızlara kömək etməyə başladılar. Əgər oğlanların heç birinin öz bacısına kömək etmədiyi və həmçinin Mikayılın Ülviyyəyə, Sərxanın isə Ülviyyə və Mehribana kömək etdiyi məlumdursa, oğlanların hər birinin bacısını müəyyən edin və uyğunluq qurun:\n1. Şamil\n2. Mikayıl\n3. Sərxan\na. Mehriban\nb. Xəyalə\nc. Ülviyyə", options: ["1-c; 2-a; 3-b", "1-a; 2-c; 3-b", "1-a; 2-b; 3-c", "1-c; 2-b; 3-a", "1-b; 2-a; 3-c"], correct: 0 },
+            { id: 83, subject: "Məntiq", type: "match", question: "Üç yoldaş – Sərxan, Mikayıl, Şamil – hər biri öz bacısıyla meşəyə göbələk yığmağa getdilər. Qızların adları Ülviyyə, Xəyalə və Mehribandır. Oğlanlar öz səbətlərini göbələklə tez doldurdular və qızlara kömək etməyə başladılar. Əgər oğlanların heç birinin öz bacısına kömək etmədiyi və həmçinin Mikayılın Ülviyyəyə, Sərxanın isə Ülviyyə və Mehribana kömək etdiyi məlumdursa, oğlanların hər birinin bacısını müəyyən edin və uyğunlaşdırın:", matches: [{left: "1. Şamil", options: ["a. Mehriban", "b. Xəyalə", "c. Ülviyyə"]}, {left: "2. Mikayıl", options: ["a. Mehriban", "b. Xəyalə", "c. Ülviyyə"]}, {left: "3. Sərxan", options: ["a. Mehriban", "b. Xəyalə", "c. Ülviyyə"]}], correct: ["c", "a", "b"] },
             { id: 84, subject: "Məntiq", question: "Atanın yaşını göstərən iki rəqəmli ədədin rəqəmlərinin cəmi 5 – dir. Həmin ədəd oğulun yaşını göstərən ədəddən 4 dəfə böyükdür. Neçə il əvvəl ata oğlundan yaşca 7 dəfə böyük olacaq?", options: ["2", "6", "5", "4", "3"], correct: 3 },
             { id: 85, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "85.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 2 },
             { id: 86, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "86.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 1 },
@@ -725,6 +733,7 @@
         let timerInterval;
         let timeLeft = testDuration;
         let examFinished = false;
+        let onlyFlaggedFilter = false;
 
         window.addEventListener('load', function() {
             if (window.location.hash === "#admin") {
@@ -836,6 +845,17 @@
             }
         }
 
+        function toggleFlagFilter() {
+            onlyFlaggedFilter = !onlyFlaggedFilter;
+            const btn = document.getElementById("filter-flag-btn");
+            if (onlyFlaggedFilter) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+            loadNavGrid();
+        }
+
         function backToReviewQuestions() {
             document.getElementById("result-screen").style.display = "none";
             document.getElementById("exam-screen").style.display = "block";
@@ -865,40 +885,85 @@
                         ${flagElementHtml}
                     </div>
                     ${imgHtml}
-                    <div class="options">
             `;
 
-            q.options.forEach((opt, idx) => {
-                let checked = (userAns === idx) ? "checked" : "";
+            // Sual Tiplərinin İşlənməsi (Açıq, Uyğunluq və Standart)
+            if (q.type === "open") {
+                let val = userAns !== undefined ? userAns : "";
                 let disabledAttr = examFinished ? "disabled" : "";
-                let correctHighlight = "";
-                
-                if (examFinished) {
-                    if (idx === q.correct) {
-                        correctHighlight = "background-color: #d1fae5; border: 1px solid #10b981; font-weight: bold;";
-                    } else if (userAns === idx && userAns !== q.correct) {
-                        correctHighlight = "background-color: #fef2f2; border: 1px solid #ef4444;";
-                    }
-                }
-
                 html += `
-                    <label style="${correctHighlight}">
-                        <input type="radio" name="current_opt" value="${idx}" ${checked} ${disabledAttr} onclick="selectOption(${q.id}, ${idx})">
-                        ${letters[idx]}) ${opt}
-                    </label>
-                `;
-            });
-
-            html += `
+                    <div style="margin: 15px 0;">
+                        <input type="text" class="code-input" style="text-align:left; width:100%; max-width:300px;" 
+                        placeholder="Cavabınızı yazın..." value="${val}" ${disabledAttr} 
+                        oninput="saveOpenAnswer(${q.id}, this.value)">
                     </div>
-            `;
+                `;
+            } else if (q.type === "match") {
+                html += `<div style="margin: 10px 0;">`;
+                let currentMatchAns = userAns || {};
+                q.matches.forEach((m, idx) => {
+                    let selVal = currentMatchAns[idx] || "";
+                    let disabledAttr = examFinished ? "disabled" : "";
+                    html += `
+                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                            <span style="font-weight:bold; font-size:13px; width:80px;">${m.left}</span>
+                            <select ${disabledAttr} style="padding:6px; border-radius:4px; border:1px solid #cbd5e1;" onchange="saveMatchAnswer(${q.id}, ${idx}, this.value)">
+                                <option value="">-- Seçin --</option>
+                                ${m.options.map(opt => {
+                                    let letter = opt.split('.')[0].trim();
+                                    let selected = selVal === letter ? "selected" : "";
+                                    return `<option value="${letter}" ${selected}>${opt}</option>`;
+                                }).join('')}
+                            </select>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            } else {
+                html += `<div class="options">`;
+                q.options.forEach((opt, idx) => {
+                    let checked = (userAns === idx) ? "checked" : "";
+                    let disabledAttr = examFinished ? "disabled" : "";
+                    let correctHighlight = "";
+                    
+                    if (examFinished) {
+                        if (idx === q.correct) {
+                            correctHighlight = "background-color: #d1fae5; border: 1px solid #10b981; font-weight: bold;";
+                        } else if (userAns === idx && userAns !== q.correct) {
+                            correctHighlight = "background-color: #fef2f2; border: 1px solid #ef4444;";
+                        }
+                    }
+
+                    html += `
+                        <label style="${correctHighlight}">
+                            <input type="radio" name="current_opt" value="${idx}" ${checked} ${disabledAttr} onclick="selectOption(${q.id}, ${idx})">
+                            ${letters[idx]}) ${opt}
+                        </label>
+                    `;
+                });
+                html += `</div>`;
+            }
 
             if (!examFinished) {
                 html += `<button class="clear-option-btn" onclick="clearOption(${q.id})">Seçimi ləğv et</button>`;
             } else {
-                let statusText = userAns === undefined ? "Cavabsız qoyulub" : (userAns === q.correct ? "✅ Doğru cavablandırıbsınız" : "❌ Səhv cavablandırıbsınız");
-                let statusColor = userAns === q.correct ? "#15803d" : "#b91c1c";
-                html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 13px;">Status: ${statusText} (Doğru cavab: ${letters[q.correct]})</div>`;
+                let statusText = "";
+                if (q.type === "open") {
+                    let isCorr = (userAns || "").trim().toLowerCase() === (q.correct || "").trim().toLowerCase();
+                    statusText = userAns === undefined ? "Cavabsız qoyulub" : (isCorr ? "✅ Doğru cavablandırıbsınız" : "❌ Səhv cavablandırıbsınız");
+                    var statusColor = isCorr ? "#15803d" : "#b91c1c";
+                    html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 13px;">Status: ${statusText} (Doğru cavab: ${q.correct})</div>`;
+                } else if (q.type === "match") {
+                    let isCorr = JSON.stringify(userAns) === JSON.stringify(q.correct);
+                    statusText = userAns === undefined ? "Cavabsız qoyulub" : (isCorr ? "✅ Doğru cavablandırıbsınız" : "❌ Səhv cavablandırıbsınız");
+                    var statusColor = isCorr ? "#15803d" : "#b91c1c";
+                    html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 13px;">Status: ${statusText} (Doğru cavab: ${q.correct.join(', ')})</div>`;
+                } else {
+                    let isCorr = userAns === q.correct;
+                    statusText = userAns === undefined ? "Cavabsız qoyulub" : (isCorr ? "✅ Doğru cavablandırıbsınız" : "❌ Səhv cavablandırıbsınız");
+                    var statusColor = isCorr ? "#15803d" : "#b91c1c";
+                    html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 13px;">Status: ${statusText} (Doğru cavab: ${letters[q.correct]})</div>`;
+                }
             }
 
             html += `</div>`;
@@ -918,6 +983,35 @@
             saveSessionState();
         }
 
+        function saveOpenAnswer(qId, val) {
+            if (examFinished) return;
+            if (val.trim() === "") {
+                delete userAnswers[qId];
+                document.getElementById(`nav_${qId}`).classList.remove("answered");
+            } else {
+                userAnswers[qId] = val;
+                document.getElementById(`nav_${qId}`).classList.add("answered");
+            }
+            saveSessionState();
+        }
+
+        function saveMatchAnswer(qId, matchIdx, val) {
+            if (examFinished) return;
+            if (!userAnswers[qId]) userAnswers[qId] = {};
+            if (val === "") {
+                delete userAnswers[qId][matchIdx];
+            } else {
+                userAnswers[qId][matchIdx] = val;
+            }
+            if (Object.keys(userAnswers[qId]).length === 0) {
+                delete userAnswers[qId];
+                document.getElementById(`nav_${qId}`).classList.remove("answered");
+            } else {
+                document.getElementById(`nav_${qId}`).classList.add("answered");
+            }
+            saveSessionState();
+        }
+
         function returnToResultScreen() {
             document.getElementById("exam-screen").style.display = "none";
             document.getElementById("result-screen").style.display = "block";
@@ -928,7 +1022,14 @@
             const gridContainer = document.getElementById("grid-nav-container");
             let html = "";
             allQuestions.forEach((q, index) => {
-                html += `<div class="nav-box" id="nav_${q.id}" onclick="jumpToQuestion(${index})">${q.id}</div>`;
+                let isFlagged = flaggedQuestions[q.id];
+                if (onlyFlaggedFilter && !isFlagged) return;
+
+                let isAnswered = userAnswers[q.id] !== undefined;
+                let ansClass = isAnswered ? "answered" : "";
+                let flagClass = isFlagged ? "flagged" : "";
+
+                html += `<div class="nav-box ${ansClass} ${flagClass}" id="nav_${q.id}" onclick="jumpToQuestion(${index})">${q.id}</div>`;
             });
             gridContainer.innerHTML = html;
         }
@@ -955,7 +1056,8 @@
         function selectOption(qId, optIdx) {
             if (examFinished) return;
             userAnswers[qId] = optIdx;
-            document.getElementById(`nav_${qId}`).classList.add("answered");
+            let nav = document.getElementById(`nav_${qId}`);
+            if (nav) nav.classList.add("answered");
             saveSessionState();
         }
 
@@ -963,7 +1065,8 @@
             if (examFinished) return;
             delete userAnswers[qId];
             document.querySelectorAll(`input[name="current_opt"]`).forEach(r => r.checked = false);
-            document.getElementById(`nav_${qId}`).classList.remove("answered");
+            let nav = document.getElementById(`nav_${qId}`);
+            if (nav) nav.classList.remove("answered");
             saveSessionState();
         }
 
@@ -973,10 +1076,10 @@
             let nav = document.getElementById(`nav_${qId}`);
             if (chk) {
                 flaggedQuestions[qId] = true;
-                nav.classList.add("flagged");
+                if (nav) nav.classList.add("flagged");
             } else {
                 delete flaggedQuestions[qId];
-                nav.classList.remove("flagged");
+                if (nav) nav.classList.remove("flagged");
             }
             saveSessionState();
         }
@@ -1046,6 +1149,19 @@
                 let userAns = userAnswers[q.id];
                 if (userAns === undefined) {
                     totalBlank++;
+                } else if (q.type === "open") {
+                    if (String(userAns).trim().toLowerCase() === String(q.correct).trim().toLowerCase()) {
+                        totalCorrect++;
+                    } else {
+                        totalWrong++;
+                    }
+                } else if (q.type === "match") {
+                    let userVals = Object.values(userAns);
+                    if (JSON.stringify(userVals) === JSON.stringify(q.correct)) {
+                        totalCorrect++;
+                    } else {
+                        totalWrong++;
+                    }
                 } else if (userAns === q.correct) {
                     totalCorrect++;
                 } else {
@@ -1098,15 +1214,37 @@
 
                 subQuestions.forEach(q => {
                     numsRow += `<td>${q.id}</td>`;
-                    correctRow += `<td>${letters[q.correct]}</td>`;
+
+                    let etalonText = "";
+                    if (q.type === "open") etalonText = q.correct;
+                    else if (q.type === "match") etalonText = q.correct.join('');
+                    else etalonText = letters[q.correct];
+
+                    correctRow += `<td>${etalonText}</td>`;
 
                     let userAns = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
-                    let userLetter = userAns !== undefined ? letters[userAns] : "-";
-                    userRow += `<td>${userLetter}</td>`;
+                    let userText = "-";
+                    let isCorr = false;
+
+                    if (userAns !== undefined) {
+                        if (q.type === "open") {
+                            userText = userAns;
+                            isCorr = String(userAns).trim().toLowerCase() === String(q.correct).trim().toLowerCase();
+                        } else if (q.type === "match") {
+                            let uVals = Object.values(userAns);
+                            userText = uVals.join('');
+                            isCorr = JSON.stringify(uVals) === JSON.stringify(q.correct);
+                        } else {
+                            userText = letters[userAns];
+                            isCorr = userAns === q.correct;
+                        }
+                    }
+
+                    userRow += `<td>${userText}</td>`;
 
                     if (userAns === undefined) {
                         statusRow += `<td>-</td>`;
-                    } else if (userAns === q.correct) {
+                    } else if (isCorr) {
                         statusRow += `<td class="ans-correct">+</td>`;
                     } else {
                         statusRow += `<td class="ans-wrong">-</td>`;

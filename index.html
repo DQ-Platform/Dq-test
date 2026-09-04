@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</title>
     <style>
         body {
@@ -33,15 +33,13 @@
         }
 
         .container {
-            width: 95%;
             max-width: 1050px;
-            margin: 15px auto;
+            margin: 20px auto;
             background: #ffffff;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
             border-top: 4px solid var(--accent-gold);
-            box-sizing: border-box;
         }
 
         h2, h3, h4 {
@@ -79,8 +77,8 @@
             background-color: var(--primary-dark);
             color: var(--accent-gold);
             border: none;
-            padding: 10px 18px;
-            font-size: 14px;
+            padding: 12px 25px;
+            font-size: 16px;
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
@@ -122,48 +120,43 @@
             align-items: center;
             background: var(--primary-dark);
             color: #ffffff;
-            padding: 12px 15px;
+            padding: 12px 20px;
             border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 14px;
+            margin-bottom: 20px;
         }
 
         .timer {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             color: var(--accent-gold);
         }
 
         .exam-layout {
             display: flex;
-            flex-direction: row !important;
-            gap: 15px;
+            gap: 20px;
             position: relative;
-            align-items: flex-start;
         }
 
         .questions-area {
-            flex: 1 1 68%;
+            flex: 3;
             background: #ffffff;
-            padding: 15px;
+            padding: 20px;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             min-height: 350px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-sizing: border-box;
         }
 
         .answer-card-sidebar {
-            flex: 0 0 220px;
+            flex: 1;
             background: #f1f5f9;
-            padding: 10px;
+            padding: 15px;
             border-radius: 8px;
             height: fit-content;
             border: 1px solid #cbd5e1;
             transition: all 0.3s ease;
-            box-sizing: border-box;
         }
 
         .sidebar-header {
@@ -175,30 +168,25 @@
 
         .sidebar-header h4 {
             margin: 0;
-            font-size: 13px;
+            font-size: 15px;
         }
 
-        .toggle-sidebar-btn, .filter-btn {
+        .toggle-sidebar-btn {
             background: var(--primary-dark);
             color: var(--accent-gold);
             border: none;
-            padding: 3px 6px;
-            font-size: 11px;
+            padding: 4px 8px;
+            font-size: 12px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
         }
 
-        .filter-btn.active {
-            background: var(--warning-orange);
-            color: #fff;
-        }
-
         .grid-nav {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 4px;
-            max-height: 380px;
+            gap: 5px;
+            max-height: 400px;
             overflow-y: auto;
             transition: max-height 0.3s ease, opacity 0.3s ease;
         }
@@ -212,12 +200,12 @@
         }
 
         .nav-box {
-            padding: 5px 0;
+            padding: 6px 0;
             text-align: center;
             background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             position: relative;
@@ -238,7 +226,7 @@
             content: '';
             position: absolute;
             top: 2px;
-            left: 2px;
+            left: 3px;
             width: 5px;
             height: 5px;
             background-color: var(--danger-red);
@@ -248,15 +236,14 @@
         .question-top {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 15px;
-            gap: 10px;
         }
 
         .question-title {
             font-weight: 600;
             color: var(--primary-dark);
-            font-size: 14px;
+            font-size: 15px;
             line-height: 1.5;
             white-space: pre-line;
         }
@@ -272,23 +259,22 @@
         .flag-label {
             display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: 12px;
+            gap: 6px;
+            font-size: 14px;
             cursor: pointer;
             color: #d97706;
             font-weight: 600;
             user-select: none;
-            white-space: nowrap;
         }
 
         .options label {
             display: block;
-            padding: 8px 12px;
-            margin: 6px 0;
+            padding: 10px 14px;
+            margin: 8px 0;
             background: #f1f5f9;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .options label:hover {
@@ -299,20 +285,19 @@
             background: none;
             border: none;
             color: #ef4444;
-            font-size: 12px;
+            font-size: 13px;
             cursor: pointer;
             padding: 0;
-            margin-top: 8px;
+            margin-top: 10px;
             text-decoration: underline;
         }
 
         .exam-navigation-buttons {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-top: 20px;
             border-top: 1px solid #e2e8f0;
-            padding-top: 12px;
-            gap: 5px;
+            padding-top: 15px;
         }
 
         #result-screen {
@@ -396,16 +381,16 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
         .stat-card {
             background: #f8fafc;
             border: 1px solid #cbd5e1;
             border-left: 4px solid var(--accent-gold);
-            padding: 10px;
+            padding: 15px;
             border-radius: 8px;
             text-align: center;
         }
@@ -413,11 +398,11 @@
         .stat-card h5 {
             margin: 0;
             color: #64748b;
-            font-size: 12px;
+            font-size: 13px;
         }
 
         .stat-card .value {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: bold;
             color: var(--primary-dark);
             margin-top: 5px;
@@ -425,15 +410,15 @@
 
         .footer {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
             border-top: 1px solid #e2e8f0;
-            padding-top: 12px;
+            padding-top: 15px;
         }
 
         .footer-text {
             color: var(--primary-dark);
             font-weight: bold;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .secret-admin-trigger {
@@ -444,33 +429,6 @@
         .error-msg {
             color: #ef4444;
             font-weight: bold;
-        }
-
-        @media screen and (max-width: 600px) {
-            .container {
-                width: 98%;
-                padding: 10px;
-                margin: 5px auto;
-            }
-            .answer-card-sidebar {
-                flex: 0 0 130px;
-                padding: 5px;
-            }
-            .grid-nav {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 3px;
-            }
-            .btn {
-                padding: 8px 10px;
-                font-size: 12px;
-            }
-            .exam-header {
-                font-size: 12px;
-                padding: 8px 10px;
-            }
-            .timer {
-                font-size: 13px;
-            }
         }
     </style>
 </head>
@@ -510,10 +468,7 @@
                 <div class="answer-card-sidebar" id="sidebar-container">
                     <div class="sidebar-header">
                         <h4 id="sidebar-title-text">Cavab Kartı</h4>
-                        <div style="display: flex; gap: 2px;">
-                            <button class="filter-btn" id="filter-flag-btn" onclick="toggleFlagFilter()">🚩</button>
-                            <button class="toggle-sidebar-btn" id="toggle-btn" onclick="toggleSidebar()">Yığ [-]</button>
-                        </div>
+                        <button class="toggle-sidebar-btn" id="toggle-btn" onclick="toggleSidebar()">Yığ [-]</button>
                     </div>
                     <div class="grid-nav" id="grid-nav-container"></div>
                 </div>
@@ -625,7 +580,7 @@
             { id: 6, subject: "Azərbaycan dili", question: "Mürəkkəb yer zərfliyi işlənmiş cümlələri müəyyən edin.\n1. Dayımgil Cəlilabadda yaşayır.\n2. Gündəliyim Əli müəllimdə qalmışdı.\n3. Bağımız dəniz kənarında yerləşir.\n4. Kənd yerində yaşayan bunu bilməz.\n5. Təzə evlər Babək prospektində tikiləcək.", options: ["3, 5", "2, 4, 5", "1, 3, 5", "2, 3, 5", "2, 5"], correct: 0 },
             { id: 7, subject: "Azərbaycan dili", question: "Bu gün hava tez 'qaraldı' cümləsində fərqləndirilmiş sözün təhlili ilə bağlı fikirlərdən biri səhvdir.", options: ["Qayıdış növdədir.", "Quruluşuna görə düzəltmədir.", "Sifətdən düzəlmişdir.", "Xəbər şəklindədir.", "Kök+leksik+qrammatik sxeminə uyğundur."], correct: 0 },
             { id: 8, subject: "Azərbaycan dili", question: "Sözlərdən birinin yazılışı səhvdir:", options: ["kəhrəba", "haqqsevən", "boş-bikar", "kobud", "felyeton"], correct: 1 },
-            { id: 9, subject: "Azərbaycan dili", question: "Mənsubiyyət və hal şəkilçili qeyri-müəyyən əvəzliyin işləndiyi nümunələri müəyyənləşdirin.\n1. Dedilər ki, heç nəyə toxunmaq olmaz.\n2. Bu sual uşaqların hamısına verilə bilər.\n3. Dövlətimizin daha da qüdrətlənməsi üçün hər birimiz çalışmalırıq.\n4. Mən sizin hərənizə bir tapşırıq verəcəyəm.\n5. Eləsinin cavabını vaxtında verərlər.", options: ["1, 2, 4", "2, 4", "2, 3, 4", "2, 3", "2, 4, 5"], correct: 1 },
+            { id: 9, subject: "Azərbaycan dili", question: "Mənsubiyyət və hal şəkilçili qeyri-müəyyən əvəzliyin işləndiyi nümunələri müəyyənləşdirin.\n1. Dedilər ki, heç nəyə toxunmaq olmaz.\n2. Bu sual uşaqların hamısına verilə bilər.\n3. Dövlətimizin daha da qüdrətlənməsi üçün hər birimiz çalışmalıyıq.\n4. Mən sizin hərənizə bir tapşırıq verəcəyəm.\n5. Eləsinin cavabını vaxtında verərlər.", options: ["1, 2, 4", "2, 4", "2, 3, 4", "2, 3", "2, 4, 5"], correct: 1 },
             { id: 10, subject: "Azərbaycan dili", question: "Cümlənin şəxsə görə növləri baxımından məntiqi ardıcıllığı tamamlayın.\nCücəni payızda sayarlar.\nQonağı belə qarşılayarlar.\nİndi şəhərimizdə göydələnlərə tez-tez rast gəlirsən.", options: ["Ağır otur, batman gəl.", "Hamı gərək öz işinə hörmətlə yanaşsın.", "Tövlə içərisində ona bir künc vermişdilər.", "Səkiyə qalxan kimi onu yuxu apardı.", "Onun sözlərinə yenə də məhəl qoyulmadı."], correct: 0 },
             { id: 11, subject: "Azərbaycan dili", question: "Mürəkkəb xitab işlənən cümləni müəyyən edin.", options: ["Ay dost, hara gedirsən?", "Məhəmmədhəsən, məni eşidirsən?", "Əziz oğlum, xeyir işin mübarək!", "Aynur, Aysel, məni eşidirsiniz?", "Dərya kimi dalğalan, ey bayrağım!"], correct: 2 },
             { id: 12, subject: "Azərbaycan dili", question: "Qəflətən külək başladı, ağacdakı meyvələr yerə dağıldılar.\nCümlədə ədəbi dilin hansı norması (normaları) pozulmuşdur?", options: ["yalnız leksik", "leksik, qrammatik", "yalnız qrammatik", "fonetik, leksik", "fonetik, leksik, qrammatik"], correct: 1 },
@@ -652,7 +607,7 @@
             { id: 31, subject: "Qanunvericilik", question: "“Dövlət qulluğu haqqında” Azərbaycan Respublikasının Qanununa əsasən şəxs dövlət qulluğuna hansı halda qəbul edilə bilməz?", options: ["Barəsində inzibati həbs tətbiq olunması ilə bağlı məhkəmə qərarı olarsa", "Barəsində inzibati cərimənin tətbiq olunması ilə bağlı inzibati tənbeh qərarı qəbul edilmiş olarsa", "Vurulan ziyanın ödənilməsinə dair məhkəmənin qanuni qüvvəyə minmiş qətnaməsi olarsa", "Barəsində tibbi xarakterli məcburi tədbirlərin tətbiqinə dair məhkəmənin qanuni qüvvəyə minmiş qərarı olarsa"], correct: 3 },
             { id: 32, subject: "Qanunvericilik", question: "“Dövlət qulluğu haqqında” Azərbaycan Respublikasının Qanununa əsasən dövlət qulluqçusu barədə doğru bəndləri müəyyən edin.\n1. Dövlət qulluqçusunun şəxsi işinə müvafiq icra hakimiyyəti orqanı tərəfindən müəyyən olunan qaydalarda nəzərdə tutulmuş sənədlər və məlumatlar daxil edilir.\n2. Dövlət qulluqçusunun şəxsi işinin aparılması ilə bağlı tələblərin pozulmasında təqsirli olan şəxslər Azərbaycan Respublikasının İnzibati Xətalar Məcəlləsində nəzərdə tutulmuş qaydada inzibati məsuliyyət daşıyırlar.\n3. Dövlət qulluğunun ayrı-ayrı növlərində andın status xüsusiyyətləri bələdiyyələrin qərarları ilə müəyyən edilir.\n4. Dövlət qulluqçusunun şəxsi işinin aparılması qaydaları Dövlət Qulluğunu İdarəetmə Şurası tərəfindən müəyyən olunur.\n5. Dövlət qulluqçusunun dövlət qulluğu keçdiyi dövr ərzində yalnız bir şəxsi işi tərtib edilir və andın mətni onun şəxsi işində saxlanılır.", options: ["1, 2, 4", "4, 5", "1, 3", "1, 2, 5"], correct: 3 },
             { id: 33, subject: "Qanunvericilik", question: "\"Dövlət qulluğu haqqında\" Azərbaycan Respublikasının Qanununa əsasən dövlət qulluqçusunun əlavə təhsilinə dair yanlış bəndləri müəyyən edin.\n1. Dövlət qulluqçusunun əlavə təhsili sınaq müddətinə qəbul edilmiş dövlət qulluqçularına şamil edilmir.\n2. Dövlət qulluqçusunun əlavə təhsilinin müddəti həmin dövlət orqanının rəhbəri tərəfindən təsdiq edilən qaydalarla tənzimlənir.\n3. Dövlət qulluqçusunun əlavə təhsilinin maliyyə təminatı müvafiq icra hakimiyyəti orqanı tərəfindən təsdiq edilən qaydalarla tənzimlənir.\n4. Azərbaycan Respublikasının Hesablama Palatası aparatında ali hüquq təhsili tələb edən vəzifələrdə qulluq keçən dövlət qulluqçuları mütəmadi olaraq müvafiq icra hakimiyyəti orqanının tədris-elm müəssisəsində peşə hazırlığına və ixtisasının artırılmasına cəlb edilirlər.\n5. Azərbaycan Respublikasının Korrupsiyaya qarşı mübarizə üzrə Komissiyasının Katibliyində ali hüquq təhsili tələb edən vəzifələrdə qulluq keçən dövlət qulluqçuları mütəmadi olaraq müvafiq icra hakimiyyəti orqanının tədris-elm müəssisəsində peşə hazırlığına və ixtisasının artırılmasına cəlb edilirlər.", options: ["2, 3, 5", "2, 3, 4", "1, 4, 5", "1, 2, 4"], correct: 3 },
-            { id: 34, subject: "Qanunvericilik", question: "“Dövlət qulluğu haqqında” Azərbaycan Respublikasının Qanununa əsasən gösterilən bəndlərdən neçəsi yanlışdır?\n• Yardımçı vəzifə tutan dövlət qulluqçularının əmək münasibətləri Azərbaycan Respublikasının Əmək Məcəlləsi ilə tənzimlənir.\n• Azərbaycan Respublikasının xarici ticarət nümayəndəsi vəzifəsinin tutulması müsabiqə və ya müsahibə keçirmək yolu ilə həyata keçirilir.\n• Daimi dövlət qulluğuna qəbul Azərbaycan Respublikasının adından müvafiq dövlət orqanının sənədi ilə təsdiq edilir.\n• Dövlət qulluğunda fəaliyyətin davam etdirilməsi üzrə keçirilən test imtahanının məzmunu Şuranın təklifləri əsasında müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum) tərəfindən müəyyən edilir.", options: ["Üçü", "Biri", "İkisi", "Dördü"], correct: 2 },
+            { id: 34, subject: "Qanunvericilik", question: "“Dövlət qulluğu haqqında” Azərbaycan Respublikasının Qanununa əsasən göstərilən bəndlərdən neçəsi yanlışdır?\n• Yardımçı vəzifə tutan dövlət qulluqçularının əmək münasibətləri Azərbaycan Respublikasının Əmək Məcəlləsi ilə tənzimlənir.\n• Azərbaycan Respublikasının xarici ticarət nümayəndəsi vəzifəsinin tutulması müsabiqə və ya müsahibə keçirmək yolu ilə həyata keçirilir.\n• Daimi dövlət qulluğuna qəbul Azərbaycan Respublikasının adından müvafiq dövlət orqanının sənədi ilə təsdiq edilir.\n• Dövlət qulluğunda fəaliyyətin davam etdirilməsi üzrə keçirilən test imtahanının məzmunu Şuranın təklifləri əsasında müvafiq icra hakimiyyəti orqanının müəyyən etdiyi orqan (qurum) tərəfindən müəyyən edilir.", options: ["Üçü", "Biri", "İkisi", "Dördü"], correct: 2 },
             { id: 35, subject: "Qanunvericilik", question: "\"Dövlət qulluğu haqqında\" Azərbaycan Respublikasının Qanununa görə inzibati vəzifə tutan dövlət qulluqçusu bir il ərzində neçə təqvim günü ödənişli məzuniyyətə çıxır?", options: ["25 təqvim günü", "28 təqvim günü", "30 təqvim günü", "45 təqvim günü"], correct: 2 },
             { id: 36, subject: "Qanunvericilik", question: "Dövlət qulluğuna hansı hallarda xitam verilə bilməz?", options: ["Dövlət qulluqçusunun 4 aya qədər fəaliyyət qabiliyyətsizliyi davam edərsə", "Dövlət qulluqçusuna intizam tənbeh tədbiri tətbiq edildikdə", "Dövlət orqanı ləğv edildikdə", "Dövlət qulluqçusunun öz arzusu ilə"], correct: 0 },
             { id: 37, subject: "Qanunvericilik", question: "\"Dövlət qulluğu haqqında\" Azərbaycan Respublikasının Qanununa əsasən 3-cü kateqoriya dövlət orqanıdır:", options: ["Ağır cinayətlər məhkəməsi", "Naxçıvan Muxtar Respublikası Ali Məhkəməsi", "Bakı Şəhər İcra Hakimiyyəti", "Azərbaycan Respublikası Hərbi Prokurorluğu"], correct: 0 },
@@ -665,7 +620,7 @@
             { id: 44, subject: "Qanunvericilik", question: "”Korrupsiyaya qarşı mübarizə haqqında” Azərbaycan Respublikasının Qanununa əsasən korrupsiya ilə əlaqədar hüquqpozmalara görə vəzifəli şəxslərin məsuliyyəti ilə bağlı doğrudur:", options: ["Vəzifəli şəxs tərəfindən korrupsiya ilə əlaqədar hüquqpozmaların törədilməsi cinayət məsuliyyəti yaratdıqda, vəzifəli şəxsin məsuliyyətə cəlb edilməsi Azərbaycan Respublikasının müvafiq qanunvericiliyinə uyğun həyata keçirilir.", "Azərbaycan Respublikasının Konstitusiyası ilə müəyyən olunmuş qaydada dövlət orqanlarına seçilmiş şəxslər korrupsiya ilə əlaqədar hüquqpozma törətdikdə, korrupsiyaya qarşı mübarizə aparan orqan bu barədə Məhkəmə-Hüquq Şurasına məlumat verir.", "Vəzifəli şəxs tərəfindən korrupsiya ilə əlaqədar hüquqpozmaların törədilməsi cinayət məsuliyyəti yaratmadıqda, qanunla müəyyən edilmiş xüsusi qaydalara riayət edilməklə, qanunvericiliklə müəyyən edilmiş qaydada mülki məsuliyyətə səbəb olur.", "Azərbaycan Respublikasının dövlət orqanlarında seçkili vəzifələrə namizədliyi qanunla müəyyən olunmuş qaydada qeydə alınmış şəxslər korrupsiya ilə əlaqədar hüquqpozmalar törətdikdə, onlar barəsində “Korrupsiyaya qarşı mübarizə haqqında” Azərbaycan Respublikasının Qanununda nəzərdə tutulmuş tədbirlər görülür."], correct: 0 },
             { id: 45, subject: "Qanunvericilik", question: "Korrupsiya hüquqpozması deyil:", options: ["Vəzifəli şəxsin xidməti vəzifəsinin (səlahiyyətlərinin) icrası ilə əlaqədar hər hansı hərəkətin edilməsi və ya belə hərəkətin edilməsindən imtina olunması müqabilində özü və yaxud üçüncü şəxslər üçün birbaşa və ya dolayı yolla maddi və sair nemətlər, imtiyazlar və ya güzəştlər tələb etməsi, əldə etməsi və ya belə maddi və sair nemətlərin, imtiyazların və ya güzəştlərin verilməsi ilə bağlı təklifi və ya vədi qəbul etməsi", "Vəzifəli şəxs tərəfindən xidməti vəzifəsinin (səlahiyyətlərinin) icrası ilə əlaqədar hər hansı hərəkətin edilməsi və ya belə hərəkətin edilməsindən imtina olunması müqabilində qanunsuz olaraq alınmış əmlakdan özü və ya üçüncü şəxslər üçün mənfəət əldə etmək məqsədilə istifadə edilməsi", "Normativ hüquqi aktların və digər qərarların qəbul edilməsi zamanı fiziki və ya hüquqi şəxslərə onların təyinatına uyğun olmayan üstünlüklər vermək", "Müəyyən mükafat müqabilində vəzifəli şəxsin qərarına qanunsuz təsir göstərmək imkanına malik olduğunu bildirən hər hansı şəxsə birbaşa və ya dolayı yolla maddi və sair nemətlərin, imtiyazların və ya güzəştlərin təklif olunması, vəd edilməsi və ya verilməsi"], correct: 2 },
             { id: 46, subject: "Qanunvericilik", question: "Məlumat azadlığının həyata keçirilməsinin əsas prinsiplərindən biri deyil:", options: ["Məlumatın açıqlığı və onun mübadilə edilməsinin azadlığı", "Yalnız vəzifəli şəxslərin ailə və şəxsi həyat sirlərinin saxlanılması", "Məlumatın obyektivliyi, tamlığı və həqiqiliyi", "Məlumatın axtarılmasının, əldə edilməsinin və istifadə olunmasının qanuniliyi"], correct: 1 },
-            { id: 47, subject: "Qanunvericilik", question: "\"Vətəndaşların müraciətləri haqqında\" Azərbaycan Respublikasının Qanununa əsasən vətəndaşların yazılı müraciətlərinin qəbulu, qeydiyyatı və onlara baxılması qaydası ilə bağlı yanlışdır:", options: ["Müraciətdə göstərilən məsələnin həlli ilə əlaqədar əlavə məlumatların öyrənilməsi üçün aidiyyəti üzrə göndərilən sorğuya beş iş günü ərzində cavab verilə bilər.", "Müraciətdə göstərilən məsələyə baxmaq səlahiyyəti bir neçə müraciətə baxan subyektə aiddirsə, müraciətin surəti üç iş günündən gec olmayaraq həmin subyektlərə göndərilir.", "Vətəndaşların müraciətlərini aidiyyəti üzrə baxılmaq üçün nəinki qanunazidd hərəkətindən şikayət edilən müraciətə baxan subyektə, hətdə onun vəzifəli şəxslərinə də göndərmək qadağandır.", "Qanunla müəyyən edilmiş hallarda müraciətə müvafiq ərazidə yaşayan əhalinin əksəriyyətinin danışdığı dildə cavab verilə bilər"], correct: 0 },
+            { id: 47, subject: "Qanunvericilik", question: "\"Vətəndaşların müraciətləri haqqında\" Azərbaycan Respublikasının Qanununa əsasən vətəndaşların yazılı müraciətlərinin qəbulu, qeydiyyatı və onlara baxılması qaydası ilə bağlı yanlışdır:", options: ["Müraciətdə göstərilən məsələnin həlli ilə əlaqədar əlavə məlumatların öyrənilməsi üçün aidiyyəti üzrə göndərilən sorğuya beş iş günü ərzində cavab verilə bilər.", "Müraciətdə göstərilən məsələyə baxmaq səlahiyyəti bir neçə müraciətə baxan subyektə aiddirsə, müraciətin surəti üç iş günündən gec olmayaraq həmin subyektlərə göndərilir.", "Vətəndaşların müraciətlərini aidiyyəti üzrə baxılmaq üçün nəinki qanunazidd hərəkətindən şikayət edilən müraciətə baxan subyektə, hətta onun vəzifəli şəxslərinə də göndərmək qadağandır.", "Qanunla müəyyən edilmiş hallarda müraciətə müvafiq ərazidə yaşayan əhalinin əksəriyyətinin danışdığı dildə cavab verilə bilər"], correct: 0 },
             { id: 48, subject: "Qanunvericilik", question: "\"Vətəndaşların müraciətləri haqqında\" Azərbaycan Respublikasının Qanununa əsasən müraciətə baxılma müddəti ən çoxu nə qədər ola bilər?", options: ["50 iş günü", "30 iş günü", "60 iş günü", "40 iş günü"], correct: 2 },
             { id: 49, subject: "Qanunvericilik", question: "Ayşən aptekə dərman almaq üçün daxil olur. Daha sonra aldığı dərmanın üzərində Azərbaycan dilində hər hansı bir məlumatın yazılmadığını görür və buna etiraz edir. Ayşən bu apteki şikayət edəcəyini bildirir. Bu situasiyaya əsasən kim haqlıdır?", options: ["Ayşənin etirazı əsaslıdır. Azərbaycana idxal olunan məhsulların üzərində xarici dillərlə yanaşı Azərbaycan dilində də yazılar olmalıdır.", "Ayşənin etirazı əsassızdır. Azərbaycana idxal olunan məhsulların üzərində Azərbaycan dilində yazılar yazılmaya bilər.", "Ayşənin etirazı əsaslıdır. Azərbaycana idxal olunan məhsulların üzərində yalnız Azərbaycan dilində də yazılar olmalıdır.", "Ayşənin etirazı əsassızdır. Azərbaycana idxal olunan məhsulların üzərində xarici dildə yazı varsa onun şikayət etmək hüququ yoxdur."], correct: 0 },
             { id: 50, subject: "Qanunvericilik", question: "\"Məhkəmələr və hakimlər haqqında\" Azərbaycan Respublikasının Qanununa əsasən düzgün fikirləri seçin.\n\n1. Məhkəmələrin üzərinə qanunda təsbit olunmuş vəzifələrdən başqa vəzifələrin qoyulması yolverilməzdir.\n2. Birinci instansiya məhkəməsində işlərə yalnız təkbaşına baxılır.\n3. Bütün hallarda məhkəmələrin qərarları açıq elan edilir.\n4. Qanunda nəzərdə tutulmuş hallar istisna olmaqla cinayət işlərinin qiyabi məhkəmə icraatına yol verilir.", options: ["1, 3", "2, 3", "1, 4", "3, 4"], correct: 0 },
@@ -693,19 +648,19 @@
             { id: 70, subject: "İnformatika", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "70.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             
             // Məntiq (71-100)
-            { id: 71, subject: "Məntiq", type: "open", question: "Aşağıda verilmiş anaqramda MƏTİN sözünü yaratmaq üçün hərf sırasını müəyyən edin (Rəqəmlərlə daxil edin):\n1.T  2.İ  3.M  4.Ə  5.N", correct: "34125" },
+            { id: 71, subject: "Məntiq", question: "Aşağıda verilmiş anaqramlardan hansı birinci sözün sonu , ikinci sözün əvvəlidir ?\nBar(...)qın", options: ["dan", "şad", "nem", "rel", "yer"], correct: 1 },
             { id: 72, subject: "Məntiq", question: "17:00-dan 4,5 dəqiqə keçdikdən sonra dəqiqə əqrəbi 8 dəqiqə ərzində dayanır və sonra yenidən öz sürəti ilə hərəkətə davam edir . Bundan sonra saat və dəqiqə əqrəbi ilk dəfə düzgün saat neçəni göstərdikdə üst-üstə düşər ?", options: ["17 : 24", "17 : 36", "17 : 48", "17 : 28", "17 : 20"], correct: 3 },
-            { id: 73, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "73.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
+            { id: 73, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "73.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 1 },
             { id: 74, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "74.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
             { id: 75, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "75.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 1 },
-            { id: 76, subject: "Məntiq", type: "open", question: "1-dən 240-a qədər yazarkən neçə dəfə 5 rəqəmindən istifadə edilir? (Ədəd şəklində yazın)", correct: "44" },
+            { id: 76, subject: "Məntiq", question: "1-dən 240-a qədər yazarkən neçə dəfə 5 rəqəmindən istifadə edilir?", options: ["42", "43", "44", "45", "46"], correct: 2 },
             { id: 77, subject: "Məntiq", question: "Verilmiş hansı iki sözün hər birindən yalnız bir dəfə istifadə etməklə yeni söz yaratmaq olar (yaradılan sözdəki hərflərin sayı istifadə olunan sözlərdəki hərflərin sayına bərabərdir).\nnaqra -1\nqala -2\nutra -3\ninfl -4\nşuq -5", options: ["A. 2,3", "B. 1,5", "C. 3,5", "D. 1,3", "E. 4,5"], correct: 1 },
             { id: 78, subject: "Məntiq", question: "(X+Y+Z)²=?\nX+Y=2√3\nX+Z=7√3\nY+Z=3√3", options: ["3√3", "6√3", "108", "12", "108√3"], correct: 2 },
             { id: 79, subject: "Məntiq", question: "9 nəfərdən ibarət komanda bir-birilə 1 dəfə oynamaq şərtilə neçə oyun keçirəcək?", options: ["75", "77", "27", "72", "53"], correct: 2 },
-            { id: 80, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "80.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 1 },
+            { id: 80, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "80.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
             { id: 81, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "81.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 0 },
             { id: 82, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "82.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 3 },
-            { id: 83, subject: "Məntiq", type: "match", question: "Üç yoldaş – Sərxan, Mikayıl, Şamil – hər biri öz bacısıyla meşəyə göbələk yığmağa getdilər. Qızların adları Ülviyyə, Xəyalə və Mehribandır. Oğlanlar öz səbətlərini göbələklə tez doldurdular və qızlara kömək etməyə başladılar. Əgər oğlanların heç birinin öz bacısına kömək etmədiyi və həmçinin Mikayılın Ülviyyəyə, Sərxanın isə Ülviyyə və Mehribana kömək etdiyi məlumdursa, oğlanların hər birinin bacısını müəyyən edin və uyğunlaşdırın:", matches: [{left: "1. Şamil", options: ["a. Mehriban", "b. Xəyalə", "c. Ülviyyə"]}, {left: "2. Mikayıl", options: ["a. Mehriban", "b. Xəyalə", "c. Ülviyyə"]}, {left: "3. Sərxan", options: ["a. Mehriban", "b. Xəyalə", "c. Ülviyyə"]}], correct: ["c", "a", "b"] },
+            { id: 83, subject: "Məntiq", question: "Üç yoldaş – Sərxan, Mikayıl, Şamil – hər biri öz bacısıyla meşəyə göbələk yığmağa getdilər. Qızların adları Ülviyyə, Xəyalə və Mehribandır. Oğlanlar öz səbətlərini göbələklə tez doldurdular və qızlara kömək etməyə başladılar. Əgər oğlanların heç birinin öz bacısına kömək etmədiyi və həmçinin Mikayılın Ülviyyəyə, Sərxanın isə Ülviyyə və Mehribana kömək etdiyi məlumdursa, oğlanların hər birinin bacısını müəyyən edin və uyğunluq qurun:\n1. Şamil\n2. Mikayıl\n3. Sərxan\na. Mehriban\nb. Xəyalə\nc. Ülviyyə", options: ["1-c; 2-a; 3-b", "1-a; 2-c; 3-b", "1-a; 2-b; 3-c", "1-c; 2-b; 3-a", "1-b; 2-a; 3-c"], correct: 0 },
             { id: 84, subject: "Məntiq", question: "Atanın yaşını göstərən iki rəqəmli ədədin rəqəmlərinin cəmi 5 – dir. Həmin ədəd oğulun yaşını göstərən ədəddən 4 dəfə böyükdür. Neçə il əvvəl ata oğlundan yaşca 7 dəfə böyük olacaq?", options: ["2", "6", "5", "4", "3"], correct: 3 },
             { id: 85, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "85.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 2 },
             { id: 86, subject: "Məntiq", question: "Aşağıdakı sual üçün təqdim olunan şəkli nəzərdən keçirin:", image: "86.jpg", options: ["A variantı", "B variantı", "C variantı", "D variantı", "E variantı"], correct: 1 },
@@ -733,7 +688,6 @@
         let timerInterval;
         let timeLeft = testDuration;
         let examFinished = false;
-        let onlyFlaggedFilter = false;
 
         window.addEventListener('load', function() {
             if (window.location.hash === "#admin") {
@@ -845,17 +799,6 @@
             }
         }
 
-        function toggleFlagFilter() {
-            onlyFlaggedFilter = !onlyFlaggedFilter;
-            const btn = document.getElementById("filter-flag-btn");
-            if (onlyFlaggedFilter) {
-                btn.classList.add("active");
-            } else {
-                btn.classList.remove("active");
-            }
-            loadNavGrid();
-        }
-
         function backToReviewQuestions() {
             document.getElementById("result-screen").style.display = "none";
             document.getElementById("exam-screen").style.display = "block";
@@ -873,7 +816,7 @@
             let imgHtml = q.image ? `<img src="${q.image}" alt="Sual ${q.id} şəkli" class="question-img">` : "";
 
             let flagElementHtml = examFinished ? 
-                `<span style="font-size: 12px; color: #64748b; font-weight: 600;">Sual ${q.id} / ${allQuestions.length}</span>` :
+                `<span style="font-size: 14px; color: #64748b; font-weight: 600;">Sual ${q.id} / ${allQuestions.length}</span>` :
                 `<label class="flag-label">
                     <input type="checkbox" id="flag_chk" ${isFlagged} onchange="toggleFlag(${q.id})"> Tərəddüdlü
                 </label>`;
@@ -885,84 +828,40 @@
                         ${flagElementHtml}
                     </div>
                     ${imgHtml}
+                    <div class="options">
             `;
 
-            if (q.type === "open") {
-                let val = userAns !== undefined ? userAns : "";
+            q.options.forEach((opt, idx) => {
+                let checked = (userAns === idx) ? "checked" : "";
                 let disabledAttr = examFinished ? "disabled" : "";
-                html += `
-                    <div style="margin: 15px 0;">
-                        <input type="text" class="code-input" style="text-align:left; width:100%; max-width:300px;" 
-                        placeholder="Cavabınızı yazın..." value="${val}" ${disabledAttr} 
-                        oninput="saveOpenAnswer(${q.id}, this.value)">
-                    </div>
-                `;
-            } else if (q.type === "match") {
-                html += `<div style="margin: 10px 0;">`;
-                let currentMatchAns = userAns || {};
-                q.matches.forEach((m, idx) => {
-                    let selVal = currentMatchAns[idx] || "";
-                    let disabledAttr = examFinished ? "disabled" : "";
-                    html += `
-                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-                            <span style="font-weight:bold; font-size:13px; width:80px;">${m.left}</span>
-                            <select ${disabledAttr} style="padding:6px; border-radius:4px; border:1px solid #cbd5e1;" onchange="saveMatchAnswer(${q.id}, ${idx}, this.value)">
-                                <option value="">-- Seçin --</option>
-                                ${m.options.map(opt => {
-                                    let letter = opt.split('.')[0].trim();
-                                    let selected = selVal === letter ? "selected" : "";
-                                    return `<option value="${letter}" ${selected}>${opt}</option>`;
-                                }).join('')}
-                            </select>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-            } else {
-                html += `<div class="options">`;
-                q.options.forEach((opt, idx) => {
-                    let checked = (userAns === idx) ? "checked" : "";
-                    let disabledAttr = examFinished ? "disabled" : "";
-                    let correctHighlight = "";
-                    
-                    if (examFinished) {
-                        if (idx === q.correct) {
-                            correctHighlight = "background-color: #d1fae5; border: 1px solid #10b981; font-weight: bold;";
-                        } else if (userAns === idx && userAns !== q.correct) {
-                            correctHighlight = "background-color: #fef2f2; border: 1px solid #ef4444;";
-                        }
+                let correctHighlight = "";
+                
+                if (examFinished) {
+                    if (idx === q.correct) {
+                        correctHighlight = "background-color: #d1fae5; border: 1px solid #10b981; font-weight: bold;";
+                    } else if (userAns === idx && userAns !== q.correct) {
+                        correctHighlight = "background-color: #fef2f2; border: 1px solid #ef4444;";
                     }
+                }
 
-                    html += `
-                        <label style="${correctHighlight}">
-                            <input type="radio" name="current_opt" value="${idx}" ${checked} ${disabledAttr} onclick="selectOption(${q.id}, ${idx})">
-                            ${letters[idx]}) ${opt}
-                        </label>
-                    `;
-                });
-                html += `</div>`;
-            }
+                html += `
+                    <label style="${correctHighlight}">
+                        <input type="radio" name="current_opt" value="${idx}" ${checked} ${disabledAttr} onclick="selectOption(${q.id}, ${idx})">
+                        ${letters[idx]}) ${opt}
+                    </label>
+                `;
+            });
+
+            html += `
+                    </div>
+            `;
 
             if (!examFinished) {
                 html += `<button class="clear-option-btn" onclick="clearOption(${q.id})">Seçimi ləğv et</button>`;
             } else {
-                let statusText = "";
-                if (q.type === "open") {
-                    let isCorr = (userAns || "").trim().toLowerCase() === (q.correct || "").trim().toLowerCase();
-                    statusText = userAns === undefined ? "Cavabsız qoyulub" : (isCorr ? "✅ Doğru cavablandırıbsınız" : "❌ Səhv cavablandırıbsınız");
-                    var statusColor = isCorr ? "#15803d" : "#b91c1c";
-                    html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 13px;">Status: ${statusText} (Doğru cavab: ${q.correct})</div>`;
-                } else if (q.type === "match") {
-                    let isCorr = JSON.stringify(userAns) === JSON.stringify(q.correct);
-                    statusText = userAns === undefined ? "Cavabsız qoyulub" : (isCorr ? "✅ Doğru cavablandırıbsınız" : "❌ Səhv cavablandırıbsınız");
-                    var statusColor = isCorr ? "#15803d" : "#b91c1c";
-                    html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 13px;">Status: ${statusText} (Doğru cavab: ${q.correct.join(', ')})</div>`;
-                } else {
-                    let isCorr = userAns === q.correct;
-                    statusText = userAns === undefined ? "Cavabsız qoyulub" : (isCorr ? "✅ Doğru cavablandırıbsınız" : "❌ Səhv cavablandırıbsınız");
-                    var statusColor = isCorr ? "#15803d" : "#b91c1c";
-                    html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 13px;">Status: ${statusText} (Doğru cavab: ${letters[q.correct]})</div>`;
-                }
+                let statusText = userAns === undefined ? "Cavabsız qoyulub" : (userAns === q.correct ? "✅ Doğru cavablandırıbsınız" : "❌ Səhv cavablandırıbsınız");
+                let statusColor = userAns === q.correct ? "#15803d" : "#b91c1c";
+                html += `<div style="margin-top: 12px; font-weight: bold; color: ${statusColor}; font-size: 14px;">Status: ${statusText} (Doğru cavab: ${letters[q.correct]})</div>`;
             }
 
             html += `</div>`;
@@ -982,35 +881,6 @@
             saveSessionState();
         }
 
-        function saveOpenAnswer(qId, val) {
-            if (examFinished) return;
-            if (val.trim() === "") {
-                delete userAnswers[qId];
-                document.getElementById(`nav_${qId}`).classList.remove("answered");
-            } else {
-                userAnswers[qId] = val;
-                document.getElementById(`nav_${qId}`).classList.add("answered");
-            }
-            saveSessionState();
-        }
-
-        function saveMatchAnswer(qId, matchIdx, val) {
-            if (examFinished) return;
-            if (!userAnswers[qId]) userAnswers[qId] = {};
-            if (val === "") {
-                delete userAnswers[qId][matchIdx];
-            } else {
-                userAnswers[qId][matchIdx] = val;
-            }
-            if (Object.keys(userAnswers[qId]).length === 0) {
-                delete userAnswers[qId];
-                document.getElementById(`nav_${qId}`).classList.remove("answered");
-            } else {
-                document.getElementById(`nav_${qId}`).classList.add("answered");
-            }
-            saveSessionState();
-        }
-
         function returnToResultScreen() {
             document.getElementById("exam-screen").style.display = "none";
             document.getElementById("result-screen").style.display = "block";
@@ -1021,14 +891,7 @@
             const gridContainer = document.getElementById("grid-nav-container");
             let html = "";
             allQuestions.forEach((q, index) => {
-                let isFlagged = flaggedQuestions[q.id];
-                if (onlyFlaggedFilter && !isFlagged) return;
-
-                let isAnswered = userAnswers[q.id] !== undefined;
-                let ansClass = isAnswered ? "answered" : "";
-                let flagClass = isFlagged ? "flagged" : "";
-
-                html += `<div class="nav-box ${ansClass} ${flagClass}" id="nav_${q.id}" onclick="jumpToQuestion(${index})">${q.id}</div>`;
+                html += `<div class="nav-box" id="nav_${q.id}" onclick="jumpToQuestion(${index})">${q.id}</div>`;
             });
             gridContainer.innerHTML = html;
         }
@@ -1055,8 +918,7 @@
         function selectOption(qId, optIdx) {
             if (examFinished) return;
             userAnswers[qId] = optIdx;
-            let nav = document.getElementById(`nav_${qId}`);
-            if (nav) nav.classList.add("answered");
+            document.getElementById(`nav_${qId}`).classList.add("answered");
             saveSessionState();
         }
 
@@ -1064,8 +926,7 @@
             if (examFinished) return;
             delete userAnswers[qId];
             document.querySelectorAll(`input[name="current_opt"]`).forEach(r => r.checked = false);
-            let nav = document.getElementById(`nav_${qId}`);
-            if (nav) nav.classList.remove("answered");
+            document.getElementById(`nav_${qId}`).classList.remove("answered");
             saveSessionState();
         }
 
@@ -1075,10 +936,10 @@
             let nav = document.getElementById(`nav_${qId}`);
             if (chk) {
                 flaggedQuestions[qId] = true;
-                if (nav) nav.classList.add("flagged");
+                nav.classList.add("flagged");
             } else {
                 delete flaggedQuestions[qId];
-                if (nav) nav.classList.remove("flagged");
+                nav.classList.remove("flagged");
             }
             saveSessionState();
         }
@@ -1148,19 +1009,6 @@
                 let userAns = userAnswers[q.id];
                 if (userAns === undefined) {
                     totalBlank++;
-                } else if (q.type === "open") {
-                    if (String(userAns).trim().toLowerCase() === String(q.correct).trim().toLowerCase()) {
-                        totalCorrect++;
-                    } else {
-                        totalWrong++;
-                    }
-                } else if (q.type === "match") {
-                    let userVals = Object.values(userAns);
-                    if (JSON.stringify(userVals) === JSON.stringify(q.correct)) {
-                        totalCorrect++;
-                    } else {
-                        totalWrong++;
-                    }
                 } else if (userAns === q.correct) {
                     totalCorrect++;
                 } else {
@@ -1213,37 +1061,15 @@
 
                 subQuestions.forEach(q => {
                     numsRow += `<td>${q.id}</td>`;
-
-                    let etalonText = "";
-                    if (q.type === "open") etalonText = q.correct;
-                    else if (q.type === "match") etalonText = q.correct.join('');
-                    else etalonText = letters[q.correct];
-
-                    correctRow += `<td>${etalonText}</td>`;
+                    correctRow += `<td>${letters[q.correct]}</td>`;
 
                     let userAns = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
-                    let userText = "-";
-                    let isCorr = false;
-
-                    if (userAns !== undefined) {
-                        if (q.type === "open") {
-                            userText = userAns;
-                            isCorr = String(userAns).trim().toLowerCase() === String(q.correct).trim().toLowerCase();
-                        } else if (q.type === "match") {
-                            let uVals = Object.values(userAns);
-                            userText = uVals.join('');
-                            isCorr = JSON.stringify(uVals) === JSON.stringify(q.correct);
-                        } else {
-                            userText = letters[userAns];
-                            isCorr = userAns === q.correct;
-                        }
-                    }
-
-                    userRow += `<td>${userText}</td>`;
+                    let userLetter = userAns !== undefined ? letters[userAns] : "-";
+                    userRow += `<td>${userLetter}</td>`;
 
                     if (userAns === undefined) {
                         statusRow += `<td>-</td>`;
-                    } else if (isCorr) {
+                    } else if (userAns === q.correct) {
                         statusRow += `<td class="ans-correct">+</td>`;
                     } else {
                         statusRow += `<td class="ans-wrong">-</td>`;
@@ -1252,15 +1078,13 @@
 
                 reportHtml += `
                     <div class="subject-section">
-                        <div style="font-weight: bold; margin-bottom: 3px; font-size: 12px; color: #0f172a;">${sub.name}</div>
-                        <div style="overflow-x: auto;">
-                            <table class="dim-table">
-                                <tr><th>№</th>${numsRow}</tr>
-                                <tr><th>Etalon</th>${correctRow}</tr>
-                                <tr><th>Cavabınız</th>${userRow}</tr>
-                                <tr><th>Nəticə</th>${statusRow}</tr>
-                            </table>
-                        </div>
+                        <div style="font-weight: bold; margin-bottom: 4px; color: var(--primary-dark);">${sub.name}</div>
+                        <table class="dim-table">
+                            <tr><th>№</th>${numsRow}</tr>
+                            <tr><th>Etalon</th>${correctRow}</tr>
+                            <tr><th>İştirakçı</th>${userRow}</tr>
+                            <tr><th>Nəticə</th>${statusRow}</tr>
+                        </table>
                     </div>
                 `;
             });
@@ -1269,63 +1093,51 @@
             document.getElementById("res-total-correct").innerText = examState.correct;
             document.getElementById("res-total-wrong").innerText = examState.wrong;
             document.getElementById("res-total-blank").innerText = examState.blank;
-            document.getElementById("res-total-score").innerText = examState.score;
-            document.getElementById("res-bb-group").innerText = examState.bbGroup;
+            document.getElementById("res-total-score").innerText = examState.score + " bal";
+            document.getElementById("res-bb-group").innerText = "Uyğun qrup: " + examState.bbGroup;
         }
 
         function saveResult(name, token, correct, wrong, score, bbGroup) {
             let results = JSON.parse(localStorage.getItem("dq_exam_results") || "[]");
-            results.push({
-                name: name,
-                token: token,
-                correct: correct,
-                wrong: wrong,
-                score: score,
-                bbGroup: bbGroup,
-                date: new Date().toLocaleString('az-AZ')
-            });
+            results.push({ name, token, correct, wrong, score, bbGroup, date: new Date().toLocaleString() });
             localStorage.setItem("dq_exam_results", JSON.stringify(results));
         }
 
         function loadAdminResults() {
             let results = JSON.parse(localStorage.getItem("dq_exam_results") || "[]");
-            let tbody = document.getElementById("results-table-body");
-            tbody.innerHTML = "";
-
-            if (results.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="padding: 10px;">Hələ heç bir iştirakçı nəticəsi yoxdur.</td></tr>`;
-                document.getElementById("stat-total-students").innerText = "0";
-                document.getElementById("stat-max-score").innerText = "0";
-                document.getElementById("stat-avg-score").innerText = "0";
-                return;
-            }
+            document.getElementById("stat-total-students").innerText = results.length;
 
             let maxScore = 0;
-            let totalScore = 0;
+            let totalScoreSum = 0;
 
-            results.forEach(res => {
-                if (res.score > maxScore) maxScore = res.score;
-                totalScore += res.score;
-
-                let tr = document.createElement("tr");
-                tr.innerHTML = `
-                    <td style="padding: 6px; border: 1px solid #cbd5e1;">${res.name}</td>
-                    <td style="padding: 6px; border: 1px solid #cbd5e1;">${res.token}</td>
-                    <td style="padding: 6px; border: 1px solid #cbd5e1; color: #15803d; font-weight: bold;">${res.correct}</td>
-                    <td style="padding: 6px; border: 1px solid #cbd5e1; color: #b91c1c; font-weight: bold;">${res.wrong}</td>
-                    <td style="padding: 6px; border: 1px solid #cbd5e1; font-weight: bold;">${res.score}</td>
-                    <td style="padding: 6px; border: 1px solid #cbd5e1; font-size: 11px;">${res.bbGroup}</td>
-                `;
-                tbody.appendChild(tr);
+            results.forEach(r => {
+                if (r.score > maxScore) maxScore = r.score;
+                totalScoreSum += r.score;
             });
 
-            document.getElementById("stat-total-students").innerText = results.length;
+            let avgScore = results.length > 0 ? (totalScoreSum / results.length).toFixed(1) : 0;
             document.getElementById("stat-max-score").innerText = maxScore;
-            document.getElementById("stat-avg-score").innerText = (totalScore / results.length).toFixed(1);
+            document.getElementById("stat-avg-score").innerText = avgScore;
+
+            let tbody = document.getElementById("results-table-body");
+            let html = "";
+            results.forEach(r => {
+                html += `
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1;">${r.name}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1;">${r.token}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1; color: #15803d; font-weight: bold;">${r.correct}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1; color: #b91c1c; font-weight: bold;">${r.wrong}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold;">${r.score}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1;">${r.bbGroup}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
         }
 
         function clearResults() {
-            if (confirm("Bütün iştirakçı nəticələrini silmək istədiyinizə əminsinizmi?")) {
+            if (confirm("Bütün nəticələri silmək istədiyinizə əminsinizmi?")) {
                 localStorage.removeItem("dq_exam_results");
                 loadAdminResults();
             }

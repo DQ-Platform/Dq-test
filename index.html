@@ -597,6 +597,29 @@
         </div>
     </div>
 
+    <!-- Firebase SDK (v9 Modullar) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, setDoc, doc, updateDoc, deleteDoc, query, where, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAcrLH1XuiFEp8H7GHfJxeYbfsVgqiJI-U",
+            authDomain: "imtahan-sistemi-7d03e.firebaseapp.com",
+            projectId: "imtahan-sistemi-7d03e",
+            storageBucket: "imtahan-sistemi-7d03e.firebasestorage.app",
+            messagingSenderId: "80370864662",
+            appId: "1:80370864662:web:14c2aa47ee368eb3379b37",
+            measurementId: "G-2KD0WQL5PC"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Qlobal Əlçatanlıq
+        window.db = db;
+        window.firestoreDocs = { collection, getDocs, setDoc, doc, updateDoc, deleteDoc, query, where, getDoc };
+    </script>
+
     <script>
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
@@ -617,7 +640,20 @@
             { code: "T6Z4Q8", status: "active" }
         ];
 
-        function getStoredTokens() {
+        async function getStoredTokens() {
+            if (window.db) {
+                try {
+                    const { collection, getDocs } = window.firestoreDocs;
+                    const querySnapshot = await getDocs(collection(window.db, "tokens"));
+                    let tokens = [];
+                    querySnapshot.forEach((doc) => {
+                        tokens.push(doc.data());
+                    });
+                    if (tokens.length > 0) return tokens;
+                } catch(e) {
+                    console.error("Firebase fetch error:", e);
+                }
+            }
             let tokens = localStorage.getItem("dq_exam_tokens");
             if (!tokens) {
                 localStorage.setItem("dq_exam_tokens", JSON.stringify(defaultTokens));
@@ -626,8 +662,15 @@
             return JSON.parse(tokens);
         }
 
-        function saveTokens(tokens) {
-            localStorage.setItem("dq_exam_tokens", JSON.stringify(tokens));
+        async function saveTokenToCloud(tokenObj) {
+            if (window.db) {
+                try {
+                    const { doc, setDoc } = window.firestoreDocs;
+                    await setDoc(doc(window.db, "tokens", tokenObj.code), tokenObj);
+                } catch(e) {
+                    console.error("Firebase save token error:", e);
+                }
+            }
         }
 
         const ADMIN_PASS = "6675157";
@@ -643,7 +686,7 @@
             { id: 6, subject: "Azərbaycan dili", question: "Mürəkkəb yer zərfliyi işlənmiş cümlələri müəyyən edin.\n1. Dayımgil Cəlilabadda yaşayır.\n2. Gündəliyim Əli müəllimdə qalmışdı.\n3. Bağımız dəniz kənarında yerləşir.\n4. Kənd yerində yaşayan bunu bilməz.\n5. Təzə evlər Babək prospektində tikiləcək.", options: ["3, 5", "2, 4, 5", "1, 3, 5", "2, 3, 5", "2, 5"], correct: 0 },
             { id: 7, subject: "Azərbaycan dili", question: "Bu gün hava tez 'qaraldı' cümləsində fərqləndirilmiş sözün təhlili ilə bağlı fikirlərdən biri səhvdir.", options: ["Qayıdış növdədir.", "Quruluşuna görə düzəltmədir.", "Sifətdən düzəlmişdir.", "Xəbər şəklindədir.", "Kök+leksik+qrammatik sxeminə uyğundur."], correct: 0 },
             { id: 8, subject: "Azərbaycan dili", question: "Sözlərdən birinin yazılışı səhvdir:", options: ["kəhrəba", "haqqsevən", "boş-bikar", "kobud", "felyeton"], correct: 1 },
-            { id: 9, subject: "Azərbaycan dili", question: "Mənsubiyyət və hal şəkilçili qeyri-müəyyən əvəzliyin işləndiyi nümunələri müəyyənləşdirin.\n1. Dedilər ki, heç nəyə toxunmaq olmaz.\n2. Bu sual uşaqların hamısına verilə bilər.\n3. Dövlətimizin daha da qüdrətlənməsi üçün hər birimiz çalışmalıyıq.\n4. Mən sizin hərənizə bir tapşırıq verəcəyəm.\n5. Eləsinin cavabını vaxtında verərlər.", options: ["1, 2, 4", "2, 4", "2, 3, 4", "2, 3", "2, 4, 5"], correct: 1 },
+            { id: 9, subject: "Azərbaycan dili", question: "Mənsubiyyət və hal şəkilçili qeyri-müəyyən əvəzliyin işləndiyi nümunələri müəyyənləşdirin.\n1. Dedilər ki, heç nəyə toxunmaq olmaz.\n2. Bu sual uşaqların hamısına verilə bilər.\n3. Dövlətimizin daha da qüdrətlənməsi üçün hər birimiz çalışmalıyq.\n4. Mən sizin hərənizə bir tapşırıq verəcəyəm.\n5. Eləsinin cavabını vaxtında verərlər.", options: ["1, 2, 4", "2, 4", "2, 3, 4", "2, 3", "2, 4, 5"], correct: 1 },
             { id: 10, subject: "Azərbaycan dili", question: "Cümlənin şəxsə görə növləri baxımından məntiqi ardıcıllığı tamamlayın.\nCücəni payızda sayarlar.\nQonağı belə qarşılayarlar.\nİndi şəhərimizdə göydələnlərə tez-tez rast gəlirsən.", options: ["Ağır otur, batman gəl.", "Hamı gərək öz işinə hörmətlə yanaşsın.", "Tövlə içərisində ona bir künc vermişdilər.", "Səkiyə qalxan kimi onu yuxu apardı.", "Onun sözlərinə yenə də məhəl qoyulmadı."], correct: 0 },
             { id: 11, subject: "Azərbaycan dili", question: "Mürəkkəb xitab işlənən cümləni müəyyən edin.", options: ["Ay dost, hara gedirsən?", "Məhəmmədhəsən, məni eşidirsən?", "Əziz oğlum, xeyir işin mübarək!", "Aynur, Aysel, məni eşidirsiniz?", "Dərya kimi dalğalan, ey bayrağım!"], correct: 2 },
             { id: 12, subject: "Azərbaycan dili", question: "Qəflətən külək başladı, ağacdakı meyvələr yerə dağıldılar.\nCümlədə ədəbi dilin hansı norması (normaları) pozulmuşdur?", options: ["yalnız leksik", "leksik, qrammatik", "yalnız qrammatik", "fonetik, leksik", "fonetik, leksik, qrammatik"], correct: 1 },
@@ -806,7 +849,7 @@
             window.location.hash = "";
         }
 
-        function startExam() {
+        async function startExam() {
             const nameInput = document.getElementById("user-name").value.trim();
             const tokenInput = document.getElementById("user-token").value.trim().toUpperCase();
             const errorMsg = document.getElementById("error-msg");
@@ -816,7 +859,7 @@
                 return;
             }
 
-            let tokens = getStoredTokens();
+            let tokens = await getStoredTokens();
             let matchedToken = tokens.find(t => t.code === tokenInput);
 
             if (!matchedToken) {
@@ -836,7 +879,7 @@
 
             // Kodu istifadə olunmuş statusa keçiririk
             matchedToken.status = "used";
-            saveTokens(tokens);
+            await saveTokenToCloud(matchedToken);
 
             currentStudentName = nameInput;
             currentActiveToken = tokenInput;
@@ -1179,14 +1222,38 @@
             document.getElementById("res-bb-group").innerText = "Uyğun qrup: " + examState.bbGroup;
         }
 
-        function saveResult(name, token, correct, wrong, score, bbGroup) {
+        async function saveResult(name, token, correct, wrong, score, bbGroup) {
+            const resObj = { name, token, correct, wrong, score, bbGroup, date: new Date().toLocaleString() };
+            if (window.db) {
+                try {
+                    const { collection, setDoc, doc } = window.firestoreDocs;
+                    await setDoc(doc(collection(window.db, "results")), resObj);
+                } catch(e) {
+                    console.error("Firebase save result error:", e);
+                }
+            }
             let results = JSON.parse(localStorage.getItem("dq_exam_results") || "[]");
-            results.push({ name, token, correct, wrong, score, bbGroup, date: new Date().toLocaleString() });
+            results.push(resObj);
             localStorage.setItem("dq_exam_results", JSON.stringify(results));
         }
 
-        function loadAdminResults() {
-            let results = JSON.parse(localStorage.getItem("dq_exam_results") || "[]");
+        async function loadAdminResults() {
+            let results = [];
+            if (window.db) {
+                try {
+                    const { collection, getDocs } = window.firestoreDocs;
+                    const querySnapshot = await getDocs(collection(window.db, "results"));
+                    querySnapshot.forEach((doc) => {
+                        results.push(doc.data());
+                    });
+                } catch(e) {
+                    console.error("Firebase load results error:", e);
+                }
+            }
+            if (results.length === 0) {
+                results = JSON.parse(localStorage.getItem("dq_exam_results") || "[]");
+            }
+
             document.getElementById("stat-total-students").innerText = results.length;
 
             let maxScore = 0;
@@ -1218,8 +1285,8 @@
             tbody.innerHTML = html;
         }
 
-        function loadAdminTokens() {
-            let tokens = getStoredTokens();
+        async function loadAdminTokens() {
+            let tokens = await getStoredTokens();
             let tbody = document.getElementById("tokens-table-body");
             let html = "";
 
@@ -1248,7 +1315,7 @@
             tbody.innerHTML = html;
         }
 
-        function addNewToken() {
+        async function addNewToken() {
             let input = document.getElementById("new-token-input");
             let code = input.value.trim().toUpperCase();
 
@@ -1257,41 +1324,48 @@
                 return;
             }
 
-            let tokens = getStoredTokens();
+            let tokens = await getStoredTokens();
             if (tokens.some(t => t.code === code)) {
                 alert("Bu kod artıq sistemdə mövcuddur!");
                 return;
             }
 
-            tokens.push({ code: code, status: "active" });
-            saveTokens(tokens);
+            const tokenObj = { code: code, status: "active" };
+            await saveTokenToCloud(tokenObj);
             input.value = "";
             loadAdminTokens();
         }
 
-        function toggleTokenStatus(index) {
-            let tokens = getStoredTokens();
+        async function toggleTokenStatus(index) {
+            let tokens = await getStoredTokens();
             if (tokens[index].status === "active") {
                 tokens[index].status = "disabled";
             } else {
                 tokens[index].status = "active";
             }
-            saveTokens(tokens);
+            await saveTokenToCloud(tokens[index]);
             loadAdminTokens();
         }
 
-        function resetTokenStatus(index) {
-            let tokens = getStoredTokens();
+        async function resetTokenStatus(index) {
+            let tokens = await getStoredTokens();
             tokens[index].status = "active";
-            saveTokens(tokens);
+            await saveTokenToCloud(tokens[index]);
             loadAdminTokens();
         }
 
-        function deleteToken(index) {
+        async function deleteToken(index) {
             if (confirm("Bu kodu silmək istədiyinizə əminsinizmi?")) {
-                let tokens = getStoredTokens();
-                tokens.splice(index, 1);
-                saveTokens(tokens);
+                let tokens = await getStoredTokens();
+                const tokenToDelete = tokens[index];
+                if (window.db) {
+                    try {
+                        const { doc, deleteDoc } = window.firestoreDocs;
+                        await deleteDoc(doc(window.db, "tokens", tokenToDelete.code));
+                    } catch(e) {
+                        console.error("Firebase delete error:", e);
+                    }
+                }
                 loadAdminTokens();
             }
         }

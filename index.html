@@ -413,14 +413,6 @@
             margin-top: 5px;
         }
 
-        .admin-section {
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -497,17 +489,20 @@
 
             <div id="dim-report-content"></div>
 
+            <!-- Doğru, Yanlış, Cavabsız statistikaları -->
             <div style="margin-top: 20px; font-weight: bold; font-size: 14px; line-height: 1.6;">
                 Doğru cavabların sayı: <span id="res-total-correct">0</span><br>
                 Yanlış cavabların sayı: <span id="res-total-wrong">0</span><br>
                 Cavablandırılmayan test tapşırıqlarının sayı: <span id="res-total-blank">0</span>
             </div>
 
+            <!-- Yekun Bal Qutusu -->
             <div class="final-score-box">
                 YEKUN BAL: <span id="res-total-score">0</span><br>
                 <span id="res-bb-group" style="font-size: 15px; color: #0f172a; margin-top: 5px; display: inline-block;"></span>
             </div>
 
+            <!-- Suallara qayıt düyməsi -->
             <div style="margin-top: 20px;">
                 <a href="#top" class="btn" style="width: 100%; box-sizing: border-box; text-align: center;" onclick="backToReviewQuestions()">⤴ Suallara qayıt (Baxış)</a>
             </div>
@@ -515,8 +510,8 @@
 
         <!-- 4. GİZLİ ADMİN PANELİ -->
         <div id="admin-panel">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="margin: 0;">🔑 Admin Nəzarət Paneli</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>🔑 Admin Nəzarət Paneli</h3>
                 <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="closeAdminPanel()">Paneli Bağla</button>
             </div>
 
@@ -532,26 +527,6 @@
                 <div class="stat-card">
                     <h5>Orta Bal</h5>
                     <div class="value" id="stat-avg-score">0</div>
-                </div>
-            </div>
-
-            <!-- Kod İdarəetmə Birmənalı Bölməsi -->
-            <div class="admin-section">
-                <h4>🔑 Giriş Kodlarının İdarə Edilməsi</h4>
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <input type="text" id="new-token-input" class="code-input token-field" style="margin: 0; max-width: 250px;" placeholder="Yeni Kod (Məs: KOD123)">
-                    <button class="btn" onclick="addNewToken()">Əlavə Et</button>
-                </div>
-                <div style="margin-top: 15px; max-height: 150px; overflow-y: auto;">
-                    <table style="width: 100%; border-collapse: collapse; text-align: center;">
-                        <thead>
-                            <tr style="background: #cbd5e1; color: black;">
-                                <th style="padding: 6px; border: 1px solid #94a3b8;">Aktiv Kodlar</th>
-                                <th style="padding: 6px; border: 1px solid #94a3b8;">Əməliyyat</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tokens-table-body"></tbody>
-                    </table>
                 </div>
             </div>
 
@@ -610,6 +585,7 @@
             }
         });
 
+        const validTokens = ["P7GS57", "K9X2M4", "B3R8L9", "H2V5N1", "T6Z4Q8", "H27V5N1", "T67Z4Q8"];
         const ADMIN_PASS = "6675157";
         const testDuration = 3 * 3600;
 
@@ -774,7 +750,6 @@
                 document.getElementById("result-screen").style.display = "none";
                 document.getElementById("admin-panel").style.display = "block";
                 loadAdminResults();
-                loadAdminTokens();
             } else if (pass !== null) {
                 alert("Yanlış şifrə!");
             }
@@ -786,7 +761,6 @@
             window.location.hash = "";
         }
 
-        // --- KOD İDARƏETMƏSİ (FIREBASE CİHAZ İCAZƏSİ) ---
         function startExam() {
             const nameInput = document.getElementById("user-name").value.trim();
             const tokenInput = document.getElementById("user-token").value.trim().toUpperCase();
@@ -796,93 +770,27 @@
                 errorMsg.innerText = "Ad və soyadınızı daxil edin!";
                 return;
             }
-            if (tokenInput === "") {
-                errorMsg.innerText = "Giriş kodunu daxil edin!";
+            if (!validTokens.includes(tokenInput)) {
+                errorMsg.innerText = "Yanlış unikal kod!";
                 return;
             }
 
-            // Firebase üzərindən kodu yoxlayırıq
-            database.ref("tokens/" + tokenInput).once("value").then((snapshot) => {
-                if (snapshot.exists()) {
-                    let tokenData = snapshot.val();
-                    if (tokenData.used) {
-                        errorMsg.innerText = "Bu kod artıq istifadə olunub!";
-                    } else {
-                        // Kodu daxil olan şəxsə bağlayırıq
-                        database.ref("tokens/" + tokenInput).update({
-                            used: true,
-                            usedBy: nameInput,
-                            date: new Date().toLocaleString()
-                        });
+            currentStudentName = nameInput;
+            currentActiveToken = tokenInput;
+            userAnswers = {};
+            flaggedQuestions = {};
+            currentQuestionIndex = 0;
+            timeLeft = testDuration;
+            examFinished = false;
 
-                        currentStudentName = nameInput;
-                        currentActiveToken = tokenInput;
-                        userAnswers = {};
-                        flaggedQuestions = {};
-                        currentQuestionIndex = 0;
-                        timeLeft = testDuration;
-                        examFinished = false;
+            saveSessionState();
 
-                        saveSessionState();
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("exam-screen").style.display = "block";
 
-                        document.getElementById("login-screen").style.display = "none";
-                        document.getElementById("exam-screen").style.display = "block";
-
-                        loadNavGrid();
-                        renderCurrentQuestion();
-                        startTimer(timeLeft);
-                    }
-                } else {
-                    errorMsg.innerText = "Yanlış və ya icazə verilməmiş kod!";
-                }
-            });
-        }
-
-        function addNewToken() {
-            let tokenInput = document.getElementById("new-token-input").value.trim().toUpperCase();
-            if (!tokenInput) {
-                alert("Lütfən kodu daxil edin!");
-                return;
-            }
-            database.ref("tokens/" + tokenInput).set({
-                used: false,
-                usedBy: "",
-                created: new Date().toLocaleString()
-            }).then(() => {
-                document.getElementById("new-token-input").value = "";
-                alert("Yeni kod müvəffəqiyyətlə əlavə edildi!");
-            });
-        }
-
-        function deleteToken(token) {
-            if (confirm(token + " kodunu silmək istədiyinizə əminsinizmi?")) {
-                database.ref("tokens/" + token).remove();
-            }
-        }
-
-        function loadAdminTokens() {
-            database.ref("tokens").on("value", (snapshot) => {
-                let data = snapshot.val();
-                let tbody = document.getElementById("tokens-table-body");
-                let html = "";
-                if (data) {
-                    Object.keys(data).forEach(token => {
-                        let item = data[token];
-                        let status = item.used ? `<span style="color:red;">(İstifadə edib: ${item.usedBy})</span>` : `<span style="color:green;">(Aktiv)</span>`;
-                        html += `
-                            <tr>
-                                <td style="padding: 6px; border: 1px solid #cbd5e1; font-weight:bold;">${token} ${status}</td>
-                                <td style="padding: 6px; border: 1px solid #cbd5e1;">
-                                    <button class="btn btn-danger" style="padding:2px 8px; font-size:12px;" onclick="deleteToken('${token}')">Sil</button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                } else {
-                    html = `<tr><td colspan="2" style="padding: 6px;">Hiçbir kod tapılmadı.</td></tr>`;
-                }
-                tbody.innerHTML = html;
-            });
+            loadNavGrid();
+            renderCurrentQuestion();
+            startTimer(timeLeft);
         }
 
         function saveSessionState() {
@@ -1208,7 +1116,7 @@
             document.getElementById("res-bb-group").innerText = "Uyğun qrup: " + examState.bbGroup;
         }
 
-        // FIREBASE YAZMA
+        // FIREBASE YAZMA Fต่าง
         function saveResult(name, token, correct, wrong, score, bbGroup) {
             let resultData = {
                 name: name,
@@ -1251,6 +1159,7 @@
                 let tbody = document.getElementById("results-table-body");
                 let html = "";
                 
+                // Nəticələri ən sonuncu yuxarıda olmaqla sıralamaq
                 results.reverse().forEach(r => {
                     html += `
                         <tr>
@@ -1277,4 +1186,3 @@
     </script>
 </body>
 </html>
-

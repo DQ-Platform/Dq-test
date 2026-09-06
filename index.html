@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</title>
     
-    <!-- Firebase SDK (v9 Modulsuz CDN) -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <!-- Supabase JS SDK CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         body {
@@ -560,19 +559,11 @@
     </div>
 
     <script>
-        // --- FIREBASE İNİSİALİZASİYASI ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyAcrLH1XuiFEp8H7GHfJxeYbfsVgqiJI-U",
-            authDomain: "imtahan-sistemi-7d03e.firebaseapp.com",
-            projectId: "imtahan-sistemi-7d03e",
-            storageBucket: "imtahan-sistemi-7d03e.firebasestorage.app",
-            messagingSenderId: "80370864662",
-            appId: "1:80370864662:web:14c2aa47ee368eb3379b37",
-            measurementId: "G-2KD0WQL5PC"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        // --- SUPABASE İNİSİALİZASİYASI ---
+        // Zəhmət olmasa Supabase Layihə URL-inizi təyin edin (məs: https://xyz.supabase.co)
+        const SUPABASE_URL = "https://YOUR_SUPABASE_PROJECT_ID.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_BceESwXVQCbdFKViydxq-A_IP_wO07h";
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
@@ -1116,73 +1107,88 @@
             document.getElementById("res-bb-group").innerText = "Uyğun qrup: " + examState.bbGroup;
         }
 
-        // FIREBASE YAZMA Fต่าง
-        function saveResult(name, token, correct, wrong, score, bbGroup) {
-            let resultData = {
-                name: name,
-                token: token,
-                correct: correct,
-                wrong: wrong,
-                score: score,
-                bbGroup: bbGroup,
-                date: new Date().toLocaleString()
-            };
+        // SUPABASE CƏDVƏLİNƏ NƏTİCƏ YAZMA FUNKSİYASI
+        async function saveResult(name, token, correct, wrong, score, bbGroup) {
+            const { data, error } = await supabase
+                .from('results')
+                .insert([
+                    { 
+                        name: name, 
+                        token: token, 
+                        correct: correct, 
+                        wrong: wrong, 
+                        score: score, 
+                        bb_group: bbGroup 
+                    }
+                ]);
 
-            // Realtime Database-ə göndərilir
-            database.ref("results").push(resultData);
+            if (error) {
+                console.error("Supabase xətası:", error.message);
+            }
         }
 
-        // FIREBASE İLƏ ADMİN NƏTİCƏLƏRİNİN CANLI OXUNMASI
-        function loadAdminResults() {
-            database.ref("results").on("value", (snapshot) => {
-                let data = snapshot.val();
-                let results = [];
-                
-                if (data) {
-                    results = Object.values(data);
-                }
+        // SUPABASE İLƏ ADMİN NƏTİCƏLƏRİNİN OXUNMASI
+        async function loadAdminResults() {
+            const { data: results, error } = await supabase
+                .from('results')
+                .select('*')
+                .order('created_at', { ascending: false });
 
-                document.getElementById("stat-total-students").innerText = results.length;
+            if (error) {
+                console.error("Məlumat oxunarkən xəta yarandı:", error.message);
+                return;
+            }
 
-                let maxScore = 0;
-                let totalScoreSum = 0;
+            let resultList = results || [];
 
-                results.forEach(r => {
-                    if (r.score > maxScore) maxScore = r.score;
-                    totalScoreSum += r.score;
-                });
+            document.getElementById("stat-total-students").innerText = resultList.length;
 
-                let avgScore = results.length > 0 ? (totalScoreSum / results.length).toFixed(1) : 0;
-                document.getElementById("stat-max-score").innerText = maxScore;
-                document.getElementById("stat-avg-score").innerText = avgScore;
+            let maxScore = 0;
+            let totalScoreSum = 0;
 
-                let tbody = document.getElementById("results-table-body");
-                let html = "";
-                
-                // Nəticələri ən sonuncu yuxarıda olmaqla sıralamaq
-                results.reverse().forEach(r => {
-                    html += `
-                        <tr>
-                            <td style="padding: 8px; border: 1px solid #cbd5e1;">${r.name}</td>
-                            <td style="padding: 8px; border: 1px solid #cbd5e1;">${r.token}</td>
-                            <td style="padding: 8px; border: 1px solid #cbd5e1; color: #15803d; font-weight: bold;">${r.correct}</td>
-                            <td style="padding: 8px; border: 1px solid #cbd5e1; color: #b91c1c; font-weight: bold;">${r.wrong}</td>
-                            <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold;">${r.score}</td>
-                            <td style="padding: 8px; border: 1px solid #cbd5e1;">${r.bbGroup}</td>
-                        </tr>
-                    `;
-                });
-                tbody.innerHTML = html;
+            resultList.forEach(r => {
+                if (r.score > maxScore) maxScore = r.score;
+                totalScoreSum += r.score;
             });
+
+            let avgScore = resultList.length > 0 ? (totalScoreSum / resultList.length).toFixed(1) : 0;
+            document.getElementById("stat-max-score").innerText = maxScore;
+            document.getElementById("stat-avg-score").innerText = avgScore;
+
+            let tbody = document.getElementById("results-table-body");
+            let html = "";
+            
+            resultList.forEach(r => {
+                html += `
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1;">${r.name}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1;">${r.token}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1; color: #15803d; font-weight: bold;">${r.correct}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1; color: #b91c1c; font-weight: bold;">${r.wrong}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold;">${r.score}</td>
+                        <td style="padding: 8px; border: 1px solid #cbd5e1;">${r.bb_group || r.bbGroup}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
         }
 
-        function clearResults() {
-            if (confirm("Bütün nəticələri Firebase-dən silmək istədiyinizə əminsinizmi?")) {
-                database.ref("results").remove().then(() => {
+        async function clearResults() {
+            if (confirm("Bütün nəticələri Supabase-dən silmək istədiyinizə əminsinizmi?")) {
+                const { error } = await supabase
+                    .from('results')
+                    .delete()
+                    .neq('id', 0); // Bütün sətirləri silmək üçün
+
+                if (!error) {
                     alert("Bütün nəticələr təmizləndi.");
-                });
+                    loadAdminResults();
+                } else {
+                    alert("Silinmə zamanı xəta baş verdi: " + error.message);
+                }
             }
         }
     </script>
 </body>
 </html>
+

@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <title>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</title>
     <style>
         body {
@@ -599,9 +598,6 @@
     </div>
 
     <script>
-        const SUPABASE_URL = 'https://kqjnzgaeydryhdbsnmgb.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_sNpqgXWM5SE5c-IdUzuIbw_baBxeYPq';
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
                 e.preventDefault();
@@ -611,6 +607,28 @@ const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
                 navigator.clipboard.writeText('');
                 alert("Ekran görüntüsü çəkmək qadağandır!");
             }
+        });
+
+        const defaultTokens = [
+            { code: "P7GS57", status: "active" },
+            { code: "K9X2M4", status: "active" },
+            { code: "B3R8L9", status: "active" },
+            { code: "H2V5N1", status: "active" },
+            { code: "T6Z4Q8", status: "active" }
+        ];
+
+        function getStoredTokens() {
+            let tokens = localStorage.getItem("dq_exam_tokens");
+            if (!tokens) {
+                localStorage.setItem("dq_exam_tokens", JSON.stringify(defaultTokens));
+                return defaultTokens;
+            }
+            return JSON.parse(tokens);
+        }
+
+        function saveTokens(tokens) {
+            localStorage.setItem("dq_exam_tokens", JSON.stringify(tokens));
+        }
 
         const ADMIN_PASS = "6675157";
         const testDuration = 3 * 3600;
@@ -1230,78 +1248,60 @@ const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             tbody.innerHTML = html;
         }
 
-        // ==========================================
-// SUPABASE İNTENQRASİYASI VƏ İDARƏETMƏ
-// ==========================================
+        function addNewToken() {
+            let input = document.getElementById("new-token-input");
+            let code = input.value.trim().toUpperCase();
 
-// 1. Kodu Əlavə Etmək (addNewToken əvəzinə)
-async function addNewToken() {
-    let input = document.getElementById("new-token-input");
-    let code = input.value.trim().toUpperCase();
+            if (!code) {
+                alert("Kod daxil edin!");
+                return;
+            }
 
-    if (!code) {
-        alert("Kod daxil edin!");
-        return;
-    }
+            let tokens = getStoredTokens();
+            if (tokens.some(t => t.code === code)) {
+                alert("Bu kod artıq sistemdə mövcuddur!");
+                return;
+            }
 
-    const { error } = await supabase
-        .from('access_codes')
-        .insert([{ code: code, status: 'active' }]);
+            tokens.push({ code: code, status: "active" });
+            saveTokens(tokens);
+            input.value = "";
+            loadAdminTokens();
+        }
 
-    if (error) {
-        alert("Bu kod artıq sistemdə mövcuddur və ya xəta baş verdi!");
-    } else {
-        input.value = "";
-        loadAdminTokens();
-    }
-}
+        function toggleTokenStatus(index) {
+            let tokens = getStoredTokens();
+            if (tokens[index].status === "active") {
+                tokens[index].status = "disabled";
+            } else {
+                tokens[index].status = "active";
+            }
+            saveTokens(tokens);
+            loadAdminTokens();
+        }
 
-// 2. Kodun Statusunu Dəyişmək (toggleTokenStatus əvəzinə)
-async function toggleTokenStatus(id, currentStatus) {
-    let newStatus = currentStatus === "active" ? "disabled" : "active";
-    
-    await supabase
-        .from('access_codes')
-        .update({ status: newStatus })
-        .eq('id', id);
+        function resetTokenStatus(index) {
+            let tokens = getStoredTokens();
+            tokens[index].status = "active";
+            saveTokens(tokens);
+            loadAdminTokens();
+        }
 
-    loadAdminTokens();
-}
+        function deleteToken(index) {
+            if (confirm("Bu kodu silmək istədiyinizə əminsinizmi?")) {
+                let tokens = getStoredTokens();
+                tokens.splice(index, 1);
+                saveTokens(tokens);
+                loadAdminTokens();
+            }
+        }
 
-// 3. Kodu Sıfırlamaq / Aktiv Etmək (resetTokenStatus əvəzinə)
-async function resetTokenStatus(id) {
-    await supabase
-        .from('access_codes')
-        .update({ status: "active" })
-        .eq('id', id);
-
-    loadAdminTokens();
-}
-
-// 4. Kodu Silmək (deleteToken əvəzinə)
-async function deleteToken(id) {
-    if (confirm("Bu kodu silmək istədiyinizə əminsiniz?")) {
-        await supabase
-            .from('access_codes')
-            .delete()
-            .eq('id', id);
-
-        loadAdminTokens();
-    }
-}
-
-// 5. Bütün Nəticələri Silmək (clearResults əvəzinə)
-async function clearResults() {
-    if (confirm("Bütün nəticələri silmək istədiyinizə əminsiniz?")) {
-        await supabase
-            .from('results')
-            .delete()
-            .neq('id', 0); // Bütün sətirləri silir
-
-        loadAdminResults();
-    }
-}
-
+        function clearResults() {
+            if (confirm("Bütün nəticələri silmək istədiyinizə əminsinizmi?")) {
+                localStorage.removeItem("dq_exam_results");
+                loadAdminResults();
+            }
+        }
     </script>
 </body>
 </html>

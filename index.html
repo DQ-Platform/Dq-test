@@ -19,8 +19,23 @@
         }
 
         @media print {
-            body { display: none; }
+            body:not(.print-mode) { display: none; }
+            body.print-mode .container { display: none; }
+            body.print-mode #print-area { display: block; }
+            @page { size: A4; margin: 15mm; }
         }
+        #print-area { display: none; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; color: #000; background: #fff; }
+        #print-area h1 { font-size: 20px; text-align: center; margin: 0 0 4px; }
+        #print-area .p-sub { text-align: center; color: #555; font-size: 12px; margin-bottom: 14px; }
+        #print-area h2 { font-size: 16px; text-align: left; border-bottom: 2px solid #000; padding-bottom: 3px; margin: 18px 0 8px; }
+        #print-area .pq { page-break-inside: avoid; margin-bottom: 12px; font-size: 12.5px; line-height: 1.45; }
+        #print-area .pq-t { font-weight: bold; white-space: pre-line; margin-bottom: 4px; }
+        #print-area .pq-o { margin-left: 16px; }
+        #print-area .pq img { max-width: 70%; max-height: 220px; display: block; margin: 6px 0; }
+        #print-area .key { page-break-before: always; }
+        #print-area .key table { border-collapse: collapse; width: 100%; }
+        #print-area .key th { border: 1px solid #555; padding: 5px; background: #e5e7eb; font-size: 12px; }
+        #print-area .key td { border: 1px solid #555; padding: 4px; text-align: center; font-size: 12px; }
 
         :root {
             --primary-dark: #0f172a;
@@ -507,7 +522,10 @@
         <div id="admin-panel">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h3>🔑 Admin Nəzarət Paneli</h3>
-                <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="closeAdminPanel()">Paneli Bağla</button>
+                <div>
+                    <button class="btn" style="padding: 6px 12px; font-size: 13px; margin: 0 6px 0 0;" onclick="exportQuestionsPDF()">📄 Sualları PDF-ə çıxar</button>
+                    <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="closeAdminPanel()">Paneli Bağla</button>
+                </div>
             </div>
 
             <div class="stats-grid">
@@ -553,6 +571,8 @@
             </div>
         </div>
     </div>
+
+    <div id="print-area"></div>
 
     <script>
         document.addEventListener('keydown', function(e) {
@@ -734,6 +754,49 @@
             } else if (pass !== null) {
                 alert("Yanlış şifrə!");
             }
+        }
+
+        function exportQuestionsPDF() {
+            const withKey = true;
+            const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            const L = ["A", "B", "C", "D", "E"];
+            let html = `<h1>Dövlət Qulluğu Sınaq İmtahanı</h1><div class="p-sub">Ümumi sual sayı: ${allQuestions.length}</div>`;
+            let cur = "";
+            allQuestions.forEach(q => {
+                if (q.subject !== cur) { cur = q.subject; html += `<h2>${esc(cur)}</h2>`; }
+                html += `<div class="pq"><div class="pq-t">${q.id}. ${esc(q.question)}</div>`;
+                if (q.image) html += `<img src="${q.image}" alt="">`;
+                q.options.forEach((o, i) => { html += `<div class="pq-o">${L[i]}) ${esc(o)}</div>`; });
+                html += `</div>`;
+            });
+            if (withKey) {
+                const perCol = 20;
+                const cols = Math.ceil(allQuestions.length / perCol);
+                html += `<div class="key"><h2>Düzgün cavablar</h2><table><tr>`;
+                for (let c = 0; c < cols; c++) html += `<th>№</th><th>Cavab</th>`;
+                html += `</tr>`;
+                for (let r = 0; r < perCol; r++) {
+                    html += "<tr>";
+                    for (let c = 0; c < cols; c++) {
+                        const q = allQuestions[c * perCol + r];
+                        html += q ? `<td>${q.id}</td><td><b>${L[q.correct]}</b></td>` : `<td></td><td></td>`;
+                    }
+                    html += "</tr>";
+                }
+                html += `</table></div>`;
+            }
+            const area = document.getElementById("print-area");
+            area.innerHTML = html;
+            const imgs = Array.from(area.querySelectorAll("img"));
+            Promise.all(imgs.map(im => im.complete ? Promise.resolve() : new Promise(r => { im.onload = im.onerror = r; }))).then(() => {
+                document.body.classList.add("print-mode");
+                window.onafterprint = () => {
+                    document.body.classList.remove("print-mode");
+                    area.innerHTML = "";
+                    window.onafterprint = null;
+                };
+                window.print();
+            });
         }
 
         function closeAdminPanel() {

@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5, user-scalable=yes">
     <title>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</title>
     <style>
         body {
@@ -563,7 +563,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
             <h2>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</h2>
             <p>Zəhmət olmasa məlumatlarınızı daxil edin:</p>
             <input type="text" id="user-name" class="code-input" placeholder="Ad və Soyadınız"><br>
-            <input type="text" id="user-token" class="code-input token-field" placeholder="İştirak Üçün Kod (Məs: P5G1S62)"><br>
+            <input type="text" id="user-token" class="code-input token-field" placeholder="İş nömrəsi (Məs: P5G1S62)"><br>
             <button class="btn" onclick="startExam()">İmtahana Başla</button>
             <p id="error-msg" class="error-msg" style="margin-top: 10px;"></p>
         </div>
@@ -662,8 +662,8 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                 <div id="cl-out" style="display:none"><button class="btn" style="padding:8px 14px;font-size:13px" onclick="cloudPing()">Bağlantını yoxla</button> <button class="btn btn-secondary" style="padding:8px 14px;font-size:13px" onclick="closeAdminPanel()">Admin çıxışı</button></div>
             </div>
             <div class="rg-box">
-                <h4 style="text-align:left;margin:0 0 8px">İştirakçı kodları, kateqoriyalar və giriş icazəsi</h4>
-                <div class="rg-add"><input id="rg-t" placeholder="Kod (məs: AB12CD)"><input id="rg-c" placeholder="Kateqoriya (məs: BA, BB)"><button class="btn" style="padding:8px 14px;font-size:13px" onclick="regAdd()">Əlavə et</button></div>
+                <h4 style="text-align:left;margin:0 0 8px">İştirakçı iş nömrələri, kateqoriyalar və giriş icazəsi</h4>
+                <div class="rg-add"><input id="rg-t" placeholder="İş nömrəsi (məs: AB12CD)"><input id="rg-c" placeholder="Kateqoriya (məs: BA, BB)"><button class="btn" style="padding:8px 14px;font-size:13px" onclick="regAdd()">Əlavə et</button></div>
                 <div id="rg-note" class="rg-note"></div>
                 <div style="overflow-x:auto"><table id="rg-tb"></table></div>
             </div>
@@ -693,7 +693,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                     <thead>
                         <tr style="background: var(--primary-dark); color: white;">
                             <th style="padding: 8px; border: 1px solid #cbd5e1;">Ad Soyad</th>
-                            <th style="padding: 8px; border: 1px solid #cbd5e1;">Kod</th>
+                            <th style="padding: 8px; border: 1px solid #cbd5e1;">İş nömrəsi</th>
                             <th style="padding: 8px; border: 1px solid #cbd5e1;">Doğru</th>
                             <th style="padding: 8px; border: 1px solid #cbd5e1;">Yanlış</th>
                             <th style="padding: 8px; border: 1px solid #cbd5e1;">Bal</th>
@@ -728,7 +728,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
 
         const validTokens = ["P7GS57", "P77S57", "5EN09AN", "B3R8L9", "H2V5N1", "T6Z4Q8"];
         const ADMIN_PASS = "6675157";
-        // Hər iştirak kodu üçün kateqoriya(lar). Birdən çox ola bilər: ["BA","BB"]
+        // Hər iş nömrəsi üçün kateqoriya(lar). Birdən çox ola bilər: ["BA","BB"]
         const tokenCategories = {
             "P7GS57": ["BA"], "P77S57": ["BA"], "5EN09AN": ["BA"],
             "B3R8L9": ["BA"], "H2V5N1": ["BA"], "T6Z4Q8": ["BA"]
@@ -964,7 +964,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                 return;
             }
             if (!validTokens.includes(tokenInput)) {
-                errorMsg.innerText = "Yanlış unikal kod!";
+                errorMsg.innerText = "Yanlış iş nömrəsi!";
                 return;
             }
 
@@ -1266,37 +1266,37 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                 let subQuestions = allQuestions.filter(q => q.id >= sub.start && q.id <= sub.end);
                 if (subQuestions.length === 0) return;
 
-                let numsRow = "";
-                let correctRow = "";
-                let userRow = "";
-                let statusRow = "";
-
-                subQuestions.forEach(q => {
-                    numsRow += `<td>${q.id}</td>`;
-                    correctRow += `<td>${letters[q.correct]}</td>`;
-
-                    let userAns = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
-                    let userLetter = userAns !== undefined ? letters[userAns] : "-";
-                    userRow += `<td>${userLetter}</td>`;
-
-                    if (userAns === undefined) {
-                        statusRow += `<td>-</td>`;
-                    } else if (userAns === q.correct) {
-                        statusRow += `<td class="ans-correct">+</td>`;
-                    } else {
-                        statusRow += `<td class="ans-wrong">-</td>`;
+                const PER = 15;
+                let tablesHtml = "";
+                for (let i = 0; i < subQuestions.length; i += PER) {
+                    const chunk = subQuestions.slice(i, i + PER);
+                    let numsRow = "", correctRow = "", userRow = "", statusRow = "";
+                    chunk.forEach(q => {
+                        numsRow += `<td>${q.id}</td>`;
+                        correctRow += `<td>${letters[q.correct]}</td>`;
+                        let userAns = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
+                        userRow += `<td>${userAns !== undefined ? letters[userAns] : "-"}</td>`;
+                        if (userAns === undefined) statusRow += `<td>-</td>`;
+                        else if (userAns === q.correct) statusRow += `<td class="ans-correct">+</td>`;
+                        else statusRow += `<td class="ans-wrong">-</td>`;
+                    });
+                    for (let k = chunk.length; k < PER; k++) {
+                        numsRow += `<td class="pad"></td>`; correctRow += `<td class="pad"></td>`;
+                        userRow += `<td class="pad"></td>`; statusRow += `<td class="pad"></td>`;
                     }
-                });
-
-                reportHtml += `
-                    <div class="subject-section">
-                        <div style="font-weight: bold; margin-bottom: 4px; color: var(--primary-dark);">${sub.name}</div>
+                    tablesHtml += `
                         <table class="dim-table">
                             <tr><th>№</th>${numsRow}</tr>
                             <tr><th>Etalon</th>${correctRow}</tr>
                             <tr><th>İştirakçı</th>${userRow}</tr>
                             <tr><th>Nəticə</th>${statusRow}</tr>
-                        </table>
+                        </table>`;
+                }
+
+                reportHtml += `
+                    <div class="subject-section">
+                        <div style="font-weight: bold; margin-bottom: 4px; color: var(--primary-dark);">${sub.name}</div>
+                        ${tablesHtml}
                     </div>
                 `;
             });
@@ -1626,6 +1626,20 @@ document.body.classList.toggle('in-exam',$('exam-screen').style.display==='block
 .nav-box.answered.current{background:#d1fae5;color:#065f46}
 .nav-box.flagged::before{top:2px;left:3px;right:auto;width:9px;height:9px;border:0;border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 22V3' stroke='%23dc2626' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M5 3h14l-3.5 5 3.5 5H5z' fill='%23dc2626'/%3E%3C/svg%3E") no-repeat center/contain}
 .lg i.lg-f{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 22V3' stroke='%23dc2626' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M5 3h14l-3.5 5 3.5 5H5z' fill='%23dc2626'/%3E%3C/svg%3E") no-repeat center/contain;border:0;border-radius:0;width:12px;height:12px;vertical-align:-2px}
+
+/* nəticə vərəqi: 15 sütunluq səliqəli cədvəllər */
+.dim-table{margin-bottom:8px}
+.dim-table th:first-child{width:64px;font-size:10px}
+.dim-table td{font-size:11px;padding:4px 0;overflow:visible;text-overflow:clip}
+.dim-table td.pad{border-color:transparent;background:none}
+.subject-section{margin-bottom:14px}
+
+/* kiçildəndə masaüstü düzülüşü (video kimi) */
+html.zo body{min-width:980px}
+html.zo .xl{grid-template-columns:minmax(0,1fr) 300px}
+html.zo .xs{position:sticky;top:84px;max-height:calc(100vh - 100px)}
+html.zo .xh{position:sticky}
+html.zo .hb span{display:inline}
 </style>
 <script>
 (function(){
@@ -1646,7 +1660,7 @@ async function tok(){
 async function db(path,method,body){const t=await tok();
  return jf(`${CFG.url}/${path}.json?auth=${t}`,{method:method||'GET',body:body===undefined?undefined:JSON.stringify(body)})}
 
-/* --- kodlar (qeydiyyat) --- */
+/* --- iş nömrələri (qeydiyyat) --- */
 const seed=()=>{const o={};Object.keys(tokenCategories).forEach(k=>o[k]={cat:tokenCategories[k],allowed:true});return o};
 const local=()=>{try{return JSON.parse(localStorage.getItem('dq_reg')||'null')||seed()}catch(e){return seed()}};
 const R={
@@ -1661,11 +1675,11 @@ const _s=startExam;
 startExam=async function(){
  const t0=$('user-token').value.trim().toUpperCase(),t=t0.replace(/[^A-Z0-9_-]/g,''),n=$('user-name').value.trim(),er=$('error-msg');
  if(!n){er.innerText='Ad və soyadınızı daxil edin!';return}
- if(!t||t!==t0){er.innerText='Yanlış unikal kod!';return}
+ if(!t||t!==t0){er.innerText='Yanlış iş nömrəsi!';return}
  er.innerText='Yoxlanılır...';let r;
  try{r=await R.get(t)}catch(e){er.innerText='Serverlə əlaqə qurulmadı. İnternet bağlantınızı yoxlayıb yenidən cəhd edin.';return}
- if(!r){er.innerText='Yanlış unikal kod!';return}
- if(!r.allowed){er.innerText='Bu kod üçün giriş icazəsi hələ verilməyib. Zəhmət olmasa idarəçiyə müraciət edin.';return}
+ if(!r){er.innerText='Yanlış iş nömrəsi!';return}
+ if(!r.allowed){er.innerText='Bu iş nömrəsi üçün giriş icazəsi hələ verilməyib. Zəhmət olmasa idarəçiyə müraciət edin.';return}
  const c=r.cat||[];tokenCategories[t]=c;sessionStorage.setItem('dq_cat',JSON.stringify({[t]:c}));
  validTokens.length=0;validTokens.push(t);er.innerText='';_s()};
 
@@ -1692,7 +1706,7 @@ async function cloudPing(){const t=Date.now();try{await db('tokens');alert('Əla
 async function renderReg(){
  try{let r=await R.list();
   if(ON()&&!Object.keys(r).length){await db('tokens','PUT',seed());r=await R.list()}
-  $('rg-tb').innerHTML='<tr><th>Kod</th><th>Kateqoriya(lar)</th><th>Giriş</th><th></th></tr>'+Object.keys(r).map(t=>
+  $('rg-tb').innerHTML='<tr><th>İş nömrəsi</th><th>Kateqoriya(lar)</th><th>Giriş</th><th></th></tr>'+Object.keys(r).map(t=>
   `<tr><td>${t}</td><td><input value="${(r[t].cat||[]).join(', ')}" onchange="regCat('${t}',this.value)"></td>
   <td><button class="rg-b ${r[t].allowed?'ok':'no'}" onclick="regToggle('${t}')">${r[t].allowed?'İcazə verilib':'Bloklanıb'}</button></td>
   <td><button class="rg-b no" onclick="regDel('${t}')">Sil</button></td></tr>`).join('')
@@ -1700,9 +1714,9 @@ async function renderReg(){
 const guard=f=>async(...a)=>{try{await f(...a)}catch(e){alert('Əməliyyat alınmadı: '+e.message)}renderReg()};
 const regCat=guard(async(t,v)=>{const r=await R.get(t);if(r){r.cat=cats(v);await R.set(t,r)}});
 const regToggle=guard(async t=>{const r=await R.get(t);if(r){r.allowed=!r.allowed;await R.set(t,r)}});
-const regDel=guard(async t=>{if(confirm(t+' kodu silinsin?'))await R.del(t)});
+const regDel=guard(async t=>{if(confirm(t+' iş nömrəsi silinsin?'))await R.del(t)});
 const regAdd=guard(async()=>{const t=$('rg-t').value.trim().toUpperCase().replace(/[^A-Z0-9_-]/g,'');
- if(!t){alert('Kod daxil edin!');return}
+ if(!t){alert('İş nömrəsini daxil edin!');return}
  await R.set(t,{cat:cats($('rg-c').value),allowed:true});$('rg-t').value=$('rg-c').value=''});
 
 /* --- nəticələr --- */
@@ -1723,10 +1737,15 @@ clearResults=async function(){if(!confirm('Bütün nəticələri silmək istədi
 /* --- telefon / masaüstü rejimi --- */
 const mv=document.querySelector('meta[name=viewport]');
 function applyView(){const d=localStorage.getItem('dq_view')==='desktop';
- mv.setAttribute('content',d?'width=1100':'width=device-width, initial-scale=1.0');
+ mv.setAttribute('content',d?'width=1100, minimum-scale=0.25, maximum-scale=5, user-scalable=yes':'width=device-width, initial-scale=1.0, minimum-scale=0.3, maximum-scale=5, user-scalable=yes');
  const b=$('view-btn');if(b)b.innerHTML=`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d?'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>':'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'}</svg><span>${d?'Telefon':'Masaüstü'}</span>`}
 function toggleView(){try{localStorage.setItem('dq_view',localStorage.getItem('dq_view')==='desktop'?'phone':'desktop')}catch(e){}applyView()}
 if(navigator.maxTouchPoints>0)$('view-btn').style.display='inline-flex';
+
+/* pinch ilə kiçildəndə masaüstü düzülüşünə keç */
+(function(){const v=window.visualViewport;if(!v)return;const r=document.documentElement;
+ function chk(){const z=r.classList.contains('zo');if(!z&&v.scale<0.85)r.classList.add('zo');else if(z&&v.scale>=0.97)r.classList.remove('zo')}
+ v.addEventListener('resize',chk);chk()})();
 applyView();
 Object.assign(window,{adminLogin,cloudPing,regAdd,regCat,regToggle,regDel,toggleView});
 })();

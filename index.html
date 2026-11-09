@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5, user-scalable=yes">
     <title>DQ Platform - Dövlət Qulluğu Sınaq İmtahanı</title>
     <style>
         body {
@@ -1711,6 +1711,19 @@ body.in-exam .footer{margin-top:0;border-radius:0 0 12px 12px}
 @keyframes dtbIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
 html{scroll-behavior:smooth}
 @media(max-width:900px){body.in-exam .xs{border-radius:12px;border-bottom:1px solid #dbe3ef;align-self:start}body.in-exam .xq{border-radius:12px}}
+
+/* telefonda masaüstü rejimi: giriş səhifəsi 1100px enində oxunaqlı olsun */
+@media all{
+ html.dwp #login-screen{padding:110px 40px 70px}
+ html.dwp #login-screen h2{font-size:60px;line-height:1.25;margin-bottom:30px}
+ html.dwp #login-screen p{font-size:34px;margin:0 0 36px}
+ html.dwp #login-screen .code-input{font-size:38px;padding:26px 20px;width:80%;max-width:760px;border-radius:14px;margin-bottom:30px}
+ html.dwp #login-screen .btn{font-size:40px;padding:26px 80px;border-radius:14px;margin-top:10px}
+ html.dwp #login-screen .error-msg{font-size:30px}
+ html.dwp body:not(.in-exam) .footer{padding:34px 44px;margin-top:70px;border-radius:14px}
+ html.dwp body:not(.in-exam) .footer .ft-l,html.dwp body:not(.in-exam) .footer .ft-r{font-size:32px}
+ html.dwp body:not(.in-exam) .footer .ft-c{font-size:26px}
+}
 </style>
 <script>
 (function(){
@@ -1807,8 +1820,8 @@ clearResults=async function(){if(!confirm('Bütün nəticələri silmək istədi
 
 /* --- telefon / masaüstü rejimi --- */
 const mv=document.querySelector('meta[name=viewport]');
-function applyView(){const pref=localStorage.getItem('dq_view')!=='phone';const act=['exam-screen','result-screen'].some(i=>{const e=$(i);return e&&e.style.display==='block'});const w=pref&&act;
- mv.setAttribute('content',w?'width=1100, minimum-scale=0.25, maximum-scale=5, user-scalable=yes':'width=device-width, initial-scale=1.0, minimum-scale=0.3, maximum-scale=5, user-scalable=yes');
+function applyView(){const pref=localStorage.getItem('dq_view')!=='phone';const act=['exam-screen','result-screen'].some(i=>{const e=$(i);return e&&e.style.display==='block'});const w=pref&&act;document.documentElement.classList.toggle('dw',w);
+ mv.setAttribute('content',w?'width=1100, minimum-scale=0.25, maximum-scale=5, user-scalable=yes':'width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5, user-scalable=yes');
  const d=pref;const b=$('view-btn');if(b)b.innerHTML=`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d?'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>':'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'}</svg><span>${d?'Telefon':'Masaüstü'}</span>`}
 function toggleView(){try{localStorage.setItem('dq_view',localStorage.getItem('dq_view')==='phone'?'desktop':'phone')}catch(e){}applyView()}
 ['exam-screen','result-screen'].forEach(i=>{const e=$(i);if(e)new MutationObserver(applyView).observe(e,{attributes:true,attributeFilter:['style']})});
@@ -1818,6 +1831,10 @@ if(navigator.maxTouchPoints>0)$('view-btn').style.display='inline-flex';
 (function(){const v=window.visualViewport;if(!v)return;const r=document.documentElement;
  function chk(){const z=r.classList.contains('zo');if(!z&&v.scale<0.85)r.classList.add('zo');else if(z&&v.scale>=0.97)r.classList.remove('zo')}
  v.addEventListener('resize',chk);chk()})();
+
+/* telefonda masaüstü enində (1100px) açıldıqda giriş elementləri böyüdülsün */
+(function(){const r=document.documentElement;function f(){r.classList.toggle('dwp',Math.min(screen.width,screen.height)<700&&innerWidth>=900)}
+ addEventListener('resize',f);addEventListener('load',()=>{f();setTimeout(f,300)});f()})();
 applyView();
 Object.assign(window,{adminLogin,cloudPing,regAdd,regCat,regToggle,regDel,toggleView});
 })();

@@ -605,7 +605,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                 <aside class="xs" id="sidebar-container">
                     <div class="xs-h"><h4 id="sidebar-title-text">Cavab Kartı</h4><button class="ib" onclick="toggleSidebar()" title="Yığ / aç"><i data-ic="chev"></i></button></div>
                     <div id="grid-nav-container"></div>
-                    <div class="lg"><span><i style="background:#1d4ed8;border-color:#1d4ed8"></i>Cavablandı <b id="lg-a">0</b></span><span><i style="background:#eef1f5"></i>Cavablanmayıb <b id="lg-u">0</b></span><span><i style="background:#fff;border:2px solid #0f2150"></i>Cari sual</span><span><i class="lg-f"></i>Tərəddüdlü <b id="lg-f">0</b></span></div>
+                    <div class="lg"><span><i style="background:#d1fae5;border-color:#10b981"></i>Cavablandı <b id="lg-a">0</b></span><span><i style="background:#fff"></i>Cavablanmayıb <b id="lg-u">0</b></span><span><i style="background:#fff;border:2px solid #0f2150"></i>Cari sual</span><span><i class="lg-f"></i>Tərəddüdlü <b id="lg-f">0</b></span></div>
                 </aside>
             </div>
 
@@ -1573,12 +1573,12 @@ document.body.classList.toggle('in-exam',$('exam-screen').style.display==='block
 .sg-g{gap:9px 8px;padding:4px 2px}
 .nav-box{box-sizing:border-box;height:38px;padding:0;display:flex;align-items:center;justify-content:center;border:1.5px solid #cfd6e0;border-radius:6px;background:#eef1f5;color:#475569;font-size:13px;font-weight:700;line-height:1;transition:background .15s,box-shadow .15s;user-select:none}
 .nav-box:hover{background:#e2e8f0}
-.nav-box.answered{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
-.nav-box.answered:hover{background:#1e40af}
+.nav-box.answered{background:#d1fae5;border-color:#10b981;color:#065f46}
+.nav-box.answered:hover{background:#a7f3d0}
 .nav-box:not(.answered):not(.ok):not(.bad){background:#eef1f5;border-color:#cfd6e0;color:#475569}
 .nav-box.current,.nav-box.answered.current,.nav-box.current:not(.answered){border-width:1.5px;box-shadow:0 0 0 2px #fff,0 0 0 4px #0f2150}
 .nav-box.current:not(.answered){background:#fff;border-color:#0f2150;color:#0f2150}
-.nav-box.answered.current{border-color:#1d4ed8;color:#fff}
+.nav-box.answered.current{border-color:#10b981;color:#065f46}
 .nav-box.flagged::before{content:'';position:absolute;top:-7px;right:-6px;left:auto;width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-sizing:border-box;filter:none;pointer-events:none;z-index:2;
  background:#dc2626 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 20V4' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M7 4h12l-3 4.5 3 4.5H7z' fill='white'/%3E%3C/svg%3E") no-repeat center/10px 10px}
 .nav-box.ok,.nav-box.bad{border-width:1.5px}
@@ -1614,6 +1614,18 @@ document.body.classList.toggle('in-exam',$('exam-screen').style.display==='block
  body.calc-on:has(#calc.min){padding-bottom:130px}
 }
 @media(min-width:701px){#calc{opacity:.97}}
+
+/* ===== kompakt cavab kartı (şəkil 2 üslubu) ===== */
+.sg-g{gap:5px;padding:0}
+.nav-box{height:30px;border:1px solid #cbd5e1;border-radius:4px;background:#fff;color:#0f172a;font-size:12px;font-weight:700;box-shadow:none}
+.nav-box:hover{background:#f1f5f9}
+.nav-box:not(.answered):not(.ok):not(.bad){background:#fff;border-color:#cbd5e1;color:#0f172a}
+.nav-box.answered{background:#d1fae5;border-color:#10b981;color:#065f46}
+.nav-box.answered:hover{background:#a7f3d0}
+.nav-box.current,.nav-box.answered.current,.nav-box.current:not(.answered){border:2px solid #0f2150;box-shadow:none;background:#e2e8f0;color:#0f172a}
+.nav-box.answered.current{background:#d1fae5;color:#065f46}
+.nav-box.flagged::before{top:2px;left:3px;right:auto;width:9px;height:9px;border:0;border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 22V3' stroke='%23dc2626' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M5 3h14l-3.5 5 3.5 5H5z' fill='%23dc2626'/%3E%3C/svg%3E") no-repeat center/contain}
+.lg i.lg-f{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 22V3' stroke='%23dc2626' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M5 3h14l-3.5 5 3.5 5H5z' fill='%23dc2626'/%3E%3C/svg%3E") no-repeat center/contain;border:0;border-radius:0;width:12px;height:12px;vertical-align:-2px}
 </style>
 <script>
 (function(){

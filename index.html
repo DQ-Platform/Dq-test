@@ -567,6 +567,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                     <button class="hb" onclick="fontStep(-1)" title="Yazını kiçilt"><i data-ic="fdn"></i></button>
                     <button class="hb" onclick="fontStep(1)" title="Yazını böyüt"><i data-ic="fup"></i></button>
                     <button class="hb" onclick="toggleFs()" title="Tam ekran"><i data-ic="expand"></i></button>
+                    <button class="hb" id="view-btn" onclick="toggleView()" title="Telefon / Masaüstü rejimi" style="display:none"><i data-ic="mon"></i><span id="view-lbl">Masaüstü</span></button>
                     <div class="xh-timer"><span class="timer" id="timer">03:00:00</span><button id="eye" onclick="toggleTimer()" title="Vaxtı gizlət/göstər"><i data-ic="eye"></i></button></div>
                 </div>
             </header>
@@ -640,6 +641,13 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                     <button class="btn" style="padding: 6px 12px; font-size: 13px; margin: 0 6px 0 0;" onclick="exportQuestionsPDF()">📄 Sualları PDF-ə çıxar</button>
                     <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px; margin: 0;" onclick="closeAdminPanel()">Paneli Bağla</button>
                 </div>
+            </div>
+
+            <div class="rg-box">
+                <h4 style="text-align:left;margin:0 0 8px">İştirakçı kodları, kateqoriyalar və giriş icazəsi</h4>
+                <div class="rg-add"><input id="rg-t" placeholder="Kod (məs: AB12CD)"><input id="rg-c" placeholder="Kateqoriya (məs: BA, BB)"><button class="btn" style="padding:8px 14px;font-size:13px" onclick="regAdd()">Əlavə et</button></div>
+                <div id="rg-note" class="rg-note"></div>
+                <div style="overflow-x:auto"><table id="rg-tb"></table></div>
             </div>
 
             <div class="stats-grid">
@@ -1513,6 +1521,73 @@ document.addEventListener('keydown',e=>{
 
 Object.assign(window,{renderCurrentQuestion,loadNavGrid,updateNavActiveState,selectOption,clearOption,toggleFlag,toggleSidebar,confirmFinish,closeM,finishNow,finishExam,startExam,toggleTimer,fontStep,toggleFs,toggleCalc,calcPress,toggleDraw});
 document.body.classList.toggle('in-exam',$('exam-screen').style.display==='block');
+})();
+</script>
+<style>
+.rg-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:14px;margin-bottom:20px}
+.rg-add{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.rg-add input,#rg-tb input{padding:8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;min-width:0}
+.rg-note{font-size:12px;color:#92400e;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-bottom:8px}
+.rg-note.cloud{color:#065f46;background:#d1fae5}
+#rg-tb{width:100%;border-collapse:collapse;font-size:13px}
+#rg-tb th,#rg-tb td{border:1px solid #cbd5e1;padding:6px 8px;text-align:center}
+#rg-tb th{background:#0f172a;color:#fff}
+.rg-b{border:0;border-radius:6px;padding:6px 10px;font-weight:700;font-size:12px;cursor:pointer;color:#fff}
+.rg-b.ok{background:#15803d}.rg-b.no{background:#b91c1c}
+</style>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+/* Bütün cihazlarda ortaq idarəetmə üçün Firebase Realtime Database ünvanını bura yazın,
+   məs: "https://layihe-default-rtdb.firebaseio.com". Boş qalsa, yalnız bu cihazda işləyir. */
+const CLOUD='';
+const seed=()=>{const o={};Object.keys(tokenCategories).forEach(k=>o[k]={cat:tokenCategories[k],allowed:true});return o};
+async function loadReg(){let r=null;
+ if(CLOUD){try{r=await (await fetch(CLOUD+'/dq_tokens.json')).json()}catch(e){}}
+ if(!r){try{r=JSON.parse(localStorage.getItem('dq_reg')||'null')}catch(e){}}
+ if(!r)r=seed();
+ try{localStorage.setItem('dq_reg',JSON.stringify(r))}catch(e){}return r}
+async function saveReg(r){try{localStorage.setItem('dq_reg',JSON.stringify(r))}catch(e){}
+ if(CLOUD){try{await fetch(CLOUD+'/dq_tokens.json',{method:'PUT',body:JSON.stringify(r)})}catch(e){alert('Buluda yazıla bilmədi!')}}}
+/* yenilənmiş səhifədə başlıq üçün kateqoriyaları keşdən bərpa et */
+try{const c=JSON.parse(localStorage.getItem('dq_reg')||'null');if(c)Object.keys(c).forEach(k=>tokenCategories[k]=c[k].cat||[])}catch(e){}
+
+const _s=startExam;
+startExam=async function(){
+ const t=$('user-token').value.trim().toUpperCase(),n=$('user-name').value.trim(),er=$('error-msg');
+ if(!n){er.innerText='Ad və soyadınızı daxil edin!';return}
+ er.innerText='Yoxlanılır...';
+ const r=(await loadReg())[t];
+ if(!r){er.innerText='Yanlış unikal kod!';return}
+ if(!r.allowed){er.innerText='Bu kod üçün giriş icazəsi hələ verilməyib. Zəhmət olmasa idarəçiyə müraciət edin.';return}
+ tokenCategories[t]=r.cat||[];validTokens.length=0;validTokens.push(t);er.innerText='';_s()};
+
+const cats=v=>v.split(/[,;]+/).map(x=>x.trim().toUpperCase()).filter(Boolean);
+async function renderReg(){const r=await loadReg();
+ const nt=$('rg-note');nt.className='rg-note'+(CLOUD?' cloud':'');
+ nt.textContent=CLOUD?'Bulud bazası qoşulub: dəyişikliklər bütün cihazlarda keçərlidir.':'Bulud bazası qoşulmayıb: dəyişikliklər yalnız bu cihazda qüvvədədir.';
+ $('rg-tb').innerHTML='<tr><th>Kod</th><th>Kateqoriya(lar)</th><th>Giriş</th><th></th></tr>'+Object.keys(r).map(t=>
+ `<tr><td>${t}</td><td><input value="${(r[t].cat||[]).join(', ')}" onchange="regCat('${t}',this.value)"></td>
+ <td><button class="rg-b ${r[t].allowed?'ok':'no'}" onclick="regToggle('${t}')">${r[t].allowed?'İcazə verilib':'Bloklanıb'}</button></td>
+ <td><button class="rg-b no" onclick="regDel('${t}')">Sil</button></td></tr>`).join('')}
+async function regCat(t,v){const r=await loadReg();if(r[t]){r[t].cat=cats(v);await saveReg(r);renderReg()}}
+async function regToggle(t){const r=await loadReg();if(r[t]){r[t].allowed=!r[t].allowed;await saveReg(r);renderReg()}}
+async function regDel(t){if(!confirm(t+' kodu silinsin?'))return;const r=await loadReg();delete r[t];await saveReg(r);renderReg()}
+async function regAdd(){const t=$('rg-t').value.trim().toUpperCase().replace(/[^A-Z0-9_-]/g,'');
+ if(!t){alert('Kod daxil edin!');return}
+ const r=await loadReg();r[t]={cat:cats($('rg-c').value),allowed:true};await saveReg(r);$('rg-t').value=$('rg-c').value='';renderReg()}
+const _la=loadAdminResults;loadAdminResults=function(){_la();renderReg()};
+
+/* telefon / masaüstü rejimi */
+const mv=document.querySelector('meta[name=viewport]');
+function applyView(){const d=localStorage.getItem('dq_view')==='desktop';
+ mv.setAttribute('content',d?'width=1100':'width=device-width, initial-scale=1.0');
+ const l=$('view-lbl');if(l)l.textContent=d?'Telefon':'Masaüstü';
+ const b=$('view-btn');if(b){b.innerHTML=`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d?'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>':'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'}</svg><span id="view-lbl">${d?'Telefon':'Masaüstü'}</span>`}}
+function toggleView(){try{localStorage.setItem('dq_view',localStorage.getItem('dq_view')==='desktop'?'phone':'desktop')}catch(e){}applyView()}
+if(navigator.maxTouchPoints>0)$('view-btn').style.display='inline-flex';
+applyView();
+Object.assign(window,{regAdd,regCat,regToggle,regDel,toggleView});
 })();
 </script>
 </body>

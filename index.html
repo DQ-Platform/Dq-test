@@ -1400,7 +1400,7 @@ $('dtb').onclick=e=>{const b=e.target.closest('button');if(!b)return;
  else if(b.id==='clr'){X().d.length=0;redo=[]}
  redraw();persist();syncBar()};
 $('lw').onchange=e=>lw=+e.target.value;
-function toggleDraw(){drawOn=!drawOn;$('pen-btn').classList.toggle('on',drawOn);$('dtb').hidden=!drawOn;$('note-wrap').hidden=!(drawOn||X().n);if(drawOn&&tool==='cursor')tool='pen';syncBar()}
+function toggleDraw(){drawOn=!drawOn;if(drawOn)setTimeout(()=>{const x=$('xq'),h=document.querySelector('.xh');if(x)window.scrollTo({top:Math.max(0,x.getBoundingClientRect().top+scrollY-((h?h.offsetHeight:0)+16)),behavior:'smooth'})},60);$('pen-btn').classList.toggle('on',drawOn);$('dtb').hidden=!drawOn;$('note-wrap').hidden=!(drawOn||X().n);if(drawOn&&tool==='cursor')tool='pen';syncBar()}
 function sizeCanvas(){const r=$('xq-body').getBoundingClientRect(),k=window.devicePixelRatio||1;
  dc.width=r.width*k;dc.height=r.height*k;dc.style.width=r.width+'px';dc.style.height=r.height+'px';ctx.setTransform(k,0,0,k,0,0);redraw()}
 new ResizeObserver(sizeCanvas).observe($('xq-body'));
@@ -1695,6 +1695,22 @@ body.in-exam .footer{border-radius:0 0 12px 12px}
  .footer .ft-l,.footer .ft-r{font-size:12px;white-space:nowrap}
  .footer .ft-c{grid-column:auto;grid-row:auto;justify-self:center;font-size:10px;line-height:1.3;text-wrap:balance}
 }
+
+/* ===== yekun düzülüş: footer cavab kartının altında, naviqasiya kartın dibində ===== */
+body.in-exam .container{min-height:0;display:block}
+body.in-exam #exam-screen{display:block!important;flex:none;padding-bottom:0}
+body.in-exam .xl{flex:none;align-items:stretch;margin-bottom:0}
+body.in-exam .xs{align-self:stretch;border-radius:12px 12px 0 0;border-bottom:0;margin-bottom:0;max-height:none;position:static}
+body.in-exam .xq{border-radius:12px 12px 0 0}
+body.in-exam .xq .xnav{margin-top:auto;justify-content:center;gap:12px;padding:18px 0 6px;border-top:1px solid #e5eaf2}
+body.in-exam .xq .xnav .nb:first-child,body.in-exam .xq .xnav .nb:last-child{margin:0}
+body.in-exam .xq-body{margin-bottom:24px}
+body.in-exam .footer{margin-top:0;border-radius:0 0 12px 12px}
+/* alətlər paneli: yuxarıdan sürüşərək açılır və sabit qalır */
+.dtb:not([hidden]){position:sticky;top:76px;z-index:15;box-shadow:0 6px 16px rgba(15,33,80,.12);animation:dtbIn .25s ease}
+@keyframes dtbIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+html{scroll-behavior:smooth}
+@media(max-width:900px){body.in-exam .xs{border-radius:12px;border-bottom:1px solid #dbe3ef;align-self:start}body.in-exam .xq{border-radius:12px}}
 </style>
 <script>
 (function(){

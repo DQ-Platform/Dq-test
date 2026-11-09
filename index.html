@@ -537,6 +537,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
 .xm-s{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .xm-s div{background:#f1f5fb;border-radius:10px;padding:10px;text-align:center}
 .xm-s b{display:block;font-size:22px;color:#0f2150}.xm-s span{font-size:12px;color:#64748b}
+.xm-m{font-size:14px;line-height:1.5;color:#1e293b;margin:0 0 14px}.xm-m b{color:#0f2150}.xm-l{margin-top:12px}.xm-l>span{font-size:12px;font-weight:700;color:#64748b}.xm-l>div{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;max-height:84px;overflow:auto}.xm-n{min-width:32px;height:28px;border-radius:7px;border:1px solid #cbd5e1;background:#fff;font-size:12px;font-weight:600;cursor:pointer}.xm-n.f{border-color:#dc2626;color:#b91c1c;background:#fef2f2}.xm-n.u{border-color:#f59e0b;color:#92400e;background:#fffbeb}.xm-c{max-height:90vh;overflow:auto}
 .xm-w{font-size:13px;color:#475569;margin:14px 0}
 .xm-b{display:flex;justify-content:flex-end;gap:8px}
 /* tərəddüdlü: başlıqda mətnli düymə, kartda bayraq */
@@ -544,7 +545,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
 .fl-b:hover{background:#e6ecf6}
 .fl-b .t1,.fl-b.on .t0{display:none}.fl-b.on .t1{display:inline}
 .fl-b.on{color:#b45309;background:#fef3c7}.fl-b.on svg{fill:currentColor}
-.nav-box.flagged::before{content:'';position:absolute;top:-5px;left:-3px;width:11px;height:11px;border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 22V3' stroke='%23dc2626' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M5 3h14l-3.5 5 3.5 5H5z' fill='%23dc2626'/%3E%3C/svg%3E") no-repeat center/contain}
+.nav-box.flagged::before{content:'';position:absolute;top:2px;right:2px;width:10px;height:10px;pointer-events:none;border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 22V3' stroke='%23dc2626' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M5 3h14l-3.5 5 3.5 5H5z' fill='%23dc2626'/%3E%3C/svg%3E") no-repeat center/contain}
 @media(max-width:600px){.fl-b span{display:none!important}.fl-b{border:1px solid #cbd5e1;background:#fff;width:34px;height:34px;justify-content:center;padding:0}.fl-b.on{background:#f59e0b;border-color:#f59e0b;color:#fff}}
 @media(max-width:900px){.xl{grid-template-columns:1fr}.xs{position:static;max-height:none}.hb span{display:none}#exam-screen{padding:8px}.xh{position:static}}
     </style>
@@ -1481,9 +1482,12 @@ const _r=renderCurrentQuestion;renderCurrentQuestion=function(){_r();$('flag-btn
 function toggleSidebar(){$('sidebar-container').classList.toggle('collapsed')}
 
 /* --- bitirmə pəncərəsi --- */
-function confirmFinish(){const t=allQuestions.length,a=Object.keys(userAnswers).length,f=Object.keys(flaggedQuestions).length;
- $('xm-body').innerHTML=`<div class="xm-s"><div><b>${a}</b><span>Cavablandırılıb</span></div><div><b>${t-a}</b><span>Cavabsız</span></div><div><b>${f}</b><span>Tərəddüdlü</span></div></div>`+
- `<p class="xm-w">${t-a?t-a+' sual cavabsız qalıb. ':''}Testi bitirdikdən sonra cavabları dəyişmək mümkün olmayacaq.</p>`;$('xm').classList.add('open')}
+function confirmFinish(){const t=allQuestions.length,ans=allQuestions.filter(q=>userAnswers[q.id]!==undefined),un=allQuestions.filter(q=>userAnswers[q.id]===undefined),fl=allQuestions.filter(q=>flaggedQuestions[q.id]);
+ const chips=(arr,c)=>arr.map(q=>`<button type="button" class="xm-n ${c}" onclick="closeM();jumpToQuestion(${allQuestions.indexOf(q)})">${q.id}</button>`).join('');
+ const parts=[`<b>${ans.length}</b> sual cavablandırılıb`];if(fl.length)parts.push(`<b>${fl.length}</b> sual tərəddüdlü kimi işarələnib`);if(un.length)parts.push(`<b>${un.length}</b> sual cavablandırılmayıb`);
+ $('xm-body').innerHTML=`<p class="xm-m">Cəmi ${t} sualdan ${parts.join(', ')}. Testi bitirməyə əminsiniz?</p><div class="xm-s"><div><b>${ans.length}</b><span>Cavablandırılıb</span></div><div><b>${fl.length}</b><span>Tərəddüdlü</span></div><div><b>${un.length}</b><span>Cavabsız</span></div></div>`+
+ (fl.length?`<div class="xm-l"><span>Tərəddüdlü suallar</span><div>${chips(fl,'f')}</div></div>`:'')+(un.length?`<div class="xm-l"><span>Cavabsız suallar</span><div>${chips(un,'u')}</div></div>`:'')+
+ `<p class="xm-w">Testi bitirdikdən sonra cavabları dəyişmək mümkün olmayacaq. Nömrəyə toxunaraq sualı yenidən yoxlaya bilərsiniz.</p>`;$('xm').classList.add('open')}
 const closeM=()=>$('xm').classList.remove('open');
 function finishNow(){closeM();clearInterval(timerInterval);finishExam()}
 const _fe=finishExam;finishExam=function(){closeM();toggleCalc(false);drawOn=false;$('dtb').hidden=true;$('pen-btn').classList.remove('on');syncBar();sessionStorage.removeItem('dq_extra');_fe()};

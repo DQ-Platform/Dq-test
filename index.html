@@ -515,6 +515,11 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
 .sg{background:#f8fafc;border:1px solid #e5eaf2;border-radius:10px;padding:8px;margin-bottom:10px}
 .sg-h{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:#0f2150;margin-bottom:6px}
 .sg-g{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.nav-box:not(.answered):not(.ok):not(.bad){background:#e5e7eb;border-color:#cbd5e1;color:#6b7280}
+.nav-box.answered{background:#2563eb;border-color:#1d4ed8;color:#fff}
+.nav-box.answered.current{background:#2563eb;border:2px solid #0f172a;color:#fff}
+.nav-box.current:not(.answered){background:#fff;border:2px solid #0f172a;color:#0f172a}
+.nav-box.answered.flagged::before,.nav-box.flagged::before{filter:drop-shadow(0 0 1px #fff)}
 .nav-box.ok{background:#d1fae5;border-color:#10b981;color:#065f46}
 .nav-box.bad{background:#fee2e2;border-color:#ef4444;color:#991b1b}
 .lg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:11px;color:#64748b}
@@ -600,7 +605,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                 <aside class="xs" id="sidebar-container">
                     <div class="xs-h"><h4 id="sidebar-title-text">Cavab Kartı</h4><button class="ib" onclick="toggleSidebar()" title="Yığ / aç"><i data-ic="chev"></i></button></div>
                     <div id="grid-nav-container"></div>
-                    <div class="lg"><span><i style="background:#d1fae5"></i>Cavablandı</span><span><i style="background:#e2e8f0;border:2px solid #0f172a"></i>Cari sual</span><span><i style="background:#ef4444;border-radius:50%"></i>Tərəddüdlü</span></div>
+                    <div class="lg"><span><i style="background:#2563eb;border-color:#1d4ed8"></i>Cavablandı</span><span><i style="background:#e5e7eb"></i>Cavablanmayıb</span><span><i style="background:#fff;border:2px solid #0f172a"></i>Cari sual</span><span><i style="background:#ef4444;border-radius:50%"></i>Tərəddüdlü</span></div>
                 </aside>
             </div>
 

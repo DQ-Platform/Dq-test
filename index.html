@@ -605,12 +605,12 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                 <aside class="xs" id="sidebar-container">
                     <div class="xs-h"><h4 id="sidebar-title-text">Cavab Kartı</h4><button class="ib" onclick="toggleSidebar()" title="Yığ / aç"><i data-ic="chev"></i></button></div>
                     <div id="grid-nav-container"></div>
-                    <div class="lg"><span><i style="background:#2563eb;border-color:#1d4ed8"></i>Cavablandı</span><span><i style="background:#e5e7eb"></i>Cavablanmayıb</span><span><i style="background:#fff;border:2px solid #0f172a"></i>Cari sual</span><span><i style="background:#ef4444;border-radius:50%"></i>Tərəddüdlü</span></div>
+                    <div class="lg"><span><i style="background:#1d4ed8;border-color:#1d4ed8"></i>Cavablandı <b id="lg-a">0</b></span><span><i style="background:#eef1f5"></i>Cavablanmayıb <b id="lg-u">0</b></span><span><i style="background:#fff;border:2px solid #0f2150"></i>Cari sual</span><span><i class="lg-f"></i>Tərəddüdlü <b id="lg-f">0</b></span></div>
                 </aside>
             </div>
 
             <div id="calc" role="dialog" aria-label="Kalkulyator">
-                <div class="c-h" id="c-h"><span>Kalkulyator</span><button onclick="toggleCalc(false)" title="Bağla"><i data-ic="x"></i></button></div>
+                <div class="c-h" id="c-h"><span>Kalkulyator</span><span class="c-bt"><button onclick="calcMin()" title="Kiçilt" aria-label="Kiçilt"><i data-ic="min"></i></button><button onclick="toggleCalc(false)" title="Bağla"><i data-ic="x"></i></button></span></div>
                 <div class="c-d"><div class="c-e" id="c-e"></div><div class="c-r" id="c-r">0</div></div>
                 <div class="c-k" id="c-k"></div>
             </div>
@@ -1358,7 +1358,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
 <script>
 (function(){
 const $=id=>document.getElementById(id);
-const IC={calc:'<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h4"/>',
+const IC={min:'<path d="M5 12h14"/>',calc:'<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h4"/>',
 pen:'<path d="M17 3l4 4L8 20l-5 1 1-5z"/>',mark:'<path d="M6 3h12v18l-6-4-6 4z"/>',
 eye:'<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>',
 eyeoff:'<path d="M3 3l18 18M10 6a10 10 0 0 1 2-.1c7 0 11 7 11 7a18 18 0 0 1-3 3.6M6.5 7A17 17 0 0 0 1 12s4 7 11 7a10 10 0 0 0 4-.8"/>',
@@ -1448,7 +1448,7 @@ $('note').oninput=()=>{X().n=$('note').value;persist()};$('scratch').oninput=()=
 /* --- sual və cavab kartı --- */
 function renderCurrentQuestion(){
  const q=allQuestions[currentQuestionIndex],L='ABCDE',ua=userAnswers[q.id],fin=examFinished,x=X();redo=[];
- $('xq-title').textContent=`Sual ${q.id} (${q.subject})`;
+ $('xq-title').textContent=`Sual ${q.id} / ${allQuestions.length} (${q.subject})`;
  $('flag-btn').style.display=fin?'none':'inline-flex';
  let h=`<div class="qt">${q.question}</div>`+(q.image?`<img class="qi" src="${q.image}" alt="Sual ${q.id} şəkli">`:'')+'<div role="radiogroup">';
  q.options.forEach((o,i)=>{let c=ua===i?'sel':'';if(fin){if(i===q.correct)c='ok';else if(ua===i)c='bad'}
@@ -1475,6 +1475,7 @@ function updateNavActiveState(){
   b.classList.toggle('current',i===currentQuestionIndex);b.classList.toggle('flagged',!!flaggedQuestions[q.id]&&!examFinished);
   b.classList.toggle('answered',u!==undefined&&!examFinished);
   b.classList.toggle('ok',examFinished&&u===q.correct);b.classList.toggle('bad',examFinished&&u!==undefined&&u!==q.correct)});
+ {const A=Object.keys(userAnswers).length,F=Object.keys(flaggedQuestions).length,g=n=>$(n);if(g('lg-a')){g('lg-a').textContent=A;g('lg-u').textContent=allQuestions.length-A;g('lg-f').textContent=F}}
  xsubs.forEach((ids,k)=>{const e=$('cnt_'+k);if(e)e.textContent=ids.filter(id=>userAnswers[id]!==undefined).length+' / '+ids.length});
  $('xh-t').textContent=examTitle(currentActiveToken);$('xh-prog').textContent=examFinished?'Nəticələrə baxış':Object.keys(userAnswers).length+' / '+allQuestions.length+' sual cavablandırılıb'}
 function selectOption(id,i){if(examFinished)return;userAnswers[id]=i;
@@ -1524,9 +1525,10 @@ function calcPress(k){
  else ex+=k;
  $('c-e').textContent=ex;const r=ex&&/[+−×÷%²√(]/.test(ex.slice(1))?calcEval(ex):null;
  $('c-r').textContent=r===null?(ex||'0'):String(r).replace('.',',')}
-function toggleCalc(f){$('calc').classList.toggle('open',typeof f==='boolean'?f:undefined)}
+function toggleCalc(f){const c=$('calc');c.classList.toggle('open',typeof f==='boolean'?f:undefined);if(!c.classList.contains('open'))c.classList.remove('min');document.body.classList.toggle('calc-on',c.classList.contains('open'))}
+function calcMin(){$('calc').classList.toggle('min');window.calcMin=calcMin}
 (function(){let ox,oy,on=0;const h=$('c-h'),c=$('calc');
- h.onpointerdown=e=>{if(e.target.closest('button'))return;const r=c.getBoundingClientRect();ox=e.clientX-r.left;oy=e.clientY-r.top;on=1;h.setPointerCapture(e.pointerId)};
+ h.onpointerdown=e=>{if(e.target.closest('button')||innerWidth<=700)return;const r=c.getBoundingClientRect();ox=e.clientX-r.left;oy=e.clientY-r.top;on=1;h.setPointerCapture(e.pointerId)};
  h.onpointermove=e=>{if(!on)return;c.style.right='auto';c.style.left=Math.max(0,Math.min(innerWidth-c.offsetWidth,e.clientX-ox))+'px';c.style.top=Math.max(0,Math.min(innerHeight-60,e.clientY-oy))+'px'};
  h.onpointerup=()=>on=0})();
 
@@ -1540,7 +1542,7 @@ document.addEventListener('keydown',e=>{
  if(e.key==='ArrowRight')nextQuestion();else if(e.key==='ArrowLeft')prevQuestion();
  else if(/^[a-eA-E]$/.test(e.key)&&!examFinished)selectOption(allQuestions[currentQuestionIndex].id,'abcde'.indexOf(e.key.toLowerCase()))});
 
-Object.assign(window,{renderCurrentQuestion,loadNavGrid,updateNavActiveState,selectOption,clearOption,toggleFlag,toggleSidebar,confirmFinish,closeM,finishNow,finishExam,startExam,toggleTimer,fontStep,toggleFs,toggleCalc,calcPress,toggleDraw});
+Object.assign(window,{renderCurrentQuestion,loadNavGrid,updateNavActiveState,selectOption,clearOption,toggleFlag,toggleSidebar,confirmFinish,closeM,finishNow,finishExam,startExam,toggleTimer,fontStep,toggleFs,toggleCalc,calcMin,calcPress,toggleDraw});
 document.body.classList.toggle('in-exam',$('exam-screen').style.display==='block');
 })();
 </script>
@@ -1566,6 +1568,52 @@ document.body.classList.toggle('in-exam',$('exam-screen').style.display==='block
 #am.open{display:grid}
 .am-c{background:#fff;border-radius:14px;width:min(380px,92vw);padding:22px;display:flex;flex-direction:column;gap:10px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
 .am-c h3{margin:0 0 4px;text-align:left}
+
+/* ===== DİM üslubunda cavab kartı və naviqasiya ===== */
+.sg-g{gap:9px 8px;padding:4px 2px}
+.nav-box{box-sizing:border-box;height:38px;padding:0;display:flex;align-items:center;justify-content:center;border:1.5px solid #cfd6e0;border-radius:6px;background:#eef1f5;color:#475569;font-size:13px;font-weight:700;line-height:1;transition:background .15s,box-shadow .15s;user-select:none}
+.nav-box:hover{background:#e2e8f0}
+.nav-box.answered{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
+.nav-box.answered:hover{background:#1e40af}
+.nav-box:not(.answered):not(.ok):not(.bad){background:#eef1f5;border-color:#cfd6e0;color:#475569}
+.nav-box.current,.nav-box.answered.current,.nav-box.current:not(.answered){border-width:1.5px;box-shadow:0 0 0 2px #fff,0 0 0 4px #0f2150}
+.nav-box.current:not(.answered){background:#fff;border-color:#0f2150;color:#0f2150}
+.nav-box.answered.current{border-color:#1d4ed8;color:#fff}
+.nav-box.flagged::before{content:'';position:absolute;top:-7px;right:-6px;left:auto;width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-sizing:border-box;filter:none;pointer-events:none;z-index:2;
+ background:#dc2626 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 20V4' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M7 4h12l-3 4.5 3 4.5H7z' fill='white'/%3E%3C/svg%3E") no-repeat center/10px 10px}
+.nav-box.ok,.nav-box.bad{border-width:1.5px}
+.xnav{display:flex;gap:10px;flex-wrap:nowrap;align-items:stretch}
+.xnav .nb{flex:0 0 auto;min-height:44px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;border-radius:8px;padding:0 22px;font-size:14px;letter-spacing:.2px}
+.xnav .nb:first-child{margin-right:auto}
+.xnav .nb:last-child{margin-left:auto}
+.xnav .nb.n{background:#0f2150;color:#fff;border-color:#0f2150}
+.xnav .nb.g{background:#fff;color:#334155;border-color:#94a3b8}
+@media(max-width:700px){
+ .xnav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .xnav .nb{width:100%;margin:0!important;padding:0 8px;min-height:48px}
+ .xnav .nb:first-child{order:1}.xnav .nb:last-child{order:2}
+ .xnav .nb:not(:first-child):not(:last-child){order:3}
+ .xnav .nb:nth-child(2):nth-last-child(2){grid-column:1/-1}
+}
+
+/* kalkulyator: suallara mane olmasın */
+.c-bt{display:flex;gap:6px}
+#calc.min .c-k{display:none}
+#calc.min .c-d{padding:8px 16px}
+#calc.min .c-r{font-size:22px;min-height:28px}
+.lg b{color:#0f172a;margin-left:2px}
+.lg i.lg-f{background:#dc2626 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 20V4' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M7 4h12l-3 4.5 3 4.5H7z' fill='white'/%3E%3C/svg%3E") no-repeat center/9px;border:0;border-radius:50%;width:14px;height:14px;vertical-align:-3px}
+@media(max-width:700px){
+ #calc{left:10px!important;right:10px!important;top:auto!important;bottom:10px;width:auto;border-radius:14px;max-height:50vh}
+ #calc .c-k{gap:6px;padding:8px 10px 10px}
+ #calc .c-k button{height:38px;font-size:16px}
+ #calc .c-d{padding:6px 14px 0}
+ #calc .c-r{font-size:24px;min-height:30px}
+ .c-h{cursor:default}
+ body.calc-on{padding-bottom:48vh}
+ body.calc-on:has(#calc.min){padding-bottom:130px}
+}
+@media(min-width:701px){#calc{opacity:.97}}
 </style>
 <script>
 (function(){

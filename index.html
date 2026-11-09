@@ -539,6 +539,13 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
 .xm-s b{display:block;font-size:22px;color:#0f2150}.xm-s span{font-size:12px;color:#64748b}
 .xm-w{font-size:13px;color:#475569;margin:14px 0}
 .xm-b{display:flex;justify-content:flex-end;gap:8px}
+/* tərəddüdlü: başlıqda mətnli düymə, kartda bayraq */
+.fl-b{display:inline-flex;flex:none;white-space:nowrap;flex-direction:row;align-items:center;gap:6px;background:none;border:0;color:#64748b;font-size:12px;font-weight:600;cursor:pointer;padding:6px 8px;border-radius:8px}
+.fl-b:hover{background:#e6ecf6}
+.fl-b .t1,.fl-b.on .t0{display:none}.fl-b.on .t1{display:inline}
+.fl-b.on{color:#b45309;background:#fef3c7}.fl-b.on svg{fill:currentColor}
+.nav-box.flagged::before{content:'';position:absolute;top:-5px;left:-3px;width:11px;height:11px;border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 22V3' stroke='%23dc2626' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M5 3h14l-3.5 5 3.5 5H5z' fill='%23dc2626'/%3E%3C/svg%3E") no-repeat center/contain}
+@media(max-width:600px){.fl-b span{display:none!important}.fl-b{border:1px solid #cbd5e1;background:#fff;width:34px;height:34px;justify-content:center;padding:0}.fl-b.on{background:#f59e0b;border-color:#f59e0b;color:#fff}}
 @media(max-width:900px){.xl{grid-template-columns:1fr}.xs{position:static;max-height:none}.hb span{display:none}#exam-screen{padding:8px}.xh{position:static}}
     </style>
 </head>
@@ -577,9 +584,9 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                     <div class="xq-head">
                         <span id="xq-title"></span>
                         <div class="xq-tools">
-                            <button class="ib fl" id="flag-btn" onclick="toggleFlag(allQuestions[currentQuestionIndex].id)" title="Tərəddüdlü kimi işarələ"><i data-ic="mark"></i></button>
+                            <button class="fl-b" id="flag-btn" onclick="toggleFlag(allQuestions[currentQuestionIndex].id)" title="Tərəddüdlü olaraq işarələ" aria-label="Tərəddüdlü olaraq işarələ"><i data-ic="mark"></i><span class="t0">Tərəddüdlü olaraq işarələ</span><span class="t1">Tərəddüdlü işarələnib</span></button>
                             <button class="ib" id="pen-btn" onclick="toggleDraw()" title="Qeyd və çəkmə alətləri"><i data-ic="pen"></i></button>
-                            <span class="chip">1 Bal</span>
+                            <span class="chip"><svg viewBox="0 0 24 24" width="13" height="13" fill="#f59e0b" stroke="#f59e0b" stroke-width="1.5" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 2l3 7 7 .6-5.3 4.6 1.6 7-6.3-3.8-6.3 3.8 1.6-7L2 9.6 9 9z"/></svg> 1 Bal</span>
                         </div>
                     </div>
                     <div class="dtb" id="dtb" hidden></div>
@@ -643,6 +650,11 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                 </div>
             </div>
 
+            <div class="rg-box" id="cl-box">
+                <h4 style="text-align:left;margin:0 0 8px">Mərkəzi baza (Firebase)</h4>
+                <div id="cl-st" class="rg-note"></div>
+                <div id="cl-out" style="display:none"><button class="btn" style="padding:8px 14px;font-size:13px" onclick="cloudPing()">Bağlantını yoxla</button> <button class="btn btn-secondary" style="padding:8px 14px;font-size:13px" onclick="closeAdminPanel()">Admin çıxışı</button></div>
+            </div>
             <div class="rg-box">
                 <h4 style="text-align:left;margin:0 0 8px">İştirakçı kodları, kateqoriyalar və giriş icazəsi</h4>
                 <div class="rg-add"><input id="rg-t" placeholder="Kod (məs: AB12CD)"><input id="rg-c" placeholder="Kateqoriya (məs: BA, BB)"><button class="btn" style="padding:8px 14px;font-size:13px" onclick="regAdd()">Əlavə et</button></div>
@@ -1431,7 +1443,7 @@ $('note').oninput=()=>{X().n=$('note').value;persist()};$('scratch').oninput=()=
 function renderCurrentQuestion(){
  const q=allQuestions[currentQuestionIndex],L='ABCDE',ua=userAnswers[q.id],fin=examFinished,x=X();redo=[];
  $('xq-title').textContent=`Sual ${q.id} (${q.subject})`;
- $('flag-btn').style.display=fin?'none':'grid';
+ $('flag-btn').style.display=fin?'none':'inline-flex';
  let h=`<div class="qt">${q.question}</div>`+(q.image?`<img class="qi" src="${q.image}" alt="Sual ${q.id} şəkli">`:'')+'<div role="radiogroup">';
  q.options.forEach((o,i)=>{let c=ua===i?'sel':'';if(fin){if(i===q.correct)c='ok';else if(ua===i)c='bad'}
   h+=`<button class="opt ${c}" role="radio" aria-checked="${ua===i}" ${fin?'disabled':''} onclick="selectOption(${q.id},${i})"><b>${L[i]}</b><span>${o}</span></button>`});
@@ -1523,10 +1535,17 @@ Object.assign(window,{renderCurrentQuestion,loadNavGrid,updateNavActiveState,sel
 document.body.classList.toggle('in-exam',$('exam-screen').style.display==='block');
 })();
 </script>
+<div id="am"><form class="am-c" onsubmit="adminLogin();return false">
+    <h3>Admin girişi</h3>
+    <input id="am-e" type="email" placeholder="E-poçt" autocomplete="username">
+    <input id="am-p" type="password" placeholder="Şifrə" autocomplete="current-password">
+    <div id="am-err" class="error-msg" style="font-size:13px;min-height:18px"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="btn btn-secondary" style="padding:9px 16px;font-size:14px" onclick="document.getElementById('am').classList.remove('open')">Ləğv et</button><button id="am-btn" class="btn" style="padding:9px 16px;font-size:14px">Daxil ol</button></div>
+</form></div>
 <style>
 .rg-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:14px;margin-bottom:20px}
 .rg-add{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-.rg-add input,#rg-tb input{padding:8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;min-width:0}
+.rg-add input,#rg-tb input,.am-c input{padding:9px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;min-width:0}
 .rg-note{font-size:12px;color:#92400e;background:#fef3c7;border-radius:6px;padding:6px 10px;margin-bottom:8px}
 .rg-note.cloud{color:#065f46;background:#d1fae5}
 #rg-tb{width:100%;border-collapse:collapse;font-size:13px}
@@ -1534,60 +1553,113 @@ document.body.classList.toggle('in-exam',$('exam-screen').style.display==='block
 #rg-tb th{background:#0f172a;color:#fff}
 .rg-b{border:0;border-radius:6px;padding:6px 10px;font-weight:700;font-size:12px;cursor:pointer;color:#fff}
 .rg-b.ok{background:#15803d}.rg-b.no{background:#b91c1c}
+#am{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;place-items:center;z-index:70}
+#am.open{display:grid}
+.am-c{background:#fff;border-radius:14px;width:min(380px,92vw);padding:22px;display:flex;flex-direction:column;gap:10px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.am-c h3{margin:0 0 4px;text-align:left}
 </style>
 <script>
 (function(){
 const $=id=>document.getElementById(id);
-/* Bütün cihazlarda ortaq idarəetmə üçün Firebase Realtime Database ünvanını bura yazın,
-   məs: "https://layihe-default-rtdb.firebaseio.com". Boş qalsa, yalnız bu cihazda işləyir. */
-const CLOUD='';
+/* Firebase məlumatlarını bura yazın (təlimat: QURASDIRMA.md). Boş qalsa sayt yalnız bu cihazda işləyir. */
+const CFG={url:'',apiKey:''};
+const ON=()=>!!(CFG.url&&CFG.apiKey);
+const IDT='https://identitytoolkit.googleapis.com/v1/accounts:',TK='https://securetoken.googleapis.com/v1/token';
+let A=null;
+async function jf(u,o){const r=await fetch(u,o);let j=null;try{j=await r.json()}catch(e){}
+ if(!r.ok){const m=j&&j.error?(j.error.message||j.error):r.status;throw Object.assign(new Error(m),{status:r.status})}return j}
+async function tok(){
+ if(A&&A.exp>Date.now()+60000)return A.token;
+ if(A&&A.refresh){const j=await jf(TK+'?key='+CFG.apiKey,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'grant_type=refresh_token&refresh_token='+encodeURIComponent(A.refresh)});
+  A.token=j.id_token;A.refresh=j.refresh_token;A.exp=Date.now()+j.expires_in*1000;return A.token}
+ const j=await jf(IDT+'signUp?key='+CFG.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:'{"returnSecureToken":true}'});
+ A={token:j.idToken,refresh:j.refreshToken,exp:Date.now()+j.expiresIn*1000};return A.token}
+async function db(path,method,body){const t=await tok();
+ return jf(`${CFG.url}/${path}.json?auth=${t}`,{method:method||'GET',body:body===undefined?undefined:JSON.stringify(body)})}
+
+/* --- kodlar (qeydiyyat) --- */
 const seed=()=>{const o={};Object.keys(tokenCategories).forEach(k=>o[k]={cat:tokenCategories[k],allowed:true});return o};
-async function loadReg(){let r=null;
- if(CLOUD){try{r=await (await fetch(CLOUD+'/dq_tokens.json')).json()}catch(e){}}
- if(!r){try{r=JSON.parse(localStorage.getItem('dq_reg')||'null')}catch(e){}}
- if(!r)r=seed();
- try{localStorage.setItem('dq_reg',JSON.stringify(r))}catch(e){}return r}
-async function saveReg(r){try{localStorage.setItem('dq_reg',JSON.stringify(r))}catch(e){}
- if(CLOUD){try{await fetch(CLOUD+'/dq_tokens.json',{method:'PUT',body:JSON.stringify(r)})}catch(e){alert('Buluda yazıla bilmədi!')}}}
-/* yenilənmiş səhifədə başlıq üçün kateqoriyaları keşdən bərpa et */
-try{const c=JSON.parse(localStorage.getItem('dq_reg')||'null');if(c)Object.keys(c).forEach(k=>tokenCategories[k]=c[k].cat||[])}catch(e){}
+const local=()=>{try{return JSON.parse(localStorage.getItem('dq_reg')||'null')||seed()}catch(e){return seed()}};
+const R={
+ async list(){return ON()?((await db('tokens'))||{}):local()},
+ async get(t){return ON()?await db('tokens/'+t):local()[t]},
+ async set(t,o){if(ON())await db('tokens/'+t,'PUT',o);else{const r=local();r[t]=o;localStorage.setItem('dq_reg',JSON.stringify(r))}},
+ async del(t){if(ON())await db('tokens/'+t,'DELETE');else{const r=local();delete r[t];localStorage.setItem('dq_reg',JSON.stringify(r))}}};
+try{const c=JSON.parse(sessionStorage.getItem('dq_cat')||'{}');Object.keys(c).forEach(k=>tokenCategories[k]=c[k])}catch(e){}
+if(!ON())try{const c=local();Object.keys(c).forEach(k=>tokenCategories[k]=c[k].cat||[])}catch(e){}
 
 const _s=startExam;
 startExam=async function(){
- const t=$('user-token').value.trim().toUpperCase(),n=$('user-name').value.trim(),er=$('error-msg');
+ const t0=$('user-token').value.trim().toUpperCase(),t=t0.replace(/[^A-Z0-9_-]/g,''),n=$('user-name').value.trim(),er=$('error-msg');
  if(!n){er.innerText='Ad və soyadınızı daxil edin!';return}
- er.innerText='Yoxlanılır...';
- const r=(await loadReg())[t];
+ if(!t||t!==t0){er.innerText='Yanlış unikal kod!';return}
+ er.innerText='Yoxlanılır...';let r;
+ try{r=await R.get(t)}catch(e){er.innerText='Serverlə əlaqə qurulmadı. İnternet bağlantınızı yoxlayıb yenidən cəhd edin.';return}
  if(!r){er.innerText='Yanlış unikal kod!';return}
  if(!r.allowed){er.innerText='Bu kod üçün giriş icazəsi hələ verilməyib. Zəhmət olmasa idarəçiyə müraciət edin.';return}
- tokenCategories[t]=r.cat||[];validTokens.length=0;validTokens.push(t);er.innerText='';_s()};
+ const c=r.cat||[];tokenCategories[t]=c;sessionStorage.setItem('dq_cat',JSON.stringify({[t]:c}));
+ validTokens.length=0;validTokens.push(t);er.innerText='';_s()};
 
+/* --- admin giriş --- */
+const _oal=openAdminLogin;
+openAdminLogin=function(){if(!ON())return _oal();$('am-err').textContent='';$('am').classList.add('open');setTimeout(()=>$('am-e').focus(),50)};
+async function adminLogin(){const e=$('am-e').value.trim(),p=$('am-p').value;
+ if(!e||!p){$('am-err').textContent='E-poçt və şifrəni daxil edin.';return}
+ $('am-btn').disabled=true;
+ try{const j=await jf(IDT+'signInWithPassword?key='+CFG.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p,returnSecureToken:true})});
+  A={token:j.idToken,refresh:j.refreshToken,exp:Date.now()+j.expiresIn*1000,email:e};
+  $('am-p').value='';$('am').classList.remove('open');
+  ['login-screen','exam-screen','result-screen'].forEach(i=>$(i).style.display='none');$('admin-panel').style.display='block';loadAdminResults()
+ }catch(x){$('am-err').textContent=/INVALID|EMAIL|PASSWORD|CREDENTIAL/.test(x.message)?'E-poçt və ya şifrə yanlışdır.':'Giriş alınmadı: '+x.message}
+ $('am-btn').disabled=false}
+const _cap=closeAdminPanel;closeAdminPanel=function(){A=null;_cap()};
+
+/* --- admin: kodlar --- */
 const cats=v=>v.split(/[,;]+/).map(x=>x.trim().toUpperCase()).filter(Boolean);
-async function renderReg(){const r=await loadReg();
- const nt=$('rg-note');nt.className='rg-note'+(CLOUD?' cloud':'');
- nt.textContent=CLOUD?'Bulud bazası qoşulub: dəyişikliklər bütün cihazlarda keçərlidir.':'Bulud bazası qoşulmayıb: dəyişikliklər yalnız bu cihazda qüvvədədir.';
- $('rg-tb').innerHTML='<tr><th>Kod</th><th>Kateqoriya(lar)</th><th>Giriş</th><th></th></tr>'+Object.keys(r).map(t=>
- `<tr><td>${t}</td><td><input value="${(r[t].cat||[]).join(', ')}" onchange="regCat('${t}',this.value)"></td>
- <td><button class="rg-b ${r[t].allowed?'ok':'no'}" onclick="regToggle('${t}')">${r[t].allowed?'İcazə verilib':'Bloklanıb'}</button></td>
- <td><button class="rg-b no" onclick="regDel('${t}')">Sil</button></td></tr>`).join('')}
-async function regCat(t,v){const r=await loadReg();if(r[t]){r[t].cat=cats(v);await saveReg(r);renderReg()}}
-async function regToggle(t){const r=await loadReg();if(r[t]){r[t].allowed=!r[t].allowed;await saveReg(r);renderReg()}}
-async function regDel(t){if(!confirm(t+' kodu silinsin?'))return;const r=await loadReg();delete r[t];await saveReg(r);renderReg()}
-async function regAdd(){const t=$('rg-t').value.trim().toUpperCase().replace(/[^A-Z0-9_-]/g,'');
+function showCloud(){const st=$('cl-st');if(!st)return;st.className='rg-note'+(ON()?' cloud':'');
+ st.textContent=ON()?'Mərkəzi baza qoşulub'+(A&&A.email?' · admin: '+A.email:'')+'.':'Mərkəzi baza qoşulmayıb: məlumatlar yalnız bu cihazda saxlanılır (təlimat: QURASDIRMA.md).';
+ $('cl-out').style.display=ON()?'block':'none'}
+async function cloudPing(){const t=Date.now();try{await db('tokens');alert('Əlaqə normaldır ('+(Date.now()-t)+' ms).')}catch(e){alert('Əlaqə xətası: '+e.message)}}
+async function renderReg(){
+ try{let r=await R.list();
+  if(ON()&&!Object.keys(r).length){await db('tokens','PUT',seed());r=await R.list()}
+  $('rg-tb').innerHTML='<tr><th>Kod</th><th>Kateqoriya(lar)</th><th>Giriş</th><th></th></tr>'+Object.keys(r).map(t=>
+  `<tr><td>${t}</td><td><input value="${(r[t].cat||[]).join(', ')}" onchange="regCat('${t}',this.value)"></td>
+  <td><button class="rg-b ${r[t].allowed?'ok':'no'}" onclick="regToggle('${t}')">${r[t].allowed?'İcazə verilib':'Bloklanıb'}</button></td>
+  <td><button class="rg-b no" onclick="regDel('${t}')">Sil</button></td></tr>`).join('')
+ }catch(e){$('rg-tb').innerHTML='<tr><td>Məlumat oxunmadı: '+e.message+'</td></tr>'}}
+const guard=f=>async(...a)=>{try{await f(...a)}catch(e){alert('Əməliyyat alınmadı: '+e.message)}renderReg()};
+const regCat=guard(async(t,v)=>{const r=await R.get(t);if(r){r.cat=cats(v);await R.set(t,r)}});
+const regToggle=guard(async t=>{const r=await R.get(t);if(r){r.allowed=!r.allowed;await R.set(t,r)}});
+const regDel=guard(async t=>{if(confirm(t+' kodu silinsin?'))await R.del(t)});
+const regAdd=guard(async()=>{const t=$('rg-t').value.trim().toUpperCase().replace(/[^A-Z0-9_-]/g,'');
  if(!t){alert('Kod daxil edin!');return}
- const r=await loadReg();r[t]={cat:cats($('rg-c').value),allowed:true};await saveReg(r);$('rg-t').value=$('rg-c').value='';renderReg()}
-const _la=loadAdminResults;loadAdminResults=function(){_la();renderReg()};
+ await R.set(t,{cat:cats($('rg-c').value),allowed:true});$('rg-t').value=$('rg-c').value=''});
 
-/* telefon / masaüstü rejimi */
+/* --- nəticələr --- */
+const _sr=saveResult,_la=loadAdminResults,PK='dq_pending';
+const pend=()=>{try{return JSON.parse(localStorage.getItem(PK)||'[]')}catch(e){return[]}};
+async function flush(){if(!ON())return;const rest=[];for(const o of pend()){try{await db('results','POST',o)}catch(e){rest.push(o)}}localStorage.setItem(PK,JSON.stringify(rest))}
+saveResult=function(n,t,c,w,sc,g){_sr(n,t,c,w,sc,g);
+ if(!ON())return;const o={name:n,token:t,correct:c,wrong:w,score:sc,bbGroup:g,date:new Date().toLocaleString()};
+ db('results','POST',o).catch(()=>{const q=pend();q.push(o);localStorage.setItem(PK,JSON.stringify(q))})};
+addEventListener('online',flush);setTimeout(flush,1500);
+loadAdminResults=function(){renderReg();showCloud();
+ if(ON())db('results').then(o=>{localStorage.setItem('dq_exam_results',JSON.stringify(o?Object.values(o):[]));_la()}).catch(()=>_la());else _la()};
+clearResults=async function(){if(!confirm('Bütün nəticələri silmək istədiyinizə əminsinizmi?'))return;
+ localStorage.removeItem('dq_exam_results');
+ if(ON()){try{await db('results','DELETE')}catch(e){alert('Bazadan silinmədi: '+e.message)}}
+ loadAdminResults()};
+
+/* --- telefon / masaüstü rejimi --- */
 const mv=document.querySelector('meta[name=viewport]');
 function applyView(){const d=localStorage.getItem('dq_view')==='desktop';
  mv.setAttribute('content',d?'width=1100':'width=device-width, initial-scale=1.0');
- const l=$('view-lbl');if(l)l.textContent=d?'Telefon':'Masaüstü';
- const b=$('view-btn');if(b){b.innerHTML=`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d?'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>':'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'}</svg><span id="view-lbl">${d?'Telefon':'Masaüstü'}</span>`}}
+ const b=$('view-btn');if(b)b.innerHTML=`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d?'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>':'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'}</svg><span>${d?'Telefon':'Masaüstü'}</span>`}
 function toggleView(){try{localStorage.setItem('dq_view',localStorage.getItem('dq_view')==='desktop'?'phone':'desktop')}catch(e){}applyView()}
 if(navigator.maxTouchPoints>0)$('view-btn').style.display='inline-flex';
 applyView();
-Object.assign(window,{regAdd,regCat,regToggle,regDel,toggleView});
+Object.assign(window,{adminLogin,cloudPing,regAdd,regCat,regToggle,regDel,toggleView});
 })();
 </script>
 </body>

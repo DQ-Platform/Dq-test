@@ -623,6 +623,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                 Dövlət qulluğu vəzifələri üzrə test imtahanının<br>nəticələri haqqında məlumat
             </div>
             <div class="dim-student-name" id="res-name"></div>
+            <div id="res-info" class="res-info"></div>
 
             <div id="dim-report-content"></div>
 
@@ -635,9 +636,9 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
 
             <!-- Yekun Bal Qutusu -->
             <div class="final-score-box">
-                YEKUN BAL: <span id="res-total-score">0</span><br>
-                <span id="res-bb-group" style="font-size: 15px; color: #0f172a; margin-top: 5px; display: inline-block;"></span>
+                YEKUN BAL: <span id="res-total-score">0</span>
             </div>
+            <div class="final-score-box res2" id="res-final"></div>
 
             <!-- Suallara qayıt düyməsi -->
             <div style="margin-top: 20px;">
@@ -1199,12 +1200,23 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
             }
         }
 
-        function getBBGroup(score) {
-            if (score >= 80) return "BB1 (İnzibati vəzifələrin 6-cı təsnifatı)";
-            if (score >= 75) return "BB2 (İnzibati vəzifələrin 6-cı təsnifatı)";
-            if (score >= 70) return "BB3 (İnzibati vəzifələrin 7-ci təsnifatı)";
-            if (score >= 65) return "BB4 (İnzibati vəzifələrin 7-ci təsnifatı)";
-            return "Keçid balını toplamadı (< 65)";
+        const OPEN_IDS = new Set([13,14,15,48,49,50,51,52,53,54,55,68,69,70,95,96,97,98,99,100]);
+        const CAT_RULES = {
+            AB: { open: true,  max: 120, th: [102, 96, 90, 84] },
+            BA: { open: true,  max: 120, th: [102, 96, 90, 84] },
+            AC: { open: false, max: 100, th: [80, 75, 70, 65] },
+            BB: { open: false, max: 100, th: [80, 75, 70, 65] }
+        };
+        function getCategory(token) { return (tokenCategories[token] || ["BA"])[0]; }
+        function isOpenQ(cat, id) { return CAT_RULES[cat].open && OPEN_IDS.has(id); }
+        function getGroup(cat, score) {
+            const r = CAT_RULES[cat];
+            for (let i = 0; i < 4; i++) if (score >= r.th[i]) return cat + (i + 1);
+            return "Keçid balını toplamadı (< " + r.th[3] + ")";
+        }
+        function fmtDate(d) {
+            const p = n => String(n).padStart(2, "0");
+            return p(d.getDate()) + "." + p(d.getMonth() + 1) + "." + d.getFullYear() + " " + p(d.getHours()) + ":" + p(d.getMinutes());
         }
 
         function finishExam() {
@@ -1212,100 +1224,98 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
             examFinished = true;
             sessionStorage.removeItem("active_exam_session");
 
-            let totalCorrect = 0;
-            let totalWrong = 0;
-            let totalBlank = 0;
-
+            const cat = getCategory(currentActiveToken);
+            let correct = 0, wrong = 0, blank = 0, score = 0;
             allQuestions.forEach(q => {
-                let userAns = userAnswers[q.id];
-                if (userAns === undefined) {
-                    totalBlank++;
-                } else if (userAns === q.correct) {
-                    totalCorrect++;
-                } else {
-                    totalWrong++;
-                }
+                const ua = userAnswers[q.id];
+                if (ua === undefined) blank++;
+                else if (ua === q.correct) { correct++; score += isOpenQ(cat, q.id) ? 2 : 1; }
+                else wrong++;
             });
 
+            const durSec = Math.max(0, Math.min(testDuration, testDuration - timeLeft));
+            const startDate = new Date(Date.now() - durSec * 1000);
             let examState = {
                 studentName: currentStudentName,
-                correct: totalCorrect,
-                wrong: totalWrong,
-                blank: totalBlank,
-                score: totalCorrect,
-                bbGroup: getBBGroup(totalCorrect),
+                category: cat,
+                correct, wrong, blank, score,
+                maxScore: CAT_RULES[cat].max,
+                bbGroup: getGroup(cat, score),
+                startedAt: fmtDate(startDate),
+                durationMin: Math.max(1, Math.round(durSec / 60)),
                 userAnswers: userAnswers
             };
 
-            saveResult(currentStudentName, currentActiveToken, totalCorrect, totalWrong, totalCorrect, examState.bbGroup);
+            saveResult(currentStudentName, currentActiveToken, correct, wrong, score, examState.bbGroup);
             showResultScreen(examState);
         }
 
-        function showResultScreen(examState) {
+        function fitDimTables() {
+            document.querySelectorAll(".dim-wrap").forEach(w => {
+                const t = w.firstElementChild; if (!t) return;
+                t.style.zoom = 1;
+                const nat = parseFloat(t.style.width), av = w.clientWidth;
+                if (av > 0 && nat > av) t.style.zoom = (av / nat).toFixed(4);
+            });
+        }
+        window.addEventListener("resize", fitDimTables);
+
+        function showResultScreen(st) {
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("exam-screen").style.display = "none";
             document.getElementById("result-screen").style.display = "block";
-            
-            if (examState.studentName) {
-                document.getElementById("res-name").innerText = examState.studentName;
-            }
 
-            let letters = ["A", "B", "C", "D", "E"];
-            
-            let subjects = [
+            const cat = st.category || "BA";
+            const letters = ["A", "B", "C", "D", "E"];
+            const subjects = [
                 { name: "Azərbaycan dili", start: 1, end: 15 },
                 { name: "Qanunvericilik", start: 16, end: 55 },
                 { name: "İnformatika", start: 56, end: 70 },
                 { name: "Məntiq", start: 71, end: 100 }
             ];
+            document.getElementById("res-name").innerText = (st.studentName || "").toLocaleUpperCase("az");
+            document.getElementById("res-info").innerHTML =
+                `<div><b>Qrup:</b> ${cat}</div>` +
+                `<div><b>İmtahanın tarixi və vaxtı:</b> ${st.startedAt} <span class="dur">(davametmə müddəti: ${st.durationMin} dəqiqə)</span></div>` +
+                `<div><b>İmtahanın keçirildiyi ünvan:</b> DQplatform</div>`;
 
-            let reportHtml = "";
-
+            let html = "";
             subjects.forEach(sub => {
-                let subQuestions = allQuestions.filter(q => q.id >= sub.start && q.id <= sub.end);
-                if (subQuestions.length === 0) return;
-
-                const PER = 15;
-                let tablesHtml = "";
-                for (let i = 0; i < subQuestions.length; i += PER) {
-                    const chunk = subQuestions.slice(i, i + PER);
-                    let numsRow = "", correctRow = "", userRow = "", statusRow = "";
+                const qs = allQuestions.filter(q => q.id >= sub.start && q.id <= sub.end);
+                if (!qs.length) return;
+                let c1 = 0, c2 = 0, w = 0, bl = 0, tables = "";
+                const PER = qs.length;
+                for (let i = 0; i < qs.length; i += PER) {
+                    const chunk = qs.slice(i, i + PER);
+                    let n = "", e = "", u = "", r = "";
                     chunk.forEach(q => {
-                        numsRow += `<td>${q.id}</td>`;
-                        correctRow += `<td>${letters[q.correct]}</td>`;
-                        let userAns = examState.userAnswers ? examState.userAnswers[q.id] : undefined;
-                        userRow += `<td>${userAns !== undefined ? letters[userAns] : "-"}</td>`;
-                        if (userAns === undefined) statusRow += `<td>-</td>`;
-                        else if (userAns === q.correct) statusRow += `<td class="ans-correct">+</td>`;
-                        else statusRow += `<td class="ans-wrong">-</td>`;
+                        const open = isOpenQ(cat, q.id), ua = st.userAnswers ? st.userAnswers[q.id] : undefined;
+                        const ok = ua === q.correct;
+                        const c = (open ? "op " : "") + (ok ? "" : "bad");
+                        if (ua === undefined) bl++; else if (ok) { open ? c2++ : c1++; } else w++;
+                        n += `<td class="${c}">${q.id}</td>`;
+                        e += `<td class="${c}">${letters[q.correct]}</td>`;
+                        u += `<td class="${c}${open && ua !== undefined ? " mk" : ""}">${ua === undefined ? "" : (open ? (ok ? "✔" : "×") : letters[ua])}</td>`;
+                        r += `<td class="${c} mk">${ok ? "+" : "-"}</td>`;
                     });
-                    for (let k = chunk.length; k < PER; k++) {
-                        numsRow += `<td class="pad"></td>`; correctRow += `<td class="pad"></td>`;
-                        userRow += `<td class="pad"></td>`; statusRow += `<td class="pad"></td>`;
-                    }
-                    tablesHtml += `
-                        <table class="dim-table">
-                            <tr><th>№</th>${numsRow}</tr>
-                            <tr><th>Etalon</th>${correctRow}</tr>
-                            <tr><th>İştirakçı</th>${userRow}</tr>
-                            <tr><th>Nəticə</th>${statusRow}</tr>
-                        </table>`;
+                    for (let k = chunk.length; k < PER; k++) { n += '<td class="pad"></td>'; e += '<td class="pad"></td>'; u += '<td class="pad"></td>'; r += '<td class="pad"></td>'; }
+                    tables += `<div class="dim-wrap"><table class="dim-table" style="width:${74 + PER * 24}px"><tr><th class="lb"></th><th colspan="${PER}" class="tl">Testlər</th></tr><tr><th class="lb">Sual №</th>${n}</tr><tr><th class="lb">Doğru cavab</th>${e}</tr><tr><th class="lb">Cavab</th>${u}</tr><tr><th class="lb"></th>${r}</tr></table></div>`;
                 }
-
-                reportHtml += `
-                    <div class="subject-section">
-                        <div style="font-weight: bold; margin-bottom: 4px; color: var(--primary-dark);">${sub.name}</div>
-                        ${tablesHtml}
-                    </div>
-                `;
+                const cc = c1 + c2, pts = c1 + c2 * 2;
+                html += `<div class="subject-section"><div class="sub-t">${sub.name}</div>${tables}
+                    <div class="sub-s">Doğru cavabların sayı: <b>${cc}(${c1}+${c2})</b>; Yanlış cavabların sayı: <b>${w}</b>; Cavablandırılmayan test tapşırıqlarının sayı: <b>${bl}</b>; Topladığı bal: <b>${pts}(${c1}+${c2 * 2})</b></div></div>`;
             });
 
-            document.getElementById("dim-report-content").innerHTML = reportHtml;
-            document.getElementById("res-total-correct").innerText = examState.correct;
-            document.getElementById("res-total-wrong").innerText = examState.wrong;
-            document.getElementById("res-total-blank").innerText = examState.blank;
-            document.getElementById("res-total-score").innerText = examState.score + " bal";
-            document.getElementById("res-bb-group").innerText = "Uyğun qrup: " + examState.bbGroup;
+            document.getElementById("dim-report-content").innerHTML = html;
+            fitDimTables(); setTimeout(fitDimTables, 300);
+            document.getElementById("res-total-correct").innerText = st.correct;
+            document.getElementById("res-total-wrong").innerText = st.wrong;
+            document.getElementById("res-total-blank").innerText = st.blank;
+            document.getElementById("res-total-score").innerText = st.score;
+            const okR = !String(st.bbGroup).startsWith("Keçid");
+            const fin = document.getElementById("res-final");
+            fin.innerText = okR ? "Yekun Nəticə : " + st.bbGroup : "Sınaq imtahanından müvəffəqiyyət əldə etməmisiniz.";
+            fin.classList.toggle("fail", !okR);
         }
 
         function saveResult(name, token, correct, wrong, score, bbGroup) {
@@ -1458,8 +1468,8 @@ function renderCurrentQuestion(){
  $('single-question-container').innerHTML=h;
  $('note').value=x.n;$('note-wrap').hidden=!(drawOn||x.n);
  $('exam-nav-btns').innerHTML=fin?
- `<button class="nb g" onclick="prevQuestion()">Əvvəlki</button><button class="nb n" onclick="returnToResultScreen()">Nəticəyə qayıt</button><button class="nb n" onclick="nextQuestion()">Növbəti</button>`:
- `<button class="nb g" onclick="prevQuestion()">Əvvəlki</button><button class="nb o" onclick="clearOption(${q.id})">Seçimi Ləğv Et</button><button class="nb r" onclick="confirmFinish()">Testi Bitir</button><button class="nb n" onclick="nextQuestion()">Növbəti</button>`;
+ `<button class="nb g" onclick="prevQuestion()" ${currentQuestionIndex===0?'disabled':''}>Əvvəlki</button><button class="nb o" onclick="returnToResultScreen()">Nəticəyə qayıt</button><button class="nb n" onclick="nextQuestion()" ${currentQuestionIndex===allQuestions.length-1?'disabled':''}>Növbəti</button>`:
+ `<button class="nb g" onclick="prevQuestion()" ${currentQuestionIndex===0?'disabled':''}>Əvvəlki</button><button class="nb o" onclick="clearOption(${q.id})">Seçimi Ləğv Et</button><button class="nb r" onclick="confirmFinish()" ${currentQuestionIndex===allQuestions.length-1?'':'disabled title="Testi yalnız son sualda bitirmək olar"'}>Testi Bitir</button><button class="nb n" onclick="nextQuestion()" ${currentQuestionIndex===allQuestions.length-1?'disabled':''}>Növbəti</button>`;
  $('sidebar-title-text').textContent=fin?'Sual İcmalı':'Cavab Kartı';
  updateNavActiveState();saveSessionState();sizeCanvas();syncBar();
  if(lastIdx!==currentQuestionIndex&&lastIdx>=0&&window.scrollY>$('xq').offsetTop)window.scrollTo({top:Math.max(0,$('xq').offsetTop-80)});
@@ -1724,6 +1734,49 @@ html{scroll-behavior:smooth}
  html.dwp body:not(.in-exam) .footer .ft-l,html.dwp body:not(.in-exam) .footer .ft-r{font-size:32px}
  html.dwp body:not(.in-exam) .footer .ft-c{font-size:26px}
 }
+
+.nb:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(.5);pointer-events:auto}
+.nb.r:disabled{background:#94a3b8;border-color:#94a3b8;color:#fff}
+
+/* ===== nəticə vərəqi (DİM üslubu) ===== */
+.res-info{font-size:13px;line-height:1.6;color:#0f172a;margin:6px 4px 14px}
+.res-info .dur{color:#475569}
+.sub-t{font-weight:700;color:#0f2150;margin:0 0 4px}
+.dim-table{border:1px solid #1e3a8a}
+.dim-table th,.dim-table td{border:1px solid #3b4fb8;background:#fff}
+.dim-table th{background:#f1f5f9;text-align:left;padding:4px 6px;font-size:10.5px}
+.dim-table td{font-size:12px;font-weight:600;color:#0f172a}
+.dim-table td.op{background:#eaf2ff}
+.dim-table td.ok{color:#15803d;font-weight:800}
+.dim-table td.bad{color:#dc2626;font-weight:800}
+.dim-table td.pad{border-color:transparent;background:transparent}
+.sub-s{font-size:12px;font-style:italic;color:#334155;margin:4px 0 12px}
+.sub-n{font-size:11.5px;color:#475569;margin:6px 0 10px}
+.final-score-box small{font-size:13px;font-weight:600;color:#475569;display:block;margin-top:4px}
+.final-score-box.res2{margin-top:12px}
+.res-foot{margin-top:22px;padding-top:12px;border-top:1px solid #dbe3ef;text-align:center;font-weight:700;color:#0f2150;letter-spacing:.3px}
+
+/* ===== DİM görünüşü ===== */
+.dim-table{border:0;border-collapse:collapse;margin-bottom:6px;table-layout:fixed;width:100%}
+.dim-table th,.dim-table td{border:1px solid #1d1db5;background:#fff;color:#1d1db5;font-size:12px;font-weight:500;padding:3px 0;text-align:center;overflow:visible;text-overflow:clip;white-space:nowrap}
+.dim-table th.lb{width:74px;text-align:left;color:#111;font-size:11px;font-weight:500;padding:3px 4px;background:#fff;border-color:#c7cbe6}
+.dim-table th.tl{font-weight:700;font-size:13px;color:#222;border-color:#c7cbe6;padding:4px 0}
+.dim-table td.bad{color:#dc1c1c;border-color:#dc1c1c}
+.dim-table td.op{background:#eef4ff}
+.dim-table td.mk{font-weight:700}
+.dim-table td.pad,.dim-table td.pad.bad{border-color:transparent;background:transparent}
+.sub-t{font-weight:700;color:#111;margin:0 0 3px}
+.sub-s{font-size:12px;font-style:italic;color:#222;margin:4px 0 14px;line-height:1.45}
+.sub-s b{font-weight:700}
+.dim-report-title{color:#111}
+#result-screen>div[style*="font-weight: bold"]{font-style:italic;font-size:15px}
+.final-score-box{background:#f3f4f6;border:1px solid #e5e7eb;color:#b03a3a;font-style:italic;font-weight:700;font-size:18px;border-radius:8px;padding:16px;text-align:center}
+.final-score-box.res2.fail{font-size:17px}
+
+.dim-wrap{overflow:hidden;margin-bottom:6px}
+.dim-wrap .dim-table{width:auto;table-layout:fixed;margin:0;min-width:0}
+.dim-table th.lb{width:74px}
+.dim-table td{width:24px}
 </style>
 <script>
 (function(){

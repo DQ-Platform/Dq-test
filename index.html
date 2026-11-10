@@ -707,7 +707,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
 
         <div class="footer">
             <span class="ft-l"><span class="secret-admin-trigger" onclick="openAdminLogin()">DQ Platform</span></span>
-            <span class="ft-c">© 2026 DQ Platform – <wbr>Developed by Yunis İmanov</span>
+            <span class="ft-c">© 2026 DQ Platform – <wbr>Developed <span id="by-gate" style="cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none">by</span> Yunis İmanov</span>
             <a class="ft-r" href="tel:0504305162">0504305162</a>
         </div>
     </div>
@@ -1890,6 +1890,17 @@ if(navigator.maxTouchPoints>0)$('view-btn').style.display='inline-flex';
  addEventListener('resize',f);addEventListener('load',()=>{f();setTimeout(f,300)});f()})();
 applyView();
 Object.assign(window,{adminLogin,cloudPing,regAdd,regCat,regToggle,regDel,toggleView});
+})();
+</script>
+
+<script>
+/* "by" sözünə 3 saniyə basıb saxla -> admin giriş */
+(function(){var g=document.getElementById('by-gate');if(!g)return;var t=null;
+function st(e){if(t)return;t=setTimeout(function(){t=null;openAdminLogin()},3000)}
+function en(){if(t){clearTimeout(t);t=null}}
+['touchstart','mousedown'].forEach(function(n){g.addEventListener(n,st,{passive:true})});
+['touchend','touchcancel','mouseup','mouseleave','touchmove'].forEach(function(n){g.addEventListener(n,en,{passive:true})});
+g.addEventListener('contextmenu',function(e){e.preventDefault()});
 })();
 </script>
 </body>

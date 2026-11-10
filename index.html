@@ -668,10 +668,41 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
                 <div style="overflow-x:auto"><table id="rg-tb"></table></div>
             </div>
 
+            <div class="rg-box" id="aq-box">
+                <h4 style="text-align:left;margin:0 0 8px">Yeni sual əlavə et</h4>
+                <div id="aq-note" class="rg-note"></div>
+                <div class="aq-f">
+                    <label>Fənn</label>
+                    <select id="aq-sub"><option>Azərbaycan dili</option><option>Qanunvericilik</option><option>İnformatika</option><option>Məntiq</option></select>
+                    <label>Sual mətni</label>
+                    <textarea id="aq-q" rows="4" placeholder="Sual mətni (variantlar ayrı xanalarda yazılır)"></textarea>
+                    <label>Variantlar (E boş qala bilər)</label>
+                    <div class="aq-o"><span>A</span><input id="aq-o0"></div>
+                    <div class="aq-o"><span>B</span><input id="aq-o1"></div>
+                    <div class="aq-o"><span>C</span><input id="aq-o2"></div>
+                    <div class="aq-o"><span>D</span><input id="aq-o3"></div>
+                    <div class="aq-o"><span>E</span><input id="aq-o4"></div>
+                    <label>Düzgün cavab</label>
+                    <select id="aq-c"><option value="">Seçin...</option><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option><option value="4">E</option></select>
+                    <label class="aq-chk"><input type="checkbox" id="aq-open"> Açıq sual (2 bal)</label>
+                    <button class="btn" style="padding:10px 14px;font-size:14px" onclick="addCustomQ()">+ Sualı əlavə et</button>
+                </div>
+                <h4 style="text-align:left;margin:16px 0 8px">Əlavə olunmuş suallar (<span id="aq-cnt">0</span>)</h4>
+                <div id="aq-list" style="overflow-x:auto"></div>
+            </div>
+
             <div class="stats-grid">
                 <div class="stat-card">
                     <h5>Ümumi İştirakçı</h5>
                     <div class="value" id="stat-total-students">0</div>
+                </div>
+                <div class="stat-card">
+                    <h5>Qeydiyyatdan Keçmiş İştirakçı</h5>
+                    <div class="value" id="stat-registered">0</div>
+                </div>
+                <div class="stat-card">
+                    <h5>İmtahan Sualları</h5>
+                    <div class="value" id="stat-questions">0</div>
                 </div>
                 <div class="stat-card">
                     <h5>Ən Yüksək Bal</h5>
@@ -1281,7 +1312,7 @@ textarea,input,select{user-select:text;-webkit-user-select:text}
 
             let html = "";
             subjects.forEach(sub => {
-                const qs = allQuestions.filter(q => q.id >= sub.start && q.id <= sub.end);
+                const qs = allQuestions.filter(q => (q.id >= sub.start && q.id <= sub.end) || (q.custom && q.subject === sub.name));
                 if (!qs.length) return;
                 let c1 = 0, c2 = 0, w = 0, bl = 0, tables = "";
                 const PER = qs.length;
@@ -1563,6 +1594,12 @@ document.body.classList.toggle('in-exam',$('exam-screen').style.display==='block
     <div style="display:flex;gap:8px;justify-content:flex-end"><button type="button" class="btn btn-secondary" style="padding:9px 16px;font-size:14px" onclick="document.getElementById('am').classList.remove('open')">Ləğv et</button><button id="am-btn" class="btn" style="padding:9px 16px;font-size:14px">Daxil ol</button></div>
 </form></div>
 <style>
+.aq-f{display:flex;flex-direction:column;gap:8px;text-align:left}
+.aq-f label{font-size:13px;font-weight:700;color:#334155}
+.aq-f select,.aq-f textarea,.aq-o input{padding:9px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;font-family:inherit;min-width:0;width:100%;box-sizing:border-box}
+.aq-o{display:flex;align-items:center;gap:8px}.aq-o span{font-weight:700;width:18px}
+.aq-chk{display:flex;align-items:center;gap:6px}.aq-chk input{width:auto}
+#aq-list table{width:100%;border-collapse:collapse;font-size:13px}#aq-list th,#aq-list td{border:1px solid #cbd5e1;padding:6px;text-align:left}
 .rg-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:14px;margin-bottom:20px}
 .rg-add{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
 .rg-add input,#rg-tb input,.am-c input{padding:9px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;min-width:0}
@@ -1870,6 +1907,56 @@ clearResults=async function(){if(!confirm('Bütün nəticələri silmək istədi
  localStorage.removeItem('dq_exam_results');
  if(ON()){try{await db('results','DELETE')}catch(e){alert('Bazadan silinmədi: '+e.message)}}
  loadAdminResults()};
+
+
+/* --- admin: sual əlavə et --- */
+const QK='dq_custom_q',BASE_N=allQuestions.length;
+const qLocal=()=>{try{return JSON.parse(localStorage.getItem(QK)||'[]')}catch(e){return[]}};
+function applyCustom(list){
+ for(let i=allQuestions.length-1;i>=0;i--)if(allQuestions[i].custom){OPEN_IDS.delete(allQuestions[i].id);allQuestions.splice(i,1)}
+ list.slice().sort((a,b)=>a.id-b.id).forEach(q=>{
+  const o={id:q.id,subject:q.subject,question:q.question,options:q.options,correct:q.correct,custom:true};
+  let at=-1;allQuestions.forEach((x,i)=>{if(x.subject===q.subject)at=i});
+  if(at<0)allQuestions.push(o);else allQuestions.splice(at+1,0,o);
+  if(q.open)OPEN_IDS.add(q.id)})}
+async function loadCustomQ(){
+ if(ON()){try{const o=await db('questions');const l=o?Object.values(o):[];localStorage.setItem(QK,JSON.stringify(l))}catch(e){}}
+ applyCustom(qLocal())}
+applyCustom(qLocal());
+const _stx=startExam;
+startExam=async function(){await loadCustomQ();return _stx()};
+const escq=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function renderCustomQ(){
+ const l=qLocal().sort((a,b)=>a.id-b.id),L='ABCDE';
+ $('aq-cnt').textContent=l.length;$('stat-questions').textContent=allQuestions.length;
+ const n=$('aq-note');n.className='rg-note'+(ON()?' cloud':'');
+ n.textContent=ON()?'Suallar mərkəzi bazaya yazılır və bütün iştirakçılara görünür.':'Mərkəzi baza qoşulmayıb: əlavə olunan suallar yalnız bu cihazda saxlanılır.';
+ $('aq-list').innerHTML=l.length?'<table><tr><th>№</th><th>Fənn</th><th>Sual</th><th>Cavab</th><th></th></tr>'+l.map(q=>
+  `<tr><td>${q.id}</td><td>${escq(q.subject)}</td><td>${escq(q.question.slice(0,80))}${q.question.length>80?'…':''}</td><td>${L[q.correct]}${q.open?' (2 bal)':''}</td><td><button class="rg-b no" onclick="delCustomQ(${q.id})">Sil</button></td></tr>`).join('')+'</table>':'<div class="rg-note cloud">Hələ sual əlavə edilməyib.</div>'}
+async function addCustomQ(){
+ const q=$('aq-q').value.trim(),opts=[0,1,2,3,4].map(i=>$('aq-o'+i).value.trim()),c=$('aq-c').value;
+ if(!q){alert('Sual mətnini yazın!');return}
+ const n=opts.length-1;let last=opts.length;while(last>0&&!opts[last-1])last--;
+ const use=opts.slice(0,last);
+ if(use.length<2||use.some(x=>!x)){alert('Ən azı 2 variant doldurun və aralarda boş variant buraxmayın!');return}
+ if(c===''||+c>=use.length){alert('Düzgün cavabı seçin!');return}
+ const l=qLocal(),id=Math.max(100,...l.map(x=>x.id),...allQuestions.map(x=>x.id))+1;
+ const o={id,subject:$('aq-sub').value,question:q,options:use,correct:+c,open:$('aq-open').checked};
+ try{if(ON())await db('questions/q'+id,'PUT',o)}catch(e){alert('Bazaya yazılmadı: '+e.message);return}
+ l.push(o);localStorage.setItem(QK,JSON.stringify(l));applyCustom(l);
+ $('aq-q').value='';[0,1,2,3,4].forEach(i=>$('aq-o'+i).value='');$('aq-c').value='';$('aq-open').checked=false;
+ renderCustomQ();alert('Sual əlavə olundu (№'+id+').')}
+async function delCustomQ(id){
+ if(!confirm('№'+id+' sualı silinsin?'))return;
+ try{if(ON())await db('questions/q'+id,'DELETE')}catch(e){alert('Bazadan silinmədi: '+e.message);return}
+ const l=qLocal().filter(x=>x.id!==id);localStorage.setItem(QK,JSON.stringify(l));applyCustom(l);renderCustomQ()}
+Object.assign(window,{addCustomQ,delCustomQ});
+
+/* --- admin: qeydiyyatdan keçmiş iştirakçı sayı --- */
+const _rr=renderReg;
+renderReg=async function(){await _rr();
+ try{const r=await R.list(),k=Object.keys(r);$('stat-registered').textContent=k.length}catch(e){}
+ await loadCustomQ();renderCustomQ()};
 
 /* --- telefon / masaüstü rejimi --- */
 const mv=document.querySelector('meta[name=viewport]');
